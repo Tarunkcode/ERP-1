@@ -1,0 +1,89 @@
+﻿/*.wrapper{
+    margin:0;
+    padding:0;
+}
+.label{
+    margin:0;
+    height:auto;
+}
+.purchase{
+    margin-bottom:33px;
+}
+.dlist{
+    width:20%;
+}*/
+.section{
+    padding:0;
+    margin:0;
+}
+.crd{
+    margin:0;
+    padding:0;
+}
+
+input{
+    max-height:1.5em;
+    width:100%
+}
+
+
+.btnt{
+   color:indigo;
+}
+
+.btnt:active{
+   background:red;
+}
+.btnt:hover{
+    opacity:0.5;
+   
+}
+.btnt:focus{
+    background-color:red;
+}
+
+
+
+.btn:hover{
+    padding:4px;
+}
+
+.load-button{
+    padding: 5px 10px;
+}
+.load-button:hover {
+    padding: 5px 10px;
+    color: black;
+    background-color: #798cd4;
+}
+    .load-button:focus {
+        color: black;
+        background-color: #798cd4;
+    }
+
+
+
+
+.react-datepicker__month-container {
+    background-color: #798cd4;
+    color: #969eac;
+    font-size: 1rem;
+    font-family: 'Mulish';
+}
+
+    .react-datepicker__month-container .react-datepicker__month {
+        padding: 1rem 0;
+    }
+
+    .react-datepicker__month-container .react-datepicker__month-text {
+        display: inline-block;
+        width: 5rem;
+        margin: 0.5rem;
+        font-size: 1rem;
+        padding: 0.2rem;
+    }
+
+        .react-datepicker__month-container .react-datepicker__month-text:hover {
+            background-color: #534cea;
+        }
+ 
