@@ -2,9 +2,11 @@
 import * as React from 'react';
 import './custom-data-list.styles.css';
 
-export default function CustomDataList({ For, Name, Id, Type, label, ...props }: any) {
-    
-    
+export default function CustomDataList({ For, Name, Id, Type, label,savedItem, ...props }: any) {
+   
+
+   
+  
     return (
 
         <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -12,7 +14,7 @@ export default function CustomDataList({ For, Name, Id, Type, label, ...props }:
             <div className="card-body crd" style={{ backgroundColor: "#cbcad9" }}>
                 <label style={{ fontSize: "12px", padding: "0" }} htmlFor={For} className="form-label col-sm-12">{label}</label>
 
-                <input name={Name} type={Type} className="form-control form-select col-sm-12 section" list={Id} />
+                <input id={Name} name={Name} type={Type} className="form-control form-select col-sm-12 section" list={Id}  />
 
                 {
 

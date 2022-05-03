@@ -35,17 +35,17 @@ export default function Purchase() {
     var [showResults, setShowResults] = React.useState(false)
     const onClick = () => setShowResults(true)
     React.useEffect(() => {
-      
-      //Fetch Item   
+
+        //Fetch Item   
         const fetchItem = async () => {
             try {
                 const response = await fetch(urlStart1);
                 const json = await response.json();
                 /*                console.log(json.Data);*/
-            
-             
+
+
                 setItem(json.Data);
-                
+
             } catch (error) {
                 console.log("error", error);
             }
@@ -55,15 +55,15 @@ export default function Purchase() {
 
         // Fetch Item Group
 
-    const fetchItemGroup = async () => {
+        const fetchItemGroup = async () => {
             try {
                 const response2 = await fetch(itemGroupUrl);
                 const json2 = await response2.json();
                 /*                console.log(json.Data);*/
-            
-            
+
+
                 setItemGroup(json2.Data);
-                
+
             } catch (error) {
                 console.log("error", error);
             }
@@ -73,21 +73,21 @@ export default function Purchase() {
 
 
 
-   // Fetch Brand
+        // Fetch Brand
 
-    const fetchBrand = async () => {
-        try {
-            const response3 = await fetch(brandUrl);
-            const json3 = await response3.json();
-            /*                console.log(json.Data);*/
+        const fetchBrand = async () => {
+            try {
+                const response3 = await fetch(brandUrl);
+                const json3 = await response3.json();
+                /*                console.log(json.Data);*/
 
-      
-            setbrand(json3.Data);
 
-        } catch (error) {
-            console.log("error", error);
-        }
-    };
+                setbrand(json3.Data);
+
+            } catch (error) {
+                console.log("error", error);
+            }
+        };
 
         fetchBrand();
 
@@ -98,7 +98,7 @@ export default function Purchase() {
                 const json4 = await response4.json();
                 /*                console.log(json.Data);*/
 
-         
+
                 setCategory(json4.Data);
 
             } catch (error) {
@@ -116,7 +116,7 @@ export default function Purchase() {
                 const json5 = await response5.json();
                 /*                console.log(json.Data);*/
 
-            
+
                 setType(json5.Data);
 
             } catch (error) {
@@ -134,7 +134,7 @@ export default function Purchase() {
                 const json6 = await response6.json();
                 /*                console.log(json.Data);*/
 
-             
+
                 setSubCategory(json6.Data);
 
             } catch (error) {
@@ -145,7 +145,7 @@ export default function Purchase() {
         fetchSubCategory();
 
 
-}, [])
+    }, [])
 
     React.useEffect(() => {
         fetch(urlStart).then(res => res.json()).then(result => {
@@ -189,10 +189,9 @@ export default function Purchase() {
             }
         })
     }, [])
-          
-    //console.log(dataArray)
 
-   
+    //console.log(dataArray)
+  
     return (
         <div className="container" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "top" }}>
 
@@ -205,8 +204,9 @@ export default function Purchase() {
                     Name="item"
                     Id="item"
                     Type="text"
+                    
                     label="Item"
-                
+                   
                     dataArray={item}
                 />
                 <CustomDataList
@@ -295,8 +295,8 @@ export default function Purchase() {
             <hr style={{ border:'1.5px solid grey', width:"100%", opacity:"0.2 "}} />
             {/*-------------------------------------------------------Charts Rendering---------------------------------------------------------------------*/}
 
-           
-                        {showResults ? <Card dataArray={dataArray} /> : null}
+
+            {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} sale={"Sale_Amount" } purchase={"Purchase_Amt" }/> : null}
 
 
         </div>
