@@ -4,12 +4,20 @@ import "react-datepicker/dist/react-datepicker.css";
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import Layout from '../Layout';
 import ReactTable from 'react-table';
+import { useTable } from 'react-table';
+import { Table } from 'reactstrap';
 export default function Card({ dataArray, dataArray2, purchase, nameKey, piInit, lineInit, barInit, tabInit,cardTitle, ...props }: any) {
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
     var [viewBar, setBarView] = React.useState(barInit);
     var [viewTable, setTableView] = React.useState(tabInit);
+    //var [search, setSearch] = React.useState('');
 
+    //const handleSearch = (event: any) => {
+    //    setSearch(event.target.value);
+    //};
+
+    
 
     function RenderPi() {
        
@@ -38,6 +46,40 @@ export default function Card({ dataArray, dataArray2, purchase, nameKey, piInit,
         setBarView(false);
         setTableView(true);
     }
+    const data = dataArray2;
+    const columns = React.useMemo(
+        () => [
+            {
+                // first group - TV Show
+                Header: 'Purchase Details',
+                // First group columns
+                columns: [
+                    {
+                        Header: "Month Name",
+                        accessor: "D1"
+                    },
+                    {
+                        Header: "Purchase Data",
+                        accessor: "Purchase_Amount"
+                    }
+                ]
+            }
+        ],
+        []
+    );
+
+    const {
+        getTableProps, // table props from react-table
+        getTableBodyProps, // table body props from react-table
+        headerGroups, // headerGroups, if your table has groupings
+        rows, // rows for the table based on the data passed
+        prepareRow // Prepare the row (this function needs to be called for each row before getting the row props)
+    } = useTable({
+        columns,
+        data
+    });
+
+
 
     return (
     <>
@@ -56,7 +98,7 @@ export default function Card({ dataArray, dataArray2, purchase, nameKey, piInit,
                 </div>
 
 
-                    <div className="card-body" style={{ padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white" }}>
+                <div className="card-body" style={{ padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin:"0", width:'100%' }}>
 
                         {
                             viewPi ? (
@@ -113,17 +155,41 @@ export default function Card({ dataArray, dataArray2, purchase, nameKey, piInit,
                         ): null
 
                         }
-                        {/*{*/}
-                        {/*viewTable ? (*/}
-                        {/*    <ReactTable*/}
-                        {/*        data={dataArray2}*/}
-                        {/*        columns={}*/}
-                        {/*        defaultPageSize={2}*/}
-                        {/*        pageSizeOptions={[2, 4, 6]}*/}
-                        {/*    />*/}
+                    {
+                        viewTable ? (
 
-                        {/*    ): null*/}
-                        {/*}*/}
+                            <div className="table-responsive">
+                                {/*<label htmlFor="search">*/}
+                                {/*    Search by Data:*/}
+                                {/*    <input id="search" type="text" onChange={handleSearch} />*/}
+                                {/*</label>*/}
+                            <table {...getTableProps()} className="table table-striped table-bordered table-hover table-sm ">
+                                    <thead>
+                                        {headerGroups.map(headerGroup => (
+                                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                                {headerGroup.headers.map(column => (
+                                                    <th scope="col" {...column.getHeaderProps()}>{column.render("Header")}</th>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </thead>
+                                    <tbody {...getTableBodyProps()}>
+                                        {rows.map((row, i) => {
+                                            prepareRow(row);
+                                            return (
+                                                <tr {...row.getRowProps()}>
+                                                    {row.cells.map(cell => {
+                                                        return <td scope="row" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                          </div>
+
+                        ): null
+                    }
 
                 </div>
 
