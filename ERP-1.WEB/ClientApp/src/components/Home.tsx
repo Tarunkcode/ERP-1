@@ -169,7 +169,8 @@ function Home() {
                 <div style={{ height: "60vh" }} className="row ">
                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                        
-                    <span style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom:"20px" }}>Monthly Sale</span>
+                        <span style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Sale</span>
+                    
                     <BarChart width={560} height={300} data={dataArray2} style={{marginTop:"20px"}}>
                             <Bar dataKey="Sale_Amount" fill="#8884d8" />
                     <CartesianGrid stroke="#ccc" />
@@ -180,7 +181,7 @@ function Home() {
                             <Legend />
                                 </BarChart>
 
-                       
+                        
                         
                     </div>
                 </div>
@@ -189,7 +190,8 @@ function Home() {
                 <div style={{ width: "60vw", minHeight: "100vh" }} className="row">
                     <div style={{width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                        
-                        <span style={{ fontSize: "20px", borderBottom: "2px solid red"}}>Monthly Purchase</span>
+                        <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Monthly Purchase</span>
+
                         <PieChart width={730} height={500} style={{paddingTop:"0px", marginBottom:"30px"}}>
                          <Pie
                         data={dataArray}
@@ -212,8 +214,9 @@ function Home() {
                 </div>
             <hr/>
             <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                    <span style={{ fontSize: "20px", borderBottom:"2px solid red"}}>Sale v/s Purchase Chart</span>
-            <BarChart width={1000} height={300} data={dataArray2} style={{ marginTop: "20px" }}>
+                <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Sale v/s Purchase Chart</span>
+                <ResponsiveContainer aspect={3.0 / 1.0}>
+            <BarChart data={dataArray2} >
                     <Bar dataKey="Sale_Amount" fill="#8884d8" />
                     <Bar dataKey="Purchase_Amt" fill="#82ca9d" />
                 <CartesianGrid stroke="#ccc" />
@@ -222,11 +225,13 @@ function Home() {
                     <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
                     <Legend layout="vertical" verticalAlign="top" align="center" />
                 </BarChart>
+              </ResponsiveContainer>
             </div>
 <hr/>
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                    <span style={{ fontSize: "20px", borderBottom:"2px solid red"}}>Prev Year Sale v/s This Year Sale</span>
-            <BarChart width={1000} height={300} data={saleArr} style={{ marginTop: "20px" }}>
+                <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Prev Year Sale v/s This Year Sale</span>
+                <ResponsiveContainer aspect={3.0 / 1.0}>
+            <BarChart data={saleArr}>
                     <Bar dataKey="Prev_Year_Sale_Amount" fill="#8884d8"/>
                     <Bar dataKey="This_Year_Sale_Amount" fill="#82ca9d" />
                 <CartesianGrid stroke="#ccc" />
@@ -234,7 +239,8 @@ function Home() {
                     <YAxis />
                     <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
                     <Legend layout="vertical" verticalAlign="top" align="center"/>
-                </BarChart>
+                    </BarChart>
+                </ResponsiveContainer>
             </div>
             <hr/>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>

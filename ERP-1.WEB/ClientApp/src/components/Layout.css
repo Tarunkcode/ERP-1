@@ -8,10 +8,9 @@ body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
 }
-.cc{
-
-    background: #cbcad9;
-   
+.cc {
+    /*background: #cbcad9;*/
+    background: #F5F5F5;
 }
 
 p {

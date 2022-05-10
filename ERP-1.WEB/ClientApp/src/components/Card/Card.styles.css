@@ -1,2 +1,6 @@
-﻿body {
+﻿@media screen and (max-height:650px){
+.contain-recharts{
+    margin:10px;
+}
+
 }

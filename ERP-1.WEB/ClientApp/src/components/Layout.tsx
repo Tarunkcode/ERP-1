@@ -39,7 +39,7 @@ export default (props: any) => {
                 </nav>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", width: "100%", minHeight:"90vh" }}>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", width: "100%", minHeight:"90vh"}}>
 
                 {/* Sidebar*/}
                 <nav id="sidebar">
@@ -98,7 +98,7 @@ export default (props: any) => {
                     </nav>
 
 
-                 <div className="homeDiv" style={{ width: "100%", maxHeight: "86vh",maxWidth:"100vw", margin: "0", padding: "3em 0",overflowY: "scroll", overflowX: "hidden"}}>
+                 <div className="homeDiv" style={{ width: "100%", maxHeight: "86vh",maxWidth:"100vw", margin: "0", padding: "0 0 15em 0",overflowY: "scroll", overflowX: "hidden"}}>
 
                 <Container style={{maxHeight:"100vh",width:"100vw"}}>
                 {props.children}
@@ -108,7 +108,7 @@ export default (props: any) => {
                 </div>
 
 
-                <Footer />
+                <Footer/>
         </React.Fragment>
             </div>
 
