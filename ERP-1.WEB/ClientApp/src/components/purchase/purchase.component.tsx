@@ -290,7 +290,7 @@ export default function Purchase() {
             console.log(urlStart + '?' + params.join('&'));
 
 
-            fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
+            await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
                 console.log(result.Data[0])
 
                 if (result.Status == '1') {
@@ -323,7 +323,7 @@ export default function Purchase() {
                         dataArray2[item] = obj2;
                         setDataArray2(dataArray2);
                     }
-                    setShowResults(true)
+                     setShowResults(true)
                     
                     console.log('onLoad dataArray',dataArray);
 
@@ -608,9 +608,9 @@ export default function Purchase() {
             {/*Cards Div Row 1*/}
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
                
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} purchase={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} /> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} /> : null}
                 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} purchase={"Purchase_Amount"}  piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} /> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} /> : null}
 
                 
 
@@ -620,9 +620,9 @@ export default function Purchase() {
 
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} purchase={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} /> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} /> : null}
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} purchase={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} /> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true}/> : null}
 
             </div>
 
