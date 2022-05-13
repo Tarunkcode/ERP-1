@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 
 import Card from '../Card/Card.component';
 import "react-datepicker/dist/react-datepicker.css";
-import { event } from 'jquery';
+
 
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
@@ -29,8 +29,8 @@ export default function Purchase() {
     var [category, setCategory]: any = React.useState([])
     var [type, setType]: any = React.useState([])
     var [subCategory, setSubCategory]: any = React.useState([])
-    var [process, setProcess]: any = React.useState([])
     var [shift, setShift]: any = React.useState([])
+    var [process, setProcess]: any = React.useState([])
     var [machine, setMachine]: any = React.useState([])
     var [department, setDepartment]: any = React.useState([])
     var [expenses, setExpenses]: any = React.useState([])
@@ -72,11 +72,26 @@ export default function Purchase() {
     const isMounted = React.useRef(true)
 
 
-    const [colors, setColors] = useState(["blue", "red", "#8884d8", "indigo", "green", "yellow", "orange", "pink", "#82ca9d", "purple", "grey", "brown"]);
+    const colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+        '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+        '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+        '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+        '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+        '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+        '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+        '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+        '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+        '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
     var [dataArray, setDataArray]: any = useState([]);
     var [dataArray2, setDataArray2]: any = useState([]);
     var [productionArray, setProductionArray]: any = useState([]);
     var [productionArray2, setProductionArray2]: any = useState([]);
+
+    var [machineDowntime, setMachineDowntime]: any = useState([]);
+    var [machineDowntime2, setMachineDowntime2]: any = useState([]);
+
+    var [rejectionArr, setRejectionArr]: any = useState([]);
+    var [rejectionArr2, setRejectionArr2]: any = useState([]);
     var [showResults, setShowResults] = React.useState(false)
 
 
@@ -327,7 +342,20 @@ export default function Purchase() {
     }, [])
 
 
+    React.useEffect(() => {
+        handleItemChange
+        handleItemGroupChange
+        handleBrandChange
+        handleCategoryChange
+        handleTypeChange
+        handleSubCategoryChange
+        handleShiftChange
+        handleProcessChange
+        handleMachineChange
+        handleChangeStartDate(startDate)
+        handleChangeendDate(endDate)
 
+    }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeProcess, changeShift, changeMachine, changeEndDate, changeStartDate])
 
     //console.log(dataArray)
 
@@ -410,19 +438,7 @@ export default function Purchase() {
 
 
     }
-    const handleProcessChange = (event: any) => {
 
-        var PROCESS = event.target.value
-        for (let i = 0; i < process.length; i++) {
-            if (PROCESS == process[i].StateName) {
-                setChangeProcess(subCategory[i].StateCode)
-
-                break;
-            }
-        }
-
-
-    }
     const handleShiftChange = (event: any) => {
 
         var SHIFT = event.target.value
@@ -434,6 +450,18 @@ export default function Purchase() {
             }
         }
 
+
+    }
+    const handleProcessChange = (event: any) => {
+
+        var PROCESS = event.target.value
+        for (let i = 0; i < process.length; i++) {
+            if (PROCESS == process[i].StateName) {
+                setChangeProcess(process[i].StateCode)
+
+                break;
+            }
+        }
 
     }
     const handleMachineChange = (event: any) => {
@@ -452,6 +480,7 @@ export default function Purchase() {
     const handleChangeStartDate = (startDate: DatePicker) => {
         const selectedstartDate = new Date(`${startDate}`); // pass in date param here
         const formattedStartDate = `${selectedstartDate.getFullYear()}-${selectedstartDate.getMonth() + 1}-${selectedstartDate.getDate()}`;
+        console.log('onChange-Start-Date', formattedStartDate)
         setChangeStartDate(formattedStartDate)
 
     }
@@ -459,6 +488,7 @@ export default function Purchase() {
     const handleChangeendDate = (endDate: DatePicker) => {
         const selectedendDate = new Date(`${endDate}`); // pass in date param here
         const formattedEndDate = `${selectedendDate.getFullYear()}-${selectedendDate.getMonth() + 1}-${selectedendDate.getDate()}`;
+        console.log('onChange-End-Date', formattedEndDate)
         setChangeEndDate(formattedEndDate)
 
     }
@@ -470,9 +500,12 @@ export default function Purchase() {
         }
     }, [])
 
-    const sendRequest = React.useCallback(async () => {
-       
+   
 
+    const sendRequest = React.useCallback(async () => {
+
+        console.log('edate', changeEndDate)
+        console.log('sdate', changeStartDate)
         setShowResults(false)
         // don't send again while we are sending
         if (isSending) return
@@ -482,20 +515,34 @@ export default function Purchase() {
         try {
             var urlPlanning = "http://103.197.121.188:85/ESERP/api/values/getgroupwiseprodplan"
             var urlProduction = "http://103.197.121.188:85/ESERP/api/values/GROUPWISEPRODUCTION"
+            var urlRejection = "http://103.197.121.188:85/ESERP/api/values/Groupwiserejectprod"
+            var urlMachineDowntime = "http://103.197.121.188:85/ESERP/api/values/GROUPMACHINEDOWNTIME"
             var params = []
+            var params2 = []
+
             params.push(`fromDate=${changeStartDate}`)
+            params2.push(`fromDate=${changeStartDate}`)
             params.push(`toDate=${changeEndDate}`)
+            params2.push(`toDate=${changeEndDate}`)
             params.push(`process=${changeProcess}`)
             params.push(`shift=${changeShift}`)
+            params2.push(`shift=${changeShift}`)
             params.push(`item=${changeItem}`);
             params.push(`itemgrp=${changeItemGroup}`);
             params.push(`brand=${changeBrand}`);
             params.push(`category=${changeCategory}`);
+            params.push(`machine=${changeMachine}`);
+            params2.push(`machine=${changeMachine}`);
             params.push(`subcategory=${changeSubCategory}`);
             params.push(`itemtype=${changeType}`);
-            params.push(`grpby=${1}`);
+            params.push(`grpby=${"8"}`);
+            params2.push(`grpby=${"2"}`);
+            params2.push(`reason=${"0"}`);
+            
             params.push('Comp=comp0015');
+            params2.push('Comp=comp0015');
             params.push('FY=2021');
+            params2.push('FY=2021');
             console.log(urlPlanning + '?' + params.join('&'));
 
 
@@ -503,7 +550,7 @@ export default function Purchase() {
                 console.log(result.Data[0])
 
                 if (result.Status == '1') {
-                    var D1, D2,D3, obj, fill;
+                    var D1, D2, D3, obj, fill;
 
                     for (let item = 0; item < result.Data.length; item++) {
 
@@ -513,9 +560,9 @@ export default function Purchase() {
                         /*   D3 = result.Data[item].D3;*/
 
                         D2 = parseFloat(D2);
-                         D3 = parseFloat(D3);
+                        D3 = parseFloat(D3);
 
-                      
+
                         fill = colors[item];
                         var Quantity = D2;
                         var Value = D3;
@@ -532,11 +579,15 @@ export default function Purchase() {
                         dataArray2[item] = obj2;
                         setDataArray2(dataArray2);
                     }
-                 
+
                     console.log('onLoad dataArray', dataArray);
 
-                } else {
-                    console.log("No data found ");
+                }
+                else if (result.Status == '-1') {
+                    console.log('data not found in planning array fetch Status = -1')
+                }
+                else if (result.Status == '0') {
+                    alert('Planning fetch request failed fetch Status = 0')
                 }
             })
 
@@ -573,17 +624,111 @@ export default function Purchase() {
                         productionArray2[item] = obj2;
                         setProductionArray2(productionArray2);
                     }
-                    setShowResults(true)
+                  
 
                     console.log('onLoad productionArray', productionArray);
 
-                } else {
-                    console.log("No data found Production Array");
+                }
+                else if (result.Status == '-1') {
+                    console.log('data not found in production array fetch STatus = -1')
+                }
+                else if (result.Status == '0') {
+                    alert('Production fetch request failed fetch Status 0')
                 }
             })
+
+            await fetch(urlRejection + '?' + params.join('&')).then(res => res.json()).then(result => {
+                console.log(result.Data[0])
+
+                if (result.Status == '1') {
+                    var D1, D2, D3, obj, fill;
+
+                    for (let item = 0; item < result.Data.length; item++) {
+
+                        D1 = result.Data[item].DESC;
+                        D2 = result.Data[item].QTY;
+                        D3 = result.Data[item].VALUE;
+
+
+
+                       
+                        fill = colors[item];
+                        var Quantity = D2;
+                        var Value = D3;
+
+                        obj = { D1, Quantity, Value, fill };
+                        var obj2 = { D1, Quantity, Value };
+                        //[dataArray].
+                        rejectionArr = [...rejectionArr]; // copying the old datas array
+                        rejectionArr[item] = obj; // replace e.target.value with whatever you want to change it to
+
+                        setRejectionArr(rejectionArr);
+
+                        rejectionArr2 = [...rejectionArr2]
+                        rejectionArr2[item] = obj2;
+                        setRejectionArr2(rejectionArr2);
+                    }
+
+
+                    console.log('onLoad productionArray', rejectionArr);
+
+                }
+                else if (result.Status == '-1') {
+                    alert('data not found in Rejection array, fetch Status = -1')
+                }
+                else if (result.Status == '0') {
+                    alert('Planning fetch request failed, fetch STatus = 0')
+                }
+            })
+
+
+            await fetch(urlMachineDowntime + '?' + params2.join('&')).then(res => res.json()).then(result => {
+                console.log(result.Data[0])
+
+                if (result.Status == '1') {
+                    var D1, D2, D3, obj, fill;
+
+                    for (let item = 0; item < result.Data.length; item++) {
+
+                        D1 = result.Data[item].DESC;
+                        D2 = result.Data[item].QTY;
+                        D3 = result.Data[item].VALUE;
+                        
+
+                   
+                        fill = colors[item];
+                        var Quantity = D2;
+                        var Value = D3;
+
+                        obj = { D1, Quantity, Value, fill };
+                        var obj2 = { D1, Quantity, Value };
+                        //[dataArray].
+                        machineDowntime = [...machineDowntime]; // copying the old datas array
+                        machineDowntime[item] = obj; // replace e.target.value with whatever you want to change it to
+
+                        setMachineDowntime(machineDowntime);
+
+                        machineDowntime2 = [...machineDowntime2]
+                        machineDowntime2[item] = obj2;
+                        setMachineDowntime2(machineDowntime2);
+                    }
+                    setShowResults(true)
+
+                    console.log('onLoad machineDowntime', machineDowntime);
+
+                }
+                else if (result.Status == '-1') {
+                    alert('data not found in Machine array, fetch Status = -1')
+                }
+                else if (result.Status == '0') {
+                    alert('Machine Downtime fetch request failed, fetch STatus = 0')
+                }
+            })
+
         }
+
         catch (Ex) {
-            alert("calling api failed ")
+            alert("calling api's failed ")
         }
         
         // once the request is sent, update state again
@@ -970,9 +1115,9 @@ export default function Purchase() {
             {/*Cards Div Row 1*/}
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1" } dataKey1={"Quantity" } dataKey2={"Value" }   piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses}/> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} /> : null}
 
-                {showResults ? <Card dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"}  piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses}/> : null}
+                {showResults ? <Card dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} setChangeProcess={setChangeProcess}/> : null}
 
 
 
@@ -980,13 +1125,14 @@ export default function Purchase() {
             {/*Cards Div Row 2*/}
 
 
-            {/*< div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>*/}
+            < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-            {/*    {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"}   piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses}/> : null}*/}
+                {showResults ? <Card dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} /> : null}
 
-            {/*    {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"}  piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Planning V/s Production"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} /> : null}*/}
+                {showResults ? <Card dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses}/> : null}
 
-            {/*</div>*/}
+
+            </div>
 
             {/*Cards Div Row 3*/}
 
@@ -995,8 +1141,7 @@ export default function Purchase() {
 
             {/*    {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"}  piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Consumpsion"} groupBySelect={false} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} /> : null}*/}
 
-            {/*    {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses}/> : null}*/}
-
+            {/*    {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"}  piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Planning V/s Production"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} /> : null}*/}
             {/*</div>*/}
 
             {/*Cards Div Row 4*/}

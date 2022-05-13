@@ -5,19 +5,45 @@ import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, L
 import Layout from '../Layout';
 import ReactTable from 'react-table';
 import { useTable } from 'react-table';
+import { useState } from 'react';
 import { Table } from 'reactstrap';
-export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect ,reasonSelect,departmentSelect, expensesSelect,process,machine, reason,department,expenses, ...props }: any) {
+import ClipLoader from "react-spinners/ClipLoader";
+import { css } from "@emotion/react";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, ...props }: any) {
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
     var [viewBar, setBarView] = React.useState(barInit);
     var [viewTable, setTableView] = React.useState(tabInit);
+    const GroupByArr: any[] = [{ name: "Monthly", val: "8" },{ name: "Item Group", val:"1" }, { name: "Brand", val:"2" }, { name: "Category", val:"3" }, { name: "Sub Category", val:"4" }, { name: "Item Type", val:"5" }, { name: "Process", val:"6" }, { name: "Shift", val:"7" }]
     //var [search, setSearch] = React.useState('');
-
+    const isMounted = React.useRef(true)
+    var [showResults, setShowResults] = React.useState(false)
+    
+    var [machineChange, setMachineChange]: any = React.useState('0')
+    var [processChange, setProcessChange]: any = React.useState('0')
+    var [groupByChange, setGroupByChange]: any = React.useState('8')
+   
+    const [isSending, setIsSending] = useState(false)
+   const colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
+		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
+		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
+		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
     //const handleSearch = (event: any) => {
     //    setSearch(event.target.value);
     //};
-
-    
+  
 
     function RenderPi() {
        
@@ -26,6 +52,8 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
         setBarView(false);
         setTableView(false);
     }
+    
+    
 
     function RenderLine() {
         setPiView(false);
@@ -68,6 +96,50 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
         []
     );
 
+    const handleProcessChange = (event: any) => {
+
+        var PROCESS = event.target.value
+        for (let i = 0; i < process.length; i++) {
+            if (PROCESS == process[i].StateName) {
+                setProcessChange(process[i].StateCode)
+               
+                break;
+            }
+        }
+        
+     
+    }
+
+
+    const handleMachineChange = (event: any) => {
+
+        var MACHINE = event.target.value
+    
+        for (let i = 0; i < machine.length; i++) {
+            if (MACHINE == machine[i].StateName) {
+                setMachineChange(machine[i].StateCode)
+               
+                break;
+            }
+        }
+     
+    }
+
+    const handleGroupByChange = (event: any) => {
+
+        var GP_BY = event.target.value
+
+        for (let i = 0; i < GroupByArr.length; i++) {
+            if (GP_BY == GroupByArr[i].name) {
+                setGroupByChange(GroupByArr[i].val)
+               console.log('gp',groupByChange)
+                break;
+            }
+        }
+      
+     
+    }
+
     const {
         getTableProps, // table props from react-table
         getTableBodyProps, // table body props from react-table
@@ -79,8 +151,112 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
         data
     });
 
+    React.useEffect(() => {
+        return () => {
+            isMounted.current = false
+        }
+    }, [])
+
+  
+
+    const sendReq = React.useCallback( async () => {
+        console.log('ChangeProcess', processChange)
+        console.log('changeGroupBy', groupByChange)
+        console.log('changeMachine', machineChange)
+
+        setShowResults(false)
+        // don't send again while we are sending
+        if (isSending) return
+        // update state
+        setIsSending(true)
+        // send the actual request
+        try {
+            var urlPlanning = "http://103.197.121.188:85/ESERP/api/values/getgroupwiseprodplan"
+
+            var params = []
+            params.push(`fromDate=${changeStartDate}`)
+            params.push(`toDate=${changeEndDate}`)
+            params.push(`process=${processChange}`)
+            params.push(`shift=${changeShift}`)
+            params.push(`item=${changeItem}`);
+            params.push(`itemgrp=${changeItemGroup}`);
+            params.push(`brand=${changeBrand}`);
+            params.push(`category=${changeCategory}`);
+            params.push(`machine=${machineChange}`);
+            params.push(`subcategory=${changeSubCategory}`);
+            params.push(`itemtype=${changeType}`);
+            params.push(`grpby=${groupByChange}`);
+            params.push('Comp=comp0015');
+            params.push('FY=2021');
+            console.log(urlPlanning + '?' + params.join('&'));
 
 
+            await fetch(urlPlanning + '?' + params.join('&')).then(res => res.json()).then(result => {
+                console.log(result.Data[0])
+
+                if (result.Status == '1') {
+                    var D1, D2, D3, obj, fill;
+
+                    for (let item = 0; item < result.Data.length; item++) {
+
+                        D1 = result.Data[item].DESC;
+                        D2 = result.Data[item].QTY;
+                        D3 = result.Data[item].VALUE;
+                        /*   D3 = result.Data[item].D3;*/
+
+                        D2 = parseFloat(D2);
+                        D3 = parseFloat(D3);
+
+
+                        fill = colors[item];
+                        var Quantity = D2;
+                        var Value = D3;
+
+                        obj = { D1, Quantity, Value, fill };
+                        var obj2 = { D1, Quantity, Value };
+                        //[dataArray].
+                        dataArray = [...dataArray]; // copying the old datas array
+                        dataArray[item] = obj; // replace e.target.value with whatever you want to change it to
+
+                        setDataArray(dataArray);
+
+                        dataArray2 = [...dataArray2]
+                        dataArray2[item] = obj2;
+                        setDataArray2(dataArray2);
+                    }   
+                    setShowResults(true)
+                    console.log('onLoad Planning dataArray', dataArray);
+                 
+
+                 }
+                else if (result.Status == '-1') {
+                    alert('data not found in Planning array, fetch Status = -1')
+                }
+                else if (result.Status == '0') {
+                    alert('Planning fetch request failed, fetch STatus = 0')
+                }
+            })
+
+        }
+        catch (Ex) {
+            alert("bad url address")
+        }
+
+        // once the request is sent, update state again
+        if (isMounted.current) // only update if we are still mounted
+            setIsSending(false)
+    }, [isSending, processChange, machineChange, groupByChange]) // update the callback if the state changes
+
+    function RefreshDataArray() {
+        dataArray = []
+        dataArray2 = []
+    }
+    const onRefresh = async () => {
+        await RefreshDataArray()
+        sendReq()
+    }
+
+   
     return (
     <>
 
@@ -98,23 +274,27 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
 
                         </span>
                    
-                  
+                   
                    
                 </div>
                 <hr style={{ border: "0.5px solid grey", opacity:"0.5", margin:"0" }} />
                 <div className="card-title col-12" style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%", background: "#ffff", margin: "2px" }}>
 
                     <div hidden={processSelect} className="col-4" style={{ display: "flex", flexDirection: "column", margin: "0" }}>
-                        <label htmlFor="process" style={{ margin: "0", padding: "auto", fontSize:"0.7rem" }}>Process</label>
-                        <select name="process" id="process" placeholder="Process" style={{borderRadius:"5px", padding:"0"}}>
+                        <label htmlFor="process" style={{ margin: "0", padding: "auto", fontSize: "0.7rem" }}>Process</label>
+                        <select name="process" id="process" placeholder="Process" style={{ borderRadius: "5px", padding: "0" }} onChange={handleProcessChange}>
+                          
                         {
                             process != null && process.length > 0 ?
 
                                             process.map((obj: any) => {
-                                                return <option value={obj.StateCode}>{obj.StateName}</option>
+                                                 <option selected value={0}>{"All"}</option>
+                                                return (
+                                                    <option value={obj.StateName}>{obj.StateName}</option>
+                                                    )
                                             })
 
-                                : console.log('fine')
+                                : null
 
 
                             }
@@ -122,20 +302,22 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                     </div>
 
                     <div hidden={machineSelect } className="col-4" style={{ display: "flex", flexDirection: "column", margin: "0" }}>
-                        <label htmlFor="machine" style={{ margin: "0", padding: "auto", fontSize:"0.7rem" }}>Machine</label>
-                        <select name="machine" id="machine" placeholder="Machine" style={{borderRadius:"5px", padding:"0"}}>
+                        <label htmlFor="machine" style={{ margin: "0", padding: "auto", fontSize: "0.7rem" }}>Machine</label>
+                        <select name="machine" id="machine" placeholder="Machine" style={{ borderRadius: "5px", padding: "0" }} onChange={handleMachineChange}>
+                            <option selected value={0 }>All</option>
+
                             {
                                 machine != null && machine.length > 0 ?
 
                                     machine.map((obj: any) => {
-                                        return <option value={obj.StateCode}>{obj.StateName}</option>
+                                        return <option value={obj.StateName}>{obj.StateName}</option>
                                     })
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
-                    </select>
+                         </select>
 
                     </div>
 
@@ -149,7 +331,7 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                                         return <option value={obj.StateCode}>{obj.StateName}</option>
                                     })
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -167,7 +349,7 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                                         return <option value={obj.StateCode}>{obj.StateName}</option>
                                     })
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -185,7 +367,7 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                                         return <option value={obj.StateCode}>{obj.StateName}</option>
                                     })
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -194,25 +376,32 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                     </div>
                    
                     <div hidden={groupBySelect} className="col-4" style={{ display: "flex", flexDirection: "column", margin: "0" }}>
-                        <label htmlFor="groupBy" style={{ margin: "0", padding: "auto", fontSize:"0.7rem" }}>Group By</label>
-                        <select name="groupBy" id="groupBy" placeholder="Group By" style={{borderRadius:"5px", padding:"0"}}>
-                        <option value="1">Item Group</option>
-                        <option value="2">Brand</option>
-                        <option value="3">Category</option>
-                        <option value="4">Sub Category</option>
-                        <option value="5">Item Type</option>
-                        <option value="6">Process</option>
-                        <option value="7">Shift</option>
-                        <option value="8">Monthly</option>
+                        <label htmlFor="groupBy" style={{ margin: "0", padding: "auto", fontSize: "0.7rem" }}>Group By</label>
+                        <select name="groupBy" id="groupBy" placeholder="Group By" style={{ borderRadius: "5px", padding: "0" }} onChange={handleGroupByChange}>
+                       
+                            {
+                                GroupByArr != null && GroupByArr.length > 0 ?
+
+                                    GroupByArr.map((obj: any) => {
+                                        return <option value={obj.name}>{obj.name}</option>
+                                    })
+
+                                    : null
+
+
+                            }
                     </select>
                     </div>
+                  
+                  
                 </div>
 
+                <button onClick={onRefresh} className="btnt" style={{ border: "none", padding: "0 2px", margin: "0 2px" }} ><i className="fa-refresh">Refresh</i></button>
 
                 <div className="card-body" style={{ padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin:"0", width:'100%' }}>
-
-                        {
-                            viewPi ? (
+                    <ClipLoader color="green" loading={isSending} css={override} size={150} />
+                    {
+                        viewPi && !isSending ? (
                                 <PieChart width={490} height={400} style={{ paddingTop: "0px", marginBottom: "30px" }}>
                                     <Pie
                                         data={dataArray}
@@ -234,7 +423,7 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                         }
                         {
 
-                            viewLine ? (
+                        viewLine && !isSending ? (
                             <LineChart width={490} height={430} data={dataArray}>
                                 <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
                                     <YAxis />
@@ -249,7 +438,7 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
                             ) : null
 
                         }{
-                        viewBar ? (
+                        viewBar && !isSending ? (
                             <BarChart width={490} height={430} data={dataArray2}  style={{ marginTop: "20px" }}>
                                 <Bar dataKey={dataKey1} fill="#82ca9d" />
                                 <CartesianGrid stroke="#ccc" />
@@ -267,7 +456,7 @@ export default function Card({ dataArray, dataArray2,nameKey, dataKey1, dataKey2
 
                         }
                     {
-                        viewTable ? (
+                        viewTable && !isSending ? (
 
                             <div className="table-responsive">
                                
