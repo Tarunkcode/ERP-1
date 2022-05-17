@@ -21,7 +21,7 @@ const override = css`
 export default function Purchase() {
 
     /* var it = 0, ig = 0, br = 0, ct = 0, sc = 0, tp=0;*/
-  
+
 
     var [item, setItem]: any = React.useState([])
     var [itemGroup, setItemGroup]: any = React.useState([])
@@ -41,12 +41,12 @@ export default function Purchase() {
 
 
 
-    var urlStart1 = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=6&Comp=comp0015&FY=2021";
-    var itemGroupUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=79&Comp=comp0015&FY=2021";
-    var brandUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1002&Comp=comp0015&FY=2021";
-    var categoryUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1010&Comp=comp0015&FY=2021";
-    var typeUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1009&Comp=comp0015&FY=2021";
-    var subCategoryUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1035&Comp=comp0015&FY=2021";
+    var urlStart1 = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=6&Comp=comp0015&FY=2021";
+    var itemGroupUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=79&Comp=comp0015&FY=2021";
+    var brandUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1002&Comp=comp0015&FY=2021";
+    var categoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1010&Comp=comp0015&FY=2021";
+    var typeUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1009&Comp=comp0015&FY=2021";
+    var subCategoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1035&Comp=comp0015&FY=2021";
     var [startDate, setStartDate]: any = useState(new Date("2022/04/01"));
     var [endDate, setEndDate]: any = useState(new Date());
 
@@ -176,13 +176,13 @@ export default function Purchase() {
 
     }, [])
 
-   
+
 
 
     //console.log(dataArray)
 
     const handleItemChange = (event: any) => {
-      var  ITEM = event.target.value
+        var ITEM = event.target.value
         console.log('item dynamic', ITEM)
         for (let i = 0; i < item.length; i++) {
             if (ITEM == item[i].StateName) {
@@ -191,77 +191,77 @@ export default function Purchase() {
                 break;
             }
         }
-        
+
     }
 
-    const handleItemGroupChange =  (event: any) => {
-       var ITEM_GRP = event.target.value
-         for (let i = 0; i < itemGroup.length; i++) {
-             if (ITEM_GRP == itemGroup[i].StateName) {
-                 setChangeItemGroup(itemGroup[i].StateCode)
-               
-                 break;
-             }
-         }
-        
+    const handleItemGroupChange = (event: any) => {
+        var ITEM_GRP = event.target.value
+        for (let i = 0; i < itemGroup.length; i++) {
+            if (ITEM_GRP == itemGroup[i].StateName) {
+                setChangeItemGroup(itemGroup[i].StateCode)
+
+                break;
+            }
+        }
+
     }
 
     const handleBrandChange = (event: any) => {
         var BRAND = event.target.value
-         for (let i = 0; i < brand.length; i++) {
-             if (BRAND == brand[i].StateName) {
-                 setChangeBrand(brand[i].StateCode)
-                 
-                 break;
-             }
-         }
+        for (let i = 0; i < brand.length; i++) {
+            if (BRAND == brand[i].StateName) {
+                setChangeBrand(brand[i].StateCode)
 
-       
+                break;
+            }
+        }
+
+
     }
 
-     const handleCategoryChange = (event: any) => {
-         var CATEGORY = event.target.value
-         for (let i = 0; i < category.length; i++) {
-             if (CATEGORY == category[i].StateName) {
-                 setChangeCategory(category[i].StateCode)
-               
-                 break;
-             }
-         }
+    const handleCategoryChange = (event: any) => {
+        var CATEGORY = event.target.value
+        for (let i = 0; i < category.length; i++) {
+            if (CATEGORY == category[i].StateName) {
+                setChangeCategory(category[i].StateCode)
 
-       
+                break;
+            }
+        }
+
+
     }
 
     const handleTypeChange = (event: any) => {
-         var TYPE = event.target.value
-         for (let i = 0; i < type.length; i++) {
-             if (TYPE == type[i].StateName) {
-                 setChangeType(type[i].StateCode)
-                
-                 break;
-             }
-         }
+        var TYPE = event.target.value
+        for (let i = 0; i < type.length; i++) {
+            if (TYPE == type[i].StateName) {
+                setChangeType(type[i].StateCode)
 
-       
+                break;
+            }
+        }
+
+
     }
 
-  
+
 
     const handleSubCategoryChange = (event: any) => {
-        
-         var SUB_CAT = event.target.value
-         for (let i = 0; i < subCategory.length; i++) {
-             if (SUB_CAT == subCategory[i].StateName) {
-                 setChangeSubCategory(subCategory[i].StateCode)
-                 
-                 break;
-             }
-         }
 
-       
-     }
+        var SUB_CAT = event.target.value
+        for (let i = 0; i < subCategory.length; i++) {
+            if (SUB_CAT == subCategory[i].StateName) {
+                setChangeSubCategory(subCategory[i].StateCode)
 
-   
+                break;
+            }
+        }
+
+
+    }
+
+
     React.useEffect(() => {
         return () => {
             isMounted.current = false
@@ -269,7 +269,7 @@ export default function Purchase() {
     }, [])
 
     const sendRequest = React.useCallback(async () => {
-       
+
         setShowResults(false)
         // don't send again while we are sending
         if (isSending) return
@@ -277,7 +277,7 @@ export default function Purchase() {
         setIsSending(true)
         // send the actual request
         try {
-            var urlStart = "http://103.197.121.188:85/ESERP/api/values/Annualpurchasedetails"
+            var urlStart = "http://103.197.121.188:85/api/values/Annualpurchasedetails"
             var params = []
             params.push(`item=${changeItem}`);
             params.push(`itemgrp=${changeItemGroup}`);
@@ -323,9 +323,9 @@ export default function Purchase() {
                         dataArray2[item] = obj2;
                         setDataArray2(dataArray2);
                     }
-                     setShowResults(true)
-                    
-                    console.log('onLoad dataArray',dataArray);
+                    setShowResults(true)
+
+                    console.log('onLoad dataArray', dataArray);
 
                 } else {
                     alert(console.log("No data found "));
@@ -342,17 +342,17 @@ export default function Purchase() {
 
 
 
-  
+
     return (
         <div className="container" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "top" }}>
- 
-            
+
+
             {/*Custom Data List*/}
 
 
             <div className="row col-12" style={{ display: "flex", flexDirection: "row" }}>
-              
-             
+
+
                 <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
@@ -366,10 +366,10 @@ export default function Purchase() {
 
                                 (
                                     <datalist className="item" id="itemList">
-                                      
+
                                         {
-                                          
-                                           item.map((obj: any) => {
+
+                                            item.map((obj: any) => {
                                                 return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                             })
                                         }
@@ -392,7 +392,7 @@ export default function Purchase() {
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="form-label col-sm-12">Item Group</label>
 
-                        <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange}/>
+                        <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
 
                         {
 
@@ -424,7 +424,7 @@ export default function Purchase() {
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
 
-                        <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange}/>
+                        <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange} />
 
                         {
 
@@ -456,11 +456,11 @@ export default function Purchase() {
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
 
-                        <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange}/>
+                        <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange} />
 
                         {
 
-                            category != null &&category.length > 0 ?
+                            category != null && category.length > 0 ?
 
                                 (
                                     <datalist className='category' id="categoryList">
@@ -492,7 +492,7 @@ export default function Purchase() {
 
                         {
 
-                           type != null &&type.length > 0 ?
+                            type != null && type.length > 0 ?
 
                                 (
                                     <datalist className='type' id="typeList">
@@ -546,22 +546,22 @@ export default function Purchase() {
                     </div>
 
                 </div>
-               
+
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
             </div>
 
-          
+
             {/*date picker*/}
             <div className="row col-12" style={{ display: "flex", flexDirection: "row" }}>
 
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginRight:"0px" }}>
+                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginRight: "0px" }}>
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor="sec" className="form-label col-sm-12">From Date</label>
 
 
 
                         <DatePicker
-                            
+
                             selectsStart
                             startDate={startDate}
                             dateFormat="MMM, dd yyyy"
@@ -570,11 +570,11 @@ export default function Purchase() {
                                 setStartDate(date)
                                 console.log(startDate);
                             }} />
-                       
+
                     </div>
 
                 </div>
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginRight:"0px" }}>
+                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginRight: "0px" }}>
 
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor="sec2" className="form-label col-sm-12">To Date</label>
@@ -584,19 +584,19 @@ export default function Purchase() {
                             setEndDate(date)
                             console.log(endDate);
                         }} />
-                       
+
                     </div>
                 </div>
 
 
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems:"center", width:"50%" , margin:"0"}}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", width: "50%", margin: "0" }}>
                     <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "row", width: "90%" }}>
-                     
+
                         <button className="btn btn-primary load-button" type="submit" disabled={isSending} onClick={sendRequest}>Load</button>
 
-            </div>
+                    </div>
                 </div>
-             
+
             </div>
 
 
@@ -607,12 +607,12 @@ export default function Purchase() {
 
             {/*Cards Div Row 1*/}
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
-               
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} /> : null}
-                
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} /> : null}
 
-                
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+
+
 
             </div>
             {/*Cards Div Row 2*/}
@@ -620,9 +620,9 @@ export default function Purchase() {
 
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} /> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true}/> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
             </div>
 
@@ -630,9 +630,9 @@ export default function Purchase() {
 
 
         </div>
-     
+
     )
- 
+
 
 }
 

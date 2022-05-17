@@ -15,7 +15,7 @@ const override = css`
   margin: 0 auto;
   border-color: red;
 `;
-export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, ...props }: any) {
+export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
     var [viewBar, setBarView] = React.useState(barInit);
@@ -74,12 +74,12 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         setBarView(false);
         setTableView(true);
     }
-    const data = dataArray2;
+    const data = dataArray;
     const columns = React.useMemo(
         () => [
             {
                 // first group - TV Show
-                Header: 'Planning Details',
+                Header: "planning Details",
                 // First group columns
                 columns: [
                     {
@@ -87,8 +87,8 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                         accessor: "D1"
                     },
                     {
-                        Header: "Purchase Data",
-                        accessor: "Quantity"
+                        Header: "Quantity",
+                        accessor:"Quantity"
                     }
                 ]
             }
@@ -171,7 +171,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         setIsSending(true)
         // send the actual request
         try {
-            var urlPlanning = "http://103.197.121.188:85/ESERP/api/values/getgroupwiseprodplan"
+            var urlPlanning = "http://103.197.121.188:85/api/values/getgroupwiseprodplan"
 
             var params = []
             params.push(`fromDate=${changeStartDate}`)
@@ -261,8 +261,8 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
     <>
 
             {/*Cards*/}
-            < div className="card contain-recharts" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "48%", border: "none" }}>
-                <div className="card-title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
+            < div className="card contain-recharts" style={{border:"3px solid pink", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "48%"}}>
+                <div className="card-title title" style={{border:"1px solid green", display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
 
@@ -278,7 +278,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                    
                 </div>
                 <hr style={{ border: "0.5px solid grey", opacity:"0.5", margin:"0" }} />
-                <div className="card-title col-12" style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%", background: "#ffff", margin: "2px" }}>
+                <div className="card-title title" style={{border:'1px solid green', display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%", background: "#ffff", margin: "2px" }}>
 
                     <div hidden={processSelect} className="col-4" style={{ display: "flex", flexDirection: "column", margin: "0" }}>
                         <label htmlFor="process" style={{ margin: "0", padding: "auto", fontSize: "0.7rem" }}>Process</label>
@@ -392,13 +392,13 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                             }
                     </select>
                     </div>
-                  
+                    <span style={{ margin: "0" }}> <button onClick={onRefresh} style={{ border: "none", background: "none", margin: "0", padding: '0' }} ><i style={{ fontSize: '24px' }} className="fa">&#xf021;</i></button></span>
                   
                 </div>
+                
 
-                <button onClick={onRefresh} className="btnt" style={{ border: "none", padding: "0 2px", margin: "0 2px" }} ><i className="fa-refresh">Refresh</i></button>
 
-                <div className="card-body" style={{ padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin:"0", width:'100%' }}>
+                <div className="card-body body" style={{ border:'1px solid red', padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin:"0", width:'100%' }}>
                     <ClipLoader color="green" loading={isSending} css={override} size={150} />
                     {
                         viewPi && !isSending ? (
@@ -439,7 +439,9 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
 
                         }{
                         viewBar && !isSending ? (
+                       
                             <BarChart width={490} height={430} data={dataArray2}  style={{ marginTop: "20px" }}>
+                          
                                 <Bar dataKey={dataKey1} fill="#82ca9d" />
                                 <CartesianGrid stroke="#ccc" />
                                
@@ -449,9 +451,9 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                                 <LabelList dataKey={nameKey} position="top" />
                                     <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
                                     <Legend layout="horizontal" verticalAlign="top" align="center" />
+                                
                                 </BarChart>
-
-
+                          
                         ): null
 
                         }

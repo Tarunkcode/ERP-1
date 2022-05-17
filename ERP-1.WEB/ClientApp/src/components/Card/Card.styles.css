@@ -4,3 +4,22 @@
 }
 
 }
+@media screen and (max-width:650px) {
+    .contain-recharts {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .title {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .body {
+        width: 100%;
+    }
+
+    .cards-row {
+        flex-direction: column;
+    }
+}

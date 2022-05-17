@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
 
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -52,18 +53,18 @@ export default function Purchase() {
 
 
 
-    var urlStart1 = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=6&Comp=comp0015&FY=2021";
-    var itemGroupUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=79&Comp=comp0015&FY=2021";
-    var brandUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1002&Comp=comp0015&FY=2021";
-    var categoryUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1010&Comp=comp0015&FY=2021";
-    var typeUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1009&Comp=comp0015&FY=2021";
-    var subCategoryUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1035&Comp=comp0015&FY=2021";
-    var shiftUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=7&Comp=comp0015&FY=2021";
-    var processUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=11&Comp=comp0015&FY=2021";
-    var machineUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=23&Comp=comp0015&FY=2021";
-    var reasonUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1028&Comp=comp0015&FY=2021";
-    var departmentUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=2001&Comp=comp0015&FY=2021";
-    var expensesUrl = "http://103.197.121.188:85/ESERP/api/values/GetMasterData?MasterType=1030&Comp=comp0015&FY=2021";
+    var urlStart1 = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=6&Comp=comp0015&FY=2021";
+    var itemGroupUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=79&Comp=comp0015&FY=2021";
+    var brandUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1002&Comp=comp0015&FY=2021";
+    var categoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1010&Comp=comp0015&FY=2021";
+    var typeUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1009&Comp=comp0015&FY=2021";
+    var subCategoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1035&Comp=comp0015&FY=2021";
+    var shiftUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=7&Comp=comp0015&FY=2021";
+    var processUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=11&Comp=comp0015&FY=2021";
+    var machineUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=23&Comp=comp0015&FY=2021";
+    var reasonUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1028&Comp=comp0015&FY=2021";
+    var departmentUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=2001&Comp=comp0015&FY=2021";
+    var expensesUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1030&Comp=comp0015&FY=2021";
     var [startDate, setStartDate]: any = useState(new Date("2022-04-01"));
     var [endDate, setEndDate]: any = useState(new Date());
 
@@ -101,9 +102,9 @@ export default function Purchase() {
         //Fetch Item   
         const fetchItem = async () => {
             try {
-               
+
                 const response = await fetch(urlStart1);
-              
+
                 /*                console.log(json.Data);*/
                 const json = await response.json();
                 if (json.Status == 1) {
@@ -175,10 +176,10 @@ export default function Purchase() {
                 /*                console.log(json.Data);*/
 
                 if (json4.Status == 1) {
-                setCategory(json4.Data);
-            } else {
-                console.log("category has no data")
-            }
+                    setCategory(json4.Data);
+                } else {
+                    console.log("category has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -195,10 +196,10 @@ export default function Purchase() {
                 /*                console.log(json.Data);*/
 
                 if (json5.Status == 1) {
-                setType(json5.Data);
-            } else {
-                console.log("type has no data")
-            }
+                    setType(json5.Data);
+                } else {
+                    console.log("type has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -215,10 +216,10 @@ export default function Purchase() {
                 /*                console.log(json.Data);*/
 
                 if (json6.Status == 1) {
-                setSubCategory(json6.Data);
-            } else {
-                console.log("sub category has no data")
-            }
+                    setSubCategory(json6.Data);
+                } else {
+                    console.log("sub category has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -234,10 +235,10 @@ export default function Purchase() {
                 /*                console.log(json.Data);*/
 
                 if (json7.Status == 1) {
-                setProcess(json7.Data);
-            } else {
-                console.log("process has no data")
-            }
+                    setProcess(json7.Data);
+                } else {
+                    console.log("process has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -253,10 +254,10 @@ export default function Purchase() {
                 /*                console.log(json.Data);*/
 
                 if (json8.Status == 1) {
-                setShift(json8.Data);
-            } else {
-                console.log("shift has no data")
-            }
+                    setShift(json8.Data);
+                } else {
+                    console.log("shift has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -272,27 +273,27 @@ export default function Purchase() {
                 /*                console.log(json.Data);*/
 
                 if (json9.Status == 1) {
-                setMachine(json9.Data);
-            } else {
-                console.log("machine has no data")
-            }
+                    setMachine(json9.Data);
+                } else {
+                    console.log("machine has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
         };
 
         fetchMachine();
-          const fetchReason = async () => {
+        const fetchReason = async () => {
             try {
                 const response10 = await fetch(reasonUrl);
                 const json10 = await response10.json();
                 /*                console.log(json.Data);*/
 
                 if (json10.Status == 1) {
-                setReason(json10.Data);
-              } else {
-                  console.log("reason has no data")
-              }
+                    setReason(json10.Data);
+                } else {
+                    console.log("reason has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -300,17 +301,17 @@ export default function Purchase() {
 
         fetchReason();
 
-          const fetchDepartment = async () => {
+        const fetchDepartment = async () => {
             try {
                 const response11 = await fetch(departmentUrl);
                 const json11 = await response11.json();
                 /*                console.log(json.Data);*/
 
                 if (json11.Status == 1) {
-                setDepartment(json11.Data);
-              } else {
-                  console.log("department has no data")
-              }
+                    setDepartment(json11.Data);
+                } else {
+                    console.log("department has no data")
+                }
             } catch (error) {
                 console.log("error", error);
             }
@@ -318,7 +319,7 @@ export default function Purchase() {
 
         fetchDepartment();
 
-         const fetchExpenses = async () => {
+        const fetchExpenses = async () => {
             try {
                 const response12 = await fetch(expensesUrl);
                 const json12 = await response12.json();
@@ -500,7 +501,7 @@ export default function Purchase() {
         }
     }, [])
 
-   
+
 
     const sendRequest = React.useCallback(async () => {
 
@@ -513,10 +514,10 @@ export default function Purchase() {
         setIsSending(true)
         // send the actual request
         try {
-            var urlPlanning = "http://103.197.121.188:85/ESERP/api/values/getgroupwiseprodplan"
-            var urlProduction = "http://103.197.121.188:85/ESERP/api/values/GROUPWISEPRODUCTION"
-            var urlRejection = "http://103.197.121.188:85/ESERP/api/values/Groupwiserejectprod"
-            var urlMachineDowntime = "http://103.197.121.188:85/ESERP/api/values/GROUPMACHINEDOWNTIME"
+            var urlPlanning = "http://103.197.121.188:85/api/values/getgroupwiseprodplan"
+            var urlProduction = "http://103.197.121.188:85/api/values/GROUPWISEPRODUCTION"
+            var urlRejection = "http://103.197.121.188:85/api/values/Groupwiserejectprod"
+            var urlMachineDowntime = "http://103.197.121.188:85/api/values/GROUPMACHINEDOWNTIME"
             var params = []
             var params2 = []
 
@@ -538,7 +539,7 @@ export default function Purchase() {
             params.push(`grpby=${"8"}`);
             params2.push(`grpby=${"2"}`);
             params2.push(`reason=${"0"}`);
-            
+
             params.push('Comp=comp0015');
             params2.push('Comp=comp0015');
             params.push('FY=2021');
@@ -603,9 +604,9 @@ export default function Purchase() {
                         D1 = result.Data[item].DESC;
                         D2 = result.Data[item].QTY;
                         D3 = result.Data[item].VALUE;
-                        
 
-                      
+
+
                         D2 = D2 / 100000;
                         D3 = D3 / 100000;
                         fill = colors[item];
@@ -624,7 +625,7 @@ export default function Purchase() {
                         productionArray2[item] = obj2;
                         setProductionArray2(productionArray2);
                     }
-                  
+
 
                     console.log('onLoad productionArray', productionArray);
 
@@ -641,7 +642,7 @@ export default function Purchase() {
                 console.log(result.Data[0])
 
                 if (result.Status == '1') {
-                    var D1, D2, D3, obj, fill;
+                    var D1, D2, D3, D4, D5, obj, fill;
 
                     for (let item = 0; item < result.Data.length; item++) {
 
@@ -650,14 +651,22 @@ export default function Purchase() {
                         D3 = result.Data[item].VALUE;
 
 
+                        D2 = parseInt(D2)
+                        D3 = parseInt(D3)
 
-                       
+                        D2 = D2 / 100000;
+                        D3 = D3 / 100000;
+
+
                         fill = colors[item];
                         var Quantity = D2;
                         var Value = D3;
+                        var RejQty = D4;
+                        var RejPer = D5;
 
-                        obj = { D1, Quantity, Value, fill };
-                        var obj2 = { D1, Quantity, Value };
+                        obj = { D1, Quantity, Value, fill, RejQty, RejPer };
+                        var obj2 = { D1, Quantity, Value, RejQty, RejPer };
+
                         //[dataArray].
                         rejectionArr = [...rejectionArr]; // copying the old datas array
                         rejectionArr[item] = obj; // replace e.target.value with whatever you want to change it to
@@ -693,9 +702,13 @@ export default function Purchase() {
                         D1 = result.Data[item].DESC;
                         D2 = result.Data[item].QTY;
                         D3 = result.Data[item].VALUE;
-                        
 
-                   
+                        D2 = parseInt(D2);
+                        D3 = parseInt(D3)
+
+                        D2 = D2 / 100000;
+                        D3 = D3 / 100000;
+
                         fill = colors[item];
                         var Quantity = D2;
                         var Value = D3;
@@ -730,394 +743,412 @@ export default function Purchase() {
         catch (Ex) {
             alert("calling api's failed ")
         }
-        
+
         // once the request is sent, update state again
         if (isMounted.current) // only update if we are still mounted
             setIsSending(false)
     }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeProcess, changeShift, changeMachine, changeEndDate, changeStartDate]) // update the callback if the state changes
 
 
-     
+
 
     return (
-        <div className="container" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "top" }}>
+        <div className="container col-sm-12" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
 
 
             {/*Custom Data List*/}
 
 
-            <div className="row col-12" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="row filterDiv col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
 
 
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="form-label col-sm-12">Item Group</label>
 
-                        <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
+                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
 
-                        {
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                        <div className="card-body crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="form-label col-sm-12">Item Group</label>
 
-                            itemGroup != null && itemGroup.length > 0 ?
+                            <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
 
-                                (
-                                    <datalist className="itemGroup" id="itemGroupList">
-                                        {
-                                            itemGroup.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
+                            {
 
+                                itemGroup != null && itemGroup.length > 0 ?
 
-                                    </datalist>
+                                    (
+                                        <datalist className="itemGroup" id="itemGroupList">
+                                            {
+                                                itemGroup.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
 
-                                )
 
-                                : console.log('fine')
+                                        </datalist>
 
+                                    )
 
-                        }
-                    </div>
+                                    : console.log('fine')
 
 
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
-
-                        <input id="item" name="item" type="text" className="form-control form-select col-sm-12 section" list="itemList" onChange={handleItemChange} />
-
-                        {
-
-                            item != null && item.length > 0 ?
-
-                                (
-                                    <datalist className="item" id="itemList">
-
-                                        {
-
-                                            item.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
-
-                        <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange} />
-
-                        {
-
-                            brand != null && brand.length > 0 ?
-
-                                (
-                                    <datalist className='brand' id="brandList">
-                                        {
-                                            brand.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
-
-                        <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange} />
-
-                        {
-
-                            category != null && category.length > 0 ?
-
-                                (
-                                    <datalist className='category' id="categoryList">
-                                        {
-                                            category.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
-
-                        <input id='type' name='type' type='text' className="form-control form-select col-sm-12 section" list='typeList' onChange={handleTypeChange} />
-
-                        {
-
-                            type != null && type.length > 0 ?
-
-                                (
-                                    <datalist className='type' id="typeList">
-                                        {
-                                            type.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="form-label col-sm-12">Sub Category</label>
-
-                        <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
-
-                        {
-
-                            subCategory != null && subCategory.length > 0 ?
-
-                                (
-                                    <datalist className='subCategory' id='subCategoryList'>
-                                        {
-                                            subCategory.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-
-
-
-                
-
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="process" className="form-label col-sm-12">Process</label>
-
-                        <input id='process' name='process' type='text' className="form-control form-select col-sm-12 section" list='processList' onChange={handleProcessChange} />
-
-                        {
-                            process != null && process.length > 0 ?
-
-                                (
-                                    <datalist className='process' id='processList'>
-                                        {
-                                            process.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="machine" className="form-label col-sm-12">Machine</label>
-
-                        <input id='machine' name='machine' type='text' className="form-control form-select col-sm-12 section" list='machineList' onChange={handleMachineChange} />
-
-                        {
-
-                           machine != null && machine.length > 0 ?
-
-                                (
-                                    <datalist className='machine' id='machineList'>
-                                        {
-                                            machine.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='shift' className="form-label col-sm-12">Shift</label>
-
-                        <input id='shift' name='shift' type='text' className="form-control form-select col-sm-12 section" list='shiftList' onChange={handleShiftChange} />
-
-                        {
-
-                            shift != null && shift.length > 0 ?
-
-                                (
-                                    <datalist className='shift' id='shiftList'>
-                                        {
-                                            shift.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="form-label col-sm-12">From Date</label>
-
-                        <DatePicker
-                            
-                            name="startDate"
-                            className="startDate"
-                            selectsStart
-                            startDate={startDate}
-                            dateFormat="MMM, dd yyyy"
-                            closeOnScroll={true}
-                            selected={startDate}
-                            onChange={(date: Date) => {
-
-                                setStartDate(date)
-                                handleChangeStartDate(startDate)
-                             
                             }
+                        </div>
+
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
+
+                            <input id="item" name="item" type="text" className="form-control form-select col-sm-12 section" list="itemList" onChange={handleItemChange} />
+
+                            {
+
+                                item != null && item.length > 0 ?
+
+                                    (
+                                        <datalist className="item" id="itemList">
+
+                                            {
+
+                                                item.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
                             }
+                        </div>
 
-                        />
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
+
+                            <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange} />
+
+                            {
+
+                                brand != null && brand.length > 0 ?
+
+                                    (
+                                        <datalist className='brand' id="brandList">
+                                            {
+                                                brand.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
+                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
+
+                            <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange} />
+
+                            {
+
+                                category != null && category.length > 0 ?
+
+                                    (
+                                        <datalist className='category' id="categoryList">
+                                            {
+                                                category.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
+
+                            <input id='type' name='type' type='text' className="form-control form-select col-sm-12 section" list='typeList' onChange={handleTypeChange} />
+
+                            {
+
+                                type != null && type.length > 0 ?
+
+                                    (
+                                        <datalist className='type' id="typeList">
+                                            {
+                                                type.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="form-label col-sm-12">Sub Category</label>
+
+                            <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
+
+                            {
+
+                                subCategory != null && subCategory.length > 0 ?
+
+                                    (
+                                        <datalist className='subCategory' id='subCategoryList'>
+                                            {
+                                                subCategory.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+            </div>
+            <div className="row filterDiv col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
+
+                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="process" className="form-label col-sm-12">Process</label>
+
+                            <input id='process' name='process' type='text' className="form-control form-select col-sm-12 section" list='processList' onChange={handleProcessChange} />
+
+                            {
+                                process != null && process.length > 0 ?
+
+                                    (
+                                        <datalist className='process' id='processList'>
+                                            {
+                                                process.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="machine" className="form-label col-sm-12">Machine</label>
+
+                            <input id='machine' name='machine' type='text' className="form-control form-select col-sm-12 section" list='machineList' onChange={handleMachineChange} />
+
+                            {
+
+                                machine != null && machine.length > 0 ?
+
+                                    (
+                                        <datalist className='machine' id='machineList'>
+                                            {
+                                                machine.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+
+
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='shift' className="form-label col-sm-12">Shift</label>
+
+                            <input id='shift' name='shift' type='text' className="form-control form-select col-sm-12 section" list='shiftList' onChange={handleShiftChange} />
+
+                            {
+
+                                shift != null && shift.length > 0 ?
+
+                                    (
+                                        <datalist className='shift' id='shiftList'>
+                                            {
+                                                shift.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
                     </div>
 
                 </div>
 
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                       
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="form-label col-sm-12">From Date</label>
 
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12">To Date</label>
+                            <DatePicker
 
+                                name="startDate"
+                                className="startDate"
+                                selectsStart
+                                startDate={startDate}
+                                dateFormat="MMM, dd yyyy"
+                                closeOnScroll={true}
+                                selected={startDate}
+                                onChange={(date: Date) => {
 
-                        <DatePicker name="toDate" className="toDate" dateFormat="MMM, dd yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
-                            setEndDate(date)
-                            handleChangeendDate(endDate)
-                        }} />
+                                    setStartDate(date)
+                                    handleChangeStartDate(startDate)
+
+                                }
+                                }
+
+                            />
+                        </div>
+
                     </div>
 
-                </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "5px" }}>
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5", margin:"16px" }}>
-                       
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
 
-                        <button className="btn btn-primary load-button" type="submit" disabled={isSending} onClick={sendRequest}>Load</button>
+
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12">To Date</label>
+
+
+                            <DatePicker name="toDate" className="toDate" dateFormat="MMM, dd yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
+                                setEndDate(date)
+                                handleChangeendDate(endDate)
+                            }} />
+                        </div>
+
                     </div>
 
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
+
+
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '0' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5", margin: "16px" }}>
+
+
+                            <button className="btn btn-primary load-button" type="submit" disabled={isSending} onClick={sendRequest}>Load</button>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
 
 
-          
-
-           {/* <hr style={{ border: '1.5px solid grey', width: "100%", opacity: "0.2 ", marginTop:"3em" }} />*/}
+            <hr style={{ border: '1.5px solid grey', width: "100%", opacity: "0.2 ", marginTop: "3em" }} />
 
             <ClipLoader color="green" loading={isSending} css={override} size={150} />
             {/*-------------------------------------------------------Charts Rendering---------------------------------------------------------------------*/}
 
             {/*Cards Div Row 1*/}
-            < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
+            < div className="row col-12 cards-row" style={{ border: '1px solid yellow', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} /> : null}
+                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
-                {showResults ? <Card dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} setChangeProcess={setChangeProcess}/> : null}
+                {showResults ? <Card dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} setChangeProcess={setChangeProcess} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
 
 
@@ -1125,11 +1156,11 @@ export default function Purchase() {
             {/*Cards Div Row 2*/}
 
 
-            < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
+            < div className="row col-12 cards-row" style={{ border: '1px solid yellow', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} /> : null}
+                {showResults ? <Card dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
-                {showResults ? <Card dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses}/> : null}
+                {showResults ? <Card dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
 
             </div>

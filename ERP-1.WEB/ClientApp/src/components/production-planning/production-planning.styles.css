@@ -1,3 +1,42 @@
-﻿.wrapper{
-    margin:0;
+﻿.filterDiv {
+    flex-direction: column;
+}
+
+.wrapper {
+    margin: 0;
+}
+
+.container {
+    padding: 0;
+    margin: 0;
+}
+
+
+@media(max-width:"768px") {
+}
+
+@media(max-width:"650px") {
+
+    .filterParent {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .wrapper {
+        padding: 0;
+        width: 30%;
+        display: flex;
+    }
+
+    .filterDiv {
+        width: 50%;
+    }
+
+    label {
+        margin: 10px;
+    }
+
+    .cards-row {
+        flex-direction: column;
+    }
 }

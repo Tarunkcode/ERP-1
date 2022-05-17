@@ -46,7 +46,7 @@ export default class LogIn extends React.Component<IProps, IState>{
        try {
 
 
-           var urlStart = "http://103.197.121.188:85/ESERP/api/values/ValidateUser"
+           var urlStart = "http://103.197.121.188:85/api/values/ValidateUser"
            var params = []
            params.push(`UName=${this.state.username}`);
            params.push(`uP=${this.state.password}`);
