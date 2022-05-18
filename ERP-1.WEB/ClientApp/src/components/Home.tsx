@@ -21,10 +21,10 @@ function Home() {
     var [saleArr, setSaleArr]: any = useState([]);
     var [pendingSO, setPendingSO]: any = useState([]);
     var [soSetails, setSODetails]: any = useState([]);
-    var urlStart = "http://103.197.121.188:85/ESERP/api/values/GetMisReport?Comp=comp0015&Fy=2021&Acccode=0";
-    var urlSaleComparision = "http://103.197.121.188:85/ESERP/api/values/spsalecompprvyear?acccode=0&comp=comp0015&fy=2021";
-    var urlPendingMonthlySO = "http://103.197.121.188:85/ESERP/api/values/GetPendingMonthlySO?acccode=0&comp=comp0015&fy=2021";
-    var urlSODetails = "http://103.197.121.188:85/ESERP/api/values/getmonthlysodetails?acccode=0&comp=comp0015&fy=2021";
+    var urlStart = "http://103.197.121.188:85/api/values/GetMisReport?Comp=comp0015&Fy=2021&Acccode=0";
+    var urlSaleComparision = "http://103.197.121.188:85/api/values/spsalecompprvyear?acccode=0&comp=comp0015&fy=2021";
+    var urlPendingMonthlySO = "http://103.197.121.188:85/api/values/GetPendingMonthlySO?acccode=0&comp=comp0015&fy=2021";
+    var urlSODetails = "http://103.197.121.188:85/api/values/getmonthlysodetails?acccode=0&comp=comp0015&fy=2021";
 
     React.useEffect(() => {
         fetch(urlStart).then(res => res.json()).then(result => {

@@ -7,7 +7,7 @@ export default (props: { children?: React.ReactNode }) => (
         
     <React.Fragment>
    
-        <Container>
+            <Container style={{ margin:"0 auto"}}>
             {props.children}
         </Container>
     </React.Fragment>

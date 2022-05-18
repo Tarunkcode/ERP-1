@@ -1,25 +1,13 @@
-﻿@media screen and (max-height:650px){
-.contain-recharts{
-    margin:10px;
+﻿.contain-recharts {
+    width: 48%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-
-}
-@media screen and (max-width:650px) {
+@media (max-width:750px) {
     .contain-recharts {
-        width: 100%;
-        flex-direction: row;
+    width:100%;
     }
-
-    .title {
-        width: 90%;
-        flex-direction: column;
-    }
-
-    .body {
-        width: 100%;
-    }
-
-    .cards-row {
-        flex-direction: column;
-    }
+    
 }
+

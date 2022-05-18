@@ -9,7 +9,7 @@ import DatePicker from "react-datepicker";
 import Card from '../Card/Card.component';
 import "react-datepicker/dist/react-datepicker.css";
 
-
+import Radium  from 'radium';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
 
@@ -753,13 +753,14 @@ export default function Purchase() {
 
 
     return (
-        <div className="container col-sm-12" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
+        <>
+        <div className="container col-sm-12 card" style={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
 
-
+                <div className="card-body panel panel-default" style={{ padding: '0', backgroundColor:"#F5F5F5" }}>
             {/*Custom Data List*/}
 
 
-            <div className="row filterDiv col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
+            <div className="row filterDiv panel-body col-sm-12" style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
 
 
 
@@ -767,7 +768,7 @@ export default function Purchase() {
 
                     <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
                         <div className="card-body crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="form-label col-sm-12">Item Group</label>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
 
                             <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
 
@@ -934,7 +935,7 @@ export default function Purchase() {
                     <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="form-label col-sm-12">Sub Category</label>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
 
                             <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
 
@@ -969,7 +970,7 @@ export default function Purchase() {
 
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
             </div>
-            <div className="row filterDiv col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
+            <div className="row filterDiv panel-body col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "baseline", height: "100%", paddingTop: "10px" , marginBottom:'20px'}}>
 
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
                     <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
@@ -1074,11 +1075,11 @@ export default function Purchase() {
 
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
+                <div className="col-12 col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
                     <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="form-label col-sm-12">From Date</label>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="label-from-date form-label col-sm-12">From Date</label>
 
                             <DatePicker
 
@@ -1109,7 +1110,7 @@ export default function Purchase() {
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
 
 
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12">To Date</label>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12 label-to-date">To Date</label>
 
 
                             <DatePicker name="toDate" className="toDate" dateFormat="MMM, dd yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
@@ -1136,15 +1137,18 @@ export default function Purchase() {
                 </div>
 
             </div>
+                </div>
 
 
-            <hr style={{ border: '1.5px solid grey', width: "100%", opacity: "0.2 ", marginTop: "3em" }} />
+        </div>
+
+          {/*  <hr style={{ border: '1.5px solid grey', width: "100%", opacity: "0.2 ", marginTop: "3em" }} />*/}
 
             <ClipLoader color="green" loading={isSending} css={override} size={150} />
             {/*-------------------------------------------------------Charts Rendering---------------------------------------------------------------------*/}
-
+            <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;", padding: '0', backgroundColor: "#F5F5F5", border:'none' }}>
             {/*Cards Div Row 1*/}
-            < div className="row col-12 cards-row" style={{ border: '1px solid yellow', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
+                < div className="row col-12 cards-row chart-cards card-body panel panel-default">
 
                 {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
@@ -1156,7 +1160,7 @@ export default function Purchase() {
             {/*Cards Div Row 2*/}
 
 
-            < div className="row col-12 cards-row" style={{ border: '1px solid yellow', display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
+                < div className="row col-12 cards-row chart-cards card-body panel panel-default">
 
                 {showResults ? <Card dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
@@ -1188,7 +1192,7 @@ export default function Purchase() {
 
 
         </div>
-
+        </>
     )
 
 

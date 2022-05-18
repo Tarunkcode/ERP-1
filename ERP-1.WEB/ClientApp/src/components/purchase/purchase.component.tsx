@@ -344,221 +344,229 @@ export default function Purchase() {
 
 
     return (
-        <div className="container" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "top" }}>
+        <div className="container col-sm-12" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
 
 
             {/*Custom Data List*/}
 
 
-            <div className="row col-12" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="row filterDiv col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
 
 
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
+                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
 
-                        <input id="item" name="item" type="text" className="form-control form-select col-sm-12 section" list="itemList" onChange={handleItemChange} />
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                        <div className="card-body crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
 
-                        {
+                            <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
 
-                            item != null && item.length > 0 ?
+                            {
 
-                                (
-                                    <datalist className="item" id="itemList">
+                                itemGroup != null && itemGroup.length > 0 ?
 
-                                        {
-
-                                            item.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
+                                    (
+                                        <datalist className="itemGroup" id="itemGroupList">
+                                            {
+                                                itemGroup.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
 
 
-                        }
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
+
+                            <input id="item" name="item" type="text" className="form-control form-select col-sm-12 section" list="itemList" onChange={handleItemChange} />
+
+                            {
+
+                                item != null && item.length > 0 ?
+
+                                    (
+                                        <datalist className="item" id="itemList">
+
+                                            {
+
+                                                item.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
+
+                            <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange} />
+
+                            {
+
+                                brand != null && brand.length > 0 ?
+
+                                    (
+                                        <datalist className='brand' id="brandList">
+                                            {
+                                                brand.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
                     </div>
 
                 </div>
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="form-label col-sm-12">Item Group</label>
+                <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
 
-                        <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
 
-                        {
+                            <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange} />
 
-                            itemGroup != null && itemGroup.length > 0 ?
+                            {
 
-                                (
-                                    <datalist className="itemGroup" id="itemGroupList">
-                                        {
-                                            itemGroup.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
+                                category != null && category.length > 0 ?
 
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
+                                    (
+                                        <datalist className='category' id="categoryList">
+                                            {
+                                                category.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
 
 
-                        }
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
+
+                            <input id='type' name='type' type='text' className="form-control form-select col-sm-12 section" list='typeList' onChange={handleTypeChange} />
+
+                            {
+
+                                type != null && type.length > 0 ?
+
+                                    (
+                                        <datalist className='type' id="typeList">
+                                            {
+                                                type.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
+                    </div>
+                    {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+
+                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
+
+                            <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
+
+                            {
+
+                                subCategory != null && subCategory.length > 0 ?
+
+                                    (
+                                        <datalist className='subCategory' id='subCategoryList'>
+                                            {
+                                                subCategory.map((obj: any) => {
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                })
+                                            }
+
+
+                                        </datalist>
+
+                                    )
+
+                                    : console.log('fine')
+
+
+                            }
+                        </div>
+
                     </div>
 
                 </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
-
-                        <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange} />
-
-                        {
-
-                            brand != null && brand.length > 0 ?
-
-                                (
-                                    <datalist className='brand' id="brandList">
-                                        {
-                                            brand.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
 
 
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
-
-                        <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange} />
-
-                        {
-
-                            category != null && category.length > 0 ?
-
-                                (
-                                    <datalist className='category' id="categoryList">
-                                        {
-                                            category.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
-
-                        <input id='type' name='type' type='text' className="form-control form-select col-sm-12 section" list='typeList' onChange={handleTypeChange} />
-
-                        {
-
-                            type != null && type.length > 0 ?
-
-                                (
-                                    <datalist className='type' id="typeList">
-                                        {
-                                            type.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
-                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="form-label col-sm-12">Sub Category</label>
-
-                        <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
-
-                        {
-
-                            subCategory != null && subCategory.length > 0 ?
-
-                                (
-                                    <datalist className='subCategory' id='subCategoryList'>
-                                        {
-                                            subCategory.map((obj: any) => {
-                                                return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                            })
-                                        }
-
-
-                                    </datalist>
-
-                                )
-
-                                : console.log('fine')
-
-
-                        }
-                    </div>
-
-                </div>
 
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
             </div>
 
-
             {/*date picker*/}
-            <div className="row col-12" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="col-12 col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
+                <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
 
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginRight: "0px" }}>
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="sec" className="form-label col-sm-12">From Date</label>
-
-
+                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="label-from-date form-label col-sm-12">From Date</label>
 
                         <DatePicker
 
@@ -570,37 +578,46 @@ export default function Purchase() {
                                 setStartDate(date)
                                 console.log(startDate);
                             }} />
-
                     </div>
 
                 </div>
-                <div className="wrapper col-sm-2 form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", marginRight: "0px" }}>
+
+                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
+
+                <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "5px" }}>
 
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="sec2" className="form-label col-sm-12">To Date</label>
+
+
+                        <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12 label-to-date">To Date</label>
 
 
                         <DatePicker dateFormat="MMM, dd yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
                             setEndDate(date)
                             console.log(endDate);
                         }} />
-
                     </div>
+
                 </div>
 
+                {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", width: "50%", margin: "0" }}>
-                    <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "row", width: "90%" }}>
+
+
+                <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '0' }}>
+
+                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5", margin: "16px" }}>
+
 
                         <button className="btn btn-primary load-button" type="submit" disabled={isSending} onClick={sendRequest}>Load</button>
-
                     </div>
+
                 </div>
-
             </div>
+            
 
-
-            <hr style={{ border: '1.5px solid grey', width: "100%", opacity: "0.2 " }} />
+            
+           
 
             <ClipLoader color="green" loading={isSending} css={override} size={150} />
             {/*-------------------------------------------------------Charts Rendering---------------------------------------------------------------------*/}

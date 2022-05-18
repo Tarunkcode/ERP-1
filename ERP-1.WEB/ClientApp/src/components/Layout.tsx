@@ -33,7 +33,7 @@ export default (props: any) => {
 
                         </div>
 
-                        <div style={{ border: "1px solid green", display: "flex", marginRight: "2em" }}>
+                        <div style={{display: "flex", marginRight: "2em" }}>
 
                             <LogOut />
                         </div>

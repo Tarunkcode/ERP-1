@@ -86,4 +86,47 @@ input{
         .react-datepicker__month-container .react-datepicker__month-text:hover {
             background-color: #534cea;
         }
- 
+.filterDiv {
+    flex-direction: column;
+}
+
+.wrapper {
+    margin: 0;
+}
+
+.container {
+    padding: 0;
+    margin: 0;
+}
+
+.chart-cards {
+   
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 0;
+}
+
+@media (max-width:700px) {
+    .label-sub-category {
+        width: 150%;
+        padding: 0;
+    }
+
+    .label-from-date {
+        width: 150%;
+        padding: 0;
+    }
+
+    .label-item-group {
+        width: 150%;
+        padding: 0;
+    }
+
+    .label-to-date {
+        width: 150%;
+        padding: 0;
+    }
+}

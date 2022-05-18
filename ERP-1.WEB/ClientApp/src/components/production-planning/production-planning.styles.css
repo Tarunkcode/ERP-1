@@ -10,33 +10,36 @@
     padding: 0;
     margin: 0;
 }
-
-
-@media(max-width:"768px") {
+.chart-cards {
+  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    padding: 0;
 }
-
-@media(max-width:"650px") {
-
-    .filterParent {
-        display: flex;
-        justify-content: space-between;
+@media (max-width:700px) {
+    .label-sub-category{
+        width:150%;
+      
+        padding:0;
     }
+    .label-from-date{
+        width:150%;
+       
+      
+        padding:0;
 
-    .wrapper {
-        padding: 0;
-        width: 30%;
-        display: flex;
     }
-
-    .filterDiv {
-        width: 50%;
+    .label-item-group{
+        width:150%;
+        
+        padding:0;
+        
     }
-
-    label {
-        margin: 10px;
-    }
-
-    .cards-row {
-        flex-direction: column;
+    .label-to-date{
+        width:150%;
+        padding:0;
     }
 }

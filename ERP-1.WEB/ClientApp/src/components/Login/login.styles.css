@@ -57,18 +57,14 @@ span {
     padding:10px 0;
 }
 
-@media (max-width: 675px) {
+@media (max-width: 975px) {
     .outer-container {
-        min-width: 90vw;
+        min-width: 70vw;
     }
 }
-/*@media (min-width: 675px) {
-    .outer-container{
-        min-width: 60vw;
-    }
-}*/
+
 @media (min-width: 975px) {
     .outer-container {
-        max-width: 40vw;
+        min-width: 30vw;
     }
 }

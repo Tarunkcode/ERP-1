@@ -3,12 +3,13 @@ import './Card.styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import Layout from '../Layout';
-import ReactTable from 'react-table';
+import ReactTable, { usePagination } from 'react-table';
 import { useTable } from 'react-table';
 import { useState } from 'react';
 import { Table } from 'reactstrap';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
+import Radium from 'radium';
 
 const override = css`
   display: block;
@@ -149,7 +150,9 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
     } = useTable({
         columns,
         data
-    });
+    }
+, usePagination
+        );
 
     React.useEffect(() => {
         return () => {
@@ -256,13 +259,21 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         sendReq()
     }
 
-   
+    const card: Radium.StyleRules = {
+        "@media (max-width: 950px)": {
+            width:'100%'
+        },
+    }
     return (
     <>
 
             {/*Cards*/}
-            < div className="card contain-recharts" style={{border:"3px solid pink", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "48%"}}>
-                <div className="card-title title" style={{border:"1px solid green", display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
+            < div className="card contain-recharts" style={card}>
+                
+
+
+                <div className="card-body body" style={{ padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin: "0", width: '90%' }}>
+                <div className="card-title title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
 
@@ -278,7 +289,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                    
                 </div>
                 <hr style={{ border: "0.5px solid grey", opacity:"0.5", margin:"0" }} />
-                <div className="card-title title" style={{border:'1px solid green', display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%", background: "#ffff", margin: "2px" }}>
+                <div className="card-title title" style={{display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%", background: "#ffff", margin: "2px" }}>
 
                     <div hidden={processSelect} className="col-4" style={{ display: "flex", flexDirection: "column", margin: "0" }}>
                         <label htmlFor="process" style={{ margin: "0", padding: "auto", fontSize: "0.7rem" }}>Process</label>
@@ -391,17 +402,15 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
 
                             }
                     </select>
-                    </div>
+                        </div>
+
                     <span style={{ margin: "0" }}> <button onClick={onRefresh} style={{ border: "none", background: "none", margin: "0", padding: '0' }} ><i style={{ fontSize: '24px' }} className="fa">&#xf021;</i></button></span>
-                  
+                        
                 </div>
-                
-
-
-                <div className="card-body body" style={{ border:'1px solid red', padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin:"0", width:'100%' }}>
                     <ClipLoader color="green" loading={isSending} css={override} size={150} />
                     {
                         viewPi && !isSending ? (
+                            <ResponsiveContainer width="100%" aspect={ 1}>
                                 <PieChart width={490} height={400} style={{ paddingTop: "0px", marginBottom: "30px" }}>
                                     <Pie
                                         data={dataArray}
@@ -418,12 +427,13 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                                     <Legend layout="horizontal" verticalAlign="bottom" align="center" />
 
                                 </PieChart>
-
+                              </ResponsiveContainer>
                             ) : null
                         }
-                        {
+                    {
 
                         viewLine && !isSending ? (
+                            <ResponsiveContainer width="100%" aspect={ 1}>
                             <LineChart width={490} height={430} data={dataArray}>
                                 <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
                                     <YAxis />
@@ -433,13 +443,13 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                                 <Legend layout="horizontal" verticalAlign="top" align="center" />
                                 <Tooltip />
                                 </LineChart>
-
+                            </ResponsiveContainer>
 
                             ) : null
 
-                        }{
+                    }{
                         viewBar && !isSending ? (
-                       
+                            <ResponsiveContainer width="100%" aspect={ 1}>
                             <BarChart width={490} height={430} data={dataArray2}  style={{ marginTop: "20px" }}>
                           
                                 <Bar dataKey={dataKey1} fill="#82ca9d" />
@@ -453,7 +463,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                                     <Legend layout="horizontal" verticalAlign="top" align="center" />
                                 
                                 </BarChart>
-                          
+                            </ResponsiveContainer>
                         ): null
 
                         }
