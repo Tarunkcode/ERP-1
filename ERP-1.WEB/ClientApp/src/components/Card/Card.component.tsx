@@ -3,19 +3,23 @@ import './Card.styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import Layout from '../Layout';
-import ReactTable, { usePagination } from 'react-table';
+import ReactTable from 'react-table';
 import { useTable } from 'react-table';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Table } from 'reactstrap';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
 import Radium from 'radium';
+import Pagination from '../custom-pagination/main-pagination.component';
+import datak from '../data/mock-data.json';
+
 
 const override = css`
   display: block;
   margin: 0 auto;
   border-color: red;
 `;
+let PageSize = 9;
 export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
@@ -146,13 +150,12 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         getTableBodyProps, // table body props from react-table
         headerGroups, // headerGroups, if your table has groupings
         rows, // rows for the table based on the data passed
+
         prepareRow // Prepare the row (this function needs to be called for each row before getting the row props)
     } = useTable({
         columns,
         data
-    }
-, usePagination
-        );
+    });
 
     React.useEffect(() => {
         return () => {
@@ -264,6 +267,20 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
             width:'100%'
         },
     }
+
+
+    //pagination logic 
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const currentTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return dataArray.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage]);
+
+
+
     return (
     <>
 
@@ -272,7 +289,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                 
 
 
-                <div className="card-body body" style={{ padding: "0 13px", borderTop: "4px solid #cbcad9", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin: "0", width: '90%' }}>
+                <div className="card-body body" style={{ padding: "0 13px", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin: "0", width: '90%' }}>
                 <div className="card-title title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
@@ -288,7 +305,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                    
                    
                 </div>
-                <hr style={{ border: "0.5px solid grey", opacity:"0.5", margin:"0" }} />
+               
                 <div className="card-title title" style={{display: "flex", flexDirection: "row", justifyContent: "flex-start", width: "100%", background: "#ffff", margin: "2px" }}>
 
                     <div hidden={processSelect} className="col-4" style={{ display: "flex", flexDirection: "column", margin: "0" }}>
@@ -435,7 +452,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                         viewLine && !isSending ? (
                             <ResponsiveContainer width="100%" aspect={ 1}>
                             <LineChart width={490} height={430} data={dataArray}>
-                                <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
+                                    {dataArray.length > 10 ? (<XAxis dataKey={""} interval={0} angle={-40} height={150} />) : (<XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />)}
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
 
@@ -453,10 +470,10 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                             <BarChart width={490} height={430} data={dataArray2}  style={{ marginTop: "20px" }}>
                           
                                 <Bar dataKey={dataKey1} fill="#82ca9d" />
-                                <CartesianGrid stroke="#ccc" />
-                               
+                                    <CartesianGrid stroke="#ccc" />
+                                    {dataArray.length > 10 ? (<XAxis dataKey="" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />) : (<XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />)}
 
-                                <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
+                                
                                 <YAxis />
                                 <LabelList dataKey={nameKey} position="top" />
                                     <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
@@ -472,29 +489,34 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
 
                             <div className="table-responsive">
                                
-                            <table {...getTableProps()} className="table table-striped table-bordered table-hover table-sm ">
+                                <table className="table table-striped table-bordered table-hover table-sm ">
                                     <thead>
-                                        {headerGroups.map(headerGroup => (
-                                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                                {headerGroup.headers.map(column => (
-                                                    <th scope="col" {...column.getHeaderProps()}>{column.render("Header")}</th>
-                                                ))}
-                                            </tr>
-                                        ))}
+                                        <tr>
+                                            <th>Desc</th>
+                                            <th>Quantity</th>
+                                           
+                                        </tr>
                                     </thead>
-                                    <tbody {...getTableBodyProps()}>
-                                        {rows.map((row, i) => {
-                                            prepareRow(row);
+                                    <tbody>
+                                        {currentTableData.map((item: any) => {
                                             return (
-                                                <tr {...row.getRowProps()}>
-                                                    {row.cells.map(cell => {
-                                                        return <td scope="row" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-                                                    })}
+                                                <tr>
+                                                  
+                                                    <td>{item.D1}</td>
+                                                    <td>{item.Quantity}</td>
+                                                   
                                                 </tr>
                                             );
                                         })}
                                     </tbody>
                                 </table>
+                                <Pagination
+                                    className="pagination-bar"
+                                    currentPage={currentPage}
+                                    totalCount={data.length}
+                                    pageSize={PageSize}
+                                    onPageChange={(page: any) => setCurrentPage(page)}
+                                />
                           </div>
 
                         ): null

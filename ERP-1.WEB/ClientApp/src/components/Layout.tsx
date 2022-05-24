@@ -41,19 +41,19 @@ export default (props: any) => {
                     </nav>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", width: "100%", minHeight: "90vh" }}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", width: "100%", maxHeight: "95vh", padding:'4em 0 0 0' }}>
 
                     {/* Sidebar*/}
                     <nav id="sidebar">
 
                         <ul className="list-unstyled components">
                             {/*<div style={{ margin: "50px" }}></div>*/}
-                            <div className="sidebar-header" style={{ margin: "49px 0 0 0", display: "flex", flexDirection: "column" }}>
+                            <div className="sidebar-header" style={{ margin: "16px 0 0 0", display: "flex", flexDirection: "column", backgroundColor: "white", border: "6px solid #798cd4", padding:"0" }}>
 
-                                <h3>Excellent Erp</h3>
-                                <img src={'./assets/erpLogo.png'} style={{ width: "30%", borderRadius: "50%" }} className="img-fluid" alt="Responsive image" />
+
+                                <img src={'./assets/erpLogo.png'} style={{ width: "10vw", borderRadius: "6%", margin: "0 auto" }} className="img-fluid" alt="Responsive image" />
                             </div>
-                            <p>ERP 2022</p>
+                            <p><span style={{ fontWeight:"bolder", color:"black" }}>Financial Year</span> 2022</p>
                             <li className="active">
                                 <a href="/home">Home</a>
                             </li>
@@ -100,7 +100,7 @@ export default (props: any) => {
                     </nav>
 
 
-                    <div className="homeDiv" style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "86vh", maxWidth: "100vw", margin: "0", padding: "0px 0 15em 0", overflowY: "scroll", overflowX: "hidden" }}>
+                    <div className="homeDiv" style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "86vh", maxWidth: "100vw", margin: "0", padding: "0 0 14em 0", overflowY: "scroll", overflowX: "hidden" }}>
 
                         <Container style={{ maxHeight: "100vh", width: "100vw" }}>
                             {props.children}

@@ -7,13 +7,26 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
+    
 }
 
 .cc {
     /*background: #cbcad9;*/
+   
     background: #F5F5F5;
 }
-
+.IndianStatesMap > svg {
+    display: flex;
+   justify-content:flex-end;
+    align-items:center;
+    top: 38px;
+    left: 20em;
+    height: 45em;
+    
+    width:75%;
+    padding-top:33px;
+    margin:0 0 0 15em;
+}
 
 p {
     font-family: 'Poppins', sans-serif;
