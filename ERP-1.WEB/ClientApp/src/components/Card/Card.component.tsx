@@ -2,16 +2,12 @@
 import './Card.styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
-import Layout from '../Layout';
-import ReactTable from 'react-table';
 import { useTable } from 'react-table';
 import { useState, useMemo } from 'react';
-import { Table } from 'reactstrap';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
 import Radium from 'radium';
 import Pagination from '../custom-pagination/main-pagination.component';
-import datak from '../data/mock-data.json';
 
 
 const override = css`
@@ -79,27 +75,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         setBarView(false);
         setTableView(true);
     }
-    const data = dataArray;
-    const columns = React.useMemo(
-        () => [
-            {
-                // first group - TV Show
-                Header: "planning Details",
-                // First group columns
-                columns: [
-                    {
-                        Header: "DESC",
-                        accessor: "D1"
-                    },
-                    {
-                        Header: "Quantity",
-                        accessor:"Quantity"
-                    }
-                ]
-            }
-        ],
-        []
-    );
+
 
     const handleProcessChange = (event: any) => {
 
@@ -144,18 +120,6 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
       
      
     }
-
-    const {
-        getTableProps, // table props from react-table
-        getTableBodyProps, // table body props from react-table
-        headerGroups, // headerGroups, if your table has groupings
-        rows, // rows for the table based on the data passed
-
-        prepareRow // Prepare the row (this function needs to be called for each row before getting the row props)
-    } = useTable({
-        columns,
-        data
-    });
 
     React.useEffect(() => {
         return () => {
@@ -513,7 +477,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                                 <Pagination
                                     className="pagination-bar"
                                     currentPage={currentPage}
-                                    totalCount={data.length}
+                                    totalCount={dataArray.length}
                                     pageSize={PageSize}
                                     onPageChange={(page: any) => setCurrentPage(page)}
                                 />
