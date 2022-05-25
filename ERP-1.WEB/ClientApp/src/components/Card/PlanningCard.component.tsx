@@ -2,7 +2,6 @@
 import './Card.styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
-import { useTable } from 'react-table';
 import { useState, useMemo } from 'react';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
@@ -16,11 +15,12 @@ const override = css`
   border-color: red;
 `;
 let PageSize = 9;
-export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
+export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
     var [viewBar, setBarView] = React.useState(barInit);
     var [viewTable, setTableView] = React.useState(tabInit);
+    var [selectRadio, setSelectRadio] : any = React.useState('1');
     const GroupByArr: any[] = [{ name: "Monthly", val: "8" },{ name: "Item Group", val:"1" }, { name: "Brand", val:"2" }, { name: "Category", val:"3" }, { name: "Sub Category", val:"4" }, { name: "Item Type", val:"5" }, { name: "Process", val:"6" }, { name: "Shift", val:"7" }]
     //var [search, setSearch] = React.useState('');
     const isMounted = React.useRef(true)
@@ -133,6 +133,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         console.log('ChangeProcess', processChange)
         console.log('changeGroupBy', groupByChange)
         console.log('changeMachine', machineChange)
+        console.log('selectRadio', selectRadio)
 
         setShowResults(false)
         // don't send again while we are sending
@@ -181,7 +182,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                         fill = colors[item];
                         var Quantity = D2;
                         var Value = D3;
-
+                        
                         obj = { D1, Quantity, Value, fill };
                         var obj2 = { D1, Quantity, Value };
                         //[dataArray].
@@ -232,7 +233,11 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
         },
     }
 
-
+    const handleRadio = (event : any) => {
+        var sel = event.target.value;
+        setSelectRadio(sel)
+        console.log(selectRadio)
+    }
     //pagination logic 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -257,6 +262,25 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                 <div className="card-title title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
+                     
+                        <span className="form-inline" style={{width:"60%", margin:"0"}}>
+                            <div className="form-check">
+                                <label className="form-check-label" htmlFor="toggle">
+                                    Quantity
+                                </label>
+
+                                <input className="form-check-input" type="radio" name="toggle" id="quantity" value="1"  onChange={handleRadio } />
+                            </div>
+                            <div className="form-check">
+                                <label className="form-check-label" htmlFor="toggle">
+                                    Value
+                                </label>
+                                <input className="form-check-input" type="radio" name="toggle" id="value" value="2" onChange={handleRadio } />
+                            </div>
+</span>
+
+                     
+
 
                         <span style={{ borderRadius: "10px", margin: "5px", padding: "0 5px", backgroundColor: "#f0f0f5" , height:"24px", border:"0.5px solid grey" }}>
                             <button onFocus={RenderPi}    className="btnt" style={{ border: "none", padding: "0 2px", margin: "0 2px" }} ><i className="fas fa-chart-pie"></i></button>
@@ -265,7 +289,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                             <button onFocus={RenderTable} className="btnt" style={{ border: "none", padding: "0 2px", margin: "0 3px" }} ><i className="fa fa-table" aria-hidden="true"></i></button>
 
                         </span>
-                   
+                       
                    
                    
                 </div>
@@ -416,7 +440,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                         viewLine && !isSending ? (
                             <ResponsiveContainer width="100%" aspect={ 1}>
                             <LineChart width={490} height={430} data={dataArray}>
-                                    {dataArray.length > 10 ? (<XAxis dataKey={""} interval={0} angle={-40} height={150} />) : (<XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />)}
+                                   <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
 
@@ -435,7 +459,7 @@ export default function Card({ dataArray, dataArray2, nameKey, dataKey1, dataKey
                           
                                 <Bar dataKey={dataKey1} fill="#82ca9d" />
                                     <CartesianGrid stroke="#ccc" />
-                                    {dataArray.length > 10 ? (<XAxis dataKey="" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />) : (<XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />)}
+                                   <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
 
                                 
                                 <YAxis />

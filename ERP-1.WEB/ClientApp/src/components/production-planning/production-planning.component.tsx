@@ -7,7 +7,10 @@ import CustomDataList from '../custom-data-list/custom-data-list.component';
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 
-import Card from '../Card/Card.component';
+import PlanningCard from '../Card/PlanningCard.component';
+import ProductionCard from '../Card/ProductionCard.component';
+import MachineCard from '../Card/MachineCard.component';
+import RejectionCard from '../Card/RejectionCard.component';
 import "react-datepicker/dist/react-datepicker.css";
 
 import Radium  from 'radium';
@@ -545,7 +548,7 @@ export default function Purchase() {
             params2.push('Comp=comp0015');
             params.push('FY=2021');
             params2.push('FY=2021');
-            console.log(urlPlanning + '?' + params.join('&'));
+            console.log(urlRejection + '?' + params.join('&'));
 
 
             await fetch(urlPlanning + '?' + params.join('&')).then(res => res.json()).then(result => {
@@ -1151,9 +1154,9 @@ export default function Purchase() {
             {/*Cards Div Row 1*/}
                 < div className="row col-12 cards-row chart-cards card-body panel panel-default">
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <PlanningCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} changeMachine={changeMachine} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
-                    {showResults ? <Card dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setProductionArray={setProductionArray} setProductionArray2={setProductionArray2 }  tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <ProductionCard dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeProcess={changeProcess} changeMachine={changeMachine}  changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setProductionArray} setDataArray2={setProductionArray2 }  tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
 
 
@@ -1163,9 +1166,9 @@ export default function Purchase() {
 
                 < div className="row col-12 cards-row chart-cards card-body panel panel-default">
 
-                {showResults ? <Card dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <RejectionCard dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeProcess={changeProcess} changeShift={changeShift} changeMachine={changeMachine} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setRejectionArr} setDataArray2={setRejectionArr2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
-                {showResults ? <Card dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <MachineCard dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={true} machineSelect={false} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} changeShift={changeShift} changeMachine={changeMachine} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setMachineDowntime} setDataArray2={setMachineDowntime2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
 
             </div>

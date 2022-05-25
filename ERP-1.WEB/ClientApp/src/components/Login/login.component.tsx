@@ -88,6 +88,9 @@ export default class LogIn extends React.Component<IProps, IState>{
                 <div className="inner-container">
                     <form onSubmit={this.handleSubmit}>
                        
+                        <input type="text" name="comp" id="compcode" className="form-control input-fields" required placeholder="Comp#### Code" />
+
+
                         <input type="text" name="username" id="username" className="form-control input-fields" required placeholder="Enter UserName" onChange={e => this.handleUserNameChange(e)} />
 
                         <input type="password" name="password" id="password" className="form-control input-fields" required placeholder="Password" onChange={e => this.handlePasswordChange(e)} />

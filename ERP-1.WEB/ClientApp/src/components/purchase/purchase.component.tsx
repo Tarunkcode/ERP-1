@@ -6,7 +6,7 @@ import CustomDataList from '../custom-data-list/custom-data-list.component';
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 
-import Card from '../Card/Card.component';
+import PurchaseCard from '../Card/PurchaseCard.component';
 import "react-datepicker/dist/react-datepicker.css";
 import { event } from 'jquery';
 
@@ -291,7 +291,7 @@ export default function Purchase() {
 
 
             await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
-                console.log(result.Data[0])
+                console.log(result.Data)
 
                 if (result.Status == '1') {
                     var D1, D2, obj, fill;
@@ -625,9 +625,9 @@ export default function Purchase() {
             {/*Cards Div Row 1*/}
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
 
 
@@ -637,9 +637,9 @@ export default function Purchase() {
 
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
-                {showResults ? <Card dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
             </div>
 
