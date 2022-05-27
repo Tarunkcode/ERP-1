@@ -23,7 +23,7 @@ namespace ESERP.SERVICE.Domain
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=ESLAPIT2\\SQL2019;Database=EsMasterDB;Trusted_Connection=True;");
             }
         }
@@ -34,11 +34,10 @@ namespace ESERP.SERVICE.Domain
 
             modelBuilder.Entity<Esweb>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.Code)
+                    .HasName("PK__ESWeb__A25C5AA69F20957A");
 
                 entity.ToTable("ESWeb");
-
-                entity.Property(e => e.Code).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Fy)
                     .HasMaxLength(40)

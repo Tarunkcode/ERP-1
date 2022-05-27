@@ -10,6 +10,7 @@ interface IState {
     sURL: string;
     sPort: string;
     FY: string;
+    redirect: boolean;
 }
 
 
@@ -21,7 +22,8 @@ export default class RegisterDomain extends React.Component<IProps, IState> {
         this.state = {
             sURL: '',
             sPort: '',
-            FY: ''
+            FY: '',
+            redirect: false
         };
         this.handleDomainChange = this.handleDomainChange.bind(this);
         this.handlePortChange = this.handlePortChange.bind(this);
@@ -61,7 +63,7 @@ export default class RegisterDomain extends React.Component<IProps, IState> {
                 fetch(url, {
                     method: 'POST',
                     headers: {
-                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        "Content-type": "application/json; charset=UTF-8"
                     },
                     body: JSON.stringify(data)
                 }).then((result) => {
@@ -70,13 +72,23 @@ export default class RegisterDomain extends React.Component<IProps, IState> {
                       
                     })
                 })
+                alert("You are register successfully");
             }
             catch (error) {
                 console.log(error);
-            }
-        }
+         }
+         this.setState({
+             redirect: true
+         });
+         
+     }
 
     render() {
+        const { redirect } = this.state;
+
+        if (redirect) {
+            return <Redirect to='/Login' />;
+        }
         return (
             <div>
 

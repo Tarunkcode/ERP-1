@@ -16,6 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
+var react_router_1 = require("react-router");
 var custom_button_component_1 = require("../custom-button/custom-button.component");
 require("./register-your-domain.styles.css");
 var RegisterDomain = /** @class */ (function (_super) {
@@ -36,7 +37,7 @@ var RegisterDomain = /** @class */ (function (_super) {
                 fetch(url, {
                     method: 'POST',
                     headers: {
-                        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        "Content-type": "application/json; charset=UTF-8"
                     },
                     body: JSON.stringify(data)
                 }).then(function (result) {
@@ -44,15 +45,20 @@ var RegisterDomain = /** @class */ (function (_super) {
                         console.log('res', res);
                     });
                 });
+                alert("You are register successfully");
             }
             catch (error) {
                 console.log(error);
             }
+            _this.setState({
+                redirect: true
+            });
         };
         _this.state = {
             sURL: '',
             sPort: '',
-            FY: ''
+            FY: '',
+            redirect: false
         };
         _this.handleDomainChange = _this.handleDomainChange.bind(_this);
         _this.handlePortChange = _this.handlePortChange.bind(_this);
@@ -70,6 +76,10 @@ var RegisterDomain = /** @class */ (function (_super) {
         });
     };
     RegisterDomain.prototype.render = function () {
+        var redirect = this.state.redirect;
+        if (redirect) {
+            return React.createElement(react_router_1.Redirect, { to: '/Login' });
+        }
         return (React.createElement("div", null,
             React.createElement("div", { className: "outer-container" },
                 React.createElement("div", { className: "card", style: { backgroundColor: "grey" } },
