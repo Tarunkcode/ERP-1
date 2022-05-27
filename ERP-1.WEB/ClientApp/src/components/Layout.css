@@ -21,11 +21,22 @@ body {
     align-items:center;
     top: 38px;
     left: 20em;
-    height: 45em;
+    height: 39em;
     
     width:75%;
     padding-top:33px;
     margin:0 0 0 15em;
+}
+@media (max-width:900px){
+    .IndianStatesMap > svg{
+        margin:0 0 0 10em;
+        width:85%;
+    }
+}
+@media (max-width:600px){
+    .IndianStatesMap > svg{
+        width:200%;
+    }
 }
 
 p {
@@ -55,15 +66,21 @@ a, a:hover, a:focus {
     overflow: hidden;
 }
 
+@media (max-width: 834px){
+    #sidebar{
+        min-width:150px;
+        max-width:150px;
+    }
+}
 .components {
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
-    .components::-webkit-scrollbar {
+   /* .components::-webkit-scrollbar {
         display: none;
     }
-
+*/
 #sidebar.active {
     margin-left: 0;
 }
@@ -161,6 +178,6 @@ a.navbar-brand {
         }
 }
 
-.homeDiv::-webkit-scrollbar {
+/*.homeDiv::-webkit-scrollbar {
     display: none;
-}
+}*/

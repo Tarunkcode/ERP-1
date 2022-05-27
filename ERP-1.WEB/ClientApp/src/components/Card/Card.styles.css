@@ -11,6 +11,13 @@
     
 }
 
+@media (max-width:576px) {
+    .radio-check {
+    width:30%;
+    }
+    
+}
+
 .pagination-bar {
     width: 100%;
     display: flex;

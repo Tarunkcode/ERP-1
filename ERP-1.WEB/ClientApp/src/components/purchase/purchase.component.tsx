@@ -346,7 +346,9 @@ export default function Purchase() {
     return (
         <div className="container col-sm-12" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
 
-
+            <div className="card-title">
+                <span style={{ fontSize: "20px" }}>Purchase</span>
+            </div>
             {/*Custom Data List*/}
 
 

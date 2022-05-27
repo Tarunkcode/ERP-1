@@ -263,7 +263,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
                      
-                        <span className="form-inline" style={{width:"60%", margin:"0"}}>
+                        <span className="form-inline radio-check" style={{ border: '1px solid red',width:"60%", margin:"0"}}>
                             <div className="form-check">
                                 <label className="form-check-label" htmlFor="toggle">
                                     Quantity
@@ -277,7 +277,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
                                 </label>
                                 <input className="form-check-input" type="radio" name="toggle" id="value" value="2" onChange={handleRadio } />
                             </div>
-</span>
+                         </span>
 
                      
 
