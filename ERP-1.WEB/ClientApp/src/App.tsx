@@ -16,36 +16,47 @@ import ProductionPlanning from './components/production-planning/production-plan
 import Sales from './components/sales/sales.component';
 import RegisterDomain from './components/RegisterYourDomain/register-your-domain.component';
 
+  
 function App() {
-   
+    const [showResult, setShowResult] = useState(false)
+    
 
     var [domain, setDomain]: any = React.useState('');
+   
     const currentDomain = window.location.hostname;
 
     console.log(currentDomain)
-    const RenderApp = async () => {
+    
+
+
+    useEffect(() => {
+
+       
+        
 
         try {
+    
             var domainUrl = "http://localhost:16067/api/getall";
-           await fetch(domainUrl).then(res => res.json()).then(result => {
+              fetch(domainUrl).then(res => res.json()).then(result => {
                 console.log(result)
 
                 if (result != null && result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
                         if (result[i].sUrl == currentDomain) {
-                            setDomain(domain);
+                            setDomain(result[i].sUrl);
+                            setShowResult(true)
+                            break;
                         }
+                   
                     }
-                    console.log('Matched Domain', domain);
-                  
                 }
                 else {
                     console.log('data not found in domain array fetch Status = -1')
-                    return <RegisterDomain />
-
+                    setShowResult(false)
                 }
 
-            })
+           })
+
 
         }
 
@@ -53,13 +64,14 @@ function App() {
             alert("calling api's failed ")
         }
 
+    }, [])
 
-    }
-    RenderApp();
-    console.log('domain', domain);
-
+ 
+ 
     return (
+        <>
 
+    
         <Switch>
             <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales"]}>
                 <Layout>
@@ -88,21 +100,15 @@ function App() {
                 </RegisterLayout>
             </Route>
                    
-            <Route exact path="/">
-                {domain != '' ? <Redirect to="/Login" /> : <RegisterDomain />}
-            </Route>
-                   
-                  
-                       
-                 
-           
+          
 
+                <Route exact path="/" component={domain != '' && showResult == true ? LogIn : RegisterDomain} />
             
 
+                  
         </Switch>
-
+</>
     );
-
 
 }
 

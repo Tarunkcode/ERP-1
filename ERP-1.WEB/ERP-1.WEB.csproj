@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -33,7 +33,15 @@
     <None Remove="ClientApp\src\components\RegisterLayout.tsx" />
     <None Remove="ClientApp\src\components\RegisterYourDomain\register-your-domain.component.tsx" />
     <None Remove="ClientApp\src\components\Spinner\spinner.component.tsx" />
+    <None Remove="ClientApp\src\Counter\counter.actions.tsx" />
+    <None Remove="ClientApp\src\Counter\counter.reducer.tsx" />
+    <None Remove="ClientApp\src\Counter\counter.types.tsx" />
     <None Remove="ClientApp\src\react-table-config.d.ts" />
+    <None Remove="ClientApp\src\Redux\rootReducer.tsx" />
+    <None Remove="ClientApp\src\Redux\user\user.actions.tsx" />
+    <None Remove="ClientApp\src\Redux\user\user.reducers.tsx" />
+    <None Remove="ClientApp\src\Redux\user\user.selectors.tsx" />
+    <None Remove="ClientApp\src\Redux\user\user.types.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +55,15 @@
     <TypeScriptCompile Include="ClientApp\src\components\RegisterLayout.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\RegisterYourDomain\register-your-domain.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Spinner\spinner.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Counter\counter.actions.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Counter\counter.reducer.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Counter\counter.types.tsx" />
     <TypeScriptCompile Include="ClientApp\src\react-table-config.d.ts" />
+    <TypeScriptCompile Include="ClientApp\src\Redux\user\user.actions.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Redux\user\user.reducers.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Redux\user\user.selectors.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Redux\user\user.types.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Redux\rootReducer.tsx" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

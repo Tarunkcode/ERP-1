@@ -1,29 +1,33 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { History } from 'history';
-import { ApplicationState, reducers } from './';
+import logger from 'redux-logger';
 
-export default function configureStore(history: History, initialState?: ApplicationState) {
-    const middleware = [
-        thunk,
-        routerMiddleware(history)
-    ];
+import rootReducer from '../Redux/rootReducer';
 
-    const rootReducer = combineReducers({
-        ...reducers,
-        router: connectRouter(history)
-    });
+import { createStore, applyMiddleware, compose } from 'redux';
+import { createBrowserHistory } from 'history';
+import { routerMiddleware } from 'connected-react-router'
 
-    const enhancers = [];
-    const windowIfDefined = typeof window === 'undefined' ? null : window as any;
-    if (windowIfDefined && windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__) {
-        enhancers.push(windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__());
-    }
+//import { ConnectedRouter } from 'connected-react-router';
 
-    return createStore(
-        rootReducer,
-        initialState,
-        compose(applyMiddleware(...middleware), ...enhancers)
-    );
+const middlewares = [logger];
+
+//const store = createStore(rootReducer, applyMiddleware(...middlewares));
+
+//export default store;
+
+export const history = createBrowserHistory();
+export default function configureStore() {
+    const store = createStore(
+        rootReducer(history), // root reducer with router state
+      
+        compose(
+            applyMiddleware(
+                routerMiddleware(history), // for dispatching history actions
+                // ... other middlewares ...
+                ...middlewares
+            ),
+        ),
+    )
+
+    return store
 }
+

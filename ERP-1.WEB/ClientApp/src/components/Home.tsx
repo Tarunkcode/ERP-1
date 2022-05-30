@@ -4,23 +4,33 @@ import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, L
 import { useState } from 'react';
 
 
-//interface Idata {
-//    data: { d1: string, d2: string, d3:string }
-//}
-//interface IdataArray {
-//    dataArray: any[] = [];
-//}
-//interface IdataArray {
-//}
+const Home = () => {
+    
+    const getState = window.localStorage.getItem('state');
+    const state = JSON.parse(getState!)
+    //console.log('domain',state.domain)
+    //console.log('port',state.port)
+    //console.log('fy',state.Fy)
 
-function Home() {
-   
-    const [colors, setColors] = useState(["blue", "red", "#8884d8", "indigo", "green", "yellow", "orange", "pink", "#82ca9d", "purple", "grey", "brown"]);
+    const colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+        '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+        '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+        '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+        '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+        '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+        '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+        '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+        '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+        '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
     var [dataArray, setDataArray]: any = useState([]);
     var [dataArray2, setDataArray2]: any = useState([]);
     var [saleArr, setSaleArr]: any = useState([]);
     var [pendingSO, setPendingSO]: any = useState([]);
     var [soSetails, setSODetails]: any = useState([]);
+
+
+    
+
     var urlStart = "http://103.197.121.188:85/api/values/GetMisReport?Comp=comp0015&Fy=2021&Acccode=0";
     var urlSaleComparision = "http://103.197.121.188:85/api/values/spsalecompprvyear?acccode=0&comp=comp0015&fy=2021";
     var urlPendingMonthlySO = "http://103.197.121.188:85/api/values/GetPendingMonthlySO?acccode=0&comp=comp0015&fy=2021";
@@ -296,5 +306,5 @@ function Home() {
         </>
     );
 }
+
 export default Home;
-  

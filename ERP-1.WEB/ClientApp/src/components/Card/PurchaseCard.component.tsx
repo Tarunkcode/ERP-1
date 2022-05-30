@@ -16,6 +16,12 @@ const override = css`
 `;
 let PageSize = 9;
 export default function PurchaseCard({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
+
+    const state = window.localStorage.getItem('state');
+
+
+    console.log('purchase Card', state)
+
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
     var [viewBar, setBarView] = React.useState(barInit);

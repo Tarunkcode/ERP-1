@@ -1,20 +1,20 @@
 ﻿import * as React from 'react';
 import { Redirect } from 'react-router';
 import CustomButton from '../custom-button/custom-button.component';
+import LogIn from '../Login/login.component';
 import './register-your-domain.styles.css';
 
 
 interface IProps {
 }
-interface IState {
+export interface IDomain {
     sURL: string;
     sPort: string;
     FY: string;
     redirect: boolean;
 }
 
-
-export default class RegisterDomain extends React.Component<IProps, IState> {
+export default class RegisterDomain extends React.Component<IProps, IDomain> {
 
     constructor(props: IProps) {
         super(props);
@@ -29,6 +29,7 @@ export default class RegisterDomain extends React.Component<IProps, IState> {
         this.handlePortChange = this.handlePortChange.bind(this);
         this.handleFYChange = this.handleFYChange.bind(this);
     }
+
 
     handleDomainChange(e: any) {
         this.setState({
@@ -90,13 +91,15 @@ export default class RegisterDomain extends React.Component<IProps, IState> {
             return <Redirect to='/Login' />;
         }
         return (
+            <>
+              
             <div>
 
                 <div className="outer-container">
-                    <div className="card" style={{ backgroundColor: "grey" }}>
-                        <span className="page_Header">Register Your Domain</span>
-                        {/*<img src={'./assets/logo.jpg'} />*/}
-                        <span className="content_Header">Excellent ERP</span>
+                        <div className="card" style={{ backgroundColor: "grey", width: "83%" }}>
+                            <span className="page_Header" style={{ fontWeight: 900, color:"white" }}>Register Your Domain</span>
+                            <img src={'./assets/erpLogo.png'} style={{width:"33%" }} />
+                   
                         <div className="inner-container">
                             <form onSubmit={this.handleRegistration.bind(this)}>
 
@@ -120,7 +123,9 @@ export default class RegisterDomain extends React.Component<IProps, IState> {
                 </div>
 
 
-            </div>
+                </div>
+
+   </>
             
             )
     }

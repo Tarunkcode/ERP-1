@@ -6,6 +6,10 @@ import $ from 'jquery';
 
 import { LogOut } from './logout/logout.component';
 export default (props: any) => {
+    const getState = window.localStorage.getItem('state');
+    const getUserName = window.sessionStorage.getItem('username');
+    const getCompCode = window.sessionStorage.getItem('compCode');
+    const state = JSON.parse(getState!)
     $(document).ready(function () {
 
         $('#sidebarCollapse').on('click', function () {
@@ -33,11 +37,17 @@ export default (props: any) => {
 
                         </div>
 
-                        <div style={{display: "flex", marginRight: "2em" }}>
 
+                        <div style={{ display: "flex", marginRight: "2em" }}>
+                        
+                            <span style={{ background: "white", padding: "0 14px 0 14px", margin: "0 10px 0 0" }}>
+                            <span style={{padding:"0", margin:"0"}}>{`UserName : ${getUserName}`}</span> <br/>
+                            <span style={{padding:'0', margin:'0'}}>{`CompCode : ${getCompCode}`}</span>
+                           </span>
+                   
                             <LogOut />
                         </div>
-
+                       
                     </nav>
                 </div>
 
@@ -53,7 +63,7 @@ export default (props: any) => {
 
                                 <img src={'./assets/erpLogo.png'} style={{ width: "10vw", borderRadius: "6%", margin: "0 auto" }} className="img-fluid" alt="Responsive image" />
                             </div>
-                            <p><span style={{ fontWeight:"bolder", color:"black" }}>Financial Year</span> 2022</p>
+                            <p><span style={{ fontWeight: "bolder", color: "black" }}>Financial Year</span> {state.Fy }</p>
                             <li className="active">
                                 <a href="/home">Home</a>
                             </li>

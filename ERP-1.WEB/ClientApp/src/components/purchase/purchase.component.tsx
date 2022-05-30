@@ -12,6 +12,7 @@ import { event } from 'jquery';
 
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/react";
+import { useSelector } from 'react-redux';
 
 const override = css`
   display: block;
@@ -20,8 +21,12 @@ const override = css`
 `;
 export default function Purchase() {
 
-    /* var it = 0, ig = 0, br = 0, ct = 0, sc = 0, tp=0;*/
 
+    const state = window.localStorage.getItem('state');
+
+    
+      console.log('purchase State', state)
+  
 
     var [item, setItem]: any = React.useState([])
     var [itemGroup, setItemGroup]: any = React.useState([])

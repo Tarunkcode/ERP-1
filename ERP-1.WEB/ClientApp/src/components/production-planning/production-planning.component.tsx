@@ -23,9 +23,15 @@ const override = css`
   margin: 0 auto;
   border-color: red;
 `;
-export default function Purchase() {
+export default function Production$Planning() {
 
     /* var it = 0, ig = 0, br = 0, ct = 0, sc = 0, tp=0;*/
+
+    const state = window.localStorage.getItem('state');
+
+
+    console.log('production$Planning', state)
+
 
 
     var [item, setItem]: any = React.useState([])
@@ -768,7 +774,7 @@ export default function Purchase() {
 
     return (
         <>
-        <div className="container col-sm-12 card" style={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
+        <div className="container col-sm-12 card" style={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto" }}>
                 <div className="card-title">
                     <span style={{fontSize:"20px"}}>Production & Planning</span>
                 </div>
@@ -795,8 +801,8 @@ export default function Purchase() {
                                     (
                                         <datalist className="itemGroup" id="itemGroupList">
                                             {
-                                                itemGroup.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                        itemGroup.map((obj: any) => {
+                                                            return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -831,7 +837,7 @@ export default function Purchase() {
                                             {
 
                                                 item.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -863,7 +869,7 @@ export default function Purchase() {
                                         <datalist className='brand' id="brandList">
                                             {
                                                 brand.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -899,7 +905,7 @@ export default function Purchase() {
                                         <datalist className='category' id="categoryList">
                                             {
                                                 category.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -931,7 +937,7 @@ export default function Purchase() {
                                         <datalist className='type' id="typeList">
                                             {
                                                 type.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -963,7 +969,7 @@ export default function Purchase() {
                                         <datalist className='subCategory' id='subCategoryList'>
                                             {
                                                 subCategory.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1002,7 +1008,7 @@ export default function Purchase() {
                                         <datalist className='process' id='processList'>
                                             {
                                                 process.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1035,7 +1041,7 @@ export default function Purchase() {
                                         <datalist className='machine' id='machineList'>
                                             {
                                                 machine.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1070,7 +1076,7 @@ export default function Purchase() {
                                         <datalist className='shift' id='shiftList'>
                                             {
                                                 shift.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1162,7 +1168,7 @@ export default function Purchase() {
 
             <ClipLoader color="green" loading={isSending} css={override} size={150} />
             {/*-------------------------------------------------------Charts Rendering---------------------------------------------------------------------*/}
-            <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;", padding: '0', backgroundColor: "#F5F5F5", border:'none' }}>
+            <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto", padding: '0', backgroundColor: "#F5F5F5", border:'none' }}>
             {/*Cards Div Row 1*/}
                 < div className="row col-12 cards-row chart-cards card-body panel panel-default">
                 

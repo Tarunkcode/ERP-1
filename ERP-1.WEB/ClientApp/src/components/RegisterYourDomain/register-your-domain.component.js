@@ -80,24 +80,25 @@ var RegisterDomain = /** @class */ (function (_super) {
         if (redirect) {
             return React.createElement(react_router_1.Redirect, { to: '/Login' });
         }
-        return (React.createElement("div", null,
-            React.createElement("div", { className: "outer-container" },
-                React.createElement("div", { className: "card", style: { backgroundColor: "grey" } },
-                    React.createElement("span", { className: "page_Header" }, "Register Your Domain"),
-                    React.createElement("span", { className: "content_Header" }, "Excellent ERP"),
-                    React.createElement("div", { className: "inner-container" },
-                        React.createElement("form", { onSubmit: this.handleRegistration.bind(this) },
-                            React.createElement("input", { type: "text", name: "domain", id: "domain", className: "form-control input-fields", required: true, placeholder: "Domain Address", onChange: this.handleDomainChange }),
-                            React.createElement("input", { type: "text", name: "port", id: "port", className: "form-control input-fields", required: true, placeholder: "Port No.", onChange: this.handlePortChange }),
-                            React.createElement("input", { type: "text", name: "fy", id: "fy", className: "form-control input-fields", required: true, placeholder: "Financial Year", onChange: this.handleFYChange }),
-                            React.createElement(custom_button_component_1.default, { type: "submit", className: 'custom-button btn-danger' }, "Register Now"))),
-                    React.createElement("div", { className: "footer2" },
-                        React.createElement("h6", null,
-                            " Developed By Excellent Softwares ",
-                            React.createElement("br", null),
-                            " ",
-                            React.createElement("span", null, " \u00A9 2022 "),
-                            " "))))));
+        return (React.createElement(React.Fragment, null,
+            React.createElement("div", null,
+                React.createElement("div", { className: "outer-container" },
+                    React.createElement("div", { className: "card", style: { backgroundColor: "grey", width: "83%" } },
+                        React.createElement("span", { className: "page_Header", style: { fontWeight: 900, color: "white" } }, "Register Your Domain"),
+                        React.createElement("img", { src: './assets/erpLogo.png', style: { width: "33%" } }),
+                        React.createElement("div", { className: "inner-container" },
+                            React.createElement("form", { onSubmit: this.handleRegistration.bind(this) },
+                                React.createElement("input", { type: "text", name: "domain", id: "domain", className: "form-control input-fields", required: true, placeholder: "Domain Address", onChange: this.handleDomainChange }),
+                                React.createElement("input", { type: "text", name: "port", id: "port", className: "form-control input-fields", required: true, placeholder: "Port No.", onChange: this.handlePortChange }),
+                                React.createElement("input", { type: "text", name: "fy", id: "fy", className: "form-control input-fields", required: true, placeholder: "Financial Year", onChange: this.handleFYChange }),
+                                React.createElement(custom_button_component_1.default, { type: "submit", className: 'custom-button btn-danger' }, "Register Now"))),
+                        React.createElement("div", { className: "footer2" },
+                            React.createElement("h6", null,
+                                " Developed By Excellent Softwares ",
+                                React.createElement("br", null),
+                                " ",
+                                React.createElement("span", null, " \u00A9 2022 "),
+                                " ")))))));
     };
     return RegisterDomain;
 }(React.Component));

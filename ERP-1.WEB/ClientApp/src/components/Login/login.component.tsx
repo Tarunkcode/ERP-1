@@ -6,17 +6,27 @@ import CustomButton from '../custom-button/custom-button.component';
 import { Redirect, useHistory } from 'react-router-dom';
 
 
+import { connect } from "react-redux";
+import { selectCurrentUser } from "../../Redux/user/user.selectors";
+import { createStructuredSelector } from "reselect";
+import { setCurrentUser } from '../../Redux/user/user.actions';
+
 interface IProps {
+    setCurrentUser: any,
+    currentUser: any,
+   
 }
 
 interface IState {
     username: string;
     password: string;
     redirect: boolean;
+    compCode: string;
+  
 }
 
 
-export default class LogIn extends React.Component<IProps, IState>{
+class LogIn extends React.Component<IProps, IState>{
   
     constructor(props: IProps) {
         super(props);
@@ -24,8 +34,54 @@ export default class LogIn extends React.Component<IProps, IState>{
         this.state = {
             username: '',
             password: '',
-            redirect:false
+            redirect: false,
+            compCode: ''
         };
+    }
+ 
+
+
+    componentDidMount() {
+
+        const { setCurrentUser } = this.props;
+            var domainUrl = "http://localhost:16067/api/getall";
+            fetch(domainUrl).then(res => res.json()).then(result => {
+                console.log(result)
+
+                if (result != null && result.length > 0) {
+           const currentDomain = window.location.hostname
+                    for (let i = 0; i < result.length; i++) {
+                        if (result[i].sUrl == currentDomain) {
+                            setCurrentUser({
+                                domain: result[i].sUrl,
+                                port: result[i].sPort,
+                                Fy: result[i].fy
+                            })
+                            /*const serializedState = JSON.stringify(this.props.currentUser)*/
+                            window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
+                            //console.log('local Storage', serializedState)
+                           
+                        break;
+
+                        }
+                        
+
+                    }
+                    console.log('Matched Record', this.state);
+
+                    console.log('login currentUser', this.props.currentUser)
+                    
+                }
+             
+            })
+
+    }
+
+
+    handleCompCodeChange(e: any) {
+        this.setState({
+            compCode: e.target.value
+        })
     }
    
     handleUserNameChange(e : any) {
@@ -38,7 +94,9 @@ export default class LogIn extends React.Component<IProps, IState>{
             password: e.target.value
         });
     }
-   
+
+
+
    handleSubmit = async (event: any) => {
 
         event.preventDefault();
@@ -53,6 +111,9 @@ export default class LogIn extends React.Component<IProps, IState>{
            params.push('Comp=comp0015');
            params.push('FY=2021');
            console.log(urlStart + '?' + params.join('&'));
+          window.sessionStorage.setItem('username', this.state.username)
+          window.sessionStorage.setItem('compCode', this.state.compCode)
+         
 
 
 
@@ -67,11 +128,13 @@ export default class LogIn extends React.Component<IProps, IState>{
                }
            })
        
+   
        }
         catch (error) {
             console.log(error);
         }
     }
+
     render() {
         const { redirect } = this.state;
 
@@ -81,14 +144,14 @@ export default class LogIn extends React.Component<IProps, IState>{
 
     return (
         <div className="outer-container">
-            <div className="card">
+            <div className="card" style={{ width: "83%" }}>
                 <span className="page_Header">LOG IN</span>
-                <img src={'./assets/logo.jpg'} />
-                <span className="content_Header">Excellent ERP</span>
+                <img src={'./assets/erpLogo.png'} style={{width:"33%"}} />
+             
                 <div className="inner-container">
                     <form onSubmit={this.handleSubmit}>
-                       
-                        <input type="text" name="comp" id="compcode" className="form-control input-fields" required placeholder="Comp#### Code" />
+
+                        <input type="text" name="comp" id="compcode" className="form-control input-fields" required placeholder="Comp#### Code" onChange={e => this.handleCompCodeChange(e)} />
 
 
                         <input type="text" name="username" id="username" className="form-control input-fields" required placeholder="Enter UserName" onChange={e => this.handleUserNameChange(e)} />
@@ -110,8 +173,15 @@ export default class LogIn extends React.Component<IProps, IState>{
     );
        
     }
-
   
 }
 
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser
+});
+const mapDispatchToProps = (dispatch : any) => ({
+    setCurrentUser: (user : any) => dispatch(setCurrentUser(user))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
 
