@@ -120,7 +120,11 @@ class LogIn extends React.Component<IProps, IState>{
            await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
 
                if (result[0].VResult == '1') {
-
+                   var soSeries = result[0].SOSeries;
+                   var AccName = result[0].AccName;
+                   console.log(soSeries)
+                   window.sessionStorage.setItem('so-series', soSeries);
+                   window.sessionStorage.setItem('acc-name', AccName);
                    this.setState({ redirect:true })
                } else {
                    alert("Invalid user id or pass");

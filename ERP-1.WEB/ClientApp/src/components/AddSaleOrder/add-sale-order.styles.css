@@ -1,0 +1,27 @@
+﻿.addSaleForm {
+    width: 100%; display:flex;flex-direction:row; justify-content:space-between;align-items: center;margin: 0; padding:0;
+}
+.addSalecard 
+{
+    width: 50%;margin:0;padding:0;
+}
+.table-bordered th, .table-bordered td .item-code {
+    border: 1px solid #dee2e6;
+    padding: 0;
+}
+
+@media(max-width:992px){
+   .addSaleForm{
+       display:flex;
+       flex-direction:column
+
+   }
+   .addSaleForm{
+       width:100%;
+   }
+   .addSalecard{
+       width:100%;
+       margin-top:20px;
+  
+   }
+}

@@ -322,7 +322,9 @@ export default function Production$Planning() {
                 } else {
                     console.log("department has no data")
                 }
-            } catch (error) {
+            }
+
+            catch (error) {
                 console.log("error", error);
             }
         };
@@ -802,7 +804,7 @@ export default function Production$Planning() {
                                         <datalist className="itemGroup" id="itemGroupList">
                                             {
                                                         itemGroup.map((obj: any) => {
-                                                            return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                            return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -837,7 +839,7 @@ export default function Production$Planning() {
                                             {
 
                                                 item.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option  data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -846,7 +848,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -869,7 +871,7 @@ export default function Production$Planning() {
                                         <datalist className='brand' id="brandList">
                                             {
                                                 brand.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -878,7 +880,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -905,7 +907,7 @@ export default function Production$Planning() {
                                         <datalist className='category' id="categoryList">
                                             {
                                                 category.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -937,7 +939,7 @@ export default function Production$Planning() {
                                         <datalist className='type' id="typeList">
                                             {
                                                 type.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -969,7 +971,7 @@ export default function Production$Planning() {
                                         <datalist className='subCategory' id='subCategoryList'>
                                             {
                                                 subCategory.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option  data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1008,7 +1010,7 @@ export default function Production$Planning() {
                                         <datalist className='process' id='processList'>
                                             {
                                                 process.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1041,7 +1043,7 @@ export default function Production$Planning() {
                                         <datalist className='machine' id='machineList'>
                                             {
                                                 machine.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1076,7 +1078,7 @@ export default function Production$Planning() {
                                         <datalist className='shift' id='shiftList'>
                                             {
                                                 shift.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 

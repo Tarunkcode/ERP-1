@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import Purchase from './components/purchase/purchase.component';
 import ProductionPlanning from './components/production-planning/production-planning.component'
+import AddSaleOrder from './components/AddSaleOrder/add-sale-order'
 import Sales from './components/sales/sales.component';
 import RegisterDomain from './components/RegisterYourDomain/register-your-domain.component';
 
@@ -73,12 +74,13 @@ function App() {
 
     
         <Switch>
-            <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales"]}>
+            <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order"]}>
                 <Layout>
                     <Route exact path='/Home' component={Home} />
                     <Route exact path='/Purchase' component={Purchase} />
                     <Route exact path='/production-and-planning' component={ProductionPlanning} />
                     <Route exact path='/sales' component={Sales} />
+                    <Route exact path='/add-sale-order' component={AddSaleOrder} />
                 </Layout>
             </Route>
 

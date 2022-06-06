@@ -82,7 +82,7 @@ export default (props: any) => {
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">Add Order</a>
+                                <a href="/add-sale-order">Add Order</a>
                             </li>
 
                             <li>
@@ -110,9 +110,9 @@ export default (props: any) => {
                     </nav>
 
 
-                    <div className="homeDiv" style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "86vh", maxWidth: "100vw", margin: "0", padding: "0 0 14em 0", overflowY: "scroll", overflowX: "hidden" }}>
+                    <div className="homeDiv" style={{display: "flex", justifyContent: 'center', width: "100%", maxHeight: "86vh", maxWidth: "100vw", margin: "0", padding: "0 0 14em 0", overflowY: "scroll", overflowX: "hidden" }}>
 
-                        <Container style={{ maxHeight: "100vh", width: "100vw" }}>
+                        <Container style={{ maxHeight: "100vh", width: "100vw"}}>
                             {props.children}
                         </Container>
                     </div>
