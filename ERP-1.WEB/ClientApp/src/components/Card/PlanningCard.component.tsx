@@ -15,13 +15,9 @@ const override = css`
   border-color: red;
 `;
 let PageSize = 9;
-export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
+export default function PlanningCard({ domain, port, Fy, compCode, dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
 
-    const state = window.localStorage.getItem('state');
-
-
-    console.log('Planning Card', state)
-
+  
 
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);
@@ -149,7 +145,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
         setIsSending(true)
         // send the actual request
         try {
-            var urlPlanning = "http://103.197.121.188:85/api/values/getgroupwiseprodplan"
+            var urlPlanning = `http://${domain}:${port}/api/values/getgroupwiseprodplan`
 
             var params = []
             params.push(`fromDate=${changeStartDate}`)
@@ -164,8 +160,8 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
             params.push(`subcategory=${changeSubCategory}`);
             params.push(`itemtype=${changeType}`);
             params.push(`grpby=${groupByChange}`);
-            params.push('Comp=comp0015');
-            params.push('FY=2021');
+            params.push(`Comp=${compCode}`);
+            params.push(`FY=${Fy}`);
             console.log(urlPlanning + '?' + params.join('&'));
 
 
@@ -270,21 +266,21 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
                      
-                        <span className="form-inline radio-check" style={{ border: '1px solid red',width:"60%", margin:"0"}}>
-                            <div className="form-check">
-                                <label className="form-check-label" htmlFor="toggle">
-                                    Quantity
-                                </label>
+                        {/*<span className="form-inline radio-check" style={{ border: '1px solid red',width:"60%", margin:"0"}}>*/}
+                        {/*    <div className="form-check">*/}
+                        {/*        <label className="form-check-label" htmlFor="toggle">*/}
+                        {/*            Quantity*/}
+                        {/*        </label>*/}
 
-                                <input className="form-check-input" type="radio" name="toggle" id="quantity" value="1"  onChange={handleRadio } />
-                            </div>
-                            <div className="form-check">
-                                <label className="form-check-label" htmlFor="toggle">
-                                    Value
-                                </label>
-                                <input className="form-check-input" type="radio" name="toggle" id="value" value="2" onChange={handleRadio } />
-                            </div>
-                         </span>
+                        {/*        <input className="form-check-input" type="radio" name="toggle" id="quantity" value="1"  onChange={handleRadio } />*/}
+                        {/*    </div>*/}
+                        {/*    <div className="form-check">*/}
+                        {/*        <label className="form-check-label" htmlFor="toggle">*/}
+                        {/*            Value*/}
+                        {/*        </label>*/}
+                        {/*        <input className="form-check-input" type="radio" name="toggle" id="value" value="2" onChange={handleRadio } />*/}
+                        {/*    </div>*/}
+                        {/* </span>*/}
 
                      
 

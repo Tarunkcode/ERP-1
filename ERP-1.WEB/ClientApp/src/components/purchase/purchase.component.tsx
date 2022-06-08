@@ -22,10 +22,9 @@ const override = css`
 export default function Purchase() {
 
 
-    const state = window.localStorage.getItem('state');
-
-    
-      console.log('purchase State', state)
+    const getState = window.localStorage.getItem('state');
+    const state = JSON.parse(getState!)
+    const getCompCode = window.sessionStorage.getItem('compCode');
   
 
     var [item, setItem]: any = React.useState([])
@@ -46,12 +45,12 @@ export default function Purchase() {
 
 
 
-    var urlStart1 = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=6&Comp=comp0015&FY=2021";
-    var itemGroupUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=79&Comp=comp0015&FY=2021";
-    var brandUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1002&Comp=comp0015&FY=2021";
-    var categoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1010&Comp=comp0015&FY=2021";
-    var typeUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1009&Comp=comp0015&FY=2021";
-    var subCategoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1035&Comp=comp0015&FY=2021";
+    var urlStart1 =    `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=6&   Comp=${getCompCode}&FY=${state.Fy}`
+    var itemGroupUrl = `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=79&  Comp=${getCompCode}&FY=${state.Fy}`
+    var brandUrl =     `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1002&Comp=${getCompCode}&FY=${state.Fy}`
+    var categoryUrl =  `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1010&Comp=${getCompCode}&FY=${state.Fy}`
+    var typeUrl =      `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1009&Comp=${getCompCode}&FY=${state.Fy}`
+    var subCategoryUrl=`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1035&Comp=${getCompCode}&FY=${state.Fy}`
     var [startDate, setStartDate]: any = useState(new Date("2022/04/01"));
     var [endDate, setEndDate]: any = useState(new Date());
 
@@ -282,7 +281,7 @@ export default function Purchase() {
         setIsSending(true)
         // send the actual request
         try {
-            var urlStart = "http://103.197.121.188:85/api/values/Annualpurchasedetails"
+            var urlStart = `http://${state.domain}/api/values/Annualpurchasedetails`
             var params = []
             params.push(`item=${changeItem}`);
             params.push(`itemgrp=${changeItemGroup}`);
@@ -349,23 +348,24 @@ export default function Purchase() {
 
 
     return (
-        <div className="container col-sm-12" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
+        <>
+        <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
 
             <div className="card-title">
                 <span style={{ fontSize: "20px" }}>Purchase</span>
             </div>
             {/*Custom Data List*/}
 
-
-            <div className="row filterDiv col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
+            <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5" }}>
+            <div className="row filterDiv panel-body col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
 
 
 
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
 
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
                         <div className="card-body crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
+                            <label style={{ fontSize: "12px", padding: "0", width:'121%'}} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
 
                             <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
 
@@ -386,7 +386,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -395,7 +395,7 @@ export default function Purchase() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
@@ -421,7 +421,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -429,7 +429,7 @@ export default function Purchase() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
@@ -453,7 +453,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -465,7 +465,7 @@ export default function Purchase() {
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
@@ -489,7 +489,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -497,7 +497,7 @@ export default function Purchase() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
@@ -521,7 +521,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -529,10 +529,10 @@ export default function Purchase() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
+                            <label style={{ fontSize: "12px",width:'150%', padding: "0" }} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
 
                             <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
 
@@ -553,7 +553,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -570,7 +570,7 @@ export default function Purchase() {
 
             {/*date picker*/}
             <div className="col-12 col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
-                <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                <div className="wrapper col-sm-4 form-group">
 
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="label-from-date form-label col-sm-12">From Date</label>
@@ -591,7 +591,7 @@ export default function Purchase() {
 
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "5px" }}>
+                <div className="wrapper col-sm-4 form-group">
 
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
 
@@ -611,7 +611,7 @@ export default function Purchase() {
 
 
 
-                <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '0' }}>
+                <div className="wrapper col-sm-4 form-group" >
 
                     <div className="card-body crd" style={{ backgroundColor: "#F5F5F5", margin: "16px" }}>
 
@@ -621,20 +621,20 @@ export default function Purchase() {
 
                 </div>
             </div>
-            
+            </div>
 
-            
+          </div>  
            
 
             <ClipLoader color="green" loading={isSending} css={override} size={150} />
             {/*-------------------------------------------------------Charts Rendering---------------------------------------------------------------------*/}
-
+            <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto", padding: '0', backgroundColor: "#F5F5F5", border: 'none' }}>
             {/*Cards Div Row 1*/}
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                    {showResults ? <PurchaseCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={dataArray} dataArray2={dataArray2} dataKey1={"Purchase_Amount"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Monthly Purchase"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
-                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                    {showResults ? <PurchaseCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
 
 
@@ -644,9 +644,9 @@ export default function Purchase() {
 
             < div className="row col-12 cards-row" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", margin: "10px 0", padding: "0" }}>
 
-                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                    {showResults ? <PurchaseCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
-                {showResults ? <PurchaseCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
+                    {showResults ? <PurchaseCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Purchase_Amount"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"anonymous"} groupBySelect={true} processSelect={true} machineSelect={true} reasonSelect={true} departmentSelect={true} expensesSelect={true} tableVal={"Purchase_Amount"} tableKey={"D1"} /> : null}
 
             </div>
 
@@ -654,7 +654,7 @@ export default function Purchase() {
 
 
         </div>
-
+         </>
     )
 
 

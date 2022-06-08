@@ -56,7 +56,7 @@ export default class RegisterDomain extends React.Component<IProps, IDomain> {
             try {
 
 
-                let url = "http://localhost:16067/api/SaveDomain";
+                let url = `http://${window.location.host}/api/SaveDomain`;
                 let data = this.state
 
                 console.log('data', data)
@@ -70,17 +70,22 @@ export default class RegisterDomain extends React.Component<IProps, IDomain> {
                 }).then((result) => {
                     result.json().then((res) => {
                         console.log('res', res)
+                        this.setState({
+                            redirect: true
+                        });
+                        alert("You are register successfully");
                       
                     })
                 })
-                alert("You are register successfully");
             }
             catch (error) {
                 console.log(error);
+                this.setState({
+                    redirect: false
+                });
+                alert('resgister domain failed')
          }
-         this.setState({
-             redirect: true
-         });
+        
          
      }
 

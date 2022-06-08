@@ -21,7 +21,7 @@ body {
     align-items:center;
     top: 38px;
     left: 20em;
-    height: 39em;
+    height: 47em;
     
     width:75%;
     padding-top:33px;
@@ -52,13 +52,16 @@ a, a:hover, a:focus {
     text-decoration: none;
     transition: all .3s;
 }
-
+.mainNav-End {
+    display: flex;
+    margin-right: 2em;
+}
 
 
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    min-height: 96vh;
+    min-height: 103vh;
     background: #7386D5;
     color: #fff;
     transition: all 0.5s ease;
@@ -68,8 +71,8 @@ a, a:hover, a:focus {
 
 @media (max-width: 834px){
     #sidebar{
-        min-width:150px;
-        max-width:150px;
+        min-width:200px;
+        max-width:200px;
     }
 }
 .components {
@@ -92,7 +95,7 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    max-height: 86vh;
+    max-height: 100vh;
 }
 
 #sidebar ul p {
@@ -176,6 +179,11 @@ a.navbar-brand {
         #sidebar.active {
             margin-left: 0;
         }
+}
+@media(max-width:280px){
+    .mainNav-End {
+        margin-right:0;
+    }
 }
 
 /*.homeDiv::-webkit-scrollbar {

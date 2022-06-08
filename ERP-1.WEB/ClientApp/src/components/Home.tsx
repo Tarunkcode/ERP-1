@@ -2,12 +2,13 @@
 import * as React from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import { useState } from 'react';
-
-
+import './home.css';
 const Home = () => {
     
     const getState = window.localStorage.getItem('state');
     const state = JSON.parse(getState!)
+    const getCompCode = window.sessionStorage.getItem('compCode');
+
     //console.log('domain',state.domain)
     //console.log('port',state.port)
     //console.log('fy',state.Fy)
@@ -31,12 +32,15 @@ const Home = () => {
 
     
 
-    var urlStart = "http://103.197.121.188:85/api/values/GetMisReport?Comp=comp0015&Fy=2021&Acccode=0";
-    var urlSaleComparision = "http://103.197.121.188:85/api/values/spsalecompprvyear?acccode=0&comp=comp0015&fy=2021";
-    var urlPendingMonthlySO = "http://103.197.121.188:85/api/values/GetPendingMonthlySO?acccode=0&comp=comp0015&fy=2021";
-    var urlSODetails = "http://103.197.121.188:85/api/values/getmonthlysodetails?acccode=0&comp=comp0015&fy=2021";
+    var urlStart = `http://${state.domain}:${state.port}/api/values/GetMisReport?Comp=${getCompCode}&Fy=${state.Fy}&Acccode=0`
+    var urlSaleComparision = `http://${state.domain}:${state.port}/api/values/spsalecompprvyear?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
+    var urlPendingMonthlySO = `http://${state.domain}:${state.port}/api/values/GetPendingMonthlySO?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
+    var urlSODetails = `http://${state.domain}:${state.port}/api/values/getmonthlysodetails?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
+
+ 
 
     React.useEffect(() => {
+        console.log(urlStart)
         fetch(urlStart).then(res => res.json()).then(result => {
             console.log(result.Data[0])
 
@@ -174,35 +178,33 @@ const Home = () => {
     }, [])
 
     return (
-        <>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <div style={{ height: "60vh" }} className="row ">
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <div>
+            <div className='first'>
+                <div className="row card home-cards">
+                    <div style={{ width: '90%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor:'white' }}>
                        
-                        <span style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Sale</span>
-                    
-                    <BarChart width={560} height={300} data={dataArray2} style={{marginTop:"20px"}}>
+                        <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Sale</span>
+                        <ResponsiveContainer width="100%" aspect={1}>
+                            <BarChart className='card-body' width={560} height={260} data={dataArray2} style={{ marginTop: "20px", padding: '0' }}>
                             <Bar dataKey="Sale_Amount" fill="#8884d8" />
                     <CartesianGrid stroke="#ccc" />
                     <XAxis dataKey="D1" />
                             <YAxis />
-                            <LabelList dataKey="Sale_Amount" position="top" />
-                            <Tooltip cursor={ false} contentStyle={{ backgroundColor: "grey" }} />
-                            <Legend />
-                                </BarChart>
-
+                            {/*<LabelList dataKey="Sale_Amount" position="top" />*/}
+                                <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
+                                <Legend layout="vertical" verticalAlign="top" align="center" />
+                            </BarChart>
+                        </ResponsiveContainer>
                         
                         
                     </div>
                 </div>
+                <div className="row card home-cards">
+                    <div style={{width:'100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-
-                <div style={{ width: "60vw", minHeight: "100vh" }} className="row">
-                    <div style={{width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                       
-                        <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Monthly Purchase</span>
-
-                        <PieChart width={730} height={500} style={{paddingTop:"0px", marginBottom:"30px"}}>
+                        <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Purchase</span>
+                        <ResponsiveContainer width="100%" aspect={1}>
+                            <PieChart className="card-body" width={560} height={250} style={{ padding: "0px"}}>
                          <Pie
                         data={dataArray}
                         dataKey="Purchase_Amt"
@@ -210,78 +212,79 @@ const Home = () => {
                         cx="50%"
                         cy="50%"
                         outerRadius={125}
-                                label
                         
                             />
                             <Tooltip />
 
                         <Legend layout="horizontal" verticalAlign="bottom" align="center" />
                             
-                       </PieChart>
-                       
+                            </PieChart>
+                        </ResponsiveContainer>
                     </div>
-            </div>
                 </div>
-            <hr/>
-            <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Sale v/s Purchase Chart</span>
-                <ResponsiveContainer aspect={3.0 / 1.0}>
-            <BarChart data={dataArray2} >
+            </div>
+
+            <hr />
+            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor:"white" }}>
+                <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Sale v/s Purchase Chart</span>
+                <ResponsiveContainer width='100%' aspect={1.5/0.8}>
+                    <BarChart className="card-body" data={dataArray2} style={{padding:'0'}} >
                     <Bar dataKey="Sale_Amount" fill="#8884d8" />
                     <Bar dataKey="Purchase_Amt" fill="#82ca9d" />
                 <CartesianGrid stroke="#ccc" />
                 <XAxis dataKey="D1" />
                     <YAxis />
-                    <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
-                    <Legend layout="vertical" verticalAlign="top" align="center" />
+                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
+                        <Legend layout="horizontal" verticalAlign="top" align="center" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-<hr/>
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Prev Year Sale v/s This Year Sale</span>
-                <ResponsiveContainer aspect={3.0 / 1.0}>
-            <BarChart data={saleArr}>
+            <hr />
+            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor:'white'}}>
+                <span className='card-title' style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Prev Year Sale v/s This Year Sale</span>
+                <ResponsiveContainer width='100%' aspect={1.5 / 0.8}>
+                    <BarChart className="card-body" data={saleArr} style={{ padding: '0' }}>
                     <Bar dataKey="Prev_Year_Sale_Amount" fill="#8884d8"/>
                     <Bar dataKey="This_Year_Sale_Amount" fill="#82ca9d" />
                 <CartesianGrid stroke="#ccc" />
                     <XAxis dataKey="Monthname" />
                     <YAxis />
-                    <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
-                    <Legend layout="vertical" verticalAlign="top" align="center"/>
+                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
+                        <Legend layout="horizontal" verticalAlign="top" align="center" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-            <hr/>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <div style={{ width: "40vw", minHeight: "100vh" }} className="row">
+            <hr />
+            <div className="last">
+                <div className="row card home-cards">
                     <div style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-                        <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Monthly Sale Order</span>
-                        <PieChart width={650} height={450} style={{ paddingTop: "0px", marginBottom: "30px" }}>
-                            <Pie
+                        <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Sale Order</span>
+                        <ResponsiveContainer width="100%" aspect={1}>
+                            <PieChart className="card-body" width={560} height={300} style={{ padding: "0px"}}>
+                                <Pie
                                 data={soSetails}
                                 dataKey="Amount"
                                 nameKey="Monthname"
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={125}
-                                label
-
+                               
                             />
                             <Tooltip />
 
                             <Legend layout="horizontal" verticalAlign="bottom" align="center" />
 
                         </PieChart>
-
-                    </div>
+                        </ResponsiveContainer>
+                   </div>
                 </div>
-                <div style={{ width: "40vw", minHeight: "100vh" }} className="row">
+                <div className="row card home-cards">
                     <div style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-                        <span style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Monthly Pending Sale Order</span>
-                        <PieChart width={650} height={450} style={{ paddingTop: "0px", marginBottom: "30px" }}>
+                        <span style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Pending Sale Order</span>
+                        <ResponsiveContainer width="100%" aspect={1}>
+                            <PieChart width={560} height={300} style={{ padding: "0px"}}>
                             <Pie
                                 data={pendingSO}
                                 dataKey="Amount"
@@ -289,21 +292,20 @@ const Home = () => {
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={125}
-                                label
-
+                              
                             />
                             <Tooltip />
 
                             <Legend layout="horizontal" verticalAlign="bottom" align="center" />
 
                         </PieChart>
-
-                    </div>
+                        </ResponsiveContainer>
+                 </div>
                 </div>
             </div>
             <hr />
             
-        </>
+        </div>
     );
 }
 

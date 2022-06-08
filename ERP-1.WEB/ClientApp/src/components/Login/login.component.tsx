@@ -44,29 +44,30 @@ class LogIn extends React.Component<IProps, IState>{
     componentDidMount() {
 
         const { setCurrentUser } = this.props;
-            var domainUrl = "http://localhost:16067/api/getall";
+        var domainUrl = `http://${window.location.host}/api/getall`;
+        console.log('domainURL', domainUrl)
             fetch(domainUrl).then(res => res.json()).then(result => {
                 console.log(result)
 
-                if (result != null && result.length > 0) {
+                if (result.status = true) {
            const currentDomain = window.location.hostname
-                    for (let i = 0; i < result.length; i++) {
-                        if (result[i].sUrl == currentDomain) {
+                   
+                        if (result.sURL == currentDomain) {
                             setCurrentUser({
-                                domain: result[i].sUrl,
-                                port: result[i].sPort,
-                                Fy: result[i].fy
+                                domain: result.sURL,
+                                port: result.sPort,
+                                Fy: result.fy
                             })
                             /*const serializedState = JSON.stringify(this.props.currentUser)*/
                             window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
                             //console.log('local Storage', serializedState)
                            
-                        break;
+                       
 
                         }
                         
 
-                    }
+                    
                     console.log('Matched Record', this.state);
 
                     console.log('login currentUser', this.props.currentUser)
@@ -104,12 +105,12 @@ class LogIn extends React.Component<IProps, IState>{
        try {
 
 
-           var urlStart = "http://103.197.121.188:85/api/values/ValidateUser"
+           var urlStart = `http://${this.props.currentUser.domain}:${this.props.currentUser.port}/api/values/ValidateUser`
            var params = []
            params.push(`UName=${this.state.username}`);
            params.push(`uP=${this.state.password}`);
-           params.push('Comp=comp0015');
-           params.push('FY=2021');
+           params.push(`Comp=${this.state.compCode}`);
+           params.push(`FY=${this.props.currentUser.Fy}`);
            console.log(urlStart + '?' + params.join('&'));
           window.sessionStorage.setItem('username', this.state.username)
           window.sessionStorage.setItem('compCode', this.state.compCode)
@@ -120,7 +121,11 @@ class LogIn extends React.Component<IProps, IState>{
            await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
 
                if (result[0].VResult == '1') {
-
+                   var soSeries = result[0].SOSeries;
+                   var AccName = result[0].AccName;
+                   console.log(soSeries)
+                   window.sessionStorage.setItem('so-series', soSeries);
+                   window.sessionStorage.setItem('acc-name', AccName);
                    this.setState({ redirect:true })
                } else {
                    alert("Invalid user id or pass");

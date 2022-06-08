@@ -14,6 +14,7 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 import Purchase from './components/purchase/purchase.component';
 import ProductionPlanning from './components/production-planning/production-planning.component'
 import Sales from './components/sales/sales.component';
+import AddSaleOrder from './components/AddSaleOrder/add-sale-order.component'
 import RegisterDomain from './components/RegisterYourDomain/register-your-domain.component';
 
   
@@ -25,9 +26,14 @@ function App() {
    
     const currentDomain = window.location.hostname;
 
-    console.log(currentDomain)
-    
+    console.log('current domain',currentDomain)
 
+
+    useEffect(() => {
+     
+        document.body.style.zoom = "85%";
+
+    }, [])
 
     useEffect(() => {
 
@@ -35,21 +41,22 @@ function App() {
         
 
         try {
-    
-            var domainUrl = "http://localhost:16067/api/getall";
+
+            var domainUrl = `http://${window.location.host}/api/getall`;
               fetch(domainUrl).then(res => res.json()).then(result => {
                 console.log(result)
+                  if (result.status == true) {
 
-                if (result != null && result.length > 0) {
-                    for (let i = 0; i < result.length; i++) {
-                        if (result[i].sUrl == currentDomain) {
-                            setDomain(result[i].sUrl);
-                            setShowResult(true)
-                            break;
-                        }
-                   
-                    }
-                }
+                      if (result.sURL == currentDomain) {
+                          setDomain(result.sURL);
+                          setShowResult(true)
+                      
+                      }
+                     
+
+                  }
+                      
+                  
                 else {
                     console.log('data not found in domain array fetch Status = -1')
                     setShowResult(false)
@@ -64,7 +71,7 @@ function App() {
             alert("calling api's failed ")
         }
 
-    }, [])
+    }, [domain])
 
  
  
@@ -73,12 +80,14 @@ function App() {
 
     
         <Switch>
-            <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales"]}>
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order"]}>
                 <Layout>
                     <Route exact path='/Home' component={Home} />
                     <Route exact path='/Purchase' component={Purchase} />
                     <Route exact path='/production-and-planning' component={ProductionPlanning} />
-                    <Route exact path='/sales' component={Sales} />
+                        <Route exact path='/sales' component={Sales} />
+                        <Route exact path='/add-sale-order' component={AddSaleOrder} />
+
                 </Layout>
             </Route>
 

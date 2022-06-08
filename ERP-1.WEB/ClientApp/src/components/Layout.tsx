@@ -24,7 +24,7 @@ export default (props: any) => {
                 <div className="wrapper">
 
                     {/*topbar*/}
-                    <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: "#798cd4" }}>
+                    <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: "#798cd4", padding:'10px 0' }}>
                         <div className="cont d-flex flex-row justify-content-between mnav" style={{ marginLeft: "2em" }} >
 
                             <button type="button" id="sidebarCollapse" className="btn btn-info" style={{ padding: '10px' }}>
@@ -38,7 +38,7 @@ export default (props: any) => {
                         </div>
 
 
-                        <div style={{ display: "flex", marginRight: "2em" }}>
+                        <div className="mainNav-End">
                         
                             <span style={{ background: "white", padding: "0 14px 0 14px", margin: "0 10px 0 0" }}>
                             <span style={{padding:"0", margin:"0"}}>{`UserName : ${getUserName}`}</span> <br/>
@@ -51,7 +51,7 @@ export default (props: any) => {
                     </nav>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", width: "100%", maxHeight: "95vh", padding:'4em 0 0 0' }}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", width: "100%", height: "114vh", padding:'4em 0 0 0' }}>
 
                     {/* Sidebar*/}
                     <nav id="sidebar">
@@ -82,7 +82,7 @@ export default (props: any) => {
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">Add Order</a>
+                                <a href="/add-sale-order">Add Order</a>
                             </li>
 
                             <li>
@@ -110,7 +110,7 @@ export default (props: any) => {
                     </nav>
 
 
-                    <div className="homeDiv" style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "86vh", maxWidth: "100vw", margin: "0", padding: "0 0 14em 0", overflowY: "scroll", overflowX: "hidden" }}>
+                    <div className="homeDiv" style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "100vh", maxWidth: "118vw", margin: "0", padding: "0 0 14em 0", overflowY: "scroll", overflowX: "hidden" }}>
 
                         <Container style={{ maxHeight: "100vh", width: "100vw" }}>
                             {props.children}

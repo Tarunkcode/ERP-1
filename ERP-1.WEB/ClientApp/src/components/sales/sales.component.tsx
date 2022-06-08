@@ -4,12 +4,13 @@ import { useState } from 'react';
 
 const MapChart = () => {
 
-    const state = window.localStorage.getItem('state');
-
+    const getState = window.localStorage.getItem('state');
+    const state = JSON.parse(getState!)
+    const getCompCode = window.sessionStorage.getItem('compCode');
 
     console.log('Sales', state)
 
-    const urlStateSales = "http://103.197.121.188:85/api/values/GetReportData?&RType=0&MCode=0&partycode=0&rcode=1&Comp=comp0015&FY=2021"
+    const urlStateSales = `http://${state.domain}:${state.port}/api/values/GetReportData?&RType=0&MCode=0&partycode=0&rcode=1&Comp=${getCompCode}&FY=${state.Fy}`
     var [andhraVal, setAndhraVal]: any = useState(0);
     var [upVal, setUpVal]: any = useState(0);
     var [delVal, setDelVal]: any = useState(0);

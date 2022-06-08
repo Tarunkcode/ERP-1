@@ -25,12 +25,9 @@ const override = css`
 `;
 export default function Production$Planning() {
 
-    /* var it = 0, ig = 0, br = 0, ct = 0, sc = 0, tp=0;*/
-
-    const state = window.localStorage.getItem('state');
-
-
-    console.log('production$Planning', state)
+    const getState = window.localStorage.getItem('state');
+    const state = JSON.parse(getState!)
+    const getCompCode = window.sessionStorage.getItem('compCode');
 
 
 
@@ -63,18 +60,18 @@ export default function Production$Planning() {
 
 
 
-    var urlStart1 = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=6&Comp=comp0015&FY=2021";
-    var itemGroupUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=79&Comp=comp0015&FY=2021";
-    var brandUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1002&Comp=comp0015&FY=2021";
-    var categoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1010&Comp=comp0015&FY=2021";
-    var typeUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1009&Comp=comp0015&FY=2021";
-    var subCategoryUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1035&Comp=comp0015&FY=2021";
-    var shiftUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=7&Comp=comp0015&FY=2021";
-    var processUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=11&Comp=comp0015&FY=2021";
-    var machineUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=23&Comp=comp0015&FY=2021";
-    var reasonUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1028&Comp=comp0015&FY=2021";
-    var departmentUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=2001&Comp=comp0015&FY=2021";
-    var expensesUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1030&Comp=comp0015&FY=2021";
+    var urlStart1 =    `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=6&Comp=${getCompCode}&FY=${state.Fy}`
+    var itemGroupUrl = `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=79&Comp=${getCompCode}&FY=${state.Fy}`
+    var brandUrl =     `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1002&Comp=${getCompCode}&FY=${state.Fy}`
+    var categoryUrl =  `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1010&Comp=${getCompCode}&FY=${state.Fy}`
+    var typeUrl =      `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1009&Comp=${getCompCode}&FY=${state.Fy}`
+    var subCategoryUrl=`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1035&Comp=${getCompCode}&FY=${state.Fy}`
+    var shiftUrl =     `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=7&Comp=${getCompCode}&FY=${state.Fy}`
+    var processUrl =   `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=11&Comp=${getCompCode}&FY=${state.Fy}`
+    var machineUrl =   `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=23&Comp=${getCompCode}&FY=${state.Fy}`
+    var reasonUrl =    `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1028&Comp=${getCompCode}&FY=${state.Fy}`
+    var departmentUrl =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=2001&Comp=${getCompCode}&FY=${state.Fy}`
+    var expensesUrl =  `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1030&Comp=${getCompCode}&FY=${state.Fy}`
     var [startDate, setStartDate]: any = useState(new Date("2022-04-01"));
     var [endDate, setEndDate]: any = useState(new Date());
 
@@ -364,7 +361,7 @@ export default function Production$Planning() {
         handleProcessChange
         handleMachineChange
         handleChangeStartDate(startDate)
-        handleChangeendDate(endDate)
+         handleChangeendDate(endDate)
 
     }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeProcess, changeShift, changeMachine, changeEndDate, changeStartDate])
 
@@ -524,10 +521,10 @@ export default function Production$Planning() {
         setIsSending(true)
         // send the actual request
         try {
-            var urlPlanning = "http://103.197.121.188:85/api/values/getgroupwiseprodplan"
-            var urlProduction = "http://103.197.121.188:85/api/values/GROUPWISEPRODUCTION"
-            var urlRejection = "http://103.197.121.188:85/api/values/Groupwiserejectprod"
-            var urlMachineDowntime = "http://103.197.121.188:85/api/values/GROUPMACHINEDOWNTIME"
+            var urlPlanning =        `http://${state.domain}:${state.port}/api/values/getgroupwiseprodplan`
+            var urlProduction =      `http://${state.domain}:${state.port}/api/values/GROUPWISEPRODUCTION`
+            var urlRejection =       `http://${state.domain}:${state.port}/api/values/Groupwiserejectprod`
+            var urlMachineDowntime = `http://${state.domain}:${state.port}/api/values/GROUPMACHINEDOWNTIME`
             var params = []
             var params2 = []
 
@@ -550,10 +547,10 @@ export default function Production$Planning() {
             params2.push(`grpby=${"2"}`);
             params2.push(`reason=${"0"}`);
 
-            params.push('Comp=comp0015');
-            params2.push('Comp=comp0015');
-            params.push('FY=2021');
-            params2.push('FY=2021');
+            params.push(`Comp=${getCompCode}`);
+            params2.push(`Comp=${getCompCode}`);
+            params.push(`FY=${state.Fy}`);
+            params2.push(`FY=${state.Fy}`);
             console.log(urlRejection + '?' + params.join('&'));
 
 
@@ -788,9 +785,9 @@ export default function Production$Planning() {
 
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
 
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group" >
                         <div className="card-body crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
+                            <label style={{ fontSize: "12px", padding: "0", width:'121%'}} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
 
                             <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
 
@@ -802,7 +799,7 @@ export default function Production$Planning() {
                                         <datalist className="itemGroup" id="itemGroupList">
                                             {
                                                         itemGroup.map((obj: any) => {
-                                                            return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                            return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -811,7 +808,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -820,7 +817,7 @@ export default function Production$Planning() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
@@ -837,7 +834,7 @@ export default function Production$Planning() {
                                             {
 
                                                 item.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -846,7 +843,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -854,7 +851,7 @@ export default function Production$Planning() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
@@ -869,7 +866,7 @@ export default function Production$Planning() {
                                         <datalist className='brand' id="brandList">
                                             {
                                                 brand.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -878,7 +875,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -890,7 +887,7 @@ export default function Production$Planning() {
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
@@ -905,7 +902,7 @@ export default function Production$Planning() {
                                         <datalist className='category' id="categoryList">
                                             {
                                                 category.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -914,7 +911,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -922,7 +919,7 @@ export default function Production$Planning() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
@@ -937,7 +934,7 @@ export default function Production$Planning() {
                                         <datalist className='type' id="typeList">
                                             {
                                                 type.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -946,7 +943,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -954,10 +951,10 @@ export default function Production$Planning() {
 
                     </div>
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
-                            <label style={{ fontSize: "12px", padding: "0" }} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
+                            <label style={{ fontSize: "12px", padding: "0", width:'150%'}} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
 
                             <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
 
@@ -969,7 +966,7 @@ export default function Production$Planning() {
                                         <datalist className='subCategory' id='subCategoryList'>
                                             {
                                                 subCategory.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -978,7 +975,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -995,7 +992,7 @@ export default function Production$Planning() {
             <div className="row filterDiv panel-body col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "baseline", height: "100%", paddingTop: "10px" , marginBottom:'20px'}}>
 
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor="process" className="form-label col-sm-12">Process</label>
 
@@ -1008,7 +1005,7 @@ export default function Production$Planning() {
                                         <datalist className='process' id='processList'>
                                             {
                                                 process.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1017,7 +1014,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1027,7 +1024,7 @@ export default function Production$Planning() {
 
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor="machine" className="form-label col-sm-12">Machine</label>
 
@@ -1041,7 +1038,7 @@ export default function Production$Planning() {
                                         <datalist className='machine' id='machineList'>
                                             {
                                                 machine.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1050,7 +1047,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1061,7 +1058,7 @@ export default function Production$Planning() {
 
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='shift' className="form-label col-sm-12">Shift</label>
@@ -1076,7 +1073,7 @@ export default function Production$Planning() {
                                         <datalist className='shift' id='shiftList'>
                                             {
                                                 shift.map((obj: any) => {
-                                                    return <option key={Math.random() } data-value={obj.StateCode}>{obj.StateName}</option>
+                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
                                                 })
                                             }
 
@@ -1085,7 +1082,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1098,7 +1095,7 @@ export default function Production$Planning() {
                 {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
                 <div className="col-12 col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '5px' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="label-from-date form-label col-sm-12">From Date</label>
@@ -1127,7 +1124,7 @@ export default function Production$Planning() {
 
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "5px" }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
 
@@ -1147,7 +1144,7 @@ export default function Production$Planning() {
 
 
 
-                    <div className="wrapper col-sm-4 form-group" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: '0' }}>
+                    <div className="wrapper col-sm-4 form-group">
 
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5", margin: "16px" }}>
 
@@ -1172,10 +1169,10 @@ export default function Production$Planning() {
             {/*Cards Div Row 1*/}
                 < div className="row col-12 cards-row chart-cards card-body panel panel-default">
                 
-                    {showResults ? <PlanningCard dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} changeMachine={changeMachine} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <PlanningCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={dataArray} dataArray2={dataArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={true} lineInit={false} barInit={false} tabInit={false} cardTitle={"Planning"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} changeMachine={changeMachine} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setDataArray} setDataArray2={setDataArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
                  
 
-                    {showResults ? <ProductionCard dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeProcess={changeProcess} changeMachine={changeMachine} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setProductionArray} setDataArray2={setProductionArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <ProductionCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={productionArray} dataArray2={productionArray2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={true} barInit={false} tabInit={false} cardTitle={"Production"} groupBySelect={false} processSelect={false} machineSelect={false} reasonSelect={true} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeProcess={changeProcess} changeMachine={changeMachine} changeShift={changeShift} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setProductionArray} setDataArray2={setProductionArray2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
 
 
@@ -1185,9 +1182,9 @@ export default function Production$Planning() {
 
                 < div className="row col-12 cards-row chart-cards card-body panel panel-default">
 
-                    {showResults? <RejectionCard dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeProcess={changeProcess} changeShift={changeShift} changeMachine={changeMachine} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setRejectionArr} setDataArray2={setRejectionArr2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <RejectionCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={rejectionArr} dataArray2={rejectionArr2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={false} tabInit={true} cardTitle={"Rejection"} groupBySelect={false} processSelect={false} machineSelect={true} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeItem={changeItem} changeItemGroup={changeItemGroup} changeBrand={changeBrand} changeType={changeType} changeCategory={changeCategory} changeSubCategory={changeSubCategory} changeProcess={changeProcess} changeShift={changeShift} changeMachine={changeMachine} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setRejectionArr} setDataArray2={setRejectionArr2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
-                    {showResults ? <MachineCard dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={true} machineSelect={false} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} changeShift={changeShift} changeMachine={changeMachine} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setMachineDowntime} setDataArray2={setMachineDowntime2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
+                    {showResults ? <MachineCard domain={state.domain} port={state.port} Fy={state.Fy} compCode={getCompCode} dataArray={machineDowntime} dataArray2={machineDowntime2} nameKey={"D1"} dataKey1={"Quantity"} dataKey2={"Value"} piInit={false} lineInit={false} barInit={true} tabInit={false} cardTitle={"Machine"} groupBySelect={false} processSelect={true} machineSelect={false} reasonSelect={false} departmentSelect={true} expensesSelect={true} process={process} machine={machine} reason={reason} department={department} expenses={expenses} changeProcess={changeProcess} changeShift={changeShift} changeMachine={changeMachine} changeEndDate={changeEndDate} changeStartDate={changeStartDate} setDataArray={setMachineDowntime} setDataArray2={setMachineDowntime2} tableVal={"Quantity"} tableKey={"D1"} /> : null}
 
 
             </div>

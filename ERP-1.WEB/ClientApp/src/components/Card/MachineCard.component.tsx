@@ -15,13 +15,10 @@ const override = css`
   border-color: red;
 `;
 let PageSize = 9;
-export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeMachine, changeProcess, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
+export default function MachineCard({ domain, port, Fy, compCode, dataArray, dataArray2, nameKey, dataKey1, dataKey2, piInit, lineInit, barInit, tabInit, cardTitle, groupBySelect, processSelect, machineSelect, reasonSelect, departmentSelect, expensesSelect, process, machine, reason, department, expenses, changeMachine, changeProcess, changeShift, changeEndDate, changeStartDate, setDataArray, setDataArray2, tableKey, tableVal, ...props }: any) {
 
 
-    const state = window.localStorage.getItem('state');
-
-
-    console.log('Machine Card', state)
+  
 
 
     var [viewPi, setPiView] = React.useState(piInit);
@@ -151,7 +148,7 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
         setIsSending(true)
         // send the actual request
         try {
-            var urlMachine = "http://103.197.121.188:85/api/values/GROUPMACHINEDOWNTIME"
+            var urlMachine = `http://${domain}:${port}/api/values/GROUPMACHINEDOWNTIME`
 
             var params = []
             params.push(`fromDate=${changeStartDate}`)
@@ -162,8 +159,8 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
             params.push(`machine=${machineChange}`);
             params.push(`reason=${reasonChange}`)
             params.push(`grpby=${groupByChange}`);
-            params.push('Comp=comp0015');
-            params.push('FY=2021');
+            params.push(`Comp=${compCode}`);
+            params.push(`FY=${Fy}`);
             console.log(urlMachine + '?' + params.join('&'));
 
 
