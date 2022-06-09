@@ -1,4 +1,5 @@
 //using ESERP.SERVICE.Domain;
+using ESERP.SERVICE.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace ERP_1.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection")));
+           services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection")));
           
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -45,36 +45,35 @@ class LogIn extends React.Component<IProps, IState>{
 
         const { setCurrentUser } = this.props;
         var domainUrl = `http://${window.location.host}/api/getall`;
-        console.log('domainURL', domainUrl)
-            fetch(domainUrl).then(res => res.json()).then(result => {
-                console.log(result)
+        fetch(domainUrl).then(res => res.json()).then(result => {
+            console.log(result)
 
-                if (result.status = true) {
-           const currentDomain = window.location.hostname
-                   
-                        if (result.sURL == currentDomain) {
-                            setCurrentUser({
-                                domain: result.sURL,
-                                port: result.sPort,
-                                Fy: result.fy
-                            })
-                            /*const serializedState = JSON.stringify(this.props.currentUser)*/
-                            window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
-                            //console.log('local Storage', serializedState)
-                           
-                       
+            if (result != null && result.length > 0) {
+                const currentDomain = window.location.hostname
+                for (let i = 0; i < result.length; i++) {
+                    if (result[i].sUrl == currentDomain) {
+                        setCurrentUser({
+                            domain: result[i].sUrl,
+                            port: result[i].sPort,
+                            Fy: result[i].fy
+                        })
+                        /*const serializedState = JSON.stringify(this.props.currentUser)*/
+                        window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
+                        //console.log('local Storage', serializedState)
 
-                        }
-                        
+                        break;
 
-                    
-                    console.log('Matched Record', this.state);
+                    }
 
-                    console.log('login currentUser', this.props.currentUser)
-                    
+
                 }
-             
-            })
+                console.log('Matched Record', this.state);
+
+                console.log('login currentUser', this.props.currentUser)
+
+            }
+
+        })
 
     }
 

@@ -49,27 +49,28 @@ function App() {
 
         try {
 
+
             var domainUrl = `http://${window.location.host}/api/getall`;
-              fetch(domainUrl).then(res => res.json()).then(result => {
+            console.log('domainUrl', domainUrl)
+            fetch(domainUrl).then(res => res.json()).then(result => {
                 console.log(result)
-                  if (result.status == true) {
 
-                      if (result.sURL == currentDomain) {
-                          setDomain(result.sURL);
-                          setShowResult(true)
-                      
-                      }
-                     
+                if (result != null && result.length > 0) {
+                    for (let i = 0; i < result.length; i++) {
+                        if (result[i].sUrl == currentDomain) {
+                            setDomain(result[i].sUrl);
+                            setShowResult(true)
+                            break;
+                        }
 
-                  }
-                      
-                  
+                    }
+                }
                 else {
                     console.log('data not found in domain array fetch Status = -1')
                     setShowResult(false)
                 }
 
-           })
+            })
 
 
         }
