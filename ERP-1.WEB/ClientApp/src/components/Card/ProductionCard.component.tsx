@@ -202,7 +202,7 @@ export default function PlanningCard({ domain, port, Fy, compCode, dataArray, da
 
                 }
                 else if (result.Status == '-1') {
-                    alert('data not found in Production array, fetch Status = -1')
+                    console.log('data not found in Production array, fetch Status = -1')
                 }
                 else if (result.Status == '0') {
                     alert('Production fetch request failed, fetch STatus = 0')

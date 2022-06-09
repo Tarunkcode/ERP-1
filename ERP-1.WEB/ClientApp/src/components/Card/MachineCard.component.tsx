@@ -203,7 +203,7 @@ export default function MachineCard({ domain, port, Fy, compCode, dataArray, dat
 
                 }
                 else if (result.Status == '-1') {
-                    alert('data not found in Machine array, fetch Status = -1')
+                    console.log('data not found in Machine array, fetch Status = -1')
                 }
                 else if (result.Status == '0') {
                     alert('Machine fetch request failed, fetch STatus = 0')

@@ -16,6 +16,13 @@ import ProductionPlanning from './components/production-planning/production-plan
 import Sales from './components/sales/sales.component';
 import AddSaleOrder from './components/AddSaleOrder/add-sale-order.component'
 import RegisterDomain from './components/RegisterYourDomain/register-your-domain.component';
+import CreditNote from './components/credit-note/credit-note.component';
+import Sale from './components/sale/sale.component';
+import DebitNote from './components/debit-note/debit-note.component';
+import LedgerUs from './components/ledger-us/ledger-us.component';
+import PendingOrder from './components/pending-order/pending-order.component';
+import TotalOrder from './components/total-order/total-order.component';
+import TotalPi from './components/total-pi/total-pi.component';
 
   
 function App() {
@@ -77,16 +84,21 @@ function App() {
  
     return (
         <>
-
-    
         <Switch>
-                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order"]}>
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order","/total-order","/total-pi","/sale","/pending-order","/ledger-us","/debit-note","/credit-note"]}>
                 <Layout>
                     <Route exact path='/Home' component={Home} />
                     <Route exact path='/Purchase' component={Purchase} />
                     <Route exact path='/production-and-planning' component={ProductionPlanning} />
                         <Route exact path='/sales' component={Sales} />
                         <Route exact path='/add-sale-order' component={AddSaleOrder} />
+                    <Route exact path='/total-order' component={TotalOrder} />
+                    <Route exact path='/total-pi' component={TotalPi} />
+                    <Route exact path='/sale' component={Sale} />
+                    <Route exact path='/pending-order' component={PendingOrder} />
+                    <Route exact path='/ledger-us' component={LedgerUs} />
+                    <Route exact path='/debit-note' component={DebitNote} />
+                    <Route exact path='/credit-note' component={CreditNote} />
 
                 </Layout>
             </Route>

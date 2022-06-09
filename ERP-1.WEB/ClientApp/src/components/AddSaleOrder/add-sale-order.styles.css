@@ -19,6 +19,10 @@
     padding: 0;
 }
 
+.hsn-btn {
+    padding: 5px 3px;
+}
+
 @media(max-width:992px) {
     .addSaleForm {
         display: flex;

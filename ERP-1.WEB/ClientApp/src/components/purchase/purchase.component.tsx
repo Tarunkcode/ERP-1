@@ -45,11 +45,11 @@ export default function Purchase() {
 
 
 
-    var urlStart1 =    `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=6&   Comp=${getCompCode}&FY=${state.Fy}`
-    var itemGroupUrl = `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=79&  Comp=${getCompCode}&FY=${state.Fy}`
-    var brandUrl =     `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1002&Comp=${getCompCode}&FY=${state.Fy}`
-    var categoryUrl =  `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1010&Comp=${getCompCode}&FY=${state.Fy}`
-    var typeUrl =      `http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1009&Comp=${getCompCode}&FY=${state.Fy}`
+    var urlStart1 =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=6&Comp=${getCompCode}&FY=${state.Fy}`
+    var itemGroupUrl =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=79&Comp=${getCompCode}&FY=${state.Fy}`
+    var brandUrl =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1002&Comp=${getCompCode}&FY=${state.Fy}`
+    var categoryUrl=`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1010&Comp=${getCompCode}&FY=${state.Fy}`
+    var typeUrl =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1009&Comp=${getCompCode}&FY=${state.Fy}`
     var subCategoryUrl=`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1035&Comp=${getCompCode}&FY=${state.Fy}`
     var [startDate, setStartDate]: any = useState(new Date("2022/04/01"));
     var [endDate, setEndDate]: any = useState(new Date());
@@ -57,7 +57,7 @@ export default function Purchase() {
 
     const [isSending, setIsSending] = useState(false)
     const isMounted = React.useRef(true)
-
+    console.log('CategoryUrl', categoryUrl);
 
     const [colors, setColors] = useState(["blue", "red", "#8884d8", "indigo", "green", "yellow", "orange", "pink", "#82ca9d", "purple", "grey", "brown"]);
     var [dataArray, setDataArray]: any = useState([]);
@@ -281,7 +281,7 @@ export default function Purchase() {
         setIsSending(true)
         // send the actual request
         try {
-            var urlStart = `http://${state.domain}/api/values/Annualpurchasedetails`
+            var urlStart = `http://${state.domain}:${state.port}/api/values/Annualpurchasedetails`
             var params = []
             params.push(`item=${changeItem}`);
             params.push(`itemgrp=${changeItemGroup}`);
@@ -289,8 +289,8 @@ export default function Purchase() {
             params.push(`category=${changeCategory}`);
             params.push(`subcategory=${changeSubCategory}`);
             params.push(`itemtype=${changeType}`);
-            params.push('Comp=comp0015');
-            params.push('FY=2021');
+            params.push(`Comp=${getCompCode}`);
+            params.push(`FY=${state.Fy}`);
             console.log(urlStart + '?' + params.join('&'));
 
 
@@ -386,7 +386,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : null
+                                            : console.log('fine')
 
 
                             }
@@ -421,7 +421,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : null
+                                            : console.log('fine')
 
 
                             }
@@ -453,7 +453,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : null
+                                            : console.log('fine')
 
 
                             }
@@ -489,7 +489,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : null
+                                            : console.log('fine')
 
 
                             }
@@ -521,7 +521,7 @@ export default function Purchase() {
 
                                     )
 
-                                    : null
+                                            : console.log('fine')
 
 
                             }
@@ -536,27 +536,25 @@ export default function Purchase() {
 
                             <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
 
-                            {
+                                 {/*   {*/}
 
-                                subCategory != null && subCategory.length > 0 ?
+                                 {/*       subCategory != null && subCategory.length > 0 ?*/}
 
-                                    (
-                                        <datalist className='subCategory' id='subCategoryList'>
-                                            {
-                                                subCategory.map((obj: any) => {
-                                                    return <option data-value={obj.StateCode}>{obj.StateName}</option>
-                                                })
-                                            }
-
-
-                                        </datalist>
-
-                                    )
-
-                                    : null
+                                 {/*           (*/}
+                                 {/*               <datalist className='subCategory' id='subCategoryList'>*/}
+                                 {/*                   {*/}
+                                 {/*                       subCategory.map((obj: any) => {*/}
+                                 {/*                           return <option data-value={obj.StateCode}>{obj.StateName}</option>*/}
+                                 {/*                       })*/}
+                                 {/*                   }*/}
 
 
-                            }
+                                 {/*               </datalist>*/}
+
+                                 {/*           )*/}
+
+                                 {/*           : null*/}
+                                 {/*}*/}
                         </div>
 
                     </div>

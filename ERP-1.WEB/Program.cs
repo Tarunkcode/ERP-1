@@ -54,7 +54,7 @@ namespace ERP_1.WEB
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                
             }
             CreateHostBuilder(args).Build().Run();
 

@@ -86,25 +86,25 @@ export default (props: any) => {
                             </li>
 
                             <li>
-                                <a href="#">Total Order</a>
+                                <a href="/total-order">Total Order</a>
                             </li>
                             <li>
-                                <a href="#">Pending Order</a>
+                                <a href="/pending-order">Pending Order</a>
                             </li>
                             <li>
-                                <a href="#">Total PI</a>
+                                <a href="/total-pi">Total PI</a>
                             </li>
                             <li>
-                                <a href="#">Sale</a>
+                                <a href="/sale">Sale</a>
                             </li>
                             <li>
-                                <a href="#">Ledger us</a>
+                                <a href="/ledger-us">Ledger us</a>
                             </li>
                             <li>
-                                <a href="#">Credit Note</a>
+                                <a href="/credit-note">Credit Note</a>
                             </li>
                             <li>
-                                <a href="#">Debit Note</a>
+                                <a href="/debit-note">Debit Note</a>
                             </li>
                         </ul>
                     </nav>

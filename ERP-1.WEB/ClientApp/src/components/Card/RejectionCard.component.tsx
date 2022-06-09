@@ -203,7 +203,7 @@ export default function RejectionCard({ domain, port, Fy, compCode, dataArray, d
 
                 }
                 else if (result.Status == '-1') {
-                    alert('data not found in Rejection array, fetch Status = -1')
+                    console.log('data not found in Rejection array, fetch Status = -1')
                 }
                 else if (result.Status == '0') {
                     alert('Rejection fetch request failed, fetch STatus = 0')

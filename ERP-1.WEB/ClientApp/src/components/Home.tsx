@@ -37,12 +37,11 @@ const Home = () => {
     var urlPendingMonthlySO = `http://${state.domain}:${state.port}/api/values/GetPendingMonthlySO?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
     var urlSODetails = `http://${state.domain}:${state.port}/api/values/getmonthlysodetails?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
 
- 
 
     React.useEffect(() => {
         console.log(urlStart)
         fetch(urlStart).then(res => res.json()).then(result => {
-            console.log(result.Data[0])
+           
 
             if (result.Status == '1') {
                 var D1, D2, D3, obj, fill;
@@ -78,14 +77,13 @@ const Home = () => {
                 console.log(dataArray);
 
             } else {
-                alert(console.log("Calling APi failed"));
+                console.log("Calling APi failed");
             }
         })
     }, [])
 
     React.useEffect(() => {
         fetch(urlSaleComparision).then(res => res.json()).then(result => {
-            console.log(result.Data[0])
             if (result.Status == '1') {
 
                 var Monthname, PSaleAmt, SaleAmt, obj;
@@ -112,14 +110,15 @@ const Home = () => {
                 }
                 console.log(saleArr);
             } else {
-                alert(console.log("Calling APi failed"));
+                console.log("Calling APi failed");
             }
         })
     }, [])
 
     React.useEffect(() => {
+    console.log('pending monthly so', urlPendingMonthlySO);
         fetch(urlPendingMonthlySO).then(res => res.json()).then(result => {
-            console.log(result.Data[0])
+         
             if (result.Status == '1') {
 
                 var Monthname, Amt,  obj;
@@ -142,14 +141,14 @@ const Home = () => {
                 }
                 console.log(pendingSO);
             } else {
-                alert(console.log("Calling APi failed"));
+                console.log("Calling APi failed");
             }
         })
     }, [])
 
     React.useEffect(() => {
         fetch(urlSODetails).then(res => res.json()).then(result => {
-            console.log(result.Data[0])
+           
             if (result.Status == '1') {
 
                 var Monthname, Amt, obj;
@@ -172,7 +171,7 @@ const Home = () => {
                 }
                 console.log(soSetails);
             } else {
-                alert(console.log("Calling APi failed"));
+                console.log("Calling APi failed");
             }
         })
     }, [])

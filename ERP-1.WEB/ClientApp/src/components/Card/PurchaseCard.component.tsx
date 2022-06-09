@@ -201,7 +201,7 @@ export default function PurchaseCard({ domain, port, Fy, compCode, dataArray, da
 
     //            }
     //            else if (result.Status == '-1') {
-    //                alert('data not found in Planning array, fetch Status = -1')
+    //                console.log('data not found in Planning array, fetch Status = -1')
     //            }
     //            else if (result.Status == '0') {
     //                alert('Planning fetch request failed, fetch STatus = 0')
