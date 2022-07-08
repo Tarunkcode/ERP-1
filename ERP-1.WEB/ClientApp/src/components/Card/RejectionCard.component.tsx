@@ -20,7 +20,7 @@ export default function RejectionCard({ dataArray, dataArray2, nameKey, dataKey1
     const state = window.localStorage.getItem('state');
 
 
-    console.log('Rejection Card', state)
+   /* console.log('Rejection Card', state)*/
 
 
     var [viewPi, setPiView] = React.useState(piInit);

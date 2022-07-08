@@ -16,7 +16,14 @@ import ProductionPlanning from './components/production-planning/production-plan
 import AddSaleOrder from './components/AddSaleOrder/add-sale-order'
 import Sales from './components/sales/sales.component';
 import RegisterDomain from './components/RegisterYourDomain/register-your-domain.component';
-
+import BalanceOnlyReport from './components/Report/Balance-Only/BalanceOnly.component';
+import Details from './components/Report/Details/details.component';
+import PendingPrDetails from './components/Report/Pending-Pr-Details/pending-pr-details.component';
+import prDetails from './components/Report/Pr-Details/pr-details.component';
+import PRPoDetails from './components/Report/PR-Po-Details/pr-po-details.component';
+import PurchaseOrderDetails from './components/Report/Purchase-Order-Details/purchase-order-details.component';
+import PendingPurchaseDetails from './components/Report/PendingPurchaseDetails/Pending-Pur-Details.component';
+import MarerialDispatch from './components/Material-Dispatch/material-dispatch.component';
   
 function App() {
     const [showResult, setShowResult] = useState(false)
@@ -37,7 +44,8 @@ function App() {
 
         try {
     
-            var domainUrl = "http://localhost:16067/api/getall";
+            var domainUrl = `http://${window.location.host}/api/getall`;
+            console.log('domainUrl', domainUrl)
               fetch(domainUrl).then(res => res.json()).then(result => {
                 console.log(result)
 
@@ -74,13 +82,21 @@ function App() {
 
     
         <Switch>
-            <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order"]}>
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details","/material-dispatch"]}>
                 <Layout>
                     <Route exact path='/Home' component={Home} />
                     <Route exact path='/Purchase' component={Purchase} />
                     <Route exact path='/production-and-planning' component={ProductionPlanning} />
                     <Route exact path='/sales' component={Sales} />
                     <Route exact path='/add-sale-order' component={AddSaleOrder} />
+                    <Route exact path='/balance-only' component={BalanceOnlyReport} />
+                        <Route exact path='/details' component={Details} />
+                        <Route exact path='/pending-pr-details' component={PendingPrDetails} />
+                        <Route exact path='/pending-purchase-details' component={PendingPurchaseDetails} />
+                        <Route exact path='/pr-details' component={prDetails} />
+                        <Route exact path='/pr-po-details' component={PRPoDetails} />
+                        <Route exact path='/purchase-order-details' component={PurchaseOrderDetails} />
+                        <Route exact path='/material-dispatch' component={MarerialDispatch} />
                 </Layout>
             </Route>
 

@@ -20,7 +20,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
     const state = window.localStorage.getItem('state');
 
 
-    console.log('Planning Card', state)
+   /* console.log('Planning Card', state)*/
 
 
     var [viewPi, setPiView] = React.useState(piInit);
@@ -208,7 +208,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
 
                  }
                 else if (result.Status == '-1') {
-                    alert('data not found in Planning array, fetch Status = -1')
+                    console.log('data not found in Planning array, fetch Status = -1')
                 }
                 else if (result.Status == '0') {
                     alert('Planning fetch request failed, fetch STatus = 0')
@@ -263,7 +263,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
             {/*Cards*/}
             < div className="card contain-recharts" style={card}>
                 
-
+               
 
                 <div className="card-body body" style={{ padding: "0 13px", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin: "0", width: '90%' }}>
                 <div className="card-title title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
@@ -276,13 +276,14 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
                                     Quantity
                                 </label>
 
-                                <input className="form-check-input" type="radio" name="toggle" id="quantity" value="1"  onChange={handleRadio } />
+
+                                <input className="form-check-input" type="radio" name="toggle" id="quantity" value="1" onChange={handleRadio} checked />
                             </div>
                             <div className="form-check">
                                 <label className="form-check-label" htmlFor="toggle">
                                     Value
                                 </label>
-                                <input className="form-check-input" type="radio" name="toggle" id="value" value="2" onChange={handleRadio } />
+                                <input className="form-check-input" type="radio" name="toggle" id="value" value="2" onChange={handleRadio} />
                             </div>
                          </span>
 

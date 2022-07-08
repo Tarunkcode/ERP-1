@@ -20,7 +20,7 @@ export default function PlanningCard({ dataArray, dataArray2, nameKey, dataKey1,
     const state = window.localStorage.getItem('state');
 
 
-    console.log('Production Card', state)
+    //console.log('Production Card', state)
 
 
     var [viewPi, setPiView] = React.useState(piInit);

@@ -230,7 +230,9 @@ const MapChart = () => {
     return (
 
         <div className={"IndianStatesMap"}>
-          
+            <div style={{ background: '#4061bd', margin: '6px -3em 0 -3em', padding: '0', textAlign:'center' }}>
+                <span style={{ fontSize: '15px', fontWeight: 400, color:'white' }}>Statewise Sales</span>
+            </div>
             <DatamapsIndia
 
                 regionData={{
@@ -352,7 +354,7 @@ const MapChart = () => {
                     );
                 }}
                 mapLayout={{
-                    title: "StateWise Sales",
+                    title: "",
                     legendTitle: "Statewise Sales",
                     startColor: "#FFDAB9",
                     endColor: "#FF6347",

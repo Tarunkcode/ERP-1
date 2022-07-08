@@ -30,7 +30,7 @@ export default function Production$Planning() {
     const state = window.localStorage.getItem('state');
 
 
-    console.log('production$Planning', state)
+   /* console.log('production$Planning', state)*/
 
 
 
@@ -58,8 +58,7 @@ export default function Production$Planning() {
     var [changeProcess, setChangeProcess]: any = useState('0');
     var [changeShift, setChangeShift]: any = useState('0');
     var [changeMachine, setChangeMachine]: any = useState('0');
-    var [changeStartDate, setChangeStartDate]: any = useState('2022-04-01');
-    var [changeEndDate, setChangeEndDate]: any = useState('2022-12-31');
+   
 
 
 
@@ -75,10 +74,35 @@ export default function Production$Planning() {
     var reasonUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1028&Comp=comp0015&FY=2021";
     var departmentUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=2001&Comp=comp0015&FY=2021";
     var expensesUrl = "http://103.197.121.188:85/api/values/GetMasterData?MasterType=1030&Comp=comp0015&FY=2021";
+   
+
+    //------------ default date block-----------------------------------------------------------------------------------------------------------------------
+    const today = new Date();
+    var format = today.toString().slice(4, 15)
+    var yearOnly = format.slice(7, 11)
+    var dateOnly = format.slice(4, 6)
+    var MonthOnly = format.slice(0, 3)
+    var monthNo = 0;
+    if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
+    else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
+    else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
+    else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
+    else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
+    else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
+    else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
+    else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
+    else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
+    else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
+    else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
+    else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+
+    var defaultDate = `${yearOnly}-${monthNo}-${dateOnly}`
+
     var [startDate, setStartDate]: any = useState(new Date("2022-04-01"));
-    var [endDate, setEndDate]: any = useState(new Date());
-
-
+    var [endDate, setEndDate]: any = useState(new Date);
+    var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
+    var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------
     const [isSending, setIsSending] = useState(false)
     const isMounted = React.useRef(true)
 
@@ -365,10 +389,9 @@ export default function Production$Planning() {
         handleShiftChange
         handleProcessChange
         handleMachineChange
-        handleChangeStartDate(startDate)
-        handleChangeendDate(endDate)
+     
 
-    }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeProcess, changeShift, changeMachine, changeEndDate, changeStartDate])
+    }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory, changeProcess, changeShift, changeMachine])
 
     //console.log(dataArray)
 
@@ -382,7 +405,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (ITEM == '') {
+            setChangeItem('0');
+        }
     }
 
     const handleItemGroupChange = (event: any) => {
@@ -394,7 +419,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (ITEM_GRP=='') {
+            setChangeItemGroup('0');
+        }
     }
 
     const handleBrandChange = (event: any) => {
@@ -406,7 +433,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (BRAND == '') {
+            setChangeBrand('0')
+        }
 
     }
 
@@ -419,7 +448,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (CATEGORY == '') {
+            setChangeCategory('0')
+        }
 
     }
 
@@ -432,7 +463,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (TYPE == '') {
+            setChangeType('0')
+        }
 
     }
 
@@ -448,7 +481,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (SUB_CAT == '') {
+            setChangeSubCategory('0')
+        }
 
     }
 
@@ -462,7 +497,9 @@ export default function Production$Planning() {
                 break;
             }
         }
-
+        if (SHIFT == '') {
+            setChangeShift('0')
+        }
 
     }
     const handleProcessChange = (event: any) => {
@@ -474,6 +511,9 @@ export default function Production$Planning() {
 
                 break;
             }
+        }
+        if (PROCESS == '') {
+            setChangeProcess('0');
         }
 
     }
@@ -487,25 +527,14 @@ export default function Production$Planning() {
                 break;
             }
         }
-
-
-    }
-    const handleChangeStartDate = (startDate: DatePicker) => {
-        const selectedstartDate = new Date(`${startDate}`); // pass in date param here
-        const formattedStartDate = `${selectedstartDate.getFullYear()}-${selectedstartDate.getMonth() + 1}-${selectedstartDate.getDate()}`;
-        console.log('onChange-Start-Date', formattedStartDate)
-        setChangeStartDate(formattedStartDate)
+        if (MACHINE == '') {
+            setChangeMachine('0')
+        }
 
     }
 
-    const handleChangeendDate = (endDate: DatePicker) => {
-        const selectedendDate = new Date(`${endDate}`); // pass in date param here
-        const formattedEndDate = `${selectedendDate.getFullYear()}-${selectedendDate.getMonth() + 1}-${selectedendDate.getDate()}`;
-        console.log('onChange-End-Date', formattedEndDate)
-        setChangeEndDate(formattedEndDate)
 
-    }
-
+   
 
     React.useEffect(() => {
         return () => {
@@ -524,6 +553,7 @@ export default function Production$Planning() {
         if (isSending) return
         // update state
         setIsSending(true)
+      
         // send the actual request
         try {
             var urlPlanning = "http://103.197.121.188:85/api/values/getgroupwiseprodplan"
@@ -813,7 +843,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -916,7 +946,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -948,7 +978,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -980,7 +1010,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1019,7 +1049,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1052,7 +1082,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1087,7 +1117,7 @@ export default function Production$Planning() {
 
                                     )
 
-                                    : console.log('fine')
+                                    : null
 
 
                             }
@@ -1105,24 +1135,43 @@ export default function Production$Planning() {
                         <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="label-from-date form-label col-sm-12">From Date</label>
 
-                            <DatePicker
+                                    <DatePicker
 
-                                name="startDate"
-                                className="startDate"
-                                selectsStart
-                                startDate={startDate}
-                                dateFormat="MMM, dd yyyy"
-                                closeOnScroll={true}
-                                selected={startDate}
-                                onChange={(date: Date) => {
+                                        name="startDate"
+                                        className="startDate"
+                                        selectsStart
 
-                                    setStartDate(date)
-                                    handleChangeStartDate(startDate)
+                                        dateFormat="MMM dd, yyyy"
+                                        closeOnScroll={true}
+                                        selected={startDate}
 
-                                }
-                                }
+                                        onChange={(k: Date) => {
+                                            setStartDate(k)
+                                            var format = k.toString().slice(4, 15)
+                                            var yearOnly = format.slice(7, 11)
+                                            var dateOnly = format.slice(4, 6)
+                                            var MonthOnly = format.slice(0, 3)
+                                            var monthNo = 0;
+                                            if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
+                                            else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
+                                            else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
+                                            else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
+                                            else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
+                                            else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
+                                            else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
+                                            else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
+                                            else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
+                                            else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
+                                            else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
+                                            else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
 
-                            />
+                                            var fDate = `${yearOnly}-${monthNo}-${dateOnly}`
+                                            console.log(fDate)
+                                            setChangeStartDate(fDate)
+                                        }
+                                        }
+
+                                    />
                         </div>
 
                     </div>
@@ -1137,10 +1186,30 @@ export default function Production$Planning() {
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12 label-to-date">To Date</label>
 
 
-                            <DatePicker name="toDate" className="toDate" dateFormat="MMM, dd yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
-                                setEndDate(date)
-                                handleChangeendDate(endDate)
-                            }} />
+                                    <DatePicker name="toDate" className="toDate" dateFormat="MMM dd, yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
+                                        setEndDate(date)
+                                        var format = date.toString().slice(4, 15)
+                                        var yearOnly = format.slice(7, 11)
+                                        var dateOnly = format.slice(4, 6)
+                                        var MonthOnly = format.slice(0, 3)
+                                        var monthNo = 0;
+                                        if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
+                                        else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
+                                        else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
+                                        else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
+                                        else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
+                                        else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
+                                        else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
+                                        else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
+                                        else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
+                                        else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
+                                        else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
+                                        else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+
+                                        var eDate = `${yearOnly}-${monthNo}-${dateOnly}`
+                                        console.log(eDate)
+                                        setChangeEndDate(eDate)
+                                    }} />
                         </div>
 
                     </div>

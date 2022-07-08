@@ -1,5 +1,6 @@
 ﻿using ESERP.SERVICE.Domain;
 using ESERP.SERVICE.Repository;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace ERP_1.WEB.Controllers
 {
     [Route("api/[action]")]
+    
     public class DomainController : Controller
     {
         private readonly ILogger<DomainController> _logger;

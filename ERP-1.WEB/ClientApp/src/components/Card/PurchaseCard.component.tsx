@@ -20,7 +20,7 @@ export default function PurchaseCard({ dataArray, dataArray2, nameKey, dataKey1,
     const state = window.localStorage.getItem('state');
 
 
-    console.log('purchase Card', state)
+   /* console.log('purchase Card', state)*/
 
     var [viewPi, setPiView] = React.useState(piInit);
     var [viewLine, setLineView] = React.useState(lineInit);

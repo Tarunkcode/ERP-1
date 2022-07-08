@@ -44,7 +44,7 @@ class LogIn extends React.Component<IProps, IState>{
     componentDidMount() {
 
         const { setCurrentUser } = this.props;
-            var domainUrl = "http://localhost:16067/api/getall";
+            var domainUrl = `http://${window.location.host}/api/getall`;
             fetch(domainUrl).then(res => res.json()).then(result => {
                 console.log(result)
 

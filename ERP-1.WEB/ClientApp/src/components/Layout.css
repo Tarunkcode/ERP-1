@@ -20,7 +20,7 @@ body {
     align-items:center;
     top: 38px;
     left: 20em;
-    height: 39em;
+    height: 38em;
     
     width:75%;
     padding-top:33px;
@@ -114,6 +114,8 @@ a, a:hover, a:focus {
         padding-left: 50px;
     }
 
+   
+
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
     background: #6d7fcc;
@@ -142,7 +144,7 @@ a[data-toggle="collapse"] {
 
 .dropdown-toggle::after {
     display: block;
-    position: absolute;
+    position:absolute;
     top: 50%;
     right: 20px;
     transform: translateY(-50%);
@@ -160,7 +162,11 @@ a.navbar-brand {
     justify-content: space-evenly;
     align-items: center;
 }
-
+/*.dropdown-menu{
+    right: 72%;
+    top:auto;
+}
+*/
 @media(max-width:972px) {
     .container {
         margin: auto 0;
@@ -178,5 +184,5 @@ a.navbar-brand {
 }
 
 /*.homeDiv::-webkit-scrollbar {
-    display: none;
+    display:none;
 }*/

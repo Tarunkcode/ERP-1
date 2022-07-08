@@ -21,7 +21,7 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
     const state = window.localStorage.getItem('state');
 
 
-    console.log('Machine Card', state)
+  /*  console.log('Machine Card', state)*/
 
 
     var [viewPi, setPiView] = React.useState(piInit);
@@ -206,7 +206,9 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
 
                 }
                 else if (result.Status == '-1') {
-                    alert('data not found in Machine array, fetch Status = -1')
+                    console.log('data not found in Machine array, fetch Status = -1')
+                       
+                   
                 }
                 else if (result.Status == '0') {
                     alert('Machine fetch request failed, fetch STatus = 0')
@@ -396,6 +398,7 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
                     </div>
                     <ClipLoader color="green" loading={isSending} css={override} size={150} />
                     {
+
                         viewPi && !isSending ? (
                             <ResponsiveContainer width="100%" aspect={1}>
                                 <PieChart width={490} height={400} style={{ paddingTop: "0px", marginBottom: "30px" }}>
@@ -422,7 +425,7 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
                         viewLine && !isSending ? (
                             <ResponsiveContainer width="100%" aspect={1}>
                                 <LineChart width={490} height={430} data={dataArray}>
-                                    <XAxis />
+                                    <XAxis height={150} />
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
 
@@ -441,7 +444,7 @@ export default function MachineCard({ dataArray, dataArray2, nameKey, dataKey1, 
 
                                     <Bar dataKey={dataKey1} fill="#82ca9d" />
                                     <CartesianGrid stroke="#ccc" />
-                                    <XAxis />
+                                    <XAxis  height={150}  />
 
 
                                     <YAxis />
