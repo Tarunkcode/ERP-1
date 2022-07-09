@@ -23,6 +23,14 @@ import LedgerUs from './components/ledger-us/ledger-us.component';
 import PendingOrder from './components/pending-order/pending-order.component';
 import TotalOrder from './components/total-order/total-order.component';
 import TotalPi from './components/total-pi/total-pi.component';
+import BalanceOnlyReport from './components/Report/Balance-Only/BalanceOnly.component';
+import Details from './components/Report/Details/details.component';
+import PendingPrDetails from './components/Report/Pending-Pr-Details/pending-pr-details.component';
+import prDetails from './components/Report/Pr-Details/pr-details.component';
+import PRPoDetails from './components/Report/PR-Po-Details/pr-po-details.component';
+import PurchaseOrderDetails from './components/Report/Purchase-Order-Details/purchase-order-details.component';
+import PendingPurchaseDetails from './components/Report/PendingPurchaseDetails/Pending-Pur-Details.component';
+import MarerialDispatch from './components/Material-Dispatch/material-dispatch.component';
 
   
 function App() {
@@ -86,7 +94,7 @@ function App() {
     return (
         <>
         <Switch>
-                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order","/total-order","/total-pi","/sale","/pending-order","/ledger-us","/debit-note","/credit-note"]}>
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/total-order", "/total-pi", "/sale", "/pending-order", "/ledger-us", "/debit-note", "/credit-note", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details", "/material-dispatch"]}>
                 <Layout>
                     <Route exact path='/Home' component={Home} />
                     <Route exact path='/Purchase' component={Purchase} />
@@ -100,8 +108,15 @@ function App() {
                     <Route exact path='/ledger-us' component={LedgerUs} />
                     <Route exact path='/debit-note' component={DebitNote} />
                     <Route exact path='/credit-note' component={CreditNote} />
-
-                </Layout>
+                        <Route exact path='/balance-only' component={BalanceOnlyReport} />
+                        <Route exact path='/details' component={Details} />
+                        <Route exact path='/pending-pr-details' component={PendingPrDetails} />
+                        <Route exact path='/pending-purchase-details' component={PendingPurchaseDetails} />
+                        <Route exact path='/pr-details' component={prDetails} />
+                        <Route exact path='/pr-po-details' component={PRPoDetails} />
+                        <Route exact path='/purchase-order-details' component={PurchaseOrderDetails} />
+                        <Route exact path='/material-dispatch' component={MarerialDispatch} />
+                    </Layout>
             </Route>
 
             <Route path={["/Login"]}>

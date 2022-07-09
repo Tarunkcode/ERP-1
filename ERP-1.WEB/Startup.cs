@@ -24,8 +24,9 @@ namespace ERP_1.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-           services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection")));
-          
+           services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection1")));
+            services.AddDbContext<ERPContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection2")));
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

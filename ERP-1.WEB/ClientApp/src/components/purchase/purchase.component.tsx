@@ -42,7 +42,35 @@ export default function Purchase() {
     var [changeCategory, setChangeCategory]: any = useState('0');
     var [changeType, setChangeType]: any = useState('0');
     var [changeSubCategory, setChangeSubCategory]: any = useState('0');
+   
 
+    //------------ default date block-----------------------------------------------------------------------------------------------------------------------
+    const today = new Date();
+    var format = today.toString().slice(4, 15)
+    var yearOnly = format.slice(7, 11)
+    var dateOnly = format.slice(4, 6)
+    var MonthOnly = format.slice(0, 3)
+    var monthNo = 0;
+    if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
+    else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
+    else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
+    else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
+    else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
+    else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
+    else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
+    else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
+    else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
+    else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
+    else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
+    else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+
+    var defaultDate = `${yearOnly}-${monthNo}-${dateOnly}`
+
+    var [startDate, setStartDate]: any = useState(new Date("2022-04-01"));
+    var [endDate, setEndDate]: any = useState(new Date);
+    var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
+    var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     var urlStart1 =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=6&Comp=${getCompCode}&FY=${state.Fy}`
@@ -51,10 +79,7 @@ export default function Purchase() {
     var categoryUrl=`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1010&Comp=${getCompCode}&FY=${state.Fy}`
     var typeUrl =`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1009&Comp=${getCompCode}&FY=${state.Fy}`
     var subCategoryUrl=`http://${state.domain}:${state.port}/api/values/GetMasterData?MasterType=1035&Comp=${getCompCode}&FY=${state.Fy}`
-    var [startDate, setStartDate]: any = useState(new Date("2022/04/01"));
-    var [endDate, setEndDate]: any = useState(new Date());
-
-
+  
     const [isSending, setIsSending] = useState(false)
     const isMounted = React.useRef(true)
     console.log('CategoryUrl', categoryUrl);
@@ -181,6 +206,18 @@ export default function Purchase() {
     }, [])
 
 
+    React.useEffect(() => {
+        handleItemChange
+        handleItemGroupChange
+        handleBrandChange
+        handleCategoryChange
+        handleTypeChange
+        handleSubCategoryChange
+
+      
+
+    }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory])
+
 
 
     //console.log(dataArray)
@@ -195,7 +232,9 @@ export default function Purchase() {
                 break;
             }
         }
-
+        if (ITEM == '') {
+            setChangeItem('0')
+        }
     }
 
     const handleItemGroupChange = (event: any) => {
@@ -207,7 +246,9 @@ export default function Purchase() {
                 break;
             }
         }
-
+        if (ITEM_GRP == '') {
+            setChangeItemGroup('0')
+        }
     }
 
     const handleBrandChange = (event: any) => {
@@ -219,7 +260,9 @@ export default function Purchase() {
                 break;
             }
         }
-
+        if (BRAND == '') {
+            setChangeBrand('0')
+        }
 
     }
 
@@ -232,7 +275,9 @@ export default function Purchase() {
                 break;
             }
         }
-
+        if (CATEGORY == '') {
+            setChangeCategory("0")
+        }
 
     }
 
@@ -245,7 +290,9 @@ export default function Purchase() {
                 break;
             }
         }
-
+        if (TYPE == '') {
+            setChangeType('0');
+        }
 
     }
 
@@ -261,17 +308,18 @@ export default function Purchase() {
                 break;
             }
         }
-
+        if (SUB_CAT == '') {
+            setChangeSubCategory('0');
+        }
 
     }
-
+   
 
     React.useEffect(() => {
         return () => {
             isMounted.current = false
         }
     }, [])
-
     const sendRequest = React.useCallback(async () => {
 
         setShowResults(false)
@@ -289,6 +337,8 @@ export default function Purchase() {
             params.push(`category=${changeCategory}`);
             params.push(`subcategory=${changeSubCategory}`);
             params.push(`itemtype=${changeType}`);
+            params.push(`fromDate=${changeStartDate}`);
+            params.push(`toDate=${changeEndDate}`);
             params.push(`Comp=${getCompCode}`);
             params.push(`FY=${state.Fy}`);
             console.log(urlStart + '?' + params.join('&'));
@@ -342,13 +392,13 @@ export default function Purchase() {
         // once the request is sent, update state again
         if (isMounted.current) // only update if we are still mounted
             setIsSending(false)
-    }, [isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory]) // update the callback if the state changes
+    }, [changeStartDate, changeEndDate,isSending, changeItem, changeItemGroup, changeBrand, changeType, changeCategory, changeSubCategory]) // update the callback if the state changes
 
 
 
 
     return (
-        <>
+        <div style={{margin:'0 -3em'}}>
         <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
 
             <div className="card-title">
@@ -364,7 +414,7 @@ export default function Purchase() {
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
 
                     <div className="wrapper col-sm-4 form-group">
-                        <div className="card-body crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
+                        <div className="crd col-sm-12" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0", width:'121%'}} htmlFor="itemGroup" className="label-item-group form-label">Item Group</label>
 
                             <input id='itemGroup' name="itemGroup" type='text' className="form-control form-select col-sm-12 section" list="itemGroupList" onChange={handleItemGroupChange} />
@@ -397,7 +447,7 @@ export default function Purchase() {
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
                     <div className="wrapper col-sm-4 form-group">
 
-                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                        <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='item' className="form-label col-sm-12">Item</label>
 
                             <input id="item" name="item" type="text" className="form-control form-select col-sm-12 section" list="itemList" onChange={handleItemChange} />
@@ -431,7 +481,7 @@ export default function Purchase() {
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
                     <div className="wrapper col-sm-4 form-group">
 
-                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                        <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='brand' className="form-label col-sm-12">Brand</label>
 
                             <input id="brand" name='brand' type='text' className="form-control form-select col-sm-12 section" list="brandList" onChange={handleBrandChange} />
@@ -467,7 +517,7 @@ export default function Purchase() {
                 <div className="col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
                     <div className="wrapper col-sm-4 form-group">
 
-                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                        <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='category' className="form-label col-sm-12">Category</label>
 
                             <input id='category' name='category' type='text' className="form-control form-select col-sm-12 section" list='categoryList' onChange={handleCategoryChange} />
@@ -499,7 +549,7 @@ export default function Purchase() {
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
                     <div className="wrapper col-sm-4 form-group">
 
-                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                        <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px", padding: "0" }} htmlFor='type' className="form-label col-sm-12">Type</label>
 
                             <input id='type' name='type' type='text' className="form-control form-select col-sm-12 section" list='typeList' onChange={handleTypeChange} />
@@ -531,7 +581,7 @@ export default function Purchase() {
                     {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
                     <div className="wrapper col-sm-4 form-group">
 
-                        <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                        <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
                             <label style={{ fontSize: "12px",width:'150%', padding: "0" }} htmlFor='subCategory' className="label-sub-category form-label">Sub Category</label>
 
                             <input id='subCategory' name='subCategory' type='text' className="form-control form-select col-sm-12 section" list='subCategoryList' onChange={handleSubCategoryChange} />
@@ -570,19 +620,46 @@ export default function Purchase() {
             <div className="col-12 col-sm-6 filterParent" style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", margin: '0', padding: '0' }}>
                 <div className="wrapper col-sm-4 form-group">
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                    <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor='startDate' className="label-from-date form-label col-sm-12">From Date</label>
 
-                        <DatePicker
+                                <DatePicker
 
-                            selectsStart
-                            startDate={startDate}
-                            dateFormat="MMM, dd yyyy"
-                            closeOnScroll={true} selected={startDate} onChange={(date: Date) => {
+                                    name="startDate"
+                                    className="startDate"
+                                    selectsStart
 
-                                setStartDate(date)
-                                console.log(startDate);
-                            }} />
+                                    dateFormat="MMM dd, yyyy"
+                                    closeOnScroll={true}
+                                    selected={startDate}
+
+                                    onChange={(k: Date) => {
+                                        setStartDate(k)
+                                        var format = k.toString().slice(4, 15)
+                                        var yearOnly = format.slice(7, 11)
+                                        var dateOnly = format.slice(4, 6)
+                                        var MonthOnly = format.slice(0, 3)
+                                        var monthNo = 0;
+                                        if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
+                                        else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
+                                        else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
+                                        else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
+                                        else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
+                                        else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
+                                        else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
+                                        else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
+                                        else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
+                                        else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
+                                        else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
+                                        else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+
+                                        var fDate = `${yearOnly}-${monthNo}-${dateOnly}`
+                                        console.log(fDate)
+                                        setChangeStartDate(fDate)
+                                    }
+                                    }
+
+                                />
                     </div>
 
                 </div>
@@ -591,16 +668,36 @@ export default function Purchase() {
 
                 <div className="wrapper col-sm-4 form-group">
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5" }}>
+                    <div className="crd" style={{ backgroundColor: "#F5F5F5" }}>
 
 
                         <label style={{ fontSize: "12px", padding: "0" }} htmlFor="toDate" className="form-label col-sm-12 label-to-date">To Date</label>
 
 
-                        <DatePicker dateFormat="MMM, dd yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
-                            setEndDate(date)
-                            console.log(endDate);
-                        }} />
+                                <DatePicker name="toDate" className="toDate" dateFormat="MMM dd, yyyy" closeOnScroll={true} selected={endDate} onChange={(date: Date) => {
+                                    setEndDate(date)
+                                    var format = date.toString().slice(4, 15)
+                                    var yearOnly = format.slice(7, 11)
+                                    var dateOnly = format.slice(4, 6)
+                                    var MonthOnly = format.slice(0, 3)
+                                    var monthNo = 0;
+                                    if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
+                                    else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
+                                    else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
+                                    else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
+                                    else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
+                                    else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
+                                    else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
+                                    else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
+                                    else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
+                                    else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
+                                    else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
+                                    else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+
+                                    var eDate = `${yearOnly}-${monthNo}-${dateOnly}`
+                                    console.log(eDate)
+                                    setChangeEndDate(eDate)
+                                }} />
                     </div>
 
                 </div>
@@ -611,7 +708,7 @@ export default function Purchase() {
 
                 <div className="wrapper col-sm-4 form-group" >
 
-                    <div className="card-body crd" style={{ backgroundColor: "#F5F5F5", margin: "16px" }}>
+                    <div className="crd" style={{ backgroundColor: "#F5F5F5", margin: "16px" }}>
 
 
                         <button className="btn btn-primary load-button" type="submit" disabled={isSending} onClick={sendRequest}>Load</button>
@@ -652,7 +749,7 @@ export default function Purchase() {
 
 
         </div>
-         </>
+         </div>
     )
 
 

@@ -8,7 +8,6 @@ const MapChart = () => {
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
 
-    console.log('Sales', state)
 
     const urlStateSales = `http://${state.domain}:${state.port}/api/values/GetReportData?&RType=0&MCode=0&partycode=0&rcode=1&Comp=${getCompCode}&FY=${state.Fy}`
     var [andhraVal, setAndhraVal]: any = useState(0);
@@ -231,7 +230,9 @@ const MapChart = () => {
     return (
 
         <div className={"IndianStatesMap"}>
-          
+            <div style={{ background: '#4061bd', margin: '0px -10em 0 -10em', padding: '0', textAlign: 'center' }}>
+                <span style={{ fontSize: '15px', fontWeight: 400, color: 'white' }}>Statewise Sales</span>
+            </div>
             <DatamapsIndia
 
                 regionData={{
@@ -353,7 +354,7 @@ const MapChart = () => {
                     );
                 }}
                 mapLayout={{
-                    title: "StateWise Sales",
+                    title: "",
                     legendTitle: "Statewise Sales",
                     startColor: "#FFDAB9",
                     endColor: "#FF6347",

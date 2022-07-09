@@ -14,6 +14,7 @@ body {
     /*background: #cbcad9;*/
    
     background: #F5F5F5;
+
 }
 .IndianStatesMap > svg {
     display: flex;
@@ -94,7 +95,7 @@ a, a:hover, a:focus {
 }
 
 #sidebar ul.components {
-    padding: 20px 0;
+    padding: 0;
     max-height: 100vh;
 }
 
@@ -118,10 +119,13 @@ a, a:hover, a:focus {
         padding-left: 50px;
     }
 
+   
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
     background: #6d7fcc;
+    
 }
+
 
 ul ul a {
     font-size: 0.9em !important;
@@ -165,6 +169,7 @@ a.navbar-brand {
     align-items: center;
 }
 
+   
 @media(max-width:972px) {
     .container {
         margin: auto 0;

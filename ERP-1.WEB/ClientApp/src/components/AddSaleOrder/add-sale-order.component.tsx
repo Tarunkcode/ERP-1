@@ -4,32 +4,24 @@ import './add-sale-order.styles.css';
 
 const AddSaleOrder = () => {
 
-    const getState = window.localStorage.getItem('state');
-    const state = JSON.parse(getState!)
     var getSoSeries = window.sessionStorage.getItem('so-series');
     var getAccName = window.sessionStorage.getItem('acc-name');
+    const getState = window.localStorage.getItem('state');
+    const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
-   
 
     var [itemCodeArr, setItemCodeArr]: any = React.useState([]);
     var [masterDetails, setMasterDetails]: any = React.useState([]);
     var [changeItemCode, setChangeItemCode]: any = React.useState('');
     var [itemDetails, setItemDetails]: any = React.useState([]);
 
+    const itemCodeUrl = `http://${state.domain};${state.port}/api/values/GetItemMaster?itemgroup=265&Itembrand=0&Itemcategory=0&Itemsubcategory=0&itemtype=0&itemgrptype=0&Comp=${getCompCode}&FY=${state.Fy}`;
 
-
-
-
-   
-    var [masterDetails, setMasterDetails]: any = React.useState([]);
-
-    const itemCodeUrl = `http://${state.domain}:${state.port}/api/values/GetItemMaster?itemgroup=265&Itembrand=0&Itemcategory=0&Itemsubcategory=0&itemtype=0&itemgrptype=0&Comp=${getCompCode}&FY=${state.Fy}`;
-
-    const itemDetailsUrl = "http://103.197.121.188:85/api/values/getitemDetails"
+    const itemDetailsUrl = `http://${state.domain}:${state.port}/api/values/getitemDetails`
     var params2: any = [];
     params2.push(`item=${changeItemCode}`);
-    params2.push('comp=comp0015')
-    params2.push('fy=2021')
+    params2.push(`comp=${getCompCode}`)
+    params2.push(`fy=${state.Fy}`)
 
     const partyCodeUrl = `http://${state.domain}:${state.port}/api/values/GetAccountMasterDetails`
     var params: any = [];
@@ -39,7 +31,6 @@ const AddSaleOrder = () => {
     params.push(`fy=${state.Fy}`)
 
     //Fetch Item COde 
-  
     const fetchItemCodeArr = async () => {
         try {
             const response = await fetch(itemCodeUrl);
@@ -127,7 +118,7 @@ const AddSaleOrder = () => {
     }
 
     return (
-        <>
+        <div style={{ margin: '0 -3em' }}>
 
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
@@ -258,26 +249,26 @@ const AddSaleOrder = () => {
                             <thead className="thead-light table-secondary">
                                 <tr>
                                     <th scope="col">S.No.</th>
-                                    <th scope="col" style={{ width: '59%' }}><span>Item Code</span></th>
+                                    <th scope="col col-sm-3"><span>Item Code</span></th>
 
 
-                                    <th scope="col" style={{ width: '30%' }}><span>Item Name</span></th>
+                                    <th scope="col"><span>Item Name</span></th>
 
 
-                                    <th scope="col" style={{ width: '30%' }}><span>Quantity</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Uom</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>MRP</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Basic Rate</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Sale Rate</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Amount Rate</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Dis %</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Dis. Sale Rate</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Dis (Rs)</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Amount</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>S.Dis(%)</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>S.Dis Amt</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>Amount</span></th>
-                                    <th scope="col" style={{ width: '30%' }}><span>GST (%)</span></th>
+                                    <th scope="col"><span>Quantity</span></th>
+                                    <th scope="col"><span>Uom</span></th>
+                                    <th scope="col"><span>MRP</span></th>
+                                    <th scope="col"><span>Basic Rate</span></th>
+                                    <th scope="col"><span>Sale Rate</span></th>
+                                    <th scope="col"><span>Amount Rate</span></th>
+                                    <th scope="col"><span>Dis %</span></th>
+                                    <th scope="col"><span>Dis. Sale Rate</span></th>
+                                    <th scope="col"><span>Dis (Rs)</span></th>
+                                    <th scope="col"><span>Amount</span></th>
+                                    <th scope="col"><span>S.Dis(%)</span></th>
+                                    <th scope="col"><span>S.Dis Amt</span></th>
+                                    <th scope="col"><span>Amount</span></th>
+                                    <th scope="col"><span>GST (%)</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -316,7 +307,7 @@ const AddSaleOrder = () => {
 
                                                 <>
                                                     <td></td>
-                                                    <td><input type="text" style={{ width: '100%' }} className="form-control" /></td>
+                                                    <td><input type="text" className="form-control" /></td>
                                                     <td>{item.UOMNAME}</td>
                                                     <td>{item.MRP}</td>
                                                     <td></td>
@@ -340,6 +331,7 @@ const AddSaleOrder = () => {
 
 
                                 </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -426,7 +418,7 @@ const AddSaleOrder = () => {
                 </div>
             </div>
 
-        </>
+        </div>
     )
 }
 export default AddSaleOrder;

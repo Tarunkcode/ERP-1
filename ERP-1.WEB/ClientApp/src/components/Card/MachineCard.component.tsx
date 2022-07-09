@@ -419,7 +419,7 @@ export default function MachineCard({ domain, port, Fy, compCode, dataArray, dat
                         viewLine && !isSending ? (
                             <ResponsiveContainer width="100%" aspect={1}>
                                 <LineChart width={490} height={430} data={dataArray}>
-                                    <XAxis />
+                                    <XAxis height={150}  />
                                     <YAxis />
                                     <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
 
@@ -438,7 +438,7 @@ export default function MachineCard({ domain, port, Fy, compCode, dataArray, dat
 
                                     <Bar dataKey={dataKey1} fill="#82ca9d" />
                                     <CartesianGrid stroke="#ccc" />
-                                    <XAxis />
+                                    <XAxis height={150}  />
 
 
                                     <YAxis />

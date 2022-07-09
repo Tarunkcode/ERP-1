@@ -37,5 +37,7 @@ namespace ERP_1.WEB.Controllers
             return Ok(table);
         }
 
+
+
     }
 }
