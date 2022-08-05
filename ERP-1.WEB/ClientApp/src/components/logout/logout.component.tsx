@@ -13,8 +13,8 @@ export function LogOut() {
     }
     return (
         <span>
-            <i className="fas fa-sign-out-alt"></i>
-            <a href="#" onClick={handleLogOut}>Log Out</a>
+            
+            <a style={{ fontSize: '1rem', marginLeft:'33px' , color:'#fff'}} href="#" onClick={handleLogOut}><i className="fas fa-sign-out-alt"></i>SignOut</a>
         </span>
     )
 }

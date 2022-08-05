@@ -3,12 +3,16 @@ import DatePicker from "react-datepicker";
 import './BalanceOnly.styles.css';
 import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
+import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
+import { ExcelExport } from '@progress/kendo-react-excel-export';
+import Pagination from '../../custom-pagination/main-pagination.component';
 
 const override = `
   display: block;
   margin: 0 auto;
   border-color: red;
 `;
+let PageSize = 9;
 export default function BalanceOnlyReport() {
     var [changeItem, setChangeItem]: any = useState('0');
     var [changeItemGroup, setChangeItemGroup]: any = useState('0');
@@ -251,18 +255,34 @@ export default function BalanceOnlyReport() {
             setIsSending(false)
     }, [isSending, changeItem, changeItemGroup, changeMatcenter, changeMatcenterType, changeStartDate]) // update the callback if the state changes
 
+    const _export = React.useRef<ExcelExport | null>(null);
+    const excelExport = () => {
+        if (_export.current !== null) {
+            _export.current.save();
+        }
+    };
+
+    //pagination logic 
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const currentTableData = React.useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return dataArray.slice(firstPageIndex, lastPageIndex);
+    }, [dataArray, currentPage]);
 
     return (
-        <div style={{ margin: '10px -3em 0 -3em', }}>
+        <div className="firstDiv">
             <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto" }}>
-                <div className="card-title">
+                <div className="card-title col-12 text-center" style={{margin:'0 auto'}}>
                     <span style={{ fontSize: "20px" }}>Balance Only Report</span>
                 </div>
-                <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5" }}>
+                <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5", margin:'0' }}>
                     {/*Custom Data List*/}
 
 
-                    <div className="row filterDiv panel-body col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
+                    <div className="row filterDiv panel-body col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "0" }}>
 
 
 
@@ -471,14 +491,46 @@ export default function BalanceOnlyReport() {
 </div>
             <ClipLoader color="green" loading={isSending} css={override} size={150} />
             {
+                
                 showResults ?
                     <>
 
-                         <hr />
+                        <hr />
+                        <ExcelExport data={dataArray} ref={_export}>
+                            <GridToolbar>
+
+                                <button
+                                    style={{ padding: '0', margin: '0' }}
+                                    className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary btn btn-success"
+                                    onClick={excelExport}
+                                >
+                                    <svg style={{ width: '21px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M224 128L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48V160h-127.1C238.3 160 224 145.7 224 128zM272.1 264.4L224 344l48.99 79.61C279.6 434.3 271.9 448 259.4 448h-26.43c-5.557 0-10.71-2.883-13.63-7.617L192 396l-27.31 44.38C161.8 445.1 156.6 448 151.1 448H124.6c-12.52 0-20.19-13.73-13.63-24.39L160 344L111 264.4C104.4 253.7 112.1 240 124.6 240h26.43c5.557 0 10.71 2.883 13.63 7.613L192 292l27.31-44.39C222.2 242.9 227.4 240 232.9 240h26.43C271.9 240 279.6 253.7 272.1 264.4zM256 0v128h128L256 0z" /></svg>
+                                    Export to Excel
+                                </button>
+
+
+                            </GridToolbar>
+                            <div style={{ display: 'none', border: '3px solid green' }}>
+                                <Grid data={dataArray} style={{ height: "420px" }}>
+                                    <GridColumn field="#" title="S.No" />
+                                    
+                                    <GridColumn field="itemCode" title="Item Code" />
+                                    <GridColumn field="itemName" title="Item Name" />
+                                    <GridColumn field="p1" title="p1" />
+                                    <GridColumn field="p2" title="p2" />
+                                    <GridColumn field="p3" title="p3" />
+                                    <GridColumn field="uom" title="UOM" />
+                                    <GridColumn field="createdOn" title="Created On" />
+                                    <GridColumn field="sQty" title="S. Qty" />
+                                   
+                                </Grid>
+                            </div>
+                        </ExcelExport>
+                        <hr />
                         <div className="col-12" style={{ textAlign: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                            <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Balance Only Stock Report</span>
+                            <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>PR PO Details Report</span>
                         </div>
-                        <div className="row row-content col-sm-12 balanceOnlyReport container container-fluid container-lg" style={{ height: '70vh', overflowX: 'scroll', overflowY: 'scroll' }}>
+                        <div className="row row-content col-sm-12 balanceOnlyReport container container-fluid container-lg" style={{ height: '84vh', overflowX: 'auto', overflowY: 'auto' }}>
                             <div className="card col-sm-12" style={{ padding: '0' }}>
 
 
@@ -487,22 +539,22 @@ export default function BalanceOnlyReport() {
                                     <table className="table table-striped table-bordered table-hover table-sm">
                                         <thead className="thead-light table-secondary">
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col"><span>Item Code</span></th>
-                                                <th scope="col"><span>Item Name</span></th>
-                                                <th scope="col"><span>P1</span></th>
-                                                <th scope="col"><span>P2</span></th>
-                                                <th scope="col"><span>P3</span></th>
-                                                <th scope="col"><span>Uom</span></th>
-                                                <th scope="col"><span>Created On</span></th>
-                                                <th scope="col"><span>Quantity</span></th>
+                                                <th style={{ padding: "0", margin:'0' , backgroundColor:'grey'}} scope="col">#</th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >ItemCode</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >ItemName</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >P1</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >P2</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >P3</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >Uom</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >CreatedOn</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }} >Quantity</span></th>
 
 
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            {dataArray.map((item: any, i: number) => (
+                                            {currentTableData.map((item: any, i: number) => (
                                                 <tr key={i}>
                                                     <th>{i + 1}</th>
                                                     <td>{item.itemCode}</td>
@@ -518,6 +570,13 @@ export default function BalanceOnlyReport() {
                                             ))}
                                         </tbody>
                                     </table>
+                                    <Pagination
+                                        className="pagination-bar"
+                                        currentPage={currentPage}
+                                        totalCount={dataArray.length}
+                                        pageSize={PageSize}
+                                        onPageChange={(page: any) => setCurrentPage(page)}
+                                    />
                                 </div>
                             </div>
 

@@ -21,10 +21,12 @@ namespace ESERP.SERVICE.Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-FS0EU4T\\SQL12;Database=EsMasterDB;Trusted_Connection=True;");
-            }
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder.UseSqlServer("Server=DESKTOP-FS0EU4T\\SQL12;Database=EsMasterDB;Trusted_Connection=True;");
+            //    //optionsBuilder.UseSqlServer("Server=ESLAPIT2\\SQL2019;Database=EsMasterDB;Trusted_Connection=True;");
+            //    //optionsBuilder.UseSqlServer("Server=WSERVER170-IND;Database=EsmasterDB;Trusted_Connection=True;");
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,9 +51,19 @@ namespace ESERP.SERVICE.Domain
                     .HasColumnName("sPort");
 
                 entity.Property(e => e.SUrl)
-                    .HasMaxLength(500)
+                    .HasMaxLength(40)
                     .IsUnicode(false)
                     .HasColumnName("sURL");
+
+                entity.Property(e => e.CompCode)
+                   .HasMaxLength(40)
+                   .IsUnicode(false)
+                   .HasColumnName("CompCode");
+
+                entity.Property(e => e.currentDomain)
+                  .HasMaxLength(40)
+                  .IsUnicode(false)
+                  .HasColumnName("currentDomain");
             });
 
             OnModelCreatingPartial(modelBuilder);

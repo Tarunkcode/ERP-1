@@ -31,7 +31,19 @@ import PRPoDetails from './components/Report/PR-Po-Details/pr-po-details.compone
 import PurchaseOrderDetails from './components/Report/Purchase-Order-Details/purchase-order-details.component';
 import PendingPurchaseDetails from './components/Report/PendingPurchaseDetails/Pending-Pur-Details.component';
 import MarerialDispatch from './components/Material-Dispatch/material-dispatch.component';
-
+import PendingPerforma from './components/Report/Sale-Report/pending-performa/pending-performa.component';
+import PendingSaleOrder from './components/Report/Sale-Report/pending-sale-order/pending-sale-order.component';
+import SaleInvoiceDetails from './components/Report/Sale-Report/sale-invoice-details/sale-invoice-details.component';
+import SaleOrderDetails from './components/Report/Sale-Report/sale-order-details/sale-order-details.component';
+import SaleRegister from './components/Report/Sale-Report/sale-register/sale-register.component';
+import AddQcPlan from './components/Master/AddQcPlan/add-qc-plan.component';
+import AssortmentMaster from './components/Master/AssortmentMaster/assortment-master.component';
+import BomRoutingConfig from './components/Master/BomRoutingConfiguration/bom-routing-config.component';
+import BranchMaster from './components/Master/BranchMaster/branch-master.component';
+import CostSheetDetails from './components/Master/CostSheet/cost-sheet-details.component';
+import AddCustomerMaster from './components/Master/CustomerMaster/add-customer-master.component';
+import AddItemMaster from './components/Master/ItemMaster/add-item-master.component';
+import AddSupplierMaster from './components/Master/SupplierMaster/add-supplier-master.component';
   
 function App() {
     const [showResult, setShowResult] = useState(false)
@@ -65,7 +77,7 @@ function App() {
 
                 if (result != null && result.length > 0) {
                     for (let i = 0; i < result.length; i++) {
-                        if (result[i].sUrl == currentDomain) {
+                        if (result[i].currentDomain == currentDomain) {
                             setDomain(result[i].sUrl);
                             setShowResult(true)
                             break;
@@ -94,20 +106,20 @@ function App() {
     return (
         <>
         <Switch>
-                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/total-order", "/total-pi", "/sale", "/pending-order", "/ledger-us", "/debit-note", "/credit-note", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details", "/material-dispatch"]}>
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/total-order", "/total-pi", "/sale", "/pending-order", "/ledger-us", "/debit-note", "/credit-note", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master"]}>
                 <Layout>
-                    <Route exact path='/Home' component={Home} />
-                    <Route exact path='/Purchase' component={Purchase} />
-                    <Route exact path='/production-and-planning' component={ProductionPlanning} />
+                        <Route exact path='/Home' component={Home} />
+                        <Route exact path='/Purchase' component={Purchase} />
+                        <Route exact path='/production-and-planning' component={ProductionPlanning} />
                         <Route exact path='/sales' component={Sales} />
                         <Route exact path='/add-sale-order' component={AddSaleOrder} />
-                    <Route exact path='/total-order' component={TotalOrder} />
-                    <Route exact path='/total-pi' component={TotalPi} />
-                    <Route exact path='/sale' component={Sale} />
-                    <Route exact path='/pending-order' component={PendingOrder} />
-                    <Route exact path='/ledger-us' component={LedgerUs} />
-                    <Route exact path='/debit-note' component={DebitNote} />
-                    <Route exact path='/credit-note' component={CreditNote} />
+                        <Route exact path='/total-order' component={TotalOrder} />
+                        <Route exact path='/total-pi' component={TotalPi} />
+                        <Route exact path='/sale' component={Sale} />
+                        <Route exact path='/pending-order' component={PendingOrder} />
+                        <Route exact path='/ledger-us' component={LedgerUs} />
+                        <Route exact path='/debit-note' component={DebitNote} />
+                        <Route exact path='/credit-note' component={CreditNote} />
                         <Route exact path='/balance-only' component={BalanceOnlyReport} />
                         <Route exact path='/details' component={Details} />
                         <Route exact path='/pending-pr-details' component={PendingPrDetails} />
@@ -116,6 +128,25 @@ function App() {
                         <Route exact path='/pr-po-details' component={PRPoDetails} />
                         <Route exact path='/purchase-order-details' component={PurchaseOrderDetails} />
                         <Route exact path='/material-dispatch' component={MarerialDispatch} />
+
+                        <Route exact path='/sale-order-details' component={SaleOrderDetails} />
+                        <Route exact path='/pending-sale-order' component={PendingSaleOrder} />
+                        <Route exact path='/sale-invoice-details' component={SaleInvoiceDetails} />
+                        <Route exact path='/sale-register' component={SaleRegister} />
+                        <Route exact path='/pending-performa' component={PendingPerforma} />
+
+                        {/*Master*/}
+
+                        <Route exact path='/add-qc-plan' component={AddQcPlan} />
+                        <Route exact path='/add-assortment-master' component={AssortmentMaster} />
+                        <Route exact path="/bom-routing-configuration" component={BomRoutingConfig} />
+                        <Route exact path='/add-branch-master' component={BranchMaster} />
+                        <Route exact path='/cost-sheet-details' component={CostSheetDetails} />
+                        <Route exact path='/add-customer-master' component={AddCustomerMaster} />
+                        <Route exact path='/add-item-master' component={AddItemMaster} />
+                        <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
+                    
+
                     </Layout>
             </Route>
 

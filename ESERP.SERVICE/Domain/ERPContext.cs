@@ -30,58 +30,19 @@ namespace ESERP.SERVICE.Domain
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
+            //if (!optionsBuilder.IsConfigured)
+            //{
 
-                optionsBuilder.UseSqlServer("Server=DESKTOP-FS0EU4T\\SQL12;Database=ES_Comp0005_2022;Trusted_Connection=true;");
-            }
+            //    optionsBuilder.UseSqlServer("Server=ESLAPIT2\\SQL2019;Database=ES_Comp0001_2022;Trusted_Connection=true;");
+            //    //optionsBuilder.UseSqlServer("Server=WSERVER170-IND;Database=Es_Comp0021_2022;Trusted_Connection=true;");
+            //}
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<EsMasterTable>(entity =>
-            //{
-            //    entity.HasKey(e => e.Code)
-            //        .HasName("PK_EsMasterTable");
+           
 
-            //    entity.Property(e => e.Name).HasMaxLength(50).IsUnicode(false).HasColumnName("Name");
-             
-            //});
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            //modelBuilder.Entity<ItemMaster>(entity =>
-            //{
-            //    entity.HasKey(e => e.Code)
-            //        .HasName("PK_ItemMaster");
-               
-            //    entity.Property(e => e.CodeStr).HasMaxLength(20).IsUnicode(false).HasColumnName("CodeStr");
-            //    entity.Property(e => e.ItemUom).HasColumnName("ItemUom");
-
-            //});
-
-
-            //modelBuilder.Entity<Stock_Current_Details>(entity =>
-            //{
-            //    entity.HasKey(e => e.Code)
-            //        .HasName("PK_Stock_Current_Details");
-
-            //    entity.Property(e => e.REJValue).HasColumnName("REJValue");
-            //    entity.Property(e => e.Item).HasColumnName("Item");
-            //    entity.Property(e => e.REJQty).HasColumnName("REJQty");
-            //    entity.Property(e => e.UNRESQty).HasColumnName("UNRESQty");
-            //    entity.Property(e => e.UNRESValue).HasColumnName("UNRESValue");
-               
-            //});
-            //modelBuilder.Entity<BalanceStock>(entity =>
-            //{
-            // entity.Property(e => e.Code).HasColumnName("Code");
-            //entity.Property(e => e.itemName).HasMaxLength(20).IsUnicode(false).HasColumnName("itemName");
-            //entity.Property(e => e.itemCode).HasColumnName("itemCode");
-            //entity.Property(e => e.uom).HasColumnName("uom");
-            //entity.Property(e => e.rejQty).HasColumnName("rejQty");
-            //entity.Property(e => e.rejVal).HasColumnName("rejVal");
-            //entity.Property(e => e.unResQty).HasColumnName("unResQty");
-            //entity.Property(e => e.unResVal).HasColumnName("unResVal");
-            //});
-              
             modelBuilder.Entity<Purchase_Order_Details>(entity =>
             {
                 entity.Property(e => e.id).HasColumnName("id");

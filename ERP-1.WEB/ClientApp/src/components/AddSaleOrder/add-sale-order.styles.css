@@ -1,4 +1,5 @@
-﻿.addSaleForm {
+﻿
+.addSaleForm {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -13,7 +14,10 @@
     margin: 0;
     padding: 0;
 }
-
+label{
+    text-align:left;
+    margin:0 0 10px 0;
+}
 .table-bordered th, .table-bordered td .item-code {
     border: 1px solid #dee2e6;
     padding: 0;
@@ -21,6 +25,22 @@
 
 .hsn-btn {
     padding: 5px 3px;
+}
+
+th > span {
+   
+    margin: 0;
+    padding: 0;
+}
+
+th {
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+label{
+    text-align:left;
 }
 
 @media(max-width:992px) {

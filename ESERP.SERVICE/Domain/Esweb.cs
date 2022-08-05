@@ -11,5 +11,7 @@ namespace ESERP.SERVICE.Domain
         public string SUrl { get; set; }
         public string SPort { get; set; }
         public string Fy { get; set; }
+        public string CompCode { get; set; }
+        public string currentDomain { get; set; }
     }
 }

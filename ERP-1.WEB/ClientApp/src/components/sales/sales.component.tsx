@@ -372,6 +372,4 @@ const MapChart = () => {
 
 }
 
-
-
 export default MapChart;

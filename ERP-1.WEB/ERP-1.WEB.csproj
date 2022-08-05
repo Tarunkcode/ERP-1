@@ -29,10 +29,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="NLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\components\AddListForm\addListForm.component.tsx" />
     <None Remove="ClientApp\src\components\AddSaleOrder\add-sale-order.component.tsx" />
     <None Remove="ClientApp\src\components\Charts\charts.component.tsx" />
     <None Remove="ClientApp\src\components\custom-pagination\main-pagination.component.js" />
     <None Remove="ClientApp\src\components\custom-pagination\usePagination.custom-component.js" />
+    <None Remove="ClientApp\src\components\Master\add-customer-master.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\add-supplier-master.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\AddQcPlan\add-qc-plan.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\AssortmentMaster\assortment-master.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\BomRoutingConfiguration\bom-routing-config.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\BranchMaster\branch-master.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\CostSheet\cost-sheet-details.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\ItemMaster\add-item-master.component.tsx" />
     <None Remove="ClientApp\src\components\RegisterLayout.tsx" />
     <None Remove="ClientApp\src\components\RegisterYourDomain\register-your-domain.component.tsx" />
     <None Remove="ClientApp\src\components\Spinner\spinner.component.tsx" />
@@ -52,10 +65,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\components\AddListForm\addListForm.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\AddSaleOrder\add-sale-order.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Charts\charts.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\custom-pagination\main-pagination.component.js" />
     <TypeScriptCompile Include="ClientApp\src\components\custom-pagination\usePagination.custom-component.js" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\AddQcPlan\add-qc-plan.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\AssortmentMaster\assortment-master.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\BomRoutingConfiguration\bom-routing-config.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\BranchMaster\branch-master.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\CostSheet\cost-sheet-details.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\CustomerMaster\add-customer-master.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\ItemMaster\add-item-master.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\SupplierMaster\add-supplier-master.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\RegisterLayout.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\RegisterYourDomain\register-your-domain.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Spinner\spinner.component.tsx" />

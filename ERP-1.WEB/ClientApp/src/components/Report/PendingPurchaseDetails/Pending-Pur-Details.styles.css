@@ -8,10 +8,11 @@
     border: 2px solid black;
 }
 .resp-tab {
-    padding:0;
- 
- 
+    padding: 0;
+    
+    overflow:revert;
 }
+
     table thead th {
         padding: 3px;
        
@@ -39,7 +40,4 @@
         padding: 4px 5px;
         text-align: center;
     }
-
-    
-
 

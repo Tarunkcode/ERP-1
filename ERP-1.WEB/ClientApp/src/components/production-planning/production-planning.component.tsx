@@ -800,12 +800,12 @@ export default function Production$Planning() {
 
 
     return (
-        <div style={{ margin:'0 -3em' }}>
-        <div className="container col-sm-12 card" style={{  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto" }}>
-                <div className="card-title">
-                    <span style={{fontSize:"20px"}}>Production & Planning</span>
+        <div className="firstDiv">
+            <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto" }}>
+                <div className="card-title col-12 text-center" style={{ margin: '0 auto' }}>
+                    <span style={{ fontSize: "20px" }}>Production & Planning</span>
                 </div>
-                <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center', padding: '0', backgroundColor: "#F5F5F5" }}>
+                <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent:'center', padding: '0', backgroundColor: "#F5F5F5", margin:'0' }}>
             {/*Custom Data List*/}
 
 

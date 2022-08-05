@@ -1,5 +1,7 @@
 //using ESERP.SERVICE.Domain;
 using ESERP.SERVICE.Domain;
+using ESERP.SERVICE.IRepository;
+using ESERP.SERVICE.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +26,9 @@ namespace ERP_1.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-           services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection1")));
+            services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection1")));
             services.AddDbContext<ERPContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection2")));
+            services.AddTransient<IReport, Report>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -40,7 +43,7 @@ namespace ERP_1.WEB
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-              
+
             }
             else
             {
@@ -52,9 +55,9 @@ namespace ERP_1.WEB
             app.UseRouting();
 
             app.UseAuthorization();
-           
 
-          
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

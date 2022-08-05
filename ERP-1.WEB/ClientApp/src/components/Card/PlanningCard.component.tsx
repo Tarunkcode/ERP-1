@@ -262,7 +262,7 @@ export default function PlanningCard({ domain, port, Fy, compCode, dataArray, da
 
 
                 <div className="card-body body" style={{ padding: "0 13px", borderRadius: "2px", backgroundColor: "#FFFFFF", borderBottom: "2px solid white", margin: "0", width: '90%' }}>
-                <div className="card-title title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", margin: "2px" }}>
+                    <div className="card-title title" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", background: "#ffff", borderBottom: '1px solid black', color: 'black', margin: "2px" }}>
                     
                     <span style={{ fontSize: "1rem", fontWeight: "bold", marginLeft: "0" }}>{cardTitle}</span>
                      

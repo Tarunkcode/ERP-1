@@ -3,12 +3,15 @@ import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { ClipLoader } from 'react-spinners';
-
+import { Grid, GridColumn, GridToolbar } from "@progress/kendo-react-grid";
+import { ExcelExport } from '@progress/kendo-react-excel-export';
+import Pagination from '../../custom-pagination/main-pagination.component';
 const override = `
   display: block;
   margin: 0 auto;
   border-color: red;
 `;
+let PageSize = 9;
 function prDetails() {
     var [item, setItem]: any = React.useState([])
     var [itemGroup, setItemGroup]: any = React.useState([])
@@ -242,15 +245,30 @@ function prDetails() {
             setIsSending(false)
     }, [isSending, changeItem, changeItemGroup, changeStartDate, changeEndDate]) // update the callback if the state changes
 
+    const _export = React.useRef<ExcelExport | null>(null);
+    const excelExport = () => {
+        if (_export.current !== null) {
+            _export.current.save();
+        }
+    };
+    //pagination logic 
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const currentTableData = React.useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return dataArray.slice(firstPageIndex, lastPageIndex);
+    }, [dataArray,currentPage]);
 
 
     return (
-      <div  style={{ margin: '10px -3em 0 -3em', }}>
+        <div className="firstDiv">
             <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto" }}>
-                <div className="card-title">
+                <div className="card-title col-12 text-center" style={{ margin: '0 auto' }}>
                     <span style={{ fontSize: "20px" }}>PR Details Report</span>
                 </div>
-                <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5" }}>
+                <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5", margin: '0' }}>
                     {/*Custom Data List*/}
 
 
@@ -474,11 +492,48 @@ function prDetails() {
 
 
                     <>
-                       <hr/>
+                        <hr />
+                        <ExcelExport data={dataArray} ref={_export}>
+                            <GridToolbar>
+
+                                <button
+                                    style={{ padding: '0', margin: '0' }}
+                                    className="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary btn btn-success"
+                                    onClick={excelExport}
+                                >
+                                    <svg style={{ width: '21px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M224 128L224 0H48C21.49 0 0 21.49 0 48v416C0 490.5 21.49 512 48 512h288c26.51 0 48-21.49 48-48V160h-127.1C238.3 160 224 145.7 224 128zM272.1 264.4L224 344l48.99 79.61C279.6 434.3 271.9 448 259.4 448h-26.43c-5.557 0-10.71-2.883-13.63-7.617L192 396l-27.31 44.38C161.8 445.1 156.6 448 151.1 448H124.6c-12.52 0-20.19-13.73-13.63-24.39L160 344L111 264.4C104.4 253.7 112.1 240 124.6 240h26.43c5.557 0 10.71 2.883 13.63 7.613L192 292l27.31-44.39C222.2 242.9 227.4 240 232.9 240h26.43C271.9 240 279.6 253.7 272.1 264.4zM256 0v128h128L256 0z" /></svg>
+                                    Export to Excel
+                                </button>
+
+
+                            </GridToolbar>
+                            <div style={{ display: 'none', border: '3px solid green' }}>
+                                <Grid data={dataArray} style={{ height: "420px" }}>
+                                    <GridColumn field="#" title="S.No" />
+                                    <GridColumn field="series" title="Series" />
+                                    <GridColumn field="prNo" title="Pr No." />
+                                    <GridColumn field="prDate" title="Pr. Date" />
+                                    <GridColumn field="department" title="Department" />
+                                    <GridColumn field="itemCode" title="Item Code" />
+                                    <GridColumn field="itemName" title="Item Name" />
+                                    <GridColumn field="p1" title="p1" />
+                                    <GridColumn field="p2" title="p2" />
+                                    <GridColumn field="p3" title="p3" />
+                                    <GridColumn field="itemQtyReq" title="item Qty Req" />
+                                    <GridColumn field="uom" title="UOM" />
+                                    <GridColumn field="purPrice" title="Purchase Price" />
+                                    <GridColumn field="value" title="Value" />
+                                    <GridColumn field="isApproved" title="Is Approved" />
+                                    <GridColumn field="approvedBy" title="Approved By" />
+                                    
+                                </Grid>
+                            </div>
+                        </ExcelExport>
+                        <hr />
                         <div className="col-12" style={{ textAlign: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
                             <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>PR Details Report</span>
                         </div>
-                        <div className="row row-content col-sm-12 balanceOnlyReport container container-fluid container-lg" style={{ height: '70vh', overflowX: 'scroll', overflowY: 'scroll' }}>
+                        <div className="row row-content col-sm-12 balanceOnlyReport container container-fluid container-lg" style={{ height: '84vh', overflowX: 'auto', overflowY: 'scroll' }}>
                             <div className="card col-sm-12" style={{ padding: '0' }}>
 
 
@@ -487,32 +542,32 @@ function prDetails() {
                                     <table className="table table-striped table-bordered table-hover table-sm">
                                         <thead className="thead-light table-secondary">
                                             <tr>
-                                                <th style={{ padding: "10px 20px" }} scope="col">#</th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Series</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Pr No.</span></th>
-                                                <th style={{ padding: "10px 27px" }} scope="col"><span>Pr.Date</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Department</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Item Code</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Item Name</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>P1</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>P2</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>P3</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Item.Qty.Req.</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>uom</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Pur Price</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>Value</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>isApproved</span></th>
-                                                <th style={{ padding: "10px 20px" }} scope="col"><span>ApprovedBy</span></th>
+                                                <th  style={{ padding: "0", margin:'0' , backgroundColor:'grey', position: 'sticky'}} scope="col">#</th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Series</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Pr.No.</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Pr.Date</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Department</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>ItemCode</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>ItemName</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>P1</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>P2</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>P3</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Item.Qty.Req.</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>UOM</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Pur.Price</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>Value</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>isApproved</span></th>
+                                                <th style={{ padding: "0", margin: '0', backgroundColor: 'grey', position: 'sticky' }} scope="col"><span style={{ margin: '33px', fontWeight: 400, fontSize: '15px', color: 'white' }}>ApprovedBy</span></th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             {
-                                                dataArray.map((item: any, i: number) => (
+                                                currentTableData.map((item: any, i: number) => (
                                                     <tr key={i}>
                                                         <th>{i + 1}</th>
-                                                        <td>{item.Series}</td>
+                                                        <td>{item.series}</td>
                                                         <td>{item.prNo}</td>
                                                         <td>{item.prDate}</td>
                                                         <td>{item.department}</td>
@@ -532,6 +587,13 @@ function prDetails() {
                                                 ))}
                                         </tbody>
                                     </table>
+                                    <Pagination
+                                        className="pagination-bar"
+                                        currentPage={currentPage}
+                                        totalCount={dataArray.length}
+                                        pageSize={PageSize}
+                                        onPageChange={(page: any) => setCurrentPage(page)}
+                                    />
                                 </div>
                             </div>
 

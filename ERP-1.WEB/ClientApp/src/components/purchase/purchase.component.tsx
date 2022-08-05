@@ -398,15 +398,14 @@ export default function Purchase() {
 
 
     return (
-        <div style={{margin:'0 -3em'}}>
-        <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto;" }}>
-
-            <div className="card-title">
-                <span style={{ fontSize: "20px" }}>Purchase</span>
-            </div>
+        <div className="firstDiv">
+            <div className="container col-sm-12 card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "bottom", margin: "0 auto" }}>
+                <div className="card-title col-12 text-center" style={{ margin: '0 auto' }}>
+                    <span style={{ fontSize: "20px" }}>Purchase</span>
+                </div>
             {/*Custom Data List*/}
 
-            <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5" }}>
+            <div className="card-body panel panel-default" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', padding: '0', backgroundColor: "#F5F5F5", margin:'0' }}>
             <div className="row filterDiv panel-body col-sm-12" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "baseline", height: "100%", paddingTop: "10px" }}>
 
 

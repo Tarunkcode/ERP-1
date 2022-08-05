@@ -39,45 +39,6 @@ class LogIn extends React.Component<IProps, IState>{
         };
     }
  
-
-
-    componentDidMount() {
-
-        const { setCurrentUser } = this.props;
-        var domainUrl = `http://${window.location.host}/api/getall`;
-        fetch(domainUrl).then(res => res.json()).then(result => {
-            console.log(result)
-
-            if (result != null && result.length > 0) {
-                const currentDomain = window.location.hostname
-                for (let i = 0; i < result.length; i++) {
-                    if (result[i].sUrl == currentDomain) {
-                        setCurrentUser({
-                            domain: result[i].sUrl,
-                            port: result[i].sPort,
-                            Fy: result[i].fy
-                        })
-                        /*const serializedState = JSON.stringify(this.props.currentUser)*/
-                        window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
-                        //console.log('local Storage', serializedState)
-
-                        break;
-
-                    }
-
-
-                }
-                console.log('Matched Record', this.state);
-
-                console.log('login currentUser', this.props.currentUser)
-
-            }
-
-        })
-
-    }
-
-
     handleCompCodeChange(e: any) {
         this.setState({
             compCode: e.target.value
@@ -95,43 +56,82 @@ class LogIn extends React.Component<IProps, IState>{
         });
     }
 
+    fetchValidateUserApi = async () => {
+        var urlStart = `http://${this.props.currentUser.domain}:${this.props.currentUser.port}/api/values/ValidateUser`
+        var params = []
+        params.push(`UName=${this.state.username}`);
+        params.push(`uP=${this.state.password}`);
+        params.push(`Comp=${this.state.compCode}`);
+        params.push(`FY=${this.props.currentUser.Fy}`);
+        console.log(urlStart + '?' + params.join('&'));
 
+        await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
+
+
+
+            if (result[0].VResult == '1') {
+                var soSeries = result[0].SOSeries;
+                var AccName = result[0].AccName;
+                console.log(soSeries)
+                window.sessionStorage.setItem('so-series', soSeries);
+                window.sessionStorage.setItem('acc-name', AccName);
+                this.setState({ redirect: true })
+            } else {
+                alert("Invalid user id or pass");
+                return;
+            }
+
+        })
+
+    }
 
    handleSubmit = async (event: any) => {
-
         event.preventDefault();
        
        try {
 
-
-           var urlStart = `http://${this.props.currentUser.domain}:${this.props.currentUser.port}/api/values/ValidateUser`
-           var params = []
-           params.push(`UName=${this.state.username}`);
-           params.push(`uP=${this.state.password}`);
-           params.push(`Comp=${this.state.compCode}`);
-           params.push(`FY=${this.props.currentUser.Fy}`);
-           console.log(urlStart + '?' + params.join('&'));
-          window.sessionStorage.setItem('username', this.state.username)
-          window.sessionStorage.setItem('compCode', this.state.compCode)
-         
+        
+           const { setCurrentUser } = this.props;
+           var domainUrl = `http://${window.location.host}/api/getall`;
 
 
+           window.sessionStorage.setItem('username', this.state.username)
+           window.sessionStorage.setItem('compCode', this.state.compCode)
 
-           await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
 
-               if (result[0].VResult == '1') {
-                   var soSeries = result[0].SOSeries;
-                   var AccName = result[0].AccName;
-                   console.log(soSeries)
-                   window.sessionStorage.setItem('so-series', soSeries);
-                   window.sessionStorage.setItem('acc-name', AccName);
-                   this.setState({ redirect:true })
-               } else {
-                   alert("Invalid user id or pass");
-                   return;
+         await  fetch(domainUrl).then(res => res.json()).then(result => {
+               console.log(result)
+
+               if (result != null && result.length > 0) {
+
+                   for (let i = 0; i < result.length; i++) {
+                       if (result[i].currentDomain == window.location.hostname) {
+                           setCurrentUser({
+
+                               domain: result[i].sUrl,
+                               port: result[i].sPort,
+                               Fy: result[i].fy
+                           })
+                       
+                           /*const serializedState = JSON.stringify(this.props.currentUser)*/
+                           window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
+                           //console.log('local Storage', serializedState)
+
+                           break;
+
+                       }
+
+
+                   }
+                   console.log('Matched Record', this.state);
+
+                   console.log('login currentUser', this.props.currentUser)
+
                }
+
            })
-       
+
+           this.fetchValidateUserApi();
    
        }
         catch (error) {
@@ -149,7 +149,7 @@ class LogIn extends React.Component<IProps, IState>{
     return (
         <div className="outer-container">
             <div className="card" style={{ width: "83%" }}>
-                <span className="page_Header">LOG IN</span>
+                <span className="page_Header">SIGN IN</span>
                 <img src={'./assets/erpLogo.png'} style={{width:"33%"}} />
              
                 <div className="inner-container">

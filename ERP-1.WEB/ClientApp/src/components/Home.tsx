@@ -3,6 +3,8 @@ import * as React from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import { useState } from 'react';
 import './home.css';
+
+
 const Home = () => {
     
     const getState = window.localStorage.getItem('state');
@@ -12,6 +14,7 @@ const Home = () => {
     //console.log('domain',state.domain)
     //console.log('port',state.port)
     //console.log('fy',state.Fy)
+    var finY = parseInt(state.Fy);
 
     const colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
         '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -175,48 +178,49 @@ const Home = () => {
             }
         })
     }, [])
-
+   
     return (
         <div>
             <div className='first'>
                 <div className="row card home-cards">
-                    <div style={{ width: '90%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor:'white' }}>
-                       
-                        <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Sale</span>
+                    <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
+
+                        <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>Monthly Sale</span>
                         <ResponsiveContainer width="100%" aspect={1}>
                             <BarChart className='card-body' width={560} height={260} data={dataArray2} style={{ marginTop: "20px", padding: '0' }}>
-                            <Bar dataKey="Sale_Amount" fill="#8884d8" />
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="D1" />
-                            <YAxis />
-                            {/*<LabelList dataKey="Sale_Amount" position="top" />*/}
-                                <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
+                                <Bar dataKey="Sale_Amount" fill="#8884d8"  />
+                                <CartesianGrid strokeDasharray="8" stroke="#ccc" scale={ 1} />
+                                <XAxis style={{ fontSize: '0.6rem' }} dataKey="D1" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={70} />
+                                <YAxis dataKey="Sale_Amount" />
+                                <LabelList dataKey="Sale_Amount" position="top" />
+                                <Tooltip  cursor={false} contentStyle={{ backgroundColor: "#fff" }} trigger='hover' />
                                 <Legend layout="vertical" verticalAlign="top" align="center" />
                             </BarChart>
                         </ResponsiveContainer>
-                        
-                        
+
+
                     </div>
                 </div>
+             
                 <div className="row card home-cards">
-                    <div style={{width:'100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
-                        <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Purchase</span>
+                        <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Purchase</span>
                         <ResponsiveContainer width="100%" aspect={1}>
-                            <PieChart className="card-body" width={560} height={250} style={{ padding: "0px"}}>
-                         <Pie
-                        data={dataArray}
-                        dataKey="Purchase_Amt"
-                        nameKey="D1"   
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={125}
-                        
-                            />
-                            <Tooltip />
+                            <PieChart className="card-body" width={560} height={260} style={{ padding: "0px" }}>
+                                <Pie
+                                    data={dataArray}
+                                    dataKey="Purchase_Amt"
+                                    nameKey="D1"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={125}
 
-                        <Legend layout="horizontal" verticalAlign="bottom" align="center" />
-                            
+                                />
+                                <Tooltip />
+
+                                <Legend layout="horizontal" verticalAlign="bottom" align="center" />
+
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
@@ -224,31 +228,36 @@ const Home = () => {
             </div>
 
             <hr />
-            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor:"white" }}>
-                <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Sale v/s Purchase Chart</span>
-                <ResponsiveContainer width='100%' aspect={1.5/0.8}>
-                    <BarChart className="card-body" data={dataArray2} style={{padding:'0'}} >
-                    <Bar dataKey="Sale_Amount" fill="#8884d8" />
-                    <Bar dataKey="Purchase_Amt" fill="#82ca9d" />
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="D1" />
-                    <YAxis />
-                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
+            <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
+
+                <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>Sale V/S Purchase</span>
+
+                <ResponsiveContainer width='100%' aspect={1.5 / 0.8}>
+                    <BarChart className="card-body" data={dataArray2} style={{ padding: '0' }} >
+                        <Bar dataKey="Sale_Amount" fill="#8884d8" />
+                        <Bar dataKey="Purchase_Amt" fill="#82ca9d" />
+                        <CartesianGrid stroke="#ccc" />
+                        <XAxis style={{ fontSize: '0.6rem' }} dataKey="D1" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={50} />
+                        <YAxis />
+                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "#fff" }} />
                         <Legend layout="horizontal" verticalAlign="top" align="center" />
-                </BarChart>
-              </ResponsiveContainer>
+                    </BarChart>
+                </ResponsiveContainer>
+
+
             </div>
             <hr />
-            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor:'white'}}>
-                <span className='card-title' style={{ fontSize: "20px", borderBottom: "2px solid red" }}>Prev Year Sale v/s This Year Sale</span>
+            <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
+
+                <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>{finY - 1} Year Sale V/S {state.Fy } Year Sale</span>
                 <ResponsiveContainer width='100%' aspect={1.5 / 0.8}>
                     <BarChart className="card-body" data={saleArr} style={{ padding: '0' }}>
                     <Bar dataKey="Prev_Year_Sale_Amount" fill="#8884d8"/>
                     <Bar dataKey="This_Year_Sale_Amount" fill="#82ca9d" />
                 <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="Monthname" />
+                        <XAxis style={{fontSize:'0.6rem'}} dataKey="Monthname" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={50}/>
                     <YAxis />
-                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
+                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "#fff" }} />
                         <Legend layout="horizontal" verticalAlign="top" align="center" />
                     </BarChart>
                 </ResponsiveContainer>
@@ -256,11 +265,11 @@ const Home = () => {
             <hr />
             <div className="last">
                 <div className="row card home-cards">
-                    <div style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
-                        <span className="card-title" style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Sale Order</span>
+                        <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Sale Order</span>
                         <ResponsiveContainer width="100%" aspect={1}>
-                            <PieChart className="card-body" width={560} height={300} style={{ padding: "0px"}}>
+                            <PieChart className="card-body" width={560} height={260} style={{ padding: "0px"}}>
                                 <Pie
                                 data={soSetails}
                                 dataKey="Amount"
@@ -279,11 +288,11 @@ const Home = () => {
                    </div>
                 </div>
                 <div className="row card home-cards">
-                    <div style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
-                        <span style={{ fontSize: "20px", borderBottom: "2px solid red", marginBottom: "20px" }}>Monthly Pending Sale Order</span>
+                        <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Pending Sale Order</span>
                         <ResponsiveContainer width="100%" aspect={1}>
-                            <PieChart width={560} height={300} style={{ padding: "0px"}}>
+                            <PieChart width={560} height={260} style={{ padding: "0px"}}>
                             <Pie
                                 data={pendingSO}
                                 dataKey="Amount"
