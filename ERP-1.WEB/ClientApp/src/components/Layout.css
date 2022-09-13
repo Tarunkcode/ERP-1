@@ -19,16 +19,29 @@ body {
     background: #fafafa;
     font-weight: bolder;
 }
-
-/*.companyName {
-    font-size: 1.5rem;
-    font-weight: bolder;
-    font-family:Roboto Mono, monospace;
-    margin:0; 
-    padding:0;
+/*.abascus:visited {
+    background-color: #aeb9e7;
+    color: black;
+    
+}*/
+/*#sidebar ul li a .toggle-btn{
+    transform:rotate(180deg);
+}*/
+.abascus:hover {
+    background-color: #A9B0E1;
+}
+/*a:visited {
+    background-color: #8797db;
+    color: black;
+    border-spacing: 5px;
 }
 */
-
+/*.sidebar-item{
+    padding:0.75em 1em;
+   transition : 0.3s;
+   color:black;
+   display:block;
+}*/
 .firstDiv{
     margin:0 -3em;
 }
@@ -134,7 +147,7 @@ a, a:hover, a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    min-height: 103vh;
+    min-height: 101vh;
     background: #7386D5;
     color: #fff;
     transition: all 0.5s ease;
@@ -142,6 +155,10 @@ a, a:hover, a:focus {
     overflow: hidden;
 }
 
+/*a:visited{
+    background-color:red;
+    color:white;
+}*/
 @media (max-width: 834px) {
     #sidebar{
         min-width:200px;
@@ -149,7 +166,7 @@ a, a:hover, a:focus {
     }
 }
 .components {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -176,6 +193,10 @@ a, a:hover, a:focus {
     padding: 10px;
 }
 
+#sidebar li a {
+    transition:0.4s;
+}
+
 #sidebar ul li a {
     padding: 10px;
     font-size: 1.1em;
@@ -184,26 +205,32 @@ a, a:hover, a:focus {
     border-top: 1px solid rgba(255,255,255, .1);
     transition: 0.4s;
 }
-
+/*
     #sidebar ul li a:hover {
-        color: #7386D5;
-        background: #fff;
+        color: #fff;
+        background: #3a54c1;
         padding-left: 50px;
+        font-weight: bolder;
     }
 
-   
+*/
+
 #sidebar ul li.active > a, a[aria-expanded="true"] {
+    /*   color: #fff;
+    background: #6d7fcc;*/
+    background-color: blueviolet;
     color: #fff;
-    background: #6d7fcc;
-    
+    font-weight: 900;
+    padding-left: 10px;
 }
 
 
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #9BA8E1;
 }
+
 
 .wrapper {
     display: flex;
@@ -266,3 +293,79 @@ a.navbar-brand {
 /*.homeDiv::-webkit-scrollbar {
     display: none;
 }*/
+#sidebar .level0 {
+   color:#fff;
+}
+#sidebar .level1 {
+    background-color: #8797DB;
+    color: rebeccapurple;
+    border-spacing: 5px;
+    /* border:0.3px solid grey;*/
+}
+
+#sidebar .level0:focus {
+    background-color: blueviolet;
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+}
+
+/*#sidebar .level0:visited {
+    background-color: blueviolet;
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+}*/
+
+#sidebar .level0:hover {
+    background: #fff;
+    color: #6d7fcc;
+    font-weight: bolder;
+}
+
+#sidebar .level1:focus {
+    background-color: dodgerblue;
+    color: #fff;
+}
+#sidebar .level1.active{
+ 
+    background-color: dodgerblue;
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+}
+
+#sidebar .level1:hover {
+    background-color: skyblue;
+    color: #fff;
+    font-weight: bolder;
+    padding-left:8px;
+}
+
+
+#sidebar .abascus {
+    border-spacing: 5px;
+    background-color: #C2CAED;
+}
+#sidebar .abascus:focus{
+    background-color:plum;
+  
+}
+#sidebar .level1 li.active{
+    background-color:plum;
+  
+}
+#sidebar .abascus:hover{
+    background-color:navy;
+}
+
+/*------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#sidebar #cusMaster.active > a, a[aria-expanded="true"] {
+    /*   color: #fff;
+    background: #6d7fcc;*/
+    background-color: blueviolet;
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+}

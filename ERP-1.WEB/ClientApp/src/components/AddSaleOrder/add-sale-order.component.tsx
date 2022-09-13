@@ -1,7 +1,7 @@
 ﻿import { param } from 'jquery';
 import * as React from 'react';
 import './add-sale-order.styles.css';
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 const AddSaleOrder = () => {
@@ -14,13 +14,11 @@ const AddSaleOrder = () => {
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
 
-
-    
-
-
     var [itemCodeArr, setItemCodeArr]: any = React.useState([]);
+    var kinda = React.useRef('');
     var [masterDetails, setMasterDetails]: any = React.useState([]);
     var [changeItemCode, setChangeItemCode]: any = React.useState('');
+    var [changeItemName, setChangeItemName]: any = React.useState('');
     var [wholeLineItem, setWholeLineItem]: any = React.useState([{ UOMNAME: '', MRP: '', SGST: '', CGST: '', IGST: '', GSTCAT: '', SALEPRICE: '' }]);
 
 
@@ -116,6 +114,8 @@ const AddSaleOrder = () => {
     React.useEffect(() => {
         handleSetItemCode
         console.log('SelecteditemCode', changeItemCode)
+        kinda.current = changeItemName.split(" | ")[1];
+        console.log('change item Name',changeItemName.split(" | ")[1])
         fetchItemDetails()
     }, [changeItemCode])
 
@@ -153,6 +153,8 @@ const AddSaleOrder = () => {
         for (let i = 0; i < itemCodeArr.length; i++) {
             if (CHANGEITEMCODE == itemCodeArr[i].ITEMNAME) {
                 setChangeItemCode(itemCodeArr[i].ITEMCODE)
+                setChangeItemName(itemCodeArr[i].ITEMNAME)
+               
                 break;
             }
         }
@@ -183,7 +185,7 @@ const AddSaleOrder = () => {
                 </div>
                 <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
                     <div className="card addSalecard">
-                        <div className="card-body" style={{ margin: '0', padding: '0' }}>
+                        <div className="card-body" style={{ margin: '0', padding: '0', minHeight:'28vh' }}>
                             <form className="form">
 
 
@@ -283,7 +285,7 @@ const AddSaleOrder = () => {
 
                     <div className="card addSalecard">
 
-                        <div className="card-body" style={{ margin: '0', padding: '0' }}>
+                        <div className="card-body" style={{ margin: '0', padding: '0',minHeight:'28vh' }}>
                             <form className="form">
 
 
@@ -414,7 +416,8 @@ const AddSaleOrder = () => {
 
                                                 </td>
 
-                                                <td></td>
+                                                <td>{kinda.current}</td>
+
                                                 <td><input type="text" className="form-control" required /></td>
                                                 <td>{obj.UOMNAME}</td>
                                                 <td>{obj.MRP}</td>
@@ -450,7 +453,7 @@ const AddSaleOrder = () => {
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card col-sm-5" style={{ padding: '0', margin: '0' }}>
+                <div className="card col-sm-5" style={{ padding: '0', margin: '0', minHeight:'20vh' }}>
 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
                         <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Bill Sundry Details</span>
@@ -480,7 +483,7 @@ const AddSaleOrder = () => {
                         </table>
                     </div>
                 </div>
-                <div className="card col-sm-6" style={{ padding: '0', margin: '0' }}>
+                <div className="card col-sm-6" style={{ padding: '0', margin: '0', minHeight: '20vh' }}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
                         <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>HSN Details</span>
                     </div>

@@ -17,6 +17,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 require("../masterStyle.css");
+var test_1 = require("../../test");
 var AddCustomerMaster = /** @class */ (function (_super) {
     __extends(AddCustomerMaster, _super);
     function AddCustomerMaster(props) {
@@ -49,8 +50,7 @@ var AddCustomerMaster = /** @class */ (function (_super) {
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "series", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Series"),
                                         React.createElement("input", { type: "text", name: "series", className: "form-control inp", title: "filled series" }),
-                                        React.createElement("svg", { className: "m-0 ml-1 p-0", type: "button", style: { width: '20px', cursor: 'pointer' }, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512" },
-                                            React.createElement("path", { d: "M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" }))),
+                                        React.createElement(test_1.default, { isSeriesMaster: true, isOpeningStock: false })),
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "majProd", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Major Products"),
                                         React.createElement("input", { type: "text", name: "majProd", className: "form-control inp", title: "Enter Series" }),
@@ -158,9 +158,9 @@ var AddCustomerMaster = /** @class */ (function (_super) {
                             React.createElement(React.Fragment, null,
                                 React.createElement("label", { htmlFor: "zone", style: { fontSize: '0.8em', width: '100%', marginLeft: '2em' }, className: "form-label" }, "Address. Options"),
                                 React.createElement("select", { name: "zone", className: "form-control", onChange: this.handleAddressOptions },
-                                    React.createElement("option", { value: "Corporate", selected: true }, "Corporate"),
-                                    React.createElement("option", { value: "Plant" }, "Plant"),
-                                    React.createElement("option", { value: "Shipping" }, "Shipping")),
+                                    React.createElement("option", { style: { fontFamily: "trebuc" }, value: "Corporate", selected: true }, "Corporate"),
+                                    React.createElement("option", { style: { fontFamily: "trebuc" }, value: "Plant" }, "Plant"),
+                                    React.createElement("option", { style: { fontFamily: "trebuc" }, value: "Shipping" }, "Shipping")),
                                 React.createElement("svg", { className: "m-0 ml-1 p-0", style: { width: '20px', cursor: 'pointer', visibility: 'hidden' }, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512" },
                                     React.createElement("path", { d: "M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" }))),
                             React.createElement(React.Fragment, null,

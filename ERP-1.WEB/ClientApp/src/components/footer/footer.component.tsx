@@ -14,7 +14,7 @@ export default function Footer() {
 
         <div className="text-center p-0 footer" style={{ backgroundColor: "#798cd4", margin:"2px 0 0 0" }}>
                 © 2022 Copyright:
-                <a className="text-dark" href="https:http://www.excellentsoftwares.com/">ExcellentSoftwares.com</a>
+                <a className="text-light" href="https:http://www.excellentsoftwares.com/">Excellent Softwares</a>
         </div>
 
     );

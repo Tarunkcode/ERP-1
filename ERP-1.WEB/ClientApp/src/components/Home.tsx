@@ -4,9 +4,9 @@ import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, L
 import { useState } from 'react';
 import './home.css';
 
-
 const Home = () => {
     
+let [posData, setposData] = useState({});
     const getState = window.localStorage.getItem('state');
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
@@ -188,7 +188,12 @@ const Home = () => {
                         <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>Monthly Sale</span>
                         <ResponsiveContainer width="100%" aspect={1}>
                             <BarChart className='card-body' width={560} height={260} data={dataArray2} style={{ marginTop: "20px", padding: '0' }}>
-                                <Bar dataKey="Sale_Amount" fill="#8884d8"  />
+                                <Bar dataKey="Sale_Amount" fill="#8884d8"
+                                    onMouseOver={(data) => {
+                                        console.log("data", data);
+                                        setposData(data);
+                                    }}
+            />
                                 <CartesianGrid strokeDasharray="8" stroke="#ccc" scale={ 1} />
                                 <XAxis style={{ fontSize: '0.6rem' }} dataKey="D1" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={70} />
                                 <YAxis dataKey="Sale_Amount" />

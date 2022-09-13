@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 //using NLog;
 //using NLog.Web;
 using System;
-
 namespace ERP_1.WEB.Controllers
 {
     public class ReportsController : Controller
@@ -20,6 +19,8 @@ namespace ERP_1.WEB.Controllers
         // GET: BalanceOnlyController
         public ActionResult GetBalanceReport(int item, int itemgrp, int matCenter, int matCenType, string asOnDate)
         {
+          
+            
             try
             {
                 //logger.Info("GetBalanceReport api is calling...");

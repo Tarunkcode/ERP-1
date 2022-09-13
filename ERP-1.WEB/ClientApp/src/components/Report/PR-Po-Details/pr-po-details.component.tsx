@@ -13,7 +13,7 @@ const override = `
   margin: 0 auto;
   border-color: red;
 `;
-    let PageSize = 9;
+    let PageSize = 15;
 function PRPoDetails() {
 
     const getUserName = window.sessionStorage.getItem('username');
