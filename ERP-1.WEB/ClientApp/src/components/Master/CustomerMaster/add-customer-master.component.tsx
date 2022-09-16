@@ -42,7 +42,7 @@ class AddCustomerMaster extends React.Component<{}, IState> {
                             <legend className="px-2" data-toggle="collapse" data-target="#genDetails" aria-expanded="true" aria-controls="genDetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>General Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
                             <div className="show" id="genDetails">
-                            <span className="d-flex section2 col-sm-10">
+                            <span className="d-flex section2 col-sm-12">
                                 <>
                                             <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Series</label>
                                             <input type="text" name="series" className="form-control inp" title="filled series" />
@@ -52,70 +52,120 @@ class AddCustomerMaster extends React.Component<{}, IState> {
                                     <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Major Products</label>
                                             <input type="text" name="majProd" className="form-control inp" title="Enter Series" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                </>
+                                        </>
+                                        <>
+                                            <label htmlFor="zone" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Ledger Type</label>
+                                            <input type="text" name="zone" className="form-control inp" title="Enter Ledger Type" />
+                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M120 256c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm160 0c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm104 56c-30.9 0-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56s-25.1 56-56 56z" /></svg>
+                                        </>
                             </span>
 
-                            <span className="d-flex section2 col-sm-10">
+                            <span className="d-flex section2 col-sm-12">
                                 <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cust. Code</label>
+                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Customer Code</label>
                                             <input type="text" name="custCode" className="form-control inp" title="Customer Cde" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
                                 <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Del. Term</label>
+                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Delivery Term</label>
                                             <input type="text" name="delTerm" className="form-control inp" title="Delivery Terms" />
+                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M120 256c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm160 0c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm104 56c-30.9 0-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56s-25.1 56-56 56z" /></svg>
+                                 </>
+                                <>
+                                            <label htmlFor="mulCurr" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Multi Currency</label>
+                                            <select name="mulCurr" className="form-control inp" style={{ height: '25px'}} title="Mul. Currency" >
+                                                <option value="1">Y</option>
+                                                <option value="0">N</option>
+                                            </select>
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                </>
+                                     
+                                 </>
                             </span>
 
-                            <span className="d-flex section2 col-sm-10">
+                            <span className="d-flex section2 col-sm-12">
                                 <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cust. Name</label>
+                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Customer Name</label>
                                             <input type="text" name="custName" className="form-control inp" title="Customer Name" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
                                 <>
                                             <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Payment Term</label>
                                             <input type="text" name="payTerm" className="form-control inp" title="Payment Terms" />
-                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                </>
+                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M120 256c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm160 0c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm104 56c-30.9 0-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56s-25.1 56-56 56z" /></svg>
+                                        </>
+
+                                            <div className="col-4"></div>
+
                             </span>
 
-                            <span className="d-flex section2 col-sm-10">
+                            <span className="d-flex section2 col-sm-12">
                                 <>
                                             <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Print Name</label>
                                             <input type="text" name="printName" className="form-control inp" title="Print Name" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
                                 <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Opening Bal.</label>
-                                            <input type="text" name="opnBal" className="form-control inp" title="Opening Balance" />
-                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                </>
+                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Opening Balance</label>
+                                            <input type="text" name="opnBal" className="form-control" style={{width:'18%'}} title="Opening Balance" />
+                                            <select className="form-control ml-1" style={{
+                                                width: '4%',
+                                                height: '25px',
+                                                padding: '0px'}}>
+                                                <option>D(-)</option>
+                                                <option>C(+)</option>
+                                            </select>
+                                        </>
+                                        <div className="col-4"></div>
+
                             </span>
 
-                            <span className="d-flex section2 col-sm-10">
+                            <span className="d-flex section2 col-sm-12">
                                 <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cust. Group</label>
+                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Customer Group</label>
+                                            <input type="text" name="custGrp" className="form-control inp" title="Customer Group" />
+                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M120 256c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm160 0c0 30.9-25.1 56-56 56s-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56zm104 56c-30.9 0-56-25.1-56-56s25.1-56 56-56s56 25.1 56 56s-25.1 56-56 56z" /></svg>
+                                </>
+                               <>
+                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Credit Limit</label>
                                             <input type="text" name="custGrp" className="form-control inp" title="Customer Group" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
-                                <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">First Pay.Date</label>
-                                            <input type="date" name="majProd" className="form-control inp" title="First Payment Date" />
+                               <>
+                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Days Amount</label>
+                                            <input type="text" name="custGrp" className="form-control inp" title="Customer Group" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
+                               
+                                       
                             </span>
                             </div>
                           </fieldset>
                     </form>
+                        <div className="row row-content col-12 " style={{ margin: '1em 0%', backgroundColor: 'whitesmoke' }}>
+                            <span className="d-flex align-items-center m-0 p-0">
+                                <>
+                                    <label htmlFor="1payDate" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">First Payment Date</label>
+                                    <input className="form-control" name="1payDate" type="date"  />
+                                    <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
 
+                                </>
+
+                                <>
+                                    <label htmlFor="daysFreq" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label ">Days Frequency</label>
+                                    <input type="text" name="daysFreq" className="form-control" title="Days Frequency" />
+                                    <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
+                                </>
+
+
+
+                            </span>
+                        </div>
                         <form className="form col-sm-12 row-content card-body pt-0 pb-0">
                              <fieldset className="form-group border p-0">
                                  <legend className="px-2" data-toggle="collapse" data-target="#personalDet" aria-expanded="false" aria-controls="personalDet"  style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Personal Details<svg className="ml-1" style=    {{ width: '15px' }}  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
                                      <div className="collapse" id="personalDet">
                                     
-                                <span className="d-flex section2 col-sm-10">
+                                <span className="d-flex section2 col-sm-12">
                                 <>
                                             <label htmlFor="contPerson" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cont. Person</label>
                                             <input type="text" name="contPerson" className="form-control inp" title="Enter Contractor Person" />
@@ -131,9 +181,9 @@ class AddCustomerMaster extends React.Component<{}, IState> {
                               
                             </span>
                                     
-                                <span className="d-flex section2 col-sm-10">
+                                <span className="d-flex section2 col-sm-12">
                                 <>
-                                            <label htmlFor="desg" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Desig.</label>
+                                            <label htmlFor="desg" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Designation</label>
                                             <input type="text" name="desg" className="form-control inp" title="Enter Designation" />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden'}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
@@ -145,9 +195,9 @@ class AddCustomerMaster extends React.Component<{}, IState> {
                                 </>
                             </span>
                                     
-                                <span className="d-flex section2 col-sm-10">
+                                <span className="d-flex section2 col-sm-12">
                                 <>
-                                            <label htmlFor="cheifExe" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cheif Exec.</label>
+                                            <label htmlFor="cheifExe" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cheif Executive</label>
                                             <input type="text" name="cheifExe" className="form-control inp" title="Chief Exec." />
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
@@ -158,7 +208,7 @@ class AddCustomerMaster extends React.Component<{}, IState> {
                                 {/*</>*/}
                             </span>
                                     
-                                <span className="d-flex section2 col-sm-10">
+                                <span className="d-flex section2 col-sm-12">
                                 <>
                                             <label htmlFor="cheifExeTelNo" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cheif Exe Tel No.</label>
                                             <input type="text" name="cheifExeTelNo" className="form-control inp" title="Chief Exe. Tel. No." />
@@ -171,14 +221,7 @@ class AddCustomerMaster extends React.Component<{}, IState> {
                                             <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
                                 </>
                                 </span>
-                                 <span className="d-flex section2 col-sm-10">
-                                    <>
-                                            <label htmlFor="mulCurr" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Mul. Curr.</label>
-                                            <input type="text" name="mulCurr" className="form-control inp" title="Mul. Currency" />
-                                            <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden'}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                    <div className="col-1"></div>
-                                    </>
-                                </span>
+                                 
                                      </div>
                              </fieldset>
                     </form>
@@ -196,16 +239,8 @@ class AddCustomerMaster extends React.Component<{}, IState> {
 
                                 </>
                               
-                                <>
-                                    <label htmlFor="zone" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Print Assort Wise</label>
-                                    <input type="text" name="zone" className="form-control" title="Print Assort Wise" />
-                                    <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden'}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                </>
-                                <>
-                                    <label htmlFor="zone" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Ledger Type</label>
-                                    <input type="text" name="zone" className="form-control" title="Enter Ledger Type" />
-                                    <svg className="m-0 ml-1 p-0" style={{ width: '20px', cursor: 'pointer', visibility: 'hidden' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM256 368C269.3 368 280 357.3 280 344V280H344C357.3 280 368 269.3 368 256C368 242.7 357.3 232 344 232H280V168C280 154.7 269.3 144 256 144C242.7 144 232 154.7 232 168V232H168C154.7 232 144 242.7 144 256C144 269.3 154.7 280 168 280H232V344C232 357.3 242.7 368 256 368z" /></svg>
-                                </>
+                               
+                             
                             </span>
                         </div>
                         <div style={{ margin: '0', width: '100%', padding: '0' }} id="addres">

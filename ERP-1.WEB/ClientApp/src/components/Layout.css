@@ -215,15 +215,27 @@ a, a:hover, a:focus {
 
 */
 
-#sidebar ul li.active > a, a[aria-expanded="true"] {
-    /*   color: #fff;
-    background: #6d7fcc;*/
+#sidebar ul li.active > .level0, .level0[aria-expanded="true"] {
     background-color: blueviolet;
     color: #fff;
     font-weight: 900;
     padding-left: 10px;
-}
 
+}
+#sidebar ul li.active > .level1, .level1[aria-expanded="true"] {
+    background-color: dodgerblue;
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+}
+/*#sidebar ul li.active > .abascus, .abascus[aria-expanded="true"] {
+    
+    background-color: plum;
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+}
+*/
 
 ul ul a {
     font-size: 0.9em !important;
@@ -297,10 +309,10 @@ a.navbar-brand {
    color:#fff;
 }
 #sidebar .level1 {
-    background-color: #8797DB;
-    color: rebeccapurple;
-    border-spacing: 5px;
-    /* border:0.3px solid grey;*/
+
+    font-weight: 600;
+    color: black;
+  
 }
 
 #sidebar .level0:focus {
@@ -327,13 +339,13 @@ a.navbar-brand {
     background-color: dodgerblue;
     color: #fff;
 }
-#sidebar .level1.active{
+/*#sidebar .level1.active{
  
-    background-color: dodgerblue;
+   
     color: #fff;
     font-weight: 900;
     padding-left: 10px;
-}
+}*/
 
 #sidebar .level1:hover {
     background-color: skyblue;
@@ -351,21 +363,21 @@ a.navbar-brand {
     background-color:plum;
   
 }
-#sidebar .level1 li.active{
-    background-color:plum;
+/*#sidebar .level1 li.active{
+    
   
-}
+}*/
 #sidebar .abascus:hover{
-    background-color:navy;
+    background-color:lightcyan;
 }
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-#sidebar #cusMaster.active > a, a[aria-expanded="true"] {
+/*#sidebar #cusMaster.active > a, a[aria-expanded="true"] {*/
     /*   color: #fff;
     background: #6d7fcc;*/
-    background-color: blueviolet;
+    /*background-color: blueviolet;
     color: #fff;
     font-weight: 900;
     padding-left: 10px;
-}
+}*/

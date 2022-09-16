@@ -5,6 +5,7 @@ import './custom.css'
 import { useEffect, useState } from 'react';
 import Layout from './components/Layout';
 import LayoutLog from './components/LayoutLog';
+import Secret_LayOut from './components/Secret_LayOut';
 //-------------------------------------------------------Primary Login Imports -----------------------------------------------------------------------
 import RegisterLayout from './components/RegisterLayout';
 import LogIn from './components/Login/login.component';
@@ -22,6 +23,7 @@ import FeaturesOptions from './components/Featutes-Option/features-option.compon
 import AddQcPlan from './components/Master/AddQcPlan/add-qc-plan.component';
 import AssortmentMaster from './components/Master/AssortmentMaster/assortment-master.component';
 import BomRoutingConfig from './components/Master/BomRoutingConfiguration/bom-routing-config.component';
+import RouteDetails from './components/Master/BomRoutingConfiguration/RouteDetails.component';
 import BranchMaster from './components/Master/BranchMaster/branch-master.component';
 import CostSheetDetails from './components/Master/CostSheet/cost-sheet-details.component';
 import AddCustomerMaster from './components/Master/CustomerMaster/add-customer-master.component';
@@ -170,6 +172,7 @@ function App() {
                     "/sales-return",
                     "/sale-quotation",
                     "/purchase-requisation",
+                   
                     "/material-movement"
 
 
@@ -215,7 +218,7 @@ function App() {
                         <Route exact path='/add-item-master' component={AddItemMaster} />
                         <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
                         <Route exact path='/test' component={Test} />
-
+                     
 
                         {/*Transaction */}
                         <Route exact path='/material-issue' component={MaterialIssue} />
@@ -264,7 +267,13 @@ function App() {
 
                 </RegisterLayout>
             </Route>
-                   
+            <Route path={["/route-details"]}>
+                <Secret_LayOut>
+                        <Route exact path='/route-details' component={RouteDetails} />
+
+                </Secret_LayOut>
+            </Route>
+
           
 
                 <Route exact path="/" component={setDefault.current == 1 ? LogIn : Nothing} />

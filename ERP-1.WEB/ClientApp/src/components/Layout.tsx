@@ -40,7 +40,7 @@ export default (props: any) => {
 
         
     });
-   
+  
     return (
         <div className="cc">
             <React.Fragment>
@@ -140,7 +140,7 @@ export default (props: any) => {
                                 <a href="#master" id="mast" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle level0">Master</a>
                                 <ul style={{ width: '101%', position: 'initial' }} aria-labelledby="mas" data-parent="#sidebar" className="p-0 m-0 dropdown-menu dropdown-menu-right collapse" id="master">
                                     <li className="dropdown" style={{ backgroundColor: '#aeb9e7' }}>
-                                        <a style={{ fontWeight: 600, color: 'black' }} id="cusMaster" href="#CustomerMaster" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle level1">Customer Master</a>
+                                        <a id="cusMaster" href="#CustomerMaster" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle level1">Customer Master</a>
 
 
                                         <ul style={{ width: '230px' }} className=" collapse list-unstyled" data-parent="#master" aria-labelledby="cusMaster" id="CustomerMaster">
@@ -168,7 +168,7 @@ export default (props: any) => {
                                     {/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
 
                                     <li className="dropdown" style={{ backgroundColor: '#aeb9e7' }}>
-                                        <a style={{ fontWeight: 600, color: 'black' }} id="supMaster" href="#supplierMaster" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle level1">Supplier Master</a>
+                                        <a id="supMaster" href="#supplierMaster" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle level1">Supplier Master</a>
 
 
                                         <ul style={{ width: '230px' }} aria-labelledby="supMaster" data-parent="#master" className=" collapse list-unstyled" id="supplierMaster">
@@ -178,7 +178,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink  className="nav-link p-1 abascus" to="/add-supplier-master">
+                                                <NavLink to="/add-supplier-master" className="nav-link p-1 abascus">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -282,15 +282,15 @@ export default (props: any) => {
                                         <a style={{ fontWeight: 600, color: 'black' }} id="qc" href="#QCplan" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle level1">QC Plan</a>
 
 
-                                        <ul style={{ width: '230px' }} aria-labelledby="qc" data-parent="#master" className=" collapse list-unstyled" id="QCplan">
+                                        <ul style={{width:'230px'}} aria-labelledby="qc" data-parent="#master" className=" collapse list-unstyled" id="QCplan">
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-qc-plan">
+                                                <NavLink className="nav-link p-1 abascus" to="/add-qc-plan" >
                                                     Add
                                                 </NavLink>
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-qc-plan">
+                                                <NavLink className="nav-link p-1 abascus"  to="/add-qc-plan">
                                                     Modify
                                                 </NavLink>
                                             </li>

@@ -155,6 +155,145 @@ const MRN = () => {
 
             </div>
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
+            <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
+                <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0', width: '100%' }}>
+                        <span className="card-title" style={{ fontSize: '15px', margin: '0', padding: '0' }}>Items To be Produce</span>
+                    </div>
+                    <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
+                        width: "100%"
+                    }}>
+                        <thead>
+                            <tr>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>S.No</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Item Name</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Pend Qty</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Quantity</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>UoM</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Rate</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Value</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Material Center</th>                                                   
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Po.No.</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>BatchNo</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>PoSrNo</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>QC.Qty</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>PO.Qty</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>GR.Qty</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Tolrance</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Tolrance Qty</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>isParameter</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>isAssortment</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>AssortCol</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>MinSupQty</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Reason</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>TaxableAmt</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>VatPer</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>VatAmt</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>ScghPer</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>ScghAmt</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Tax Type</th>
+                                <th className="text-center" style={{ fontWeight: 400, padding:'0 1em', backgroundColor: 'grey', color: 'white' }}>Final AMt.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>3</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <hr style={{ margin: '0', padding: '0' }} />
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
                 <div className="card col-sm-5" style={{ padding: '0', margin: '0', minHeight: '20vh' }}>
 

@@ -6,25 +6,25 @@ class AssortmentMaster extends React.Component {
         return (
             <div className="firstDiv">
                 <div className="row row-content card containet-fluid col-12 p-0" >
-                <div className="row row-header card-title col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-
-                    <span style={{
-                        fontSize: '15px', color: 'white', padding: '0',
-                        margin: '0'
-                    }}>Add Material Dispatch</span>
-
-                </div>
-                <div className="col-12 card-body d-flex row-body">
-                    <>
-                        <label htmlFor="sizeSet" className="form-label labl" style={{ fontSize: '0.8rem'}}>Size Set</label>
-                        <input type="text" className="form-control inp" name="sizeSet"/>
-                    </>
-
-                    <>
-                        <label htmlFor="noOfSizes" className="form-label labl ml-3" style={{ fontSize: '0.8rem'}}>No. Of Sizes</label>
-                        <input type="text" className="form-control inp" name="noOfSizes"/>
-                    </>
-                    </div>
+                        <div className="row row-header card-title col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',   backgroundColor:       '#8389d4', margin: '0', padding: '0' }}>
+                        
+                            <span style={{
+                                fontSize: '15px', color: 'white', padding: '0',
+                                margin: '0'
+                            }}>Add Material Dispatch</span>
+                        
+                        </div>
+                        <div className="col-12 card-body d-flex row-body">
+                            <>
+                                <label htmlFor="sizeSet" className="form-label labl" style={{ fontSize: '0.8rem'}}>Size Set</label>
+                                <input type="text" className="form-control inp" name="sizeSet"/>
+                            </>
+                        
+                            <>
+                                <label htmlFor="noOfSizes" className="form-label labl ml-3" style={{ fontSize: '0.8rem'}}>No. Of Sizes</label>
+                                <input type="text" className="form-control inp" name="noOfSizes"/>
+                            </>
+                         </div>
 
                 </div>
                 <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>

@@ -232,11 +232,26 @@ const SaleReturn = () => {
                                     <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Item Name</span></th>
 
 
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Bal. Po Qty</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Qty</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>UOM</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Basic Rate</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Assortment</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Return Type</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Carton Size</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Bal SI Qty</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Return Qty</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>UoM</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>SI Carton</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Return Carton</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Rate</span></th>
                                     <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Value</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Mat.Center</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>GST Category</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>CGST(%)</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>CGST Amt</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>SGST(%)</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>SGST AMt</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>IGST(%)</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>IGST Amt</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Alt Qty</span></th>
+                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Alt.UoM</span></th>
 
                                 </tr>
                             </thead>
@@ -276,6 +291,22 @@ const SaleReturn = () => {
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                  
                                     {/*{*/}
                                     {/*    itemDetails.map((item: any) => {*/}
                                     {/*        return (*/}

@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_1 = require("react");
 require("react-datepicker/dist/react-datepicker.css");
-var react_datepicker_1 = require("react-datepicker");
 //import UnderConstruction from '../../under-construction';
 var Projection = function () {
     var getSoSeries = window.sessionStorage.getItem('so-series');
@@ -75,80 +74,13 @@ var Projection = function () {
                                     React.createElement("input", { className: "form-control col-sm-6", type: "text", name: "so-date" }))),
                             React.createElement("span", { className: 'form-group col-sm-12', style: { display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' } },
                                 React.createElement(React.Fragment, null,
-                                    React.createElement("label", { style: { margin: '0 46px 0 10px', padding: '0', fontSize: '14px' }, className: "form-label col-sm-2", htmlFor: "del-date" }, "Date"),
-                                    React.createElement(react_datepicker_1.default, { name: "startDate", className: "startDate form-control col-sm-10 m-0", selectsStart: true, dateFormat: "MMM dd, yyyy", closeOnScroll: true, selected: startDate, onChange: function (k) {
-                                            setStartDate(k);
-                                            var format = k.toString().slice(4, 15);
-                                            var yearOnly = format.slice(7, 11);
-                                            var dateOnly = format.slice(4, 6);
-                                            var MonthOnly = format.slice(0, 3);
-                                            var monthNo = 0;
-                                            if (MonthOnly.toLowerCase() == "jan")
-                                                monthNo = 1;
-                                            else if (MonthOnly.toLowerCase() == "feb")
-                                                monthNo = 2;
-                                            else if (MonthOnly.toLowerCase() == "mar")
-                                                monthNo = 3;
-                                            else if (MonthOnly.toLowerCase() == "apr")
-                                                monthNo = 4;
-                                            else if (MonthOnly.toLowerCase() == "may")
-                                                monthNo = 5;
-                                            else if (MonthOnly.toLowerCase() == "jun")
-                                                monthNo = 6;
-                                            else if (MonthOnly.toLowerCase() == "jul")
-                                                monthNo = 7;
-                                            else if (MonthOnly.toLowerCase() == "aug")
-                                                monthNo = 8;
-                                            else if (MonthOnly.toLowerCase() == "sep")
-                                                monthNo = 9;
-                                            else if (MonthOnly.toLowerCase() == "oct")
-                                                monthNo = 10;
-                                            else if (MonthOnly.toLowerCase() == "nov")
-                                                monthNo = 11;
-                                            else if (MonthOnly.toLowerCase() == "dec")
-                                                monthNo = 12;
-                                            var fDate = yearOnly + "-" + monthNo + "-" + dateOnly;
-                                            console.log(fDate);
-                                            setChangeStartDate(fDate);
-                                        } })),
+                                    " ",
+                                    React.createElement("label", { style: { margin: '0', padding: '0', fontSize: '14px' }, className: "form-label col-sm-2", htmlFor: "sold-to" }, "Date"),
+                                    React.createElement("input", { className: "form-control col-sm-3", type: "date", name: "sold-to" })),
                                 React.createElement(React.Fragment, null,
                                     " ",
-                                    React.createElement("label", { style: { margin: '0 46px 0 10px', padding: '0', fontSize: '14px' }, className: "form-label col-sm-2", htmlFor: "del-date" }, "Due Date"),
-                                    React.createElement(react_datepicker_1.default, { name: "toDate", className: "toDate form-control col-sm-10", dateFormat: "MMM dd, yyyy", closeOnScroll: true, selected: endDate, onChange: function (date) {
-                                            setEndDate(date);
-                                            var format = date.toString().slice(4, 15);
-                                            var yearOnly = format.slice(7, 11);
-                                            var dateOnly = format.slice(4, 6);
-                                            var MonthOnly = format.slice(0, 3);
-                                            var monthNo = 0;
-                                            if (MonthOnly.toLowerCase() == "jan")
-                                                monthNo = 1;
-                                            else if (MonthOnly.toLowerCase() == "feb")
-                                                monthNo = 2;
-                                            else if (MonthOnly.toLowerCase() == "mar")
-                                                monthNo = 3;
-                                            else if (MonthOnly.toLowerCase() == "apr")
-                                                monthNo = 4;
-                                            else if (MonthOnly.toLowerCase() == "may")
-                                                monthNo = 5;
-                                            else if (MonthOnly.toLowerCase() == "jun")
-                                                monthNo = 6;
-                                            else if (MonthOnly.toLowerCase() == "jul")
-                                                monthNo = 7;
-                                            else if (MonthOnly.toLowerCase() == "aug")
-                                                monthNo = 8;
-                                            else if (MonthOnly.toLowerCase() == "sep")
-                                                monthNo = 9;
-                                            else if (MonthOnly.toLowerCase() == "oct")
-                                                monthNo = 10;
-                                            else if (MonthOnly.toLowerCase() == "nov")
-                                                monthNo = 11;
-                                            else if (MonthOnly.toLowerCase() == "dec")
-                                                monthNo = 12;
-                                            var eDate = yearOnly + "-" + monthNo + "-" + dateOnly;
-                                            console.log(eDate);
-                                            setChangeEndDate(eDate);
-                                        } }))),
+                                    React.createElement("label", { style: { margin: '0', padding: '0', fontSize: '14px' }, className: "form-label col-sm-2", htmlFor: "address" }, "Due Date"),
+                                    React.createElement("input", { className: "form-control col-sm-3", type: "date", name: "address" }))),
                             React.createElement("span", { className: 'form-group col-sm-12', style: { display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' } },
                                 React.createElement(React.Fragment, null,
                                     " ",
@@ -172,18 +104,58 @@ var Projection = function () {
                                 React.createElement(React.Fragment, null,
                                     React.createElement("label", { style: { margin: '0', padding: '0', fontSize: '14px' }, className: "form-label col-sm-2", htmlFor: "payment-terms" }, "Address"),
                                     React.createElement("textarea", { className: "form-control", name: "payment-terms", value: masterDetails.PAYTERM })))))))),
-        React.createElement("div", { className: "card-footer row row-content col-sm-12 form-group", style: { margin: '0', padding: '0' } },
-            React.createElement("label", { style: { margin: '0' }, className: 'col-sm-1 label-control' }, "Type"),
-            React.createElement("input", { style: { margin: '0' }, type: "text", className: 'form-control col-sm-1', value: masterDetails.CUSTTYPE, readOnly: true }),
-            React.createElement("label", { style: { margin: '0' }, className: 'col-sm-1 label-control' }, "State"),
-            React.createElement("input", { style: { margin: '0' }, type: "text", className: 'form-control col-sm-1', value: masterDetails.STATENAME, readOnly: true }),
-            React.createElement("label", { style: { margin: '0' }, className: 'col-sm-2 label-control' }, "Scheme Enable"),
-            React.createElement("input", { style: { margin: '0' }, type: "text", className: 'form-control col-sm-1', value: masterDetails.SCHEME, readOnly: true }),
-            React.createElement("label", { style: { margin: '0' }, className: 'col-sm-2 label-control' }, "Pay Status"),
-            React.createElement("input", { style: { margin: '0' }, type: "text", className: 'form-control col-sm-1', value: masterDetails.PAYTO, readOnly: true }),
-            React.createElement("label", { style: { margin: '0' }, className: 'col-sm-1 label-control' }, "Dis %"),
-            React.createElement("input", { style: { margin: '0' }, type: "text", className: 'form-control col-sm-1' })),
         React.createElement("hr", { style: { border: '2px solid grey', opacity: '0.5' } }),
+        React.createElement("div", { className: "row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3" },
+            React.createElement("div", { className: "card-body col-sm-12 addCustomer container container-fluid container-lg", style: { overflowX: 'auto', overflowY: 'auto' } },
+                React.createElement("span", { className: "card-title", style: {
+                        fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
+                        margin: '0'
+                    } }, "Projection Item Details"),
+                React.createElement("table", { id: "dtHorizontalExample", className: "table table-striped table-bordered table-sm", style: {
+                        width: "100%"
+                    } },
+                    React.createElement("thead", null,
+                        React.createElement("tr", null,
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Item COde"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Item Name"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Quantity 1"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "UOM 2"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Del Date 3"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Source"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Price"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Cons. Qty"),
+                            React.createElement("th", { className: "text-center", style: { fontWeight: 400, backgroundColor: 'grey', color: 'white' } }, "Values"))),
+                    React.createElement("tbody", null,
+                        React.createElement("tr", null,
+                            React.createElement("th", null, "1"),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null)),
+                        React.createElement("tr", null,
+                            React.createElement("th", null, "2"),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null)),
+                        React.createElement("tr", null,
+                            React.createElement("th", null, "3"),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null),
+                            React.createElement("td", null)))))),
         React.createElement("div", { className: "btn-group col-12 mt-3", style: { display: 'flex', justifyContent: 'flex-end', alignItems: 'center' } },
             React.createElement("button", { type: "button", style: { border: '2px solid #33b5e5', letterSpacing: 3 }, className: "btn btn-info pl-0 pr-0" }, "Save"),
             React.createElement("button", { type: "button", style: { border: '2px solid green', letterSpacing: 3 }, className: "btn btn-success mr-2 ml-2 pl-0 pr-0 " }, "Save & Submit"),

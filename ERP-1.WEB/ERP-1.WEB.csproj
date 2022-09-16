@@ -43,6 +43,8 @@
     <None Remove="ClientApp\src\components\Master\AddQcPlan\add-qc-plan.component.tsx" />
     <None Remove="ClientApp\src\components\Master\AssortmentMaster\assortment-master.component.tsx" />
     <None Remove="ClientApp\src\components\Master\BomRoutingConfiguration\bom-routing-config.component.tsx" />
+    <None Remove="ClientApp\src\components\Master\BomRoutingConfiguration\BomModals.tsx" />
+    <None Remove="ClientApp\src\components\Master\BomRoutingConfiguration\RouteDetails.component.tsx" />
     <None Remove="ClientApp\src\components\Master\BranchMaster\branch-master.component.tsx" />
     <None Remove="ClientApp\src\components\Master\CostSheet\cost-sheet-details.component.tsx" />
     <None Remove="ClientApp\src\components\Master\ItemMaster\add-item-master.component.tsx" />
@@ -99,6 +101,8 @@
     <TypeScriptCompile Include="ClientApp\src\components\Master\AddQcPlan\add-qc-plan.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Master\AssortmentMaster\assortment-master.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Master\BomRoutingConfiguration\bom-routing-config.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\BomRoutingConfiguration\BomModals.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Master\BomRoutingConfiguration\RouteDetails.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Master\BranchMaster\branch-master.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Master\CostSheet\cost-sheet-details.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Master\CustomerMaster\add-customer-master.component.tsx" />
