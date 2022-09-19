@@ -83,21 +83,31 @@ const MaterialMovement = () => {
                                         <thead>
                                             <tr>
                                                 <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>S.No</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Quality Parameter(MIC)</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Desc.</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Sampling Plan</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UOM</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Target Value</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Lower Value</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Upper Value</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Narration</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>QC Type</th>
-                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Measuring Method</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Plan No.</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Plan Month.</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Po No.</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Po Date</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Supplier</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Code</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Name</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Po. Qty</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Po.Price</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Rec. Qty</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Bal Qty.</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Dispatch Date</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Date Of Arrival</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Bill Qty</th>
+                                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Remark</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <th>1</th>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
@@ -121,9 +131,19 @@ const MaterialMovement = () => {
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                             <tr>
                                                 <th>3</th>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>

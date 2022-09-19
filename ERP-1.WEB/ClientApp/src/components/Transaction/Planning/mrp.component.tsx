@@ -78,22 +78,22 @@ const MRP = () => {
                                 <thead className="thead-light table-secondary text-center">
                                     <tr>
                                         <th scope="col">S.No.</th>
-                                        <th scope="col" style={{ padding: '0 12em' }}><span>ItemCode </span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >ItemName</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Quantity</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Uom</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >MRP</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Basic.Rate</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Sale.Rate</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Amount.Rate</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Dis(%)</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Dis.Sale.Rate</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Dis(₹)</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Amount</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >S.Dis(%)</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >S.Dis.Amt</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Amount</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GST(%)</span></th>
+                                        <th scope="col" style={{ padding: '0 12em' }}><span>IndentNo. </span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Date</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Due Date</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >For Month</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Item Code</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Item Name</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Indent Qty</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Exploded Qty</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Balance Qty</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >MRP Qty</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >UoM</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >StockQty</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Cons.Qty</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Toll(%)</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Toll(Qty)</span></th>
+                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Total MRP</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,30 +103,7 @@ const MRP = () => {
                                                 <tr>
 
                                                     <th scope="row" className="text-center">{i + 1}</th>
-                                                    <td className="item-code">
-                                                        <input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control text-center" list="itemCodeList" type="text" id="cell-ItemCode" />
-                                                        {
-                                                            itemCodeArr != null && itemCodeArr.length > 0 ?
-
-                                                                (
-                                                                    <datalist className='item-code-list' id='itemCodeList'>
-                                                                        {
-                                                                            itemCodeArr.map((obj: any) => {
-                                                                                return <option data-value={obj.ITEMCODE}>{obj.ITEMNAME}</option>
-                                                                            })
-                                                                        }
-
-
-                                                                    </datalist>
-
-                                                                )
-
-                                                                : null
-
-
-                                                        }
-
-                                                    </td>
+                                                    <td className="item-code"></td>
 
                                                     <td>{kinda.current}</td>
 
@@ -210,7 +187,7 @@ const MRP = () => {
                 </div>
                 <span className="d-flex section2 col-sm-10 flex-start">
                     <>
-                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2 col-2 m-3">Quotation Series</label>
+                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2 col-2 m-3">PR Series</label>
                         <input type="text" name="custName" className="form-control inp col-3 m-3" />
                     </>
                      <>

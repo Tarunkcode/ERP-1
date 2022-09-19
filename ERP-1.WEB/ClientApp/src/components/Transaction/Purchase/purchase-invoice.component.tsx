@@ -53,7 +53,7 @@ const PurcahseInvoice = () => {
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
                         margin: '0'
-                    }}>Add Gate Entry</span>
+                    }}>Pending MRN for Purchase</span>
 
                 </div>
                 <div className="row row-content card col-sm-12 addSaleForm container container-fluid container-lg">
@@ -101,7 +101,7 @@ const PurcahseInvoice = () => {
 
                                 </span>
                                 <div className="col-12"></div>
-                                <button type="submit" className="btn btn-primary m-2 col-2 d-flex flex-start">Load PR</button>
+                                <button type="submit" className="btn btn-primary m-2 col-2 d-flex flex-start">Load Data</button>
 
                             </form>
                        
@@ -112,34 +112,17 @@ const PurcahseInvoice = () => {
                 </div>
 
             </div>
-            <div className="card-footer row row-content col-sm-12 form-group" style={{ margin: '0', padding: '0' }}>
-                <label style={{ margin: '0' }} className='col-sm-1 label-control'>Transporter</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.CUSTTYPE} readOnly />
-
-
-                <label style={{ margin: '0' }} className='col-sm-1 label-control'>Vehicle Type</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.STATENAME} readOnly />
-
-                <label style={{ margin: '0' }} className='col-sm-2 label-control'>Number</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.SCHEME} readOnly />
-
-                <label style={{ margin: '0' }} className='col-sm-2 label-control'>Driver Name</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.PAYTO} readOnly />
-
-
-                <label style={{ margin: '0' }} className='col-sm-1 label-control'>Bilty No.</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' />
-
-            </div>
+          
 
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
-            <div className="btn-group col-12 mt-3 mb-0" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0 col-2">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 col-2">Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0 col-2">Quit</button>
-            </div>
-            <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
+        
+         
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
                 <div className="card">
 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Gate Entry Item Details</span>
+                        <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Pending Mrn For Purchase Details</span>
                     </div>
 
                     <div className="table-responsive" style={{ padding: '0' }}>
@@ -148,22 +131,27 @@ const PurcahseInvoice = () => {
                             <thead className="thead-light table-secondary text-center">
                                 <tr>
                                     <th scope="col">S.No.</th>
-                                    <th scope="col" style={{ padding: '0 12em' }}><span>ItemCode </span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >ItemName</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Quantity</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Uom</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >MRP</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Basic.Rate</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Sale.Rate</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Amount.Rate</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Dis(%)</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Dis.Sale.Rate</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Dis(₹)</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Amount</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >S.Dis(%)</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >S.Dis.Amt</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Amount</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GST(%)</span></th>
+                                    
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRN.No</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRN Date</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Purchase Ord</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Supplier Name</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Bill No.</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Bill Date</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Item Code</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Description</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Model No.</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRN Qty</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >UoM</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Processed Qty</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Balance Qty</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Mat.Center</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Process</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRSRNO</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Batch No.</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Color</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Size</span></th>
+                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >P3</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -173,30 +161,7 @@ const PurcahseInvoice = () => {
                                             <tr>
 
                                                 <th scope="row" className="text-center">{i + 1}</th>
-                                                <td className="item-code">
-                                                    <input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control text-center" list="itemCodeList" type="text" id="cell-ItemCode" />
-                                                    {
-                                                        itemCodeArr != null && itemCodeArr.length > 0 ?
-
-                                                            (
-                                                                <datalist className='item-code-list' id='itemCodeList'>
-                                                                    {
-                                                                        itemCodeArr.map((obj: any) => {
-                                                                            return <option data-value={obj.ITEMCODE}>{obj.ITEMNAME}</option>
-                                                                        })
-                                                                    }
-
-
-                                                                </datalist>
-
-                                                            )
-
-                                                            : null
-
-
-                                                    }
-
-                                                </td>
+                                                
 
                                                 <td>{kinda.current}</td>
 
@@ -217,6 +182,11 @@ const PurcahseInvoice = () => {
                                                 {
                                                     i == wholeLineItem.length - 2 ? (<button type="button" value={i} ><i><svg style={{ width: '21px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M576 384C576 419.3 547.3 448 512 448H205.3C188.3 448 172 441.3 160 429.3L9.372 278.6C3.371 272.6 0 264.5 0 256C0 247.5 3.372 239.4 9.372 233.4L160 82.75C172 70.74 188.3 64 205.3 64H512C547.3 64 576 92.65 576 128V384zM271 208.1L318.1 256L271 303C261.7 312.4 261.7 327.6 271 336.1C280.4 346.3 295.6 346.3 304.1 336.1L352 289.9L399 336.1C408.4 346.3 423.6 346.3 432.1 336.1C442.3 327.6 442.3 312.4 432.1 303L385.9 256L432.1 208.1C442.3 199.6 442.3 184.4 432.1 175C423.6 165.7 408.4 165.7 399 175L352 222.1L304.1 175C295.6 165.7 280.4 165.7 271 175C261.7 184.4 261.7 199.6 271 208.1V208.1z" /></svg></i></button>) : null
                                                 }
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
 
 
                                             </tr>
