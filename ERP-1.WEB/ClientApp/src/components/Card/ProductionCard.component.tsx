@@ -435,8 +435,8 @@ export default function PlanningCard({ domain, port, Fy, compCode, dataArray, da
                             <ResponsiveContainer width="100%" aspect={1}>
                                 <BarChart width={490} height={430} data={dataArray2} style={{ marginTop: "20px" }}>
 
-                                    <Bar dataKey={dataKey1} fill="#82ca9d" />
-                                    <CartesianGrid stroke="#ccc" />
+                                    <Bar dataKey={dataKey1} fill="#82ca9d" ><LabelList dataKey={dataKey1} position="center" angle={-90} /></Bar>
+                                 
                                     <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
 
 

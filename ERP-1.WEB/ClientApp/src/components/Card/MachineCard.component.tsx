@@ -436,8 +436,8 @@ export default function MachineCard({ domain, port, Fy, compCode, dataArray, dat
                             <ResponsiveContainer width="100%" aspect={1}>
                                 <BarChart width={490} height={430} data={dataArray2} style={{ marginTop: "20px" }}>
 
-                                    <Bar dataKey={dataKey1} fill="#82ca9d" />
-                                    <CartesianGrid stroke="#ccc" />
+                                    <Bar dataKey={dataKey1} fill="#82ca9d"><LabelList dataKey={dataKey1} position="center" angle={-90} /></Bar>
+                                    
                                     <XAxis height={150}  />
 
 

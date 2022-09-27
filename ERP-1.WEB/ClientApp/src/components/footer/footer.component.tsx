@@ -1,11 +1,6 @@
 ﻿import * as React from 'react';
 import './footer.styles.css';
 
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-
-import { Link } from 'react-router-dom';
-import ReactDom from 'react-dom';
-
 
 export default function Footer() {
 

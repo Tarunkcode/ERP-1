@@ -436,7 +436,7 @@ export default function RejectionCard({ domain, port, Fy, compCode, dataArray, d
                             <ResponsiveContainer width="100%" aspect={1}>
                                 <BarChart width={490} height={430} data={dataArray2} style={{ marginTop: "20px" }}>
 
-                                    <Bar dataKey={dataKey1} fill="#82ca9d" />
+                                    <Bar dataKey={dataKey1} fill="#82ca9d" ><LabelList dataKey={dataKey1} position="center" angle={-90} /></Bar>
                                     <CartesianGrid stroke="#ccc" />
                                     <XAxis dataKey={nameKey} textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={150} />
 

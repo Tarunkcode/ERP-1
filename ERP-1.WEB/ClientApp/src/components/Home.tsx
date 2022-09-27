@@ -3,7 +3,19 @@ import * as React from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import { useState } from 'react';
 import './home.css';
-
+import Purchase from '../Pages/DashBoards/purchase/purchase.component';
+import { Label } from 'reactstrap';
+const AxisLabel = ({ axisType, x, y, width, height, stroke, children }: any) => {
+    const isVert = axisType === 'yAxis';
+    const cx = isVert ? x : x + (width / 2);
+    const cy = isVert ? (height / 2) + y : y + height + 10;
+    const rot = isVert ? `270 ${cx} ${cy}` : 0;
+    return (
+        <text x={cx} y={cy} transform={`rotate(${rot})`} textAnchor="middle" stroke={stroke}>
+            {children}
+        </text>
+    );
+};
 const Home = () => {
     
 let [posData, setposData] = useState({});
@@ -58,14 +70,15 @@ let [posData, setposData] = useState({});
                     D2 = parseFloat(D2);
                     D3 = parseFloat(D3);
 
-                    D2 = D2 / 100000;
-                    D3 = D3 / 100000;
+                    D2 = D2 / 10000000;
+                    D3 = D3 / 10000000;
                     fill = colors[item];
-                    var Sale_Amount = D2;
-                    var Purchase_Amt = D3;
+                    var Sale_Amount = D3.toFixed(2);
 
-                    obj = { D1, Sale_Amount, Purchase_Amt, fill };
-                   var obj2 = { D1, Sale_Amount, Purchase_Amt };
+                    var Purchase_Amt = D2.toFixed(2);
+
+                    obj = { D1, Sale_Amount, Purchase_Amt, fill, D2 };
+                   var obj2 = { D1, Sale_Amount, Purchase_Amt, D2 };
                     //[dataArray].
                     dataArray = [...dataArray]; // copying the old datas array
                     dataArray[item] = obj; // replace e.target.value with whatever you want to change it to
@@ -100,10 +113,10 @@ let [posData, setposData] = useState({});
                     PSaleAmt = parseFloat(PSaleAmt);
                     SaleAmt = parseFloat(SaleAmt);
 
-                    PSaleAmt = PSaleAmt / 100000;
-                    SaleAmt = SaleAmt / 100000;
-                    var Prev_Year_Sale_Amount = PSaleAmt;
-                    var This_Year_Sale_Amount = SaleAmt;
+                    PSaleAmt = PSaleAmt / 10000000;
+                    SaleAmt = SaleAmt / 10000000;
+                    var Prev_Year_Sale_Amount = PSaleAmt.toFixed(2);
+                    var This_Year_Sale_Amount = SaleAmt.toFixed(2);
                     obj = { Monthname, Prev_Year_Sale_Amount, This_Year_Sale_Amount };
                     //[dataArray].
                     saleArr = [...saleArr]; // copying the old datas array
@@ -132,7 +145,7 @@ let [posData, setposData] = useState({});
                     Amt = parseFloat(Amt);
 
                     
-                   Amt =Amt / 100000;
+                    Amt = Amt / 10000000;
                     var Amount = Amt;
                    var fill = colors[item]
                     obj = { Monthname, Amount, fill};
@@ -162,7 +175,7 @@ let [posData, setposData] = useState({});
                     Amt = parseFloat(Amt);
 
 
-                     Amt =Amt / 100000;
+                     Amt =Amt / 10000000;
                     var Amount = Amt;
                     var fill = colors[item]
                     obj = { Monthname, Amount, fill };
@@ -188,17 +201,21 @@ let [posData, setposData] = useState({});
                         <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>Monthly Sale</span>
                         <ResponsiveContainer width="100%" aspect={1}>
                             <BarChart className='card-body' width={560} height={260} data={dataArray2} style={{ marginTop: "20px", padding: '0' }}>
-                                <Bar dataKey="Sale_Amount" fill="#8884d8"
-                                    onMouseOver={(data) => {
-                                        console.log("data", data);
-                                        setposData(data);
-                                    }}
-            />
-                                <CartesianGrid strokeDasharray="8" stroke="#ccc" scale={ 1} />
+                                {/* <Bar label={true} dataKey="Sale_Amount" fill="#8884d8" />*/}
+                                <Bar dataKey="Sale_Amount" stackId="a" fill="#8884d8">
+                                    <LabelList dataKey="Sale_Amount" position="center" angle={-90 } />
+                                </Bar>
+                               
                                 <XAxis style={{ fontSize: '0.6rem' }} dataKey="D1" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={70} />
-                                <YAxis dataKey="Sale_Amount" />
+                                <YAxis dataKey="Sale_Amount" type="number" domain={[0, 30]} label={{
+                                    value: "Sale Amount in Cr.",
+                                    angle: -90,
+                                    position: "insideLeft",
+                                    dx: 20
+                                   
+                                }}/>
                                 <LabelList dataKey="Sale_Amount" position="top" />
-                                <Tooltip  cursor={false} contentStyle={{ backgroundColor: "#fff" }} trigger='hover' />
+                              
                                 <Legend layout="vertical" verticalAlign="top" align="center" />
                             </BarChart>
                         </ResponsiveContainer>
@@ -211,11 +228,12 @@ let [posData, setposData] = useState({});
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Purchase</span>
+                        <text style={{marginTop:'30px'}}>Monthly Purchase (in Cr.)</text>
                         <ResponsiveContainer width="100%" aspect={1}>
                             <PieChart className="card-body" width={560} height={260} style={{ padding: "0px" }}>
                                 <Pie
                                     data={dataArray}
-                                    dataKey="Purchase_Amt"
+                                    dataKey="D2"
                                     nameKey="D1"
                                     cx="50%"
                                     cy="50%"
@@ -239,12 +257,19 @@ let [posData, setposData] = useState({});
 
                 <ResponsiveContainer width='100%' aspect={1.5 / 0.8}>
                     <BarChart className="card-body" data={dataArray2} style={{ padding: '0' }} >
-                        <Bar dataKey="Sale_Amount" fill="#8884d8" />
-                        <Bar dataKey="Purchase_Amt" fill="#82ca9d" />
+                        <Bar dataKey="Sale_Amount" fill="#8884d8" ><LabelList dataKey="Sale_Amount" position="center" angle={-90} /></Bar>
+                        <Bar dataKey="Purchase_Amt" fill="#82ca9d" ><LabelList dataKey="Purchase_Amt" position="center" angle={-90} /></Bar>
                         <CartesianGrid stroke="#ccc" />
-                        <XAxis style={{ fontSize: '0.6rem' }} dataKey="D1" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={50} />
-                        <YAxis />
-                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "#fff" }} />
+                        <XAxis style={{ fontSize: '0.6rem' }} dataKey="D1" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={50} label={{
+                            value: `Sale v/s Purchase Amount (in Cr.)`,
+                            angle: -90,
+                            position: "insideLeft",
+                            dx: -60,
+                            dy: -200
+
+                        }}/>
+                        <YAxis type="number" domain={[0, 30]}/>
+                        
                         <Legend layout="horizontal" verticalAlign="top" align="center" />
                     </BarChart>
                 </ResponsiveContainer>
@@ -257,12 +282,19 @@ let [posData, setposData] = useState({});
                 <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>{finY - 1} Year Sale V/S {state.Fy } Year Sale</span>
                 <ResponsiveContainer width='100%' aspect={1.5 / 0.8}>
                     <BarChart className="card-body" data={saleArr} style={{ padding: '0' }}>
-                    <Bar dataKey="Prev_Year_Sale_Amount" fill="#8884d8"/>
-                    <Bar dataKey="This_Year_Sale_Amount" fill="#82ca9d" />
+                        <Bar dataKey="Prev_Year_Sale_Amount" fill="#8884d8"><LabelList dataKey="Prev_Year_Sale_Amount" position="center" angle={-90} /></Bar>
+                        <Bar dataKey="This_Year_Sale_Amount" fill="#82ca9d"><LabelList dataKey="This_Year_Sale_Amount" position="center" angle={-90} /></Bar>
                 <CartesianGrid stroke="#ccc" />
                         <XAxis style={{fontSize:'0.6rem'}} dataKey="Monthname" textAnchor="end" sclaeToFit="true" verticalAnchor="start" interval={0} angle={-40} height={50}/>
-                    <YAxis />
-                        <Tooltip cursor={false} contentStyle={{ backgroundColor: "#fff" }} />
+                        <YAxis type="number" domain={[0, 30]} label={{
+                            value: `${finY - 1} Year Sale V/S ${state.Fy } Year Sale (in Cr.)`,
+                            angle: -90,
+                            position: "insideLeft",
+                            dx: 5,
+                            dy: 100
+
+                        }}/>
+                       
                         <Legend layout="horizontal" verticalAlign="top" align="center" />
                     </BarChart>
                 </ResponsiveContainer>
@@ -273,6 +305,7 @@ let [posData, setposData] = useState({});
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Sale Order</span>
+                        <text style={{ marginTop: '30px' }}>Monthly Sale Order (in Cr.)</text>
                         <ResponsiveContainer width="100%" aspect={1}>
                             <PieChart className="card-body" width={560} height={260} style={{ padding: "0px"}}>
                                 <Pie
@@ -296,6 +329,7 @@ let [posData, setposData] = useState({});
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Pending Sale Order</span>
+                        <text style={{marginTop:'30px' }}>Monthly Pendng Sale Order (in Cr.)</text>
                         <ResponsiveContainer width="100%" aspect={1}>
                             <PieChart width={560} height={260} style={{ padding: "0px"}}>
                             <Pie
@@ -305,14 +339,16 @@ let [posData, setposData] = useState({});
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={125}
-                              
-                            />
-                            <Tooltip />
+                                
+                                />
+                                <Tooltip />
+
 
                             <Legend layout="horizontal" verticalAlign="bottom" align="center" />
 
-                        </PieChart>
+                            </PieChart>
                         </ResponsiveContainer>
+                       
                  </div>
                 </div>
             </div>

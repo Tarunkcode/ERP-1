@@ -7,9 +7,9 @@ import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, L
 export function Bars({ width, height, data, dataKey1, fill, xdataKey, ...props }:any) {
     return (
         <BarChart width={width} height={height} data={data} style={{ marginTop: "20px" }}>
-            <Bar dataKey={dataKey1} fill={fill} />
+            <Bar label={true } dataKey={dataKey1} fill={fill} />
             
-            <CartesianGrid stroke="#ccc" />
+            <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey={xdataKey} />
             <YAxis />
             <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />
@@ -21,9 +21,9 @@ export function Bars({ width, height, data, dataKey1, fill, xdataKey, ...props }
 export function DoubleBars({ width, height, data, dataKey1, dataKey2, fill, fill2, xdataKey, ...props }:any) {
     return (
         <BarChart width={width} height={height} data={data} style={{ marginTop: "20px" }}>
-            <Bar dataKey={dataKey1} fill={fill } />
-            <Bar dataKey={dataKey2} fill={fill2 } />
-            <CartesianGrid stroke="#ccc" />
+            <Bar label={true } dataKey={dataKey1} fill={fill } />
+            <Bar label={true } dataKey={dataKey2} fill={fill2 } />
+            <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey={ xdataKey} />
             <YAxis />
             <Tooltip cursor={false} contentStyle={{ backgroundColor: "grey" }} />

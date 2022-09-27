@@ -12,76 +12,78 @@ import LogIn from './components/Login/login.component';
 import RegisterDomain from './components/RegisterYourDomain/register-your-domain.component';
 //---------------------------------Dashboards Imports---------------------------------------------------------------------------------------------------
 import Home from './components/Home';
-import Sales from './components/sales/sales.component';
-import Purchase from './components/purchase/purchase.component';
-import ProductionPlanning from './components/production-planning/production-planning.component';
+import Sales from './Pages/DashBoards/sales/sales.component';
+import Purchase from './Pages/DashBoards/purchase/purchase.component';
+import ProductionPlanning from './Pages/DashBoards/production-planning/production-planning.component';
 //--------------------------------------------------------Set up--------------------------------------------------------------------------------------
-import HouseKeeping from './components/House-Keeping/house-keeping.component';
-import Approval from './components/approval/approval.component';
-import FeaturesOptions from './components/Featutes-Option/features-option.component';
+import HouseKeeping from './Pages/SetUp/House-Keeping/house-keeping.component';
+import Approval from './Pages/SetUp/approval/approval.component';
+import FeaturesOptions from './Pages/SetUp/Featutes-Option/features-option.component';
 //---------------------------------Master Imports---------------------------------------------------------------------------------------------------
-import AddQcPlan from './components/Master/AddQcPlan/add-qc-plan.component';
-import AssortmentMaster from './components/Master/AssortmentMaster/assortment-master.component';
-import BomRoutingConfig from './components/Master/BomRoutingConfiguration/bom-routing-config.component';
-import RouteDetails from './components/Master/BomRoutingConfiguration/RouteDetails.component';
-import BranchMaster from './components/Master/BranchMaster/branch-master.component';
-import CostSheetDetails from './components/Master/CostSheet/cost-sheet-details.component';
-import AddCustomerMaster from './components/Master/CustomerMaster/add-customer-master.component';
-import AddItemMaster from './components/Master/ItemMaster/add-item-master.component';
-import AddSupplierMaster from './components/Master/SupplierMaster/add-supplier-master.component';
+import AddQcPlan from './Pages/Master/AddQcPlan/add-qc-plan.component';
+import AssortmentMaster from './Pages/Master/AssortmentMaster/assortment-master.component';
+import BomRoutingConfig from './Pages/Master/BomRoutingConfiguration/bom-routing-config.component';
+import RouteDetails from './Pages/Master/BomRoutingConfiguration/RouteDetails.component';
+import BranchMaster from './Pages/Master/BranchMaster/branch-master.component';
+import CostSheetDetails from './Pages/Master/CostSheet/cost-sheet-details.component';
+import AddCustomerMaster from './Pages/Master/CustomerMaster/add-customer-master.component';
+import AddItemMaster from './Pages/Master/ItemMaster/add-item-master.component';
+import AddSupplierMaster from './Pages/Master/SupplierMaster/add-supplier-master.component';
 //---------------------------------Transactions Imports---------------------------------------------------------------------------------------------------
-import AddSaleOrder from './components/AddSaleOrder/add-sale-order.component';
+import AddSaleOrder from './Pages/Transaction/Sales/add-sale-order.component';
 
 
-import MaterialIssue from './components/Transaction/Job-Work/material-issue.compoenent';
-import MaterialRecieve from './components/Transaction/Job-Work/material-recieve.compoenent';
-import LoosePack from './components/Transaction/Material-Movement/loose-pack.component';
-import PackToLoose from './components/Transaction/Material-Movement/pack-to-loose.component';
-import StockJournal from './components/Transaction/Material-Movement/stock-journal.component';
-import StockTransfer from './components/Transaction/Material-Movement/stock-transfer.component';
-import DayWisePlanning from './components/Transaction/Planning/daywise-plan.component';
-import MRP from './components/Transaction/Planning/mrp.component';
-import ProductionConfiguration from './components/Transaction/Planning/production-configuration.compoenent';
-import ProductionIndent from './components/Transaction/Planning/production-indent.component';
-import GateEntry from './components/Transaction/Purchase/gate-entry.component';
-import MRN from './components/Transaction/Purchase/mrn.component';
-import PrIndent from './components/Transaction/Purchase/pr-indent.component';
-import PurchaseInvoice from './components/Transaction/Purchase/purchase-invoice.component';
-import PurchaseOrder from './components/Transaction/Purchase/purchase-order.component';
-import PurchaseQuotation from './components/Transaction/Purchase/purchase-quotation.component';
-import PurchaseSchedules from './components/Transaction/Purchase/purchase-schedules.component';
-import Line from './components/Transaction/Quality/line.component';
-import OQC from './components/Transaction/Quality/oqc.component';
-import DispatchPlan from './components/Transaction/Sales/dispatch-plan.component';
-import Projection from './components/Transaction/Sales/projection.component';
-import SaleInvoice from './components/Transaction/Sales/sale-invoice.component';
-import SaleReturn from './components/Transaction/Sales/sale-return.component';
-import SaleQuotaton from './components/Transaction/Sales/sales-quotation.component';
-import PurchaseRequisation from './components/Transaction/Purchase/purchase-requisation.component';
-import MaterialMovement from './components/Transaction/Purchase/material-movement.component';
+import MaterialIssue from './Pages/Transaction/Job-Work/material-issue.compoenent';
+import MaterialRecieve from './Pages/Transaction/Job-Work/material-recieve.compoenent';
+import LoosePack from './Pages/Transaction/Material-Movement/loose-pack.component';
+import PackToLoose from './Pages/Transaction/Material-Movement/pack-to-loose.component';
+import StockJournal from './Pages/Transaction/Material-Movement/stock-journal.component';
+import StockTransfer from './Pages/Transaction/Material-Movement/stock-transfer.component';
+import DayWisePlanning from './Pages/Transaction/Planning/daywise-plan.component';
+import MRP from './Pages/Transaction/Planning/mrp.component';
+import ProductionConfiguration from './Pages/Transaction/Planning/production-configuration.compoenent';
+import ProductionIndent from './Pages/Transaction/Planning/production-indent.component';
+import GateEntry from './Pages/Transaction/Purchase/gate-entry.component';
+import MRN from './Pages/Transaction/Purchase/mrn.component';
+import PrIndent from './Pages/Transaction/Purchase/pr-indent.component';
+import PurchaseInvoice from './Pages/Transaction/Purchase/purchase-invoice.component';
+import PurchaseOrder from './Pages/Transaction/Purchase/purchase-order.component';
+import PurchaseQuotation from './Pages/Transaction/Purchase/purchase-quotation.component';
+import PurchaseSchedules from './Pages/Transaction/Purchase/purchase-schedules.component';
+import Line from './Pages/Transaction/Quality/line.component';
+import OQC from './Pages/Transaction/Quality/oqc.component';
+import DispatchPlan from './Pages/Transaction/Sales/dispatch-plan.component';
+import Projection from './Pages/Transaction/Sales/projection.component';
+import SaleInvoice from './Pages/Transaction/Sales/sale-invoice.component';
+import SaleReturn from './Pages/Transaction/Sales/sale-return.component';
+import SaleQuotaton from './Pages/Transaction/Sales/sales-quotation.component';
+import PurchaseRequisation from './Pages/Transaction/Purchase/purchase-requisation.component';
+import MaterialMovement from './Pages/Transaction/Purchase/material-movement.component';
 
 
-import MarerialDispatch from './components/Material-Dispatch/material-dispatch.component';
+import MarerialDispatch from './Pages/Transaction/Material-Movement/material-dispatch.component';
 //---------------------------------Reports Imports---------------------------------------------------------------------------------------------------
-import BalanceOnlyReport from './components/Report/Balance-Only/BalanceOnly.component';
-import Details from './components/Report/Details/details.component';
-import PendingPrDetails from './components/Report/Pending-Pr-Details/pending-pr-details.component';
-import prDetails from './components/Report/Pr-Details/pr-details.component';
-import PRPoDetails from './components/Report/PR-Po-Details/pr-po-details.component';
-import PurchaseOrderDetails from './components/Report/Purchase-Order-Details/purchase-order-details.component';
-import PendingPurchaseDetails from './components/Report/PendingPurchaseDetails/Pending-Pur-Details.component';
+import BalanceOnlyReport from './Pages/Reports/Balance-Only/BalanceOnly.component';
+import Details from './Pages/Reports/Details/details.component';
+import PendingPrDetails from './Pages/Reports/Pending-Pr-Details/pending-pr-details.component';
+import prDetails from './Pages/Reports/Pr-Details/pr-details.component';
+import PRPoDetails from './Pages/Reports/PR-Po-Details/pr-po-details.component';
+import PurchaseOrderDetails from './Pages/Reports/Purchase-Order-Details/purchase-order-details.component';
+import PendingPurchaseDetails from './Pages/Reports/PendingPurchaseDetails/Pending-Pur-Details.component';
 
-import PendingPerforma from './components/Report/Sale-Report/pending-performa/pending-performa.component';
-import PendingSaleOrder from './components/Report/Sale-Report/pending-sale-order/pending-sale-order.component';
-import SaleInvoiceDetails from './components/Report/Sale-Report/sale-invoice-details/sale-invoice-details.component';
-import SaleOrderDetails from './components/Report/Sale-Report/sale-order-details/sale-order-details.component';
-import SaleRegister from './components/Report/Sale-Report/sale-register/sale-register.component';
+import PendingPerforma from './Pages/Reports/Sale-Report/pending-performa/pending-performa.component';
+import PendingSaleOrder from './Pages/Reports/Sale-Report/pending-sale-order/pending-sale-order.component';
+import SaleInvoiceDetails from './Pages/Reports/Sale-Report/sale-invoice-details/sale-invoice-details.component';
+import SaleOrderDetails from './Pages/Reports/Sale-Report/sale-order-details/sale-order-details.component';
+import SaleRegister from './Pages/Reports/Sale-Report/sale-register/sale-register.component';
 //---------------------------------Additional Imports---------------------------------------------------------------------------------------------------
 import Nothing from './components/nothing';
-import Test from './components/test';
-import PendingOrder from './components/pending-order/pending-order.component';
-import TotalOrder from './components/total-order/total-order.component';
-import TotalPi from './components/total-pi/total-pi.component'; 
+import Modify from './Pages/modify.component';
+import { MasterApiProvider } from './AppContext/master.context';
+
+
+
+
   
 function App() {
     const [showResult, setShowResult] = useState(false)
@@ -145,8 +147,9 @@ function App() {
  
     return (
         <>
+            
         <Switch>
-                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/total-order", "/total-pi", "/pending-order", "/features-option", "/approval", "/house-keeping", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master", "/test",
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/features-option", "/approval", "/house-keeping", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master",
                     "/material-issue",
                     "/material-recieve",
                     "/loose-pack",
@@ -172,7 +175,7 @@ function App() {
                     "/sales-return",
                     "/sale-quotation",
                     "/purchase-requisation",
-                   
+                    "/modify",
                     "/material-movement"
 
 
@@ -185,10 +188,11 @@ function App() {
                         <Route exact path='/production-and-planning' component={ProductionPlanning} />
                         <Route exact path='/sales' component={Sales} />
                         <Route exact path='/add-sale-order' component={AddSaleOrder} />
-                        <Route exact path='/total-order' component={TotalOrder} />
-                        <Route exact path='/total-pi' component={TotalPi} />
+                        <Route exact path='/modify' component={Modify} />
+                        
+                     
                        
-                        <Route exact path='/pending-order' component={PendingOrder} />
+                     
                         <Route exact path='/features-option' component={FeaturesOptions} />
                         <Route exact path='/approval' component={Approval} />
                         <Route exact path='/house-keeping' component={HouseKeeping} />
@@ -217,7 +221,7 @@ function App() {
                         <Route exact path='/add-customer-master' component={AddCustomerMaster} />
                         <Route exact path='/add-item-master' component={AddItemMaster} />
                         <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
-                        <Route exact path='/test' component={Test} />
+                      
                      
 
                         {/*Transaction */}
@@ -270,7 +274,7 @@ function App() {
             <Route path={["/route-details"]}>
                 <Secret_LayOut>
                         <Route exact path='/route-details' component={RouteDetails} />
-
+                  
                 </Secret_LayOut>
             </Route>
 

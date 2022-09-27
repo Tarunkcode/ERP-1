@@ -17,7 +17,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_router_1 = require("react-router");
-var custom_button_component_1 = require("../custom-button/custom-button.component");
+var custom_button_component_1 = require("../../components/custom-button/custom-button.component");
 require("./register-your-domain.styles.css");
 var RegisterDomain = /** @class */ (function (_super) {
     __extends(RegisterDomain, _super);

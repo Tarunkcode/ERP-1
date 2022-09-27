@@ -151,7 +151,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-customer-master">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -178,7 +178,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink to="/add-supplier-master" className="nav-link p-1 abascus">
+                                                <NavLink to="/modify" className="nav-link p-1 abascus">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -205,7 +205,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-item-master">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -232,7 +232,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/cost-sheet-details">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -261,7 +261,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/bom-routing-configuration">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -290,7 +290,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus"  to="/add-qc-plan">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -319,7 +319,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-assortment-master">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -352,7 +352,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-branch-master">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -399,7 +399,7 @@ export default (props: any) => {
                                                 <NavLink className="nav-link p-1 abascus" to="/Sale-Quotation">Add</NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/Sale-Quotation">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify 
                                                 </NavLink>
                                             </li>
@@ -424,7 +424,7 @@ export default (props: any) => {
                                                 <NavLink className="nav-link p-1 abascus" to="/add-sale-order">Add</NavLink>
                                             </li>
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/add-sale-order">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                   Modify
                                                 </NavLink>
                                             </li>
@@ -451,7 +451,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                               <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/projection">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                   Modify
                                                 </NavLink>
                                             </li>
@@ -476,7 +476,7 @@ export default (props: any) => {
                                                 </NavLink>
                                             </li>
                                              <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/sale-invoice">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -501,7 +501,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/sales-return">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                  Modify
                                                 </NavLink>
                                             </li>
@@ -528,7 +528,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/dispatch-plan">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                    Modify
                                                 </NavLink>
                                             </li>
@@ -557,7 +557,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/purchase-requisation">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -584,7 +584,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/purchase-quotation">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -611,7 +611,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/purchase-order">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -638,7 +638,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/gate-entry">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -665,7 +665,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/purchase-schedules">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -692,7 +692,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/mrn">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -720,7 +720,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/purchase-invoice">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -777,7 +777,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/line">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -804,7 +804,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/oqc">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -858,7 +858,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/production-indent">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -885,7 +885,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/mrp">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -913,7 +913,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/daywise-plan">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -940,7 +940,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/production-confirmation">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -968,7 +968,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/material-movement">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -995,7 +995,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/material-dispatch">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -1022,7 +1022,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/stock-transfer">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -1050,7 +1050,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/stock-journal">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -1077,7 +1077,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/loose-pack">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -1104,7 +1104,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/pack-to-loose">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -1131,7 +1131,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/material-issue">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
@@ -1158,7 +1158,7 @@ export default (props: any) => {
                                             </li>
 
                                             <li className='text-center'>
-                                                <NavLink className="nav-link p-1 abascus" to="/material-recieve">
+                                                <NavLink className="nav-link p-1 abascus" to="/modify">
                                                     Modify
                                                 </NavLink>
                                             </li>
