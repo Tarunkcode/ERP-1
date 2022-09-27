@@ -25,9 +25,9 @@ const store = configureStore()
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            {/*<MasterApiProvider>*/}
+            <MasterApiProvider>
               <App />
-            {/*</MasterApiProvider>*/}
+            </MasterApiProvider>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));
