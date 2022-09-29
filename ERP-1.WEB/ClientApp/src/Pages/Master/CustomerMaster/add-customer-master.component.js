@@ -14,19 +14,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lookIntoContext = void 0;
 var React = require("react");
 require("../masterStyle.css");
 var master_modals_1 = require("../../../components/Modals/master.modals");
@@ -34,18 +22,8 @@ var master_modals_2 = require("../../../components/Modals/master.modals");
 var master_modals_3 = require("../../../components/Modals/master.modals");
 var master_modals_4 = require("../../../components/Modals/master.modals");
 var master_modals_5 = require("../../../components/Modals/master.modals");
-var master_context_1 = require("../../../AppContext/master.context");
+var fetchApi_hoc_1 = require("../../../components/HOC/fetchApi.hoc");
 var custom_input_component_1 = require("../../../components/custom-input/custom-input.component");
-// HOC 
-function lookIntoContext(Component) {
-    var anyProps = function (_a) {
-        var props = _a.props;
-        var _b = React.useContext(master_context_1.MasterApiContext), seriesMasterData = _b.seriesMasterData, delMasterData = _b.delMasterData, payMasterData = _b.payMasterData, customerMasterData = _b.customerMasterData;
-        return React.createElement(Component, __assign({}, props, { apiSeries: seriesMasterData, apiDelTerms: delMasterData, apiPayTerms: payMasterData, apiCustomerGp: customerMasterData }));
-    };
-    return anyProps;
-}
-exports.lookIntoContext = lookIntoContext;
 var ApiState = /** @class */ (function (_super) {
     __extends(ApiState, _super);
     /*static ApiContext = MasterApiContext;*/
@@ -59,13 +37,51 @@ var ApiState = /** @class */ (function (_super) {
         };
         _this.state = {
             opn: 'Corporate',
+            series: [],
+            delT: [],
+            payT: [],
+            custGp: []
         };
+        _this.handleAddressOptions = function () { };
         return _this;
     }
     ApiState.prototype.componentDidMount = function () {
+        var _this = this;
+        try {
+            //fetch series master 
+            this.props.fetchApi(3, 'series').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 1');
+            }).then(function (result) { return _this.setState({ series: result.data }); });
+            //fetch del terms
+            this.props.fetchApi(30, 'delterms').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 1');
+            }).then(function (result) { return _this.setState({ delT: result.data }); });
+            // fetch pay terms
+            this.props.fetchApi(31, 'payterms').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 1');
+            }).then(function (result) { return _this.setState({ payT: result.data }); });
+            // fetch Customer Group
+            this.props.fetchApi(1005, 'custGp').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 1');
+            }).then(function (result) { return _this.setState({ custGp: result.data }); });
+        }
+        catch (err) {
+            alert(err);
+        }
     };
     ApiState.prototype.render = function () {
-        var _a = this.props, apiSeries = _a.apiSeries, apiDelTerms = _a.apiDelTerms, apiPayTerms = _a.apiPayTerms, apiCustomerGp = _a.apiCustomerGp;
         return (React.createElement(React.Fragment, null,
             React.createElement("div", { className: "main card firstDiv" },
                 React.createElement("div", { className: "text-center card-title col-12", style: { textAlign: 'start', backgroundColor: '#8389d4' } },
@@ -80,7 +96,7 @@ var ApiState = /** @class */ (function (_super) {
                             React.createElement("div", { className: "show", id: "genDetails" },
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "series", ipType: "text", label: "Series", ipTitle: "Enter Series", dataArray: apiSeries }),
+                                        React.createElement(custom_input_component_1.default, { name: "series", ipType: "text", label: "Series", ipTitle: "Enter Series", dataArray: this.state.series }),
                                         React.createElement(master_modals_2.SeriesMasterModal, null)),
                                     React.createElement(React.Fragment, null,
                                         React.createElement(custom_input_component_1.default, { name: "custCode", ipType: "text", label: "Customer Code", ipTitle: "Enter Customer Code", dataArray: [] }),
@@ -93,7 +109,7 @@ var ApiState = /** @class */ (function (_super) {
                                         React.createElement(custom_input_component_1.default, { name: "pntName", ipType: "text", label: "Print Name", ipTitle: "Enter Print Name", dataArray: [] }),
                                         React.createElement(master_modals_1.HiddenModal, null)),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "custGrp", ipType: "text", label: "Customer Group", ipTitle: "Enter Customer Group", dataArray: apiCustomerGp }),
+                                        React.createElement(custom_input_component_1.default, { name: "custGrp", ipType: "text", label: "Customer Group", ipTitle: "Enter Customer Group", dataArray: this.state.custGp }),
                                         React.createElement(master_modals_3.CustomerGroupModal, null)),
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "majProd", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Major Products"),
@@ -103,10 +119,10 @@ var ApiState = /** @class */ (function (_super) {
                                         React.createElement(master_modals_1.HiddenModal, null))),
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "delTerms", ipType: "text", label: "Delivery Terms", ipTitle: "Enter Delievery Terms", dataArray: apiDelTerms }),
+                                        React.createElement(custom_input_component_1.default, { name: "delTerms", ipType: "text", label: "Delivery Terms", ipTitle: "Enter Delievery Terms", dataArray: this.state.delT }),
                                         React.createElement(master_modals_4.DelTermsModal, null)),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "payTerms", ipType: "text", label: "Payment terms", ipTitle: "Enter Payment Terms", dataArray: apiPayTerms }),
+                                        React.createElement(custom_input_component_1.default, { name: "payTerms", ipType: "text", label: "Payment terms", ipTitle: "Enter Payment Terms", dataArray: this.state.payT }),
                                         React.createElement(master_modals_5.PayTermsModal, null)),
                                     React.createElement("div", { className: "col-4" })),
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
@@ -456,6 +472,6 @@ var ApiState = /** @class */ (function (_super) {
     };
     return ApiState;
 }(React.Component));
-var AddCustomerMaster = lookIntoContext(ApiState);
+var AddCustomerMaster = (0, fetchApi_hoc_1.fetchMasters)(ApiState);
 exports.default = AddCustomerMaster;
 //# sourceMappingURL=add-customer-master.component.js.map

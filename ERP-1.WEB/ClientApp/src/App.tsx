@@ -79,7 +79,7 @@ import SaleRegister from './Pages/Reports/Sale-Report/sale-register/sale-registe
 //---------------------------------Additional Imports---------------------------------------------------------------------------------------------------
 import Nothing from './components/nothing';
 import Modify from './Pages/modify.component';
-import { MasterApiProvider } from './AppContext/master.context';
+
 
 
 
