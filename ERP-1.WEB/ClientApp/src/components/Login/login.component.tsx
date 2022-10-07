@@ -10,11 +10,12 @@ import { connect } from "react-redux";
 import { selectCurrentUser } from "../../Redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import { setCurrentUser } from '../../Redux/user/user.actions';
+import { DomainContext } from '../../AppContext/domainContext.component';
 
 interface IProps {
     setCurrentUser: any,
     currentUser: any,
-   
+     appContext:any
 }
 
 interface IState {
@@ -24,9 +25,16 @@ interface IState {
     compCode: string;
   
 }
-
-
-class LogIn extends React.Component<IProps, IState>{
+//hoc
+export function LogInHoc(Component: any) {
+    const C = (props: any) => {
+        let { domainState } = React.useContext(DomainContext);
+        console.log(domainState);
+        return <Component appContext={domainState} {...props} ></Component>
+    };
+    return C;
+};
+class ChildLog extends React.Component<IProps, IState>{
   
     constructor(props: IProps) {
         super(props);
@@ -38,7 +46,8 @@ class LogIn extends React.Component<IProps, IState>{
             compCode: ''
         };
     }
- 
+    //static contextType = DomainContext
+
     handleCompCodeChange(e: any) {
         this.setState({
             compCode: e.target.value
@@ -57,31 +66,35 @@ class LogIn extends React.Component<IProps, IState>{
     }
 
     fetchValidateUserApi = async () => {
-        var urlStart = `http://${this.props.currentUser.domain}:${this.props.currentUser.port}/api/values/ValidateUser`
+        var urlStart = `http://${this.props.appContext.domain}:${this.props.appContext.port}/api/values/ValidateUser`
         var params = []
         params.push(`UName=${this.state.username}`);
         params.push(`uP=${this.state.password}`);
         params.push(`Comp=${this.state.compCode}`);
-        params.push(`FY=${this.props.currentUser.Fy}`);
+        params.push(`FY=${this.props.appContext.Fy}`);
         console.log(urlStart + '?' + params.join('&'));
+        try {
+            await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
 
-        await fetch(urlStart + '?' + params.join('&')).then(res => res.json()).then(result => {
 
 
+                if (result[0].VResult == '1') {
+                    var soSeries = result[0].SOSeries;
+                    var AccName = result[0].AccName;
+     
+                    window.sessionStorage.setItem('so-series', soSeries);
+                    window.sessionStorage.setItem('acc-name', AccName);
+                    this.setState({ redirect: true })
+                } else {
+                    alert("Invalid user id or pass");
+                    return;
+                }
 
-            if (result[0].VResult == '1') {
-                var soSeries = result[0].SOSeries;
-                var AccName = result[0].AccName;
-                console.log(soSeries)
-                window.sessionStorage.setItem('so-series', soSeries);
-                window.sessionStorage.setItem('acc-name', AccName);
-                this.setState({ redirect: true })
-            } else {
-                alert("Invalid user id or pass");
-                return;
-            }
+            })
 
-        })
+        } catch (err) {
+            alert(err);
+        }
 
     }
 
@@ -90,46 +103,15 @@ class LogIn extends React.Component<IProps, IState>{
        
        try {
 
-        
            const { setCurrentUser } = this.props;
-           var domainUrl = `http://${window.location.host}/api/getall`;
-
-
+          /* var { domainState } = React.useContext(DomainContext);*/
+          
            window.sessionStorage.setItem('username', this.state.username)
            window.sessionStorage.setItem('compCode', this.state.compCode)
-
-
-         await  fetch(domainUrl).then(res => res.json()).then(result => {
-               console.log(result)
-
-               if (result != null && result.length > 0) {
-
-                   for (let i = 0; i < result.length; i++) {
-                       if (result[i].currentDomain == window.location.hostname) {
-                           setCurrentUser({
-
-                               domain: result[i].sUrl,
-                               port: result[i].sPort,
-                               Fy: result[i].fy
-                           })
-                       
-                           /*const serializedState = JSON.stringify(this.props.currentUser)*/
-                           window.localStorage.setItem('state', JSON.stringify(this.props.currentUser));
-                           //console.log('local Storage', serializedState)
-
-                           break;
-
-                       }
-
-
-                   }
-                   console.log('Matched Record', this.state);
-
-                   console.log('login currentUser', this.props.currentUser)
-
-               }
-
-           })
+           let i = JSON.stringify(this.props.appContext)
+         
+           await setCurrentUser(i)
+           window.localStorage.setItem('state',i);
 
            this.fetchValidateUserApi();
    
@@ -186,6 +168,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch : any) => ({
     setCurrentUser: (user : any) => dispatch(setCurrentUser(user))
 });
+const LogIn = connect(mapStateToProps, mapDispatchToProps)(ChildLog)
+export default LogInHoc(LogIn);
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
 

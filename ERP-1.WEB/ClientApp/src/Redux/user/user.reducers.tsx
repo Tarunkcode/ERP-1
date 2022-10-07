@@ -5,7 +5,7 @@ const INITIAL_STATE = {
     currentUser: {
         domain: '',
         port: '',
-        Fy: '',
+        FY: '',
        }
 }
 const userReducer = (state = INITIAL_STATE, action: any) => {

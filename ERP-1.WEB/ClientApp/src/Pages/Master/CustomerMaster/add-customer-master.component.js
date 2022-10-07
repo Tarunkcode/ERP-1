@@ -24,10 +24,15 @@ var master_modals_4 = require("../../../components/Modals/master.modals");
 var master_modals_5 = require("../../../components/Modals/master.modals");
 var fetchApi_hoc_1 = require("../../../components/HOC/fetchApi.hoc");
 var custom_input_component_1 = require("../../../components/custom-input/custom-input.component");
-var ApiState = /** @class */ (function (_super) {
-    __extends(ApiState, _super);
+var react_redux_1 = require("react-redux");
+var formCollection_selectors_1 = require("../../../Redux/form-collection/formCollection.selectors");
+var formCollection_actions_1 = require("../../../Redux/form-collection/formCollection.actions");
+var formCollection_reducer_1 = require("../../../Redux/form-collection/formCollection.reducer");
+var reselect_1 = require("reselect");
+var CustomerMaster = /** @class */ (function (_super) {
+    __extends(CustomerMaster, _super);
     /*static ApiContext = MasterApiContext;*/
-    function ApiState(props) {
+    function CustomerMaster(props) {
         var _this = _super.call(this, props) || this;
         _this.handleAddressOptions = function (event) {
             event.preventDefault();
@@ -35,17 +40,28 @@ var ApiState = /** @class */ (function (_super) {
                 opn: event.target.value
             });
         };
+        _this.handleChangeField = function (e) {
+            e.preventDefault();
+            formCollection_reducer_1.store1.dispatch({ payload: e.target.value, key: e.target.name, type: "AddOnFormData" });
+            console.log(formCollection_reducer_1.store1.getState());
+        };
         _this.state = {
             opn: 'Corporate',
             series: [],
             delT: [],
             payT: [],
-            custGp: []
+            custGp: [],
+            country: [],
+            zone: [],
+            state: [],
+            city: [],
+            bank: [],
+            branch: [],
+            currency: []
         };
-        _this.handleAddressOptions = function () { };
         return _this;
     }
-    ApiState.prototype.componentDidMount = function () {
+    CustomerMaster.prototype.componentDidMount = function () {
         var _this = this;
         try {
             //fetch series master 
@@ -55,33 +71,84 @@ var ApiState = /** @class */ (function (_super) {
                 else
                     throw new Error('Bad Fetch 1');
             }).then(function (result) { return _this.setState({ series: result.data }); });
-            //fetch del terms
-            this.props.fetchApi(30, 'delterms').then(function (res) {
+            //fetch del terms master
+            this.props.fetchApi(30, 'master').then(function (res) {
                 if (res.ok)
                     return res.json();
                 else
-                    throw new Error('Bad Fetch 1');
+                    throw new Error('Bad Fetch 2');
             }).then(function (result) { return _this.setState({ delT: result.data }); });
-            // fetch pay terms
-            this.props.fetchApi(31, 'payterms').then(function (res) {
+            // fetch pay terms master
+            this.props.fetchApi(31, 'master').then(function (res) {
                 if (res.ok)
                     return res.json();
                 else
-                    throw new Error('Bad Fetch 1');
+                    throw new Error('Bad Fetch 3');
             }).then(function (result) { return _this.setState({ payT: result.data }); });
-            // fetch Customer Group
-            this.props.fetchApi(1005, 'custGp').then(function (res) {
+            // fetch Customer master
+            this.props.fetchApi(1005, 'master').then(function (res) {
                 if (res.ok)
                     return res.json();
                 else
-                    throw new Error('Bad Fetch 1');
+                    throw new Error('Bad Fetch 4');
             }).then(function (result) { return _this.setState({ custGp: result.data }); });
+            // fetch Country master
+            this.props.fetchApi(1003, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 5');
+            }).then(function (result) { return _this.setState({ country: result.data }); });
+            // fetch Zone master
+            this.props.fetchApi(1004, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 6');
+            }).then(function (result) { return _this.setState({ zone: result.data }); });
+            // fetch state master
+            this.props.fetchApi(26, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 7');
+            }).then(function (result) { return _this.setState({ state: result.data }); });
+            // fetch city master
+            this.props.fetchApi(26, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 8');
+            }).then(function (result) { return _this.setState({ city: result.data }); });
+            // fetch bank master
+            this.props.fetchApi(1018, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 9');
+            }).then(function (result) { return _this.setState({ bank: result.data }); });
+            // fetch branch master
+            this.props.fetchApi(1019, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 10');
+            }).then(function (result) { return _this.setState({ branch: result.data }); });
+            // fetch currency master
+            this.props.fetchApi(102, 'master').then(function (res) {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error('Bad Fetch 11');
+            }).then(function (result) { return _this.setState({ currency: result.data }); });
         }
         catch (err) {
             alert(err);
         }
     };
-    ApiState.prototype.render = function () {
+    CustomerMaster.prototype.render = function () {
+        var _a = this.props, currentData = _a.currentData, setFormDataCollection = _a.setFormDataCollection;
+        var _b = this.state, bank = _b.bank, branch = _b.branch, currency = _b.currency;
         return (React.createElement(React.Fragment, null,
             React.createElement("div", { className: "main card firstDiv" },
                 React.createElement("div", { className: "text-center card-title col-12", style: { textAlign: 'start', backgroundColor: '#8389d4' } },
@@ -96,39 +163,39 @@ var ApiState = /** @class */ (function (_super) {
                             React.createElement("div", { className: "show", id: "genDetails" },
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "series", ipType: "text", label: "Series", ipTitle: "Enter Series", dataArray: this.state.series }),
+                                        React.createElement(custom_input_component_1.default, { name: "series", ipType: "text", label: "Series", ipTitle: "Enter Series", dataArray: this.state.series, change: this.handleChangeField }),
                                         React.createElement(master_modals_2.SeriesMasterModal, null)),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "custCode", ipType: "text", label: "Customer Code", ipTitle: "Enter Customer Code", dataArray: [] }),
+                                        React.createElement(custom_input_component_1.default, { name: "custCode", ipType: "text", label: "Customer Code", ipTitle: "Enter Customer Code", dataArray: [], change: this.handleChangeField }),
                                         React.createElement(master_modals_1.HiddenModal, null)),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "custName", ipType: "text", label: "Customer Name", ipTitle: "Enter Customer Name", dataArray: [] }),
+                                        React.createElement(custom_input_component_1.default, { name: "custName", ipType: "text", label: "Customer Name", ipTitle: "Enter Customer Name", dataArray: [], change: this.handleChangeField }),
                                         React.createElement(master_modals_1.HiddenModal, null))),
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "pntName", ipType: "text", label: "Print Name", ipTitle: "Enter Print Name", dataArray: [] }),
+                                        React.createElement(custom_input_component_1.default, { name: "pntName", ipType: "text", label: "Print Name", ipTitle: "Enter Print Name", dataArray: [], change: this.handleChangeField }),
                                         React.createElement(master_modals_1.HiddenModal, null)),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "custGrp", ipType: "text", label: "Customer Group", ipTitle: "Enter Customer Group", dataArray: this.state.custGp }),
+                                        React.createElement(custom_input_component_1.default, { name: "custGrp", ipType: "text", label: "Customer Group", ipTitle: "Enter Customer Group", dataArray: this.state.custGp, change: this.handleChangeField }),
                                         React.createElement(master_modals_3.CustomerGroupModal, null)),
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "majProd", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Major Products"),
-                                        React.createElement("select", { name: "majProd", className: "form-control inp", style: { height: '25px' }, title: "Major Products" },
+                                        React.createElement("select", { name: "majProd", className: "form-control inp", style: { height: '25px' }, title: "Major Products", onBlur: this.handleChangeField },
                                             React.createElement("option", { value: "1" }, "Y"),
                                             React.createElement("option", { value: "0" }, "N")),
                                         React.createElement(master_modals_1.HiddenModal, null))),
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "delTerms", ipType: "text", label: "Delivery Terms", ipTitle: "Enter Delievery Terms", dataArray: this.state.delT }),
+                                        React.createElement(custom_input_component_1.default, { name: "delTerms", ipType: "text", label: "Delivery Terms", ipTitle: "Enter Delievery Terms", dataArray: this.state.delT, change: this.handleChangeField }),
                                         React.createElement(master_modals_4.DelTermsModal, null)),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "payTerms", ipType: "text", label: "Payment terms", ipTitle: "Enter Payment Terms", dataArray: this.state.payT }),
+                                        React.createElement(custom_input_component_1.default, { name: "payTerms", ipType: "text", label: "Payment terms", ipTitle: "Enter Payment Terms", dataArray: this.state.payT, change: this.handleChangeField }),
                                         React.createElement(master_modals_5.PayTermsModal, null)),
                                     React.createElement("div", { className: "col-4" })),
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "majProd", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Opening Balance"),
-                                        React.createElement("input", { type: "text", name: "opnBal", className: "form-control", style: { width: '18%' }, title: "Opening Balance" }),
+                                        React.createElement("input", { type: "text", name: "opnBal", className: "form-control", style: { width: '18%' }, title: "Opening Balance", onBlur: this.handleChangeField }),
                                         React.createElement("select", { className: "form-control ml-1", style: {
                                                 width: '4%',
                                                 height: '25px',
@@ -137,22 +204,22 @@ var ApiState = /** @class */ (function (_super) {
                                             React.createElement("option", null, "D(-)"),
                                             React.createElement("option", null, "C(+)"))),
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "cdtAmt", ipType: "text", label: "Credit Amount", ipTitle: "Enter Credit Amount", dataArray: [] }),
+                                        React.createElement(custom_input_component_1.default, { name: "cdtAmt", ipType: "text", label: "Credit Amount", ipTitle: "Enter Credit Amount", dataArray: [], change: this.handleChangeField }),
                                         React.createElement(master_modals_1.HiddenModal, null)),
                                     React.createElement("div", { className: "col-4" })),
                                 React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                     React.createElement(React.Fragment, null,
-                                        React.createElement(custom_input_component_1.default, { name: "cdtLmt", ipType: "text", label: "Credit Limit", ipTitle: "Enter Credit Limit", dataArray: [] }),
+                                        React.createElement(custom_input_component_1.default, { name: "cdtLmt", ipType: "text", label: "Credit Limit", ipTitle: "Enter Credit Limit", dataArray: [], change: this.handleChangeField }),
                                         React.createElement(master_modals_1.HiddenModal, null)),
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "series", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Ledger Type"),
-                                        React.createElement("select", { name: "custGrp", className: "form-control inp", style: { height: '25px' }, title: "Customer Group" },
+                                        React.createElement("select", { name: "custGrp", className: "form-control inp", style: { height: '25px' }, title: "Customer Group", onBlur: this.handleChangeField },
                                             React.createElement("option", { value: "0" }, "Y"),
                                             React.createElement("option", { value: "1" }, "N")),
                                         React.createElement(master_modals_1.HiddenModal, null)),
                                     React.createElement(React.Fragment, null,
                                         React.createElement("label", { htmlFor: "multiCurr", style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, "Multi Currency"),
-                                        React.createElement("select", { name: "multiCurr", className: "form-control inp", style: { height: '25px' }, title: "Customer Group" },
+                                        React.createElement("select", { name: "multiCurr", className: "form-control inp", style: { height: '25px' }, title: "Customer Group", onBlur: this.handleChangeField },
                                             React.createElement("option", { value: "0" }, "Y"),
                                             React.createElement("option", { value: "1" }, "N")),
                                         React.createElement(master_modals_1.HiddenModal, null)))))),
@@ -221,17 +288,17 @@ var ApiState = /** @class */ (function (_super) {
                                             React.createElement(custom_input_component_1.default, { name: "address", ipType: "text", label: "Address", ipTitle: "Enter Address", dataArray: [] }),
                                             React.createElement(master_modals_1.HiddenModal, null)),
                                         React.createElement(React.Fragment, null,
-                                            React.createElement(custom_input_component_1.default, { name: "country", ipType: "text", label: "Country", ipTitle: "Enter Country", dataArray: [] }),
+                                            React.createElement(custom_input_component_1.default, { name: "country", ipType: "text", label: "Country", ipTitle: "Enter Country", dataArray: this.state.country }),
                                             React.createElement(master_modals_1.HiddenModal, null)),
                                         React.createElement(React.Fragment, null,
-                                            React.createElement(custom_input_component_1.default, { name: "zone", ipType: "text", label: "Zone", ipTitle: "Enter Zone", dataArray: [] }),
+                                            React.createElement(custom_input_component_1.default, { name: "zone", ipType: "text", label: "Zone", ipTitle: "Enter Zone", dataArray: this.state.zone }),
                                             React.createElement(master_modals_1.HiddenModal, null))),
                                     React.createElement("span", { className: "d-flex section2 col-sm-12" },
                                         React.createElement(React.Fragment, null,
-                                            React.createElement(custom_input_component_1.default, { name: "state", ipType: "text", label: "State", ipTitle: "Enter State", dataArray: [] }),
+                                            React.createElement(custom_input_component_1.default, { name: "state", ipType: "text", label: "State", ipTitle: "Enter State", dataArray: this.state.state }),
                                             React.createElement(master_modals_1.HiddenModal, null)),
                                         React.createElement(React.Fragment, null,
-                                            React.createElement(custom_input_component_1.default, { name: "cty", ipType: "text", label: "City", ipTitle: "Enter City", dataArray: [] }),
+                                            React.createElement(custom_input_component_1.default, { name: "cty", ipType: "text", label: "City", ipTitle: "Enter City", dataArray: this.state.city }),
                                             React.createElement(master_modals_1.HiddenModal, null)),
                                         React.createElement(React.Fragment, null,
                                             React.createElement(custom_input_component_1.default, { name: "tel", ipType: "tel", label: "Tel. No.", ipTitle: "Enter Telephone Number", dataArray: [] }),
@@ -386,13 +453,32 @@ var ApiState = /** @class */ (function (_super) {
                                     React.createElement("tr", null,
                                         React.createElement("th", null, "1"),
                                         React.createElement("td", null),
+                                        React.createElement("td", null,
+                                            React.createElement("input", { style: { margin: '0', padding: '0', width: '100%' }, className: "form-control text-center", list: "bankNameList", type: "text", id: "cell-bankName" }),
+                                            bank != null && bank.length > 0 ?
+                                                (React.createElement("datalist", { className: 'bankNameList', id: 'bankNameList' }, bank.map(function (obj) {
+                                                    return React.createElement("option", { "data-value": obj.code }, obj.name);
+                                                })))
+                                                : null),
+                                        React.createElement("td", null,
+                                            " ",
+                                            React.createElement("input", { style: { margin: '0', padding: '0', width: '100%' }, className: "form-control text-center", list: "branchNameList", type: "text", id: "cell-branchName" }),
+                                            branch != null && branch.length > 0 ?
+                                                (React.createElement("datalist", { className: 'branch-name-list', id: 'branchNameList' }, branch.map(function (obj) {
+                                                    return React.createElement("option", { "data-value": obj.code }, obj.name);
+                                                })))
+                                                : null),
                                         React.createElement("td", null),
                                         React.createElement("td", null),
                                         React.createElement("td", null),
                                         React.createElement("td", null),
-                                        React.createElement("td", null),
-                                        React.createElement("td", null),
-                                        React.createElement("td", null),
+                                        React.createElement("td", null,
+                                            React.createElement("input", { style: { margin: '0', padding: '0', width: '100%' }, className: "form-control text-center", list: "currNameList", type: "text", id: "cell-currName" }),
+                                            currency != null && currency.length > 0 ?
+                                                (React.createElement("datalist", { className: 'currency-name-list', id: 'currNameList' }, currency.map(function (obj) {
+                                                    return React.createElement("option", { "data-value": obj.code }, obj.name);
+                                                })))
+                                                : null),
                                         React.createElement("td", null),
                                         React.createElement("td", null),
                                         React.createElement("td", null)),
@@ -470,8 +556,14 @@ var ApiState = /** @class */ (function (_super) {
                 React.createElement("button", { type: "button", style: { border: '2px solid green', letterSpacing: 3 }, className: "btn btn-success mr-2 ml-2 pl-0 pr-0 " }, "Save & Submit"),
                 React.createElement("button", { type: "button", style: { border: '2px solid red', letterSpacing: 3 }, className: "btn btn-danger pl-0 pr-0" }, "Quit"))));
     };
-    return ApiState;
+    return CustomerMaster;
 }(React.Component));
-var AddCustomerMaster = (0, fetchApi_hoc_1.fetchMasters)(ApiState);
-exports.default = AddCustomerMaster;
+var mapStateToProps = (0, reselect_1.createStructuredSelector)({
+    currentData: formCollection_selectors_1.selectCurrentData
+});
+var mapDispatchToProps = function (dispatch) { return ({
+    setFormDataCollection: function (data) { return dispatch((0, formCollection_actions_1.setFormDataCollection)(data)); }
+}); };
+var CMaster = (0, react_redux_1.connect)(mapStateToProps, mapDispatchToProps)(CustomerMaster);
+exports.default = (0, fetchApi_hoc_1.fetchMasters)(CMaster);
 //# sourceMappingURL=add-customer-master.component.js.map

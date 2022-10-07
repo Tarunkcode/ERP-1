@@ -79,6 +79,7 @@ import SaleRegister from './Pages/Reports/Sale-Report/sale-register/sale-registe
 //---------------------------------Additional Imports---------------------------------------------------------------------------------------------------
 import Nothing from './components/nothing';
 import Modify from './Pages/modify.component';
+import { DomainContext } from './AppContext/domainContext.component';
 
 
 
@@ -86,14 +87,14 @@ import Modify from './Pages/modify.component';
 
   
 function App() {
-    const [showResult, setShowResult] = useState(false)
-    const setDefault : any = React.useRef(0);
+  
+    //const setDefault : any = React.useRef(0);
 
-    var [domain, setDomain]: any = React.useState('');
+    //var [domain, setDomain]: any = React.useState('');
    
-    const currentDomain = window.location.hostname;
+    //const currentDomain = window.location.hostname;
 
-    console.log('current domain',currentDomain)
+    //console.log('current domain',currentDomain)
 
 
     useEffect(() => {
@@ -102,49 +103,8 @@ function App() {
 
     }, [])
 
-    useEffect(() => {
-
-       
-        
-
-        try {
-
-
-            var domainUrl = `http://${window.location.host}/api/getall`;
-            console.log('domainUrl', domainUrl)
-            fetch(domainUrl).then(res => res.json()).then(result => {
-                console.log(result)
-
-                if (result != null && result.length > 0) {
-                    for (let i = 0; i < result.length; i++) {
-                        if (result[i].currentDomain == currentDomain) {
-                            setDomain(result[i].sUrl);
-                            setDefault.current = 1;
-                            setShowResult(true);
-                            break;
-                        }
-
-                    }
-                }
-                else {
-                    console.log('data not found in domain array fetch Status = -1');
-                    setDefault.current = 2;
-                    setShowResult(false)
-                }
-
-            })
-
-
-        }
-
-        catch (Ex) {
-            alert("calling api's failed ")
-        }
-
-    }, [domain])
-
- 
- 
+    var { defaultState} = React.useContext(DomainContext)
+    
     return (
         <>
             
@@ -280,9 +240,9 @@ function App() {
 
           
 
-                <Route exact path="/" component={setDefault.current == 1 ? LogIn : Nothing} />
+                <Route exact path="/" component={defaultState == 1 ? LogIn : Nothing} />
 
-                <Route exact path="/" component={ setDefault.current == 2 ? RegisterDomain : Nothing} />
+                <Route exact path="/" component={defaultState == 2 ? RegisterDomain : Nothing} />
             
 
                   

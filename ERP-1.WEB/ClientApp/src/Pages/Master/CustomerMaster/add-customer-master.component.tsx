@@ -11,21 +11,39 @@ import { fetchMasters } from '../../../components/HOC/fetchApi.hoc';
 import CustomInput from '../../../components/custom-input/custom-input.component';
 
 
+import { connect } from "react-redux";
+import { selectCurrentData } from "../../../Redux/form-collection/formCollection.selectors";
+import { setFormDataCollection } from "../../../Redux/form-collection/formCollection.actions";
+import formDataCollection, { store1 } from "../../../Redux/form-collection/formCollection.reducer";
+import { createStructuredSelector } from 'reselect';
+
+
+
+
 interface IState {
     opn: string,
     series: any[],
     delT: any[],
     payT: any[],
-    custGp: any[]
+    custGp: any[],
+    country: any[],
+    zone: any[],
+    state: any[],
+    city: any[],
+    bank: any[],
+    branch: any[],
+    currency:any[]
 }
 interface IProps {
 
-    fetchApi: any
+    fetchApi: any,
+    currentData: any,
+    setFormDataCollection: any
 }
 
 
 
-class ApiState extends React.Component<IProps, IState> {
+class CustomerMaster extends React.Component<IProps, IState> {
     /*static ApiContext = MasterApiContext;*/
 
     constructor(props: any) {
@@ -36,13 +54,21 @@ class ApiState extends React.Component<IProps, IState> {
             series: [],
             delT: [],
             payT: [],
-            custGp:[]
+            custGp: [],
+            country: [],
+            zone: [],
+            state: [],
+            city: [],
+            bank: [],
+            branch: [],
+            currency:[]
 
         };
-        this.handleAddressOptions = () => { }
+     
     }
 
     componentDidMount() {
+       
         try {
             //fetch series master 
             this.props.fetchApi(3, 'series').then((res: any) => {
@@ -50,23 +76,65 @@ class ApiState extends React.Component<IProps, IState> {
                 else throw new Error('Bad Fetch 1')
             }).then((result: any) => this.setState({ series: result.data }));
 
-            //fetch del terms
-            this.props.fetchApi(30, 'delterms').then((res: any) => {
-                if (res.ok) return res.json()
-                else throw new Error('Bad Fetch 1')
+            //fetch del terms master
+            this.props.fetchApi(30, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 2')
             }).then((result: any) => this.setState({ delT: result.data }))
 
-            // fetch pay terms
-            this.props.fetchApi(31, 'payterms').then((res: any) => {
+            // fetch pay terms master
+            this.props.fetchApi(31, 'master').then((res: any) => {
                 if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 1')
+                else throw new Error('Bad Fetch 3')
             }).then((result: any) => this.setState({ payT: result.data }));
 
-            // fetch Customer Group
-            this.props.fetchApi(1005, 'custGp').then((res: any) => {
-                if (res.ok) return res.json()
-                else throw new Error('Bad Fetch 1')
+            // fetch Customer master
+            this.props.fetchApi(1005, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 4')
             }).then((result: any) => this.setState({ custGp: result.data }));
+            
+            // fetch Country master
+            this.props.fetchApi(1003, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 5')
+            }).then((result: any) => this.setState({ country: result.data }));
+
+            // fetch Zone master
+            this.props.fetchApi(1004, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 6')
+            }).then((result: any) => this.setState({ zone: result.data }));
+
+              // fetch state master
+            this.props.fetchApi(26, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 7')
+            }).then((result: any) => this.setState({ state: result.data }));
+
+             // fetch city master
+            this.props.fetchApi(26, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 8')
+            }).then((result: any) => this.setState({ city: result.data }));
+
+             // fetch bank master
+            this.props.fetchApi(1018, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 9')
+            }).then((result: any) =>this.setState({ bank: result.data }));
+
+             // fetch branch master
+            this.props.fetchApi(1019, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 10')
+            }).then((result: any) => this.setState({ branch: result.data }));
+
+             // fetch currency master
+            this.props.fetchApi(102, 'master').then((res: any) => {
+                if (res.ok) return res.json();
+                else throw new Error('Bad Fetch 11')
+            }).then((result: any) => this.setState({ currency: result.data }));
 
         } catch (err) { alert(err); }
         
@@ -80,13 +148,17 @@ class ApiState extends React.Component<IProps, IState> {
         })
 
     }
-
-
+    handleChangeField = (e: any) => {
+        e.preventDefault();
+        store1.dispatch({ payload: e.target.value, key: e.target.name, type: "AddOnFormData" });
+        console.log(store1.getState())
+    }
     render() {
-
+        const { currentData, setFormDataCollection } = this.props;
+        const { bank, branch, currency } = this.state;
+        
         return (
             <>
-
                 <div className="main card firstDiv" >
 
                     <div className="text-center card-title col-12" style={{ textAlign: 'start', backgroundColor: '#8389d4' }}>
@@ -100,17 +172,17 @@ class ApiState extends React.Component<IProps, IState> {
                                 <div className="show" id="genDetails">
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <CustomInput name="series" ipType="text" label="Series" ipTitle="Enter Series" dataArray={this.state.series} />
+                                            <CustomInput name="series" ipType="text" label="Series" ipTitle="Enter Series" dataArray={this.state.series} change={this.handleChangeField} />
 
                                             <SeriesMasterModal />
                                         </>
                                         <>
-                                            <CustomInput name="custCode" ipType="text" label="Customer Code" ipTitle="Enter Customer Code" dataArray={[]} />
+                                            <CustomInput name="custCode" ipType="text" label="Customer Code" ipTitle="Enter Customer Code" dataArray={[]} change={this.handleChangeField}/>
                                             <HiddenModal />
 
                                         </>
                                         <>
-                                            <CustomInput name="custName" ipType="text" label="Customer Name" ipTitle="Enter Customer Name" dataArray={[]} />
+                                            <CustomInput name="custName" ipType="text" label="Customer Name" ipTitle="Enter Customer Name" dataArray={[]} change={this.handleChangeField} />
                                             <HiddenModal />
                                         </>
 
@@ -118,20 +190,20 @@ class ApiState extends React.Component<IProps, IState> {
 
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <CustomInput name="pntName" ipType="text" label="Print Name" ipTitle="Enter Print Name" dataArray={[]} />
+                                            <CustomInput name="pntName" ipType="text" label="Print Name" ipTitle="Enter Print Name" dataArray={[]} change={this.handleChangeField}/>
                                             <HiddenModal />
                                         </>
 
                                         <>
 
-                                            <CustomInput name="custGrp" ipType="text" label="Customer Group" ipTitle="Enter Customer Group" dataArray={this.state.custGp} />
+                                            <CustomInput name="custGrp" ipType="text" label="Customer Group" ipTitle="Enter Customer Group" dataArray={this.state.custGp} change={this.handleChangeField} />
                                             <CustomerGroupModal />
 
                                         </>
                                         <>
                                             <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Major Products</label>
 
-                                            <select name="majProd" className="form-control inp" style={{ height: '25px' }} title="Major Products" >
+                                            <select name="majProd" className="form-control inp" style={{ height: '25px' }} title="Major Products" onBlur={this.handleChangeField}>
                                                 <option value="1">Y</option>
                                                 <option value="0">N</option>
                                             </select>
@@ -143,13 +215,13 @@ class ApiState extends React.Component<IProps, IState> {
 
                                         <>
 
-                                            <CustomInput name="delTerms" ipType="text" label="Delivery Terms" ipTitle="Enter Delievery Terms" dataArray={this.state.delT} />
+                                            <CustomInput name="delTerms" ipType="text" label="Delivery Terms" ipTitle="Enter Delievery Terms" dataArray={this.state.delT} change={this.handleChangeField}/>
                                             <DelTermsModal />
                                         </>
 
                                         <>
 
-                                            <CustomInput name="payTerms" ipType="text" label="Payment terms" ipTitle="Enter Payment Terms" dataArray={this.state.payT} />
+                                            <CustomInput name="payTerms" ipType="text" label="Payment terms" ipTitle="Enter Payment Terms" dataArray={this.state.payT} change={this.handleChangeField}/>
                                             <PayTermsModal />
                                         </>
 
@@ -159,7 +231,7 @@ class ApiState extends React.Component<IProps, IState> {
                                     <span className="d-flex section2 col-sm-12">
                                         <>
                                             <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Opening Balance</label>
-                                            <input type="text" name="opnBal" className="form-control" style={{ width: '18%' }} title="Opening Balance" />
+                                            <input type="text" name="opnBal" className="form-control" style={{ width: '18%' }} title="Opening Balance" onBlur={this.handleChangeField}/>
                                             <select className="form-control ml-1" style={{
                                                 width: '4%',
                                                 height: '25px',
@@ -170,7 +242,7 @@ class ApiState extends React.Component<IProps, IState> {
                                             </select>
                                         </>
                                         <>
-                                            <CustomInput name="cdtAmt" ipType="text" label="Credit Amount" ipTitle="Enter Credit Amount" dataArray={[]} />
+                                            <CustomInput name="cdtAmt" ipType="text" label="Credit Amount" ipTitle="Enter Credit Amount" dataArray={[]} change={this.handleChangeField}/>
                                             <HiddenModal />
                                         </>
 
@@ -182,12 +254,12 @@ class ApiState extends React.Component<IProps, IState> {
                                     <span className="d-flex section2 col-sm-12">
 
                                         <>
-                                            <CustomInput name="cdtLmt" ipType="text" label="Credit Limit" ipTitle="Enter Credit Limit" dataArray={[]} />
+                                            <CustomInput name="cdtLmt" ipType="text" label="Credit Limit" ipTitle="Enter Credit Limit" dataArray={[]} change={this.handleChangeField}/>
                                             <HiddenModal />
                                         </>
                                         <>
                                             <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Ledger Type</label>
-                                            <select name="custGrp" className="form-control inp" style={{ height: '25px' }} title="Customer Group">
+                                            <select name="custGrp" className="form-control inp" style={{ height: '25px' }} title="Customer Group" onBlur={this.handleChangeField}>
                                                 <option value="0">Y</option>
                                                 <option value="1">N</option>
                                             </select>
@@ -195,7 +267,7 @@ class ApiState extends React.Component<IProps, IState> {
                                         </>
                                         <>
                                             <label htmlFor="multiCurr" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Multi Currency</label>
-                                            <select name="multiCurr" className="form-control inp" style={{ height: '25px' }} title="Customer Group">
+                                            <select name="multiCurr" className="form-control inp" style={{ height: '25px' }} title="Customer Group" onBlur={this.handleChangeField}>
                                                 <option value="0">Y</option>
                                                 <option value="1">N</option>
                                             </select>
@@ -299,7 +371,6 @@ class ApiState extends React.Component<IProps, IState> {
                             </span>
                         </div>
                         <div style={{ margin: '0', width: '100%', padding: '0' }} id="addres">
-
                             <form className="form col-sm-12 row-content card-body pt-0">
 
                                 <fieldset className="form-group border p-0">
@@ -315,11 +386,11 @@ class ApiState extends React.Component<IProps, IState> {
                                                         <HiddenModal />
                                                     </>
                                                     <>
-                                                        <CustomInput name="country" ipType="text" label="Country" ipTitle="Enter Country" dataArray={[]} />
+                                                        <CustomInput name="country" ipType="text" label="Country" ipTitle="Enter Country" dataArray={this.state.country} />
                                                         <HiddenModal />
                                                     </>
                                                     <>
-                                                        <CustomInput name="zone" ipType="text" label="Zone" ipTitle="Enter Zone" dataArray={[]} />
+                                                        <CustomInput name="zone" ipType="text" label="Zone" ipTitle="Enter Zone" dataArray={this.state.zone} />
                                                         <HiddenModal />
                                                     </>
 
@@ -330,11 +401,11 @@ class ApiState extends React.Component<IProps, IState> {
 
                                                 <span className="d-flex section2 col-sm-12">
                                                     <>
-                                                        <CustomInput name="state" ipType="text" label="State" ipTitle="Enter State" dataArray={[]} />
+                                                        <CustomInput name="state" ipType="text" label="State" ipTitle="Enter State" dataArray={this.state.state} />
                                                         <HiddenModal />
                                                     </>
                                                     <>
-                                                        <CustomInput name="cty" ipType="text" label="City" ipTitle="Enter City" dataArray={[]} />
+                                                        <CustomInput name="cty" ipType="text" label="City" ipTitle="Enter City" dataArray={this.state.city} />
                                                         <HiddenModal />
                                                     </>
                                                     <>
@@ -550,13 +621,76 @@ class ApiState extends React.Component<IProps, IState> {
                                         <tr>
                                             <th>1</th>
                                             <td></td>
+                                            <td>
+                                                <input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control text-center" list="bankNameList" type="text" id="cell-bankName" />
+                                                {
+                                                    bank != null && bank.length > 0 ?
+
+                                                        (
+                                                            <datalist className='bankNameList' id='bankNameList'>
+                                                                {
+                                                                    bank.map((obj: any) => {
+                                                                       return <option data-value={obj.code}>{obj.name}</option>
+                                                                    })
+                                                                }
+
+
+                                                            </datalist>
+
+                                                        )
+
+                                                        : null
+
+
+                                                }
+                                                
+                                            </td>
+                                            <td> <input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control text-center" list="branchNameList" type="text" id="cell-branchName" />
+                                                {
+                                                    branch != null && branch.length > 0 ?
+
+                                                        (
+                                                            <datalist className='branch-name-list' id='branchNameList'>
+                                                                {
+                                                                    branch.map((obj: any) => {
+                                                                        return <option data-value={obj.code}>{obj.name}</option>
+                                                                    })
+                                                                }
+
+
+                                                            </datalist>
+
+                                                        )
+
+                                                        : null
+
+
+                                                }</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control text-center" list="currNameList" type="text" id="cell-currName" />
+                                                {
+                                                    currency != null && currency.length > 0 ?
+
+                                                        (
+                                                            <datalist className='currency-name-list' id='currNameList'>
+                                                                {
+                                                                    currency.map((obj: any) => {
+                                                                        return <option data-value={obj.code}>{obj.name}</option>
+                                                                    })
+                                                                }
+
+
+                                                            </datalist>
+
+                                                        )
+
+                                                        : null
+
+
+                                                }</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -697,5 +831,12 @@ class ApiState extends React.Component<IProps, IState> {
 }
 
 
-const AddCustomerMaster = fetchMasters(ApiState);
-export default AddCustomerMaster;
+const mapStateToProps = createStructuredSelector({
+    currentData: selectCurrentData
+});
+const mapDispatchToProps = (dispatch: any) => ({
+    setFormDataCollection: (data: any) => dispatch(setFormDataCollection(data))
+});
+ 
+const CMaster = connect(mapStateToProps, mapDispatchToProps)(CustomerMaster);
+export default fetchMasters(CMaster);

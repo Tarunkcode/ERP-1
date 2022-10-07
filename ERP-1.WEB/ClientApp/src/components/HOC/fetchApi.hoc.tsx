@@ -14,9 +14,8 @@ export function fetchMasters(Component: any) {
 
         fetchApi = ( masterCode : number, label: string ) => {
             const urlStr = `http://103.25.128.155:12019/api/GetSeries?TranType=${masterCode}&SrType=1&TranSubType=0`;
-            const urlDelTerms = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}`;
-            const urlPayTerms = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}`;
-            const urlCustomerGroup = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}`;
+            const urlMaster = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}`;
+       
             var req: Request;
             let h = new Headers();
             h.append('Accept', 'application/json');
@@ -31,28 +30,13 @@ export function fetchMasters(Component: any) {
                     });
                     return fetch(req);
 
-                case 'delterms':
-                    req = new Request(urlDelTerms, {
+                case 'master':
+                    req = new Request(urlMaster, {
                         method: 'GET',
                         headers: h,
                         mode: 'cors'
                     });
                     return fetch(req);
-                case 'payterms':
-                    req = new Request(urlPayTerms, {
-                        method: 'GET',
-                        headers: h,
-                        mode: 'cors'
-                    });
-                    return fetch(req);
-                case 'custGp':
-                    req = new Request(urlCustomerGroup, {
-                        method: 'GET',
-                        headers: h,
-                        mode: 'cors'
-                    });
-                    return fetch(req);
-                   
                 default: alert('Something Went Wrong');
             }
         }

@@ -18,16 +18,16 @@ var INITIAL_STATE = {
     currentUser: {
         domain: '',
         port: '',
-        Fy: '',
+        FY: '',
     }
 };
 var userReducer = function (state, action) {
     if (state === void 0) { state = INITIAL_STATE; }
     switch (action.type) {
         case user_types_1.UserActionTypes.SET_CURRENT_USER:
-            state = __assign(__assign({}, state), { currentUser: action.payload });
+            state = __assign(__assign({}, state), { currentUser: state.currentUser + action.payload });
     }
-    return state;
+    return __assign({}, state);
 };
 exports.store = (0, redux_1.createStore)(userReducer);
 exports.default = userReducer;

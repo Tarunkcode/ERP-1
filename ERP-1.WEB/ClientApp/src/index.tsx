@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-//import { MasterApiProvider } from '../src/AppContext/master.context';
+import DomainProvider from '../src/AppContext/domainContext.component';
 import { createBrowserHistory } from 'history';
 import './Fonts/trebuc.ttf';
 
@@ -25,9 +25,9 @@ const store = configureStore()
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-   
-              <App />
-           
+            <DomainProvider>
+                <App />
+            </DomainProvider>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));
