@@ -1,8 +1,19 @@
 ﻿import * as React from 'react';
-import CustomInput from '../custom-input/custom-input.component';
+import { MasterInput } from '../custom-input/custom-input.component';
 import Modal from 'react-modal';
 
 const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '30%'
+    },
+};
+const customStyles2 = {
     content: {
         top: '50%',
         left: '50%',
@@ -57,7 +68,7 @@ export function SeriesMasterModal() {
                         isOpen={modalIsOpen}
                         onAfterOpen={afterOpenModal}
                         onRequestClose={closeModal}
-                        style={customStyles}
+                        style={customStyles2}
                         contentLabel="Example Modal"
                     >
                         <span className="row row-content d-flex section2 col-sm-12">
@@ -288,20 +299,20 @@ export function CustomerGroupModal() {
                 <form>
 
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="grpName" ipType="text" label="Group Name" ipTitle="Enter Group Name" dataArray={[]} />
+                        <MasterInput name="grpName" ipType="text" label="Group Name" ipTitle="Enter Group Name" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="alias" ipType="text" label="Alias" ipTitle="Enter Alias" dataArray={[]} />
+                        <MasterInput name="alias" ipType="text" label="Alias" ipTitle="Enter Alias" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="pntGrp" ipType="text" label="Print Group" ipTitle="Enter Print Group" dataArray={[]} />
-                        <CustomInput name="isExport" ipType="text" label="Is Export" ipTitle="is Export" dataArray={[]} />
+                        <MasterInput name="pntGrp" ipType="text" label="Print Group" ipTitle="Enter Print Group" dataArray={[]} />
+                        <MasterInput name="isExport" ipType="text" label="Is Export" ipTitle="is Export" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="undGrp" ipType="text" label="Under Group" ipTitle="Enter Under Group" dataArray={[]} />
+                        <MasterInput name="undGrp" ipType="text" label="Under Group" ipTitle="Enter Under Group" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="freeze" ipType="checkbox" label="Freeze" ipTitle="is Freeze" dataArray={[]} />
+                        <MasterInput name="freeze" ipType="checkbox" label="Freeze" ipTitle="is Freeze" dataArray={[]} />
                     </span>
                 </form>
             </Modal>
@@ -337,14 +348,14 @@ export function DelTermsModal() {
                 <form>
 
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="grpName" ipType="text" label="Delivery Term" ipTitle="Enter Delivery Terms" dataArray={[]} />
+                        <MasterInput name="grpName" ipType="text" label="Delivery Term" ipTitle="Enter Delivery Terms" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="alias" ipType="text" label="Description" ipTitle="Enter Alias" dataArray={[]} />
+                        <MasterInput name="alias" ipType="text" label="Description" ipTitle="Enter Alias" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="pntGrp" ipType="text" label="Due Days" ipTitle="Enter Print Group" dataArray={[]} />
-                        <CustomInput name="isExport" ipType="text" label="CIF" ipTitle="is Export" dataArray={[]} />
+                        <MasterInput name="pntGrp" ipType="text" label="Due Days" ipTitle="Enter Print Group" dataArray={[]} />
+                        <MasterInput name="isExport" ipType="text" label="CIF" ipTitle="is Export" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12 mt-3 justify-content-end">
                         <button className="col-3 btn btn-sm btn-success mr-3">Save</button>
@@ -385,20 +396,20 @@ export function PayTermsModal() {
                 <form>
 
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="payTerms" ipType="text" label="Payment Term" ipTitle="Enter Payment Term" dataArray={[]} />
+                        <MasterInput name="payTerms" ipType="text" label="Payment Term" ipTitle="Enter Payment Term" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="desc" ipType="text" label="Description" ipTitle="Enter Description" dataArray={[]} />
+                        <MasterInput name="desc" ipType="text" label="Description" ipTitle="Enter Description" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="disStructure" ipType="text" label="Discount Structure" ipTitle="Enter Discount Structure" dataArray={[]} />
-                        <CustomInput name="freeze" ipType="checkbox" label="Freeze" ipTitle="Freeze if Yes then Check" dataArray={[]} />
+                        <MasterInput name="disStructure" ipType="text" label="Discount Structure" ipTitle="Enter Discount Structure" dataArray={[]} />
+                        <MasterInput name="freeze" ipType="checkbox" label="Freeze" ipTitle="Freeze if Yes then Check" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="dueDays" ipType="number" label="Due Days" ipTitle="Enter Due Days" dataArray={[]} />
+                        <MasterInput name="dueDays" ipType="number" label="Due Days" ipTitle="Enter Due Days" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12">
-                        <CustomInput name="advPatment" ipType="textbox" label="Advance Payment" ipTitle="is Advance Payment" dataArray={[]} />
+                        <MasterInput name="advPatment" ipType="textbox" label="Advance Payment" ipTitle="is Advance Payment" dataArray={[]} />
                     </span>
                     <span className="row row-content d-flex section2 col-sm-12 mt-3 justify-content-end">
                         <button className="col-3 btn btn-sm btn-success mr-3">Save</button>

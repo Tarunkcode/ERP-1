@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.39615569.css",
-    "main.js": "/static/js/main.1388edd7.js",
+    "main.js": "/static/js/main.bcd8f822.js",
     "static/media/Trebuchet-MS-Italic.ttf": "/static/media/Trebuchet-MS-Italic.3c9917086becf7ec6d97.ttf",
     "static/media/trebuc.ttf": "/static/media/trebuc.8dc5d2dd53924baa495c.ttf",
     "index.html": "/index.html",
     "main.39615569.css.map": "/static/css/main.39615569.css.map",
-    "main.1388edd7.js.map": "/static/js/main.1388edd7.js.map"
+    "main.bcd8f822.js.map": "/static/js/main.bcd8f822.js.map"
   },
   "entrypoints": [
     "static/css/main.39615569.css",
-    "static/js/main.1388edd7.js"
+    "static/js/main.bcd8f822.js"
   ]
 }

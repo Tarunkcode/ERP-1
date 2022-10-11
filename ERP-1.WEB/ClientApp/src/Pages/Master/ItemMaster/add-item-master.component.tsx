@@ -245,33 +245,34 @@ class AddItemMaster extends React.Component {
                                 <div className="card addSalecard col-sm-4">
                                     <div className="card-body" style={{ margin: '0', padding: '0', minHeight: '36vh' }}>
                                         <form className="form">
-                                                <span className="d-flex flex-column section2 col-sm-12">
-                                                    <div className="m-0 p-0 d-flex flex-row">
-                                                        <label htmlFor="brand" style={{ fontSize: '0.8em' }} className="form-label col-4">is Parameterized</label>
-                                                        <input type="checkbox" name="brand" className="col-1" />
+                                                <span className="d-flex flex-column section2 col-sm-8">
+                                                
+                                                    <div className="custom-control custom-switch m-0 p-0  col-12">
+                                                        <input type="checkbox" className="custom-control-input col-3" id="customSwitch1" />
+                                                        <label className="custom-control-label col-8" htmlFor="customSwitch1">is Parameterized</label>
                                                     </div>
-
-                                                    <div className="m-0 p-0 d-flex flex-row">
-                                                        <label htmlFor="brand" style={{ fontSize: '0.8em' }} className="form-label col-4">Bil Sun</label>
-                                                        <input type="checkbox" name="brand" className="col-1" />
+                                         <div className="custom-control custom-switch m-0 p-0 col-12">
+                                                        <input type="checkbox" className="custom-control-input col-3" id="customSwitch2" />
+                                                        <label className="custom-control-label col-8" htmlFor="customSwitch2">Bil Sun</label>
                                                     </div>
-                                                      <div className="m-0 p-0 d-flex flex-row">
-                                                        <label htmlFor="brand" style={{ fontSize: '0.8em' }} className="form-label col-4">QC Applicable</label>
-                                                        <input type="checkbox" name="brand" className="col-1" />
+                                                    <div className="custom-control custom-switch m-0 p-0  col-12">
+                                                        <input type="checkbox" className="custom-control-input col-3" id="customSwitch3" />
+                                                        <label className="custom-control-label col-8" htmlFor="customSwitch3">QC Applicable</label>
                                                     </div>
-                                                     <div className="m-0 p-0 d-flex flex-row">
-                                                        <label htmlFor="brand" style={{ fontSize: '0.8em' }} className="form-label col-4">Quotation</label>
-                                                        <input type="checkbox" name="brand" className="col-1" />
+                                                    <div className="custom-control custom-switch m-0 p-0  col-12">
+                                                        <input type="checkbox" className="custom-control-input col-3" id="customSwitch4" />
+                                                        <label className="custom-control-label col-8" htmlFor="customSwitch4">Quotation</label>
                                                     </div>
-                                                     <div className="m-0 p-0 d-flex flex-row">
-                                                        <label htmlFor="brand" style={{ fontSize: '0.8em' }} className="form-label col-4">is blocked</label>
-                                                        <input type="checkbox" name="brand" className="col-1" />
+                                                    <div className="custom-control custom-switch m-0 p-0  col-12">
+                                                        <input type="checkbox" className="custom-control-input col-3" id="customSwitch5" />
+                                                        <label className="custom-control-label col-8" htmlFor="customSwitch5">is blocked</label>
                                                     </div>
-                                                     <div className="m-0 p-0 d-flex flex-row">
-                                                        <label htmlFor="brand" style={{ fontSize: '0.8em' }} className="form-label col-4">Batch Managed</label>
-                                                        <input type="checkbox" name="brand" className="col-1" />
+                                                    <div className="custom-control custom-switch m-0 p-0  col-12">
+                                                        <input type="checkbox" className="custom-control-input col-3" id="customSwitch6" />
+                                                        <label className="custom-control-label col-8" htmlFor="customSwitch6">Batch Managed</label>
                                                     </div>
-
+                                        
+                                                 
                                                 </span>
 
                                         </form>

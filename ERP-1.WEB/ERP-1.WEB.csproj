@@ -24,8 +24,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\Pages\Master\CustomerMaster\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\Pages\Master\CustomerMaster\**" />
+    <EmbeddedResource Remove="ClientApp\src\Pages\Master\CustomerMaster\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\Pages\Master\CustomerMaster\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -111,9 +115,7 @@
     <TypeScriptCompile Include="ClientApp\src\Pages\Master\BomRoutingConfiguration\RouteDetails.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Master\BranchMaster\branch-master.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Master\CostSheet\cost-sheet-details.component.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\Pages\Master\CustomerMaster\add-customer-master.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Master\ItemMaster\add-item-master.component.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\Pages\Master\SupplierMaster\add-supplier-master.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\nothing.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\RegisterLayout.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\RegisterYourDomain\register-your-domain.component.tsx" />

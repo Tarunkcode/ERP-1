@@ -7,7 +7,8 @@ export function fetchMasters(Component: any) {
             super(props);
             this.state = {
                 series: [],
-                fetchApi: () => { }
+                fetchApi: () => { },
+                postApi: () => { }
             }
         }
         //urlStr = this.props.url;
@@ -15,7 +16,8 @@ export function fetchMasters(Component: any) {
         fetchApi = ( masterCode : number, label: string ) => {
             const urlStr = `http://103.25.128.155:12019/api/GetSeries?TranType=${masterCode}&SrType=1&TranSubType=0`;
             const urlMaster = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}`;
-       
+            try {
+
             var req: Request;
             let h = new Headers();
             h.append('Accept', 'application/json');
@@ -39,7 +41,12 @@ export function fetchMasters(Component: any) {
                     return fetch(req);
                 default: alert('Something Went Wrong');
             }
+
+            } catch (err) {alert(err)}
         }
+     
+         
+        
         render() {
             return (
                 <Component fetchApi={this.fetchApi} {...this.props} />

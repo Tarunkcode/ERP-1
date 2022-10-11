@@ -26,9 +26,9 @@ import BomRoutingConfig from './Pages/Master/BomRoutingConfiguration/bom-routing
 import RouteDetails from './Pages/Master/BomRoutingConfiguration/RouteDetails.component';
 import BranchMaster from './Pages/Master/BranchMaster/branch-master.component';
 import CostSheetDetails from './Pages/Master/CostSheet/cost-sheet-details.component';
-import AddCustomerMaster from './Pages/Master/CustomerMaster/add-customer-master.component';
+import CusSupMaster from './Pages/Master/Customer-Supplier-Master/index';
 import AddItemMaster from './Pages/Master/ItemMaster/add-item-master.component';
-import AddSupplierMaster from './Pages/Master/SupplierMaster/add-supplier-master.component';
+import AddSupplierMaster from './Pages/Master/SupplierMaster/index';
 //---------------------------------Transactions Imports---------------------------------------------------------------------------------------------------
 import AddSaleOrder from './Pages/Transaction/Sales/add-sale-order.component';
 
@@ -178,7 +178,7 @@ function App() {
                         <Route exact path="/bom-routing-configuration" component={BomRoutingConfig} />
                         <Route exact path='/add-branch-master' component={BranchMaster} />
                         <Route exact path='/cost-sheet-details' component={CostSheetDetails} />
-                        <Route exact path='/add-customer-master' component={AddCustomerMaster} />
+                        <Route exact path='/add-customer-master' component={CusSupMaster} />
                         <Route exact path='/add-item-master' component={AddItemMaster} />
                         <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
                       
