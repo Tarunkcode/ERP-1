@@ -9,7 +9,7 @@ import { createBrowserHistory } from 'history';
 import './Fonts/trebuc.ttf';
 
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+
 
 
 // Create browser history to use in the Redux store
@@ -18,6 +18,7 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as
 // Get the application-wide store instance, prepopulating with state from the server where available.
 import configureStore from './store/configureStore'
 import { history } from './store/configureStore';
+import registerServiceWorker from './components/Notifications/registerServiceWorker';
 
 
 const store = configureStore()

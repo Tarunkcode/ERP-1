@@ -138,6 +138,7 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         } catch (err) { alert(err); }
 
     }
+    
     SetCustomerAccountType = (() => {
         store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AccountMaster" });
         store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AddressDetail" });
@@ -155,42 +156,44 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         })
 
     }
-    formatJSONData = (e: any) => {
+
+    formatJSONData = (value : string,name: string, label: string) => {
         let modifyValue: any;
-          if (e.currentTarget.classList.contains('BankDetail')) {
-            switch (e.target.name) {
-                case 'Name': modifyValue = parseInt(e.target.value); break;
-                case 'Address': modifyValue = parseInt(e.target.value); break;
-                case 'Currency': modifyValue = parseInt(e.target.value); break;
-                case 'Country': modifyValue = parseInt(e.target.value); break;
-                default: modifyValue = e.target.value;
+          if (label == "BankDetail") {
+            switch (name) {
+                case 'Name': modifyValue = parseInt(value); break;
+                case 'Address': modifyValue = parseInt(value); break;
+                case 'Currency': modifyValue = parseInt(value); break;
+                case 'Country': modifyValue = parseInt(value); break;
+                default: modifyValue = value;
             }
               return modifyValue;
           }
-        switch (e.target.name) {
-            case 'Series': modifyValue = parseInt(e.target.value); break;
-            case 'MajorProduct': modifyValue = parseInt(e.target.value); break;
-            case 'DelTerm': modifyValue = parseInt(e.target.value); break;
-            case 'PayTerm': modifyValue = parseInt(e.target.value); break;
-            case 'Group': modifyValue = parseInt(e.target.value); break;
-            case 'PayTo': modifyValue = parseInt(e.target.value); break;
-            case 'OpBal': modifyValue = parseFloat(e.target.value); break;
-            case 'TurnOver1': modifyValue = parseFloat(e.target.value); break;
-            case 'TurnOver2': modifyValue = parseFloat(e.target.value); break;
-            case 'TurnOver3': modifyValue = parseFloat(e.target.value); break;
-            case 'PayDate': modifyValue = new Date(e.target.value).toISOString(); break;
-            case 'DayFreq': modifyValue = parseInt(e.target.value); break;
-            case 'Country': modifyValue = parseInt(e.target.value); break;
-            case 'Zone': modifyValue = parseInt(e.target.value); break;
-            case 'State': modifyValue = parseInt(e.target.value); break;
-            case 'City': modifyValue = parseInt(e.target.value); break;
+        switch (name) {
+            case 'Series': modifyValue = parseInt(value); break;
+            case 'MajorProduct': modifyValue = parseInt(value); break;
+            case 'DelTerm': modifyValue = parseInt(value); break;
+            case 'PayTerm': modifyValue = parseInt(value); break;
+            case 'Group': modifyValue = parseInt(value); break;
+            case 'PayTo': modifyValue = parseInt(value); break;
+            case 'OpBal': modifyValue = parseFloat(value); break;
+            case 'TurnOver1': modifyValue = parseFloat(value); break;
+            case 'TurnOver2': modifyValue = parseFloat(value); break;
+            case 'TurnOver3': modifyValue = parseFloat(value); break;
+            case 'PayDate': modifyValue = new Date(value).toISOString(); break;
+            case 'DayFreq': modifyValue = parseInt(value); break;
+            case 'Country': modifyValue = parseInt(value); break;
+            case 'Zone': modifyValue = parseInt(value); break;
+            case 'State': modifyValue = parseInt(value); break;
+            case 'City': modifyValue = parseInt(value); break;
 
-            default: modifyValue = e.target.value;
+            default: modifyValue = value;
         }
       
         
         return modifyValue;
     }
+
     handleAddressTypeChange = (value: number) => {
 
         store1.dispatch({ type: "AddOnFormData", payload: value, key: "AddressType", label: "AddressDetail" })
@@ -198,7 +201,7 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
     handleChangeField = (e: any) => {
         e.preventDefault();
         var label: string = '';
-    
+        var value: any;
         if (e.currentTarget.classList.contains('AccountMaster')) label = "AccountMaster";
         else if (e.currentTarget.classList.contains('AddressDetail')) label = "AddressDetail";
         else if (e.currentTarget.classList.contains('BankDetail')) label = "BankDetail";
@@ -207,11 +210,15 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         else if (e.currentTarget.classList.contains('AccountBillByBillDetail')) label = "AccountBillByBillDetail";
         else if (e.currentTarget.classList.contains('AccMasterSeries')) label = "AccMasterSeries";
         else alert("category Label are not set for one or multiple inputs 1")
+        let key = window.localStorage.getItem('key')!;
         
-       let value : any = this.formatJSONData(e);
-
-        store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
+        var name: string = e.target.name
+        if (key) value = parseInt(key);
+        else value = this.formatJSONData(e.target.value, name, label);
+            console.log('key : ' + e.target.name + ',value : ' + value);
+            store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
         /*console.log(store1.getState())*/
+        window.localStorage.removeItem('key');
     }
     handleSave$Submit= async (e: any)=> {
      

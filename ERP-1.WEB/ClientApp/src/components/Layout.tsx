@@ -6,6 +6,8 @@ import $ from 'jquery';
 
 import { LogOut } from './logout/logout.component';
 import { NavLink } from 'react-router-dom';
+import registerServiceWorker from '../components/Notifications/registerServiceWorker';
+import Notify from '../components/Notifications/index';
 
 
 export default (props: any) => {
@@ -14,7 +16,7 @@ export default (props: any) => {
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
     var [Open, setState]: any = React.useState(false);
-
+  
 
     $(document).ready(function () {
 
@@ -70,7 +72,7 @@ export default (props: any) => {
                                 <span style={{ margin: '0', padding: '0', color: 'blue', marginTop: '3px', fontSize:'1rem' }}>{getUserName}</span>
 
                             </span>
-                            
+                           {/* <Notify />*/}
                             <LogOut />
                         </div>
                     </nav>

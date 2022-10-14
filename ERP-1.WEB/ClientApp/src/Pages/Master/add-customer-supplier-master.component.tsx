@@ -10,7 +10,7 @@ import { DelTermsModal } from '../../components/Modals/master.modals';
 import { PayTermsModal } from '../../components/Modals/master.modals';
 
 
-export function CusSupMaster({ handleChangeField, bank, branch, currency, masters, handleAddressOptions, opn, title, handleSave$Submit, handleAddressTypeChange, formDataCollection,accountType, ...otherProps }: any) {
+export function CusSupMaster({ handleChangeField, bank, branch, currency, masters, handleAddressOptions, opn, title, handleSave$Submit, handleAddressTypeChange, formDataCollection, accountType, ...otherProps }: any) {
     return (
         <>
             <div className="main card firstDiv" >
@@ -31,7 +31,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                         <SeriesMasterModal />
                                     </>
                                     <>
-                                        <CustomInput name="CodeStr" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Code" : "Supplier Code"} ipTitle={accountType == "3" ? "Enter Customer Code" : "Enter Supplier Code"}dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="CodeStr" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Code" : "Supplier Code"} ipTitle={accountType == "3" ? "Enter Customer Code" : "Enter Supplier Code"} dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
 
                                     </>
@@ -58,8 +58,8 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                         <label htmlFor="MajorProduct" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Major Products</label>
 
                                         <select name="MajorProduct" className="form-control inp AccountMaster" style={{ height: '25px' }} title="Major Products" onBlur={handleChangeField}>
-                                            <option value="1">Y</option>
-                                            <option value="0">N</option>
+                                            <option value={1} >Y</option>
+                                            <option value={0} >N</option>
                                         </select>
                                         <HiddenModal />
                                     </>
@@ -114,16 +114,16 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                     <>
                                         <label htmlFor="LedgerType" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Ledger Type</label>
                                         <select name="LedgerType" className="form-control inp AccountMaster" style={{ height: '25px' }} title="Is Ledger Type" onBlur={handleChangeField}>
-                                            <option value="0">Y</option>
-                                            <option value="1" selected>N</option>
+                                            <option value={1} >Y</option>
+                                            <option value={0} selected>N</option>
                                         </select>
                                         <HiddenModal />
                                     </>
                                     <>
                                         <label htmlFor="multiCurr" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Multi Currency</label>
                                         <select name="multiCurr" className="form-control inp" style={{ height: '25px' }} title="is Multi Currency"> {/* notFound*/}
-                                            <option value="0">Y</option>
-                                            <option value="1" selected>N</option>
+                                            <option value={1} >Y</option>
+                                            <option value={0} selected>N</option>
                                         </select>
                                         <HiddenModal />
                                     </>
@@ -346,7 +346,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                                 <tbody>
                                                     <tr>
                                                         <th>1</th>
-                                                        <td><input name="Accounttype" className="form-control inp AddressDetail" type="tel" title="Enter P/L" onBlur={handleChangeField} style={{ width: '300px' }} onChange={handleAddressTypeChange(2)} required /></td>
+                                                        <td><input name="Accounttype" className="form-control inp AddressDetail" type="tel" title="Enter P/L"  style={{ width: '300px' }} onChange={handleAddressTypeChange(2)} required /></td> {/*Accounttype CONFLICT*/}
 
 
                                                         <td><input name="Name" className="form-control inp AddressDetail" type="tel" title="Enter Plant Name" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
@@ -355,9 +355,51 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                                         <td><input name="Address2" className="form-control inp AddressDetail" type="tel" title="Enter Address Line 2" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
 
-                                                        <td><input name="Country" className="form-control inp AddressDetail" type="tel" title="Enter Country" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
+                                                        <td><input name="Country" className="form-control inp AddressDetail" type="tel" title="Enter Country" onBlur={handleChangeField} style={{ width: '300px' }} list="countryList"/>
+                                                            {
+                                                                masters.country != null && bank.length > 0 ?
 
-                                                        <td><input name="Zone" className="form-control inp AddressDetail" type="tel" title="Enter Zone" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                                    (
+                                                                        <datalist id='countryList'>
+                                                                            {
+                                                                                masters.country.map((obj: any) => {
+                                                                                    return <option value={obj.code}>{obj.name}</option>
+                                                                                })
+                                                                            }
+
+
+                                                                        </datalist>
+
+                                                                    )
+
+                                                                    : null
+
+
+                                                            }
+                                                        </td>
+
+                                                        <td><input name="Zone" className="form-control inp AddressDetail" type="tel" title="Enter Zone" onBlur={handleChangeField} style={{ width: '300px' }} list="zoneList" />
+                                                            {
+                                                                masters.zone != null && bank.length > 0 ?
+
+                                                                    (
+                                                                        <datalist id='zoneList'>
+                                                                            {
+                                                                                masters.zone.map((obj: any) => {
+                                                                                    return <option value={obj.code}>{obj.name}</option>
+                                                                                })
+                                                                            }
+
+
+                                                                        </datalist>
+
+                                                                    )
+
+                                                                    : null
+
+
+                                                            }
+                                                        </td>
 
                                                     </tr>
                                                 
