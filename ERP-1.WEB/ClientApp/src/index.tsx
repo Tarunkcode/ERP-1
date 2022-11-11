@@ -18,7 +18,7 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as
 // Get the application-wide store instance, prepopulating with state from the server where available.
 import configureStore from './store/configureStore'
 import { history } from './store/configureStore';
-import registerServiceWorker from './components/Notifications/registerServiceWorker';
+import register from './components/Notifications/registerServiceWorker';
 
 
 const store = configureStore()
@@ -33,4 +33,4 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root'));
 
-registerServiceWorker();
+register();

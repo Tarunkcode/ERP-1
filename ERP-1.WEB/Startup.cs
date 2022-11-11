@@ -1,7 +1,5 @@
 //using ESERP.SERVICE.Domain;
-using CorePush.Apple;
-using CorePush.Google;
-using ERP_1.WEB.Models;
+
 using ESERP.SERVICE.Domain;
 using ESERP.SERVICE.IRepository;
 using ESERP.SERVICE.Repository;
@@ -32,14 +30,9 @@ namespace ERP_1.WEB
             services.AddDbContext<EsMasterDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection1")));
             services.AddDbContext<ERPContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Connection2")));
             services.AddTransient<IReport, Report>();
-            services.AddTransient<INotificationRepo, NotificationRepo>();
-            services.AddHttpClient<FcmSender>();
-            services.AddHttpClient<ApnSender>();
-
+         
             // Configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("FcmNotification");
-            services.Configure<FcmNotificationSetting>(appSettingsSection);
-
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

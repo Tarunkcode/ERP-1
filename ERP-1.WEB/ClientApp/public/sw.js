@@ -23,4 +23,3 @@ self.addEventListener('notificationclick', function (event) {
         clients.openWindow('https://developers.google.com/web/')
     );
 });
-

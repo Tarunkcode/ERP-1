@@ -1,4 +1,4 @@
-﻿using ERP_1.WEB.Models;
+﻿
 using ESERP.SERVICE.IRepository;
 
 using Microsoft.AspNetCore.Http;
@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebPush;
 
 namespace ERP_1.WEB.Controllers
 {
@@ -14,17 +15,22 @@ namespace ERP_1.WEB.Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        private readonly INotificationRepo _notificationService;
-        public NotificationController(INotificationRepo notificationService)
-        {
-            _notificationService = notificationService;
-        }
-        [Route("send")]
-        [HttpPost]
-        public async Task<IActionResult> SendNotification(NotificationModel notificationModel)
-        {
-            var result = await _notificationService.SendNotification(notificationModel);
-            return Ok(result);
-        }
+      
+
+        //[HttpPost]
+        //public IActionResult Notify(string client, string endpoint, string p256dh, string auth)
+        //{
+        //    if (client == null)
+        //    {
+        //        return BadRequest("No Client Name parsed.");
+        //    }
+        //    if (PersistentStorage.GetClientNames().Contains(client))
+        //    {
+        //        return BadRequest("Client Name already used.");
+        //    }
+        //    var subscription = new PushSubscription(endpoint, p256dh, auth);
+        //    PersistentStorage.SaveSubscription(client, subscription);
+        //    return View("Notify", PersistentStorage.GetClientNames());
+        //}
     }
 }

@@ -80,7 +80,7 @@ import SaleRegister from './Pages/Reports/Sale-Report/sale-register/sale-registe
 import Nothing from './components/nothing';
 import Modify from './Pages/modify.component';
 import { DomainContext } from './AppContext/domainContext.component';
-
+import Notify from '../src/components/Notifications/index';
 
 
 
@@ -137,7 +137,6 @@ function App() {
                     "/purchase-requisation",
                     "/modify",
                     "/material-movement"
-
 
 
 
@@ -214,10 +213,10 @@ function App() {
                     </Layout>
             </Route>
 
-            <Route path={["/Login"]}>
+                <Route path={["/Login", "/notify"]}>
                 <LayoutLog>
                     
-
+                        <Route exact path='/notify' component={Notify}/>
                   <Route exact path='/Login' component={LogIn} />
                 </LayoutLog>
             </Route>

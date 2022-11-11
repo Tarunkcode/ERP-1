@@ -7,7 +7,7 @@ import $ from 'jquery';
 import { LogOut } from './logout/logout.component';
 import { NavLink } from 'react-router-dom';
 import registerServiceWorker from '../components/Notifications/registerServiceWorker';
-import Notify from '../components/Notifications/index';
+/*import Notify from '../components/Notifications/index';*/
 
 
 export default (props: any) => {
