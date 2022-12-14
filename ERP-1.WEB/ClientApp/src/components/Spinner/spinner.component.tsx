@@ -1,10 +1,21 @@
 ﻿import * as React from "react";
 import "./spinner.styles.css";
 
-export default function LoadingSpinner() {
+import ClipLoader from 'react-spinners/ClipLoader';
+
+function Spinner({isShow,...otherProps }: any) {
     return (
-        <div className="spinner-container">
-            <div className="loading-spinner"></div>
+    <>
+        {
+            isShow === true ? (
+        <div style={{ width: '100px', margin: 'auto', display: 'block' }}>
+            <ClipLoader color="#52bfd9" size={100} />
         </div>
+
+            ): null
+            }
+      </>
     );
-}
+};
+
+export default Spinner;

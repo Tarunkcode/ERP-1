@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { Redirect } from 'react-router';
 import CustomButton from '../../components/custom-button/custom-button.component';
-import LogIn from '../../components/Login/login.component';
+/*import LogIn from '../../components/Validations/Login/login.component';*/
 import './register-your-domain.styles.css';
 
 

@@ -1,0 +1,12 @@
+﻿.Snode{
+    text-decoration: none;
+    cursor:pointer;
+    color:grey;
+}
+.Snode:focus {
+        background-color: pink;
+}
+.Snode:hover{
+    background-color:orangered;
+    color:white;
+}

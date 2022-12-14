@@ -58,41 +58,42 @@ export default function CustomInput({ name, label, ipType, ipTitle, dataArray, c
         </>
               )
 }
-export function MasterInput({ name, label,dataArray,ipTitle,ipType, ...props}: any) {
+export function MasterInput({ name, label, ipTitle, ipType, handleChange, classCategory,...props}: any) {
 
     return (
 
         <span className="row row-content d-flex section2 col-sm-12 m-0">
-           {/*<label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label labl labl2">{label}</label>*/}
-           {/* <input type={ipType} name={name} className="form-control" title={ipTitle} autoComplete="off" list={name} onBlur={change} />*/}
+           
   
             <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label mr-2 col-4">{label}</label>
-            <input type={ipType} name={name} className="form-control col-7" title={ipTitle} autoComplete="off" list={name} />
-
-   
-            {
-
-                dataArray != null && dataArray.length > 0 ?
-
-                    (
-                        <datalist id={name}>
-                            {
-                                dataArray.map((obj: any) => {
-                                    return <option value={obj.code}>{obj.name}</option>
-                                })
-                            }
-
-
-                        </datalist>
-
-                    )
-
-                    : null
-
-
-            }
+            <input type={ipType} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
 
             </span>
  
     )
+}
+export function CustomSelect({ label, name, dataArray, handleChange, classCategory ,...otherProps }: any) {
+    return (
+        <span className="row row-content d-flex section2 col-sm-12 m-0">
+            {/*<label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label labl labl2">{label}</label>*/}
+            {/* <input type={ipType} name={name} className="form-control" title={ipTitle} autoComplete="off" list={name} onBlur={change} />*/}
+
+            <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label mr-2 col-4">{label}</label>
+            <select name={name} className={classCategory} onBlur={handleChange} style={{height:'26px', padding:'0'}}>
+              
+
+                {
+
+                    dataArray != null && dataArray.length > 0 ?
+                        dataArray.map((obj: any) => {
+                            return (<>
+                                <option value={obj.code}>{obj.name}</option></>)
+                        }) : null
+                }
+              
+            </select>
+
+
+        </span>
+        )
 }

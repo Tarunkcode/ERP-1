@@ -145,13 +145,14 @@ a, a:hover, a:focus {
 }
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 280px;
+    max-width: 280px;
     min-height: 101vh;
-    background: #7386D5;
+   
+    background: #6778BF;
     color: #fff;
     transition: all 0.5s ease;
-    margin-left: -250px;
+    margin-left: -280px;
     overflow: hidden;
 }
 
@@ -306,13 +307,18 @@ a.navbar-brand {
     display: none;
 }*/
 #sidebar .level0 {
-   color:#fff;
+    color: #fff;
+    background-color: #7386D5;
+    border: 1px solid;
+    cursor: pointer;
+    margin: 0;
 }
 #sidebar .level1 {
-
     font-weight: 600;
     color: black;
-  
+    border: 1px solid cornflowerblue;
+    margin: 0;
+    cursor: pointer;
 }
 
 #sidebar .level0:focus {
@@ -333,6 +339,7 @@ a.navbar-brand {
     background: #fff;
     color: #6d7fcc;
     font-weight: bolder;
+    padding-left:10px;
 }
 
 #sidebar .level1:focus {
@@ -351,13 +358,17 @@ a.navbar-brand {
     background-color: skyblue;
     color: #fff;
     font-weight: bolder;
-    padding-left:8px;
+    padding-left:10px;
 }
 
 
 #sidebar .abascus {
-    border-spacing: 5px;
+    /* border-spacing: 5px;*/
+   color:darkblue;
+    border: 1px solid #C2CAED;
     background-color: #C2CAED;
+    margin: 0;
+    cursor: pointer;
 }
 #sidebar .abascus:focus{
     background-color:plum;
@@ -369,6 +380,11 @@ a.navbar-brand {
 }*/
 #sidebar .abascus:hover{
     background-color:lightcyan;
+    padding-left:10px;
+}
+
+.nav-span:hover{
+    padding-left:15px
 }
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/

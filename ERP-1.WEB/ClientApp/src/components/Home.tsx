@@ -2,6 +2,8 @@
 import * as React from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, PieChart, Pie, LineChart, Line, ResponsiveContainer, Legend, Tooltip, AreaChart, Area, Cell, LabelList } from 'recharts';
 import { useState } from 'react';
+
+import 'react-notifications/lib/notifications.css';
 import './home.css';
 import Purchase from '../Pages/DashBoards/purchase/purchase.component';
 import { Label } from 'reactstrap';
@@ -17,7 +19,7 @@ const AxisLabel = ({ axisType, x, y, width, height, stroke, children }: any) => 
     );
 };
 const Home = () => {
-    
+
 let [posData, setposData] = useState({});
     const getState = window.localStorage.getItem('state');
     const state = JSON.parse(getState!)
