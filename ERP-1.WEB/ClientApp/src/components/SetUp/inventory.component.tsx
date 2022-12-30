@@ -15,7 +15,7 @@ import DefaultConfigConf from '../HOC/fetchDefaultConfigurationSettings';
 interface IState {
     rawPosting: object,
     configType: string,
-
+    loadedList1: any
 }
 interface IProps {
     defFeatureOptionMaster: object,
@@ -27,23 +27,46 @@ class Feature_Option extends React.Component<IProps, IState> {
         this.state = {
             rawPosting: {},
             configType: '',
-
+            loadedList1 :[]
         }
 
     }
     compCode = window.sessionStorage.getItem('compCode') || ""
     customer = window.sessionStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
+    FetchLoadedList = (mType: any) => {
 
+        const urlUGList = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
+
+        var req: Request;
+        const h = new Headers();
+        h.append('Accept', 'application/json');
+        h.append('Content-Type', 'application/json');
+        h.append('CompCode', 'ESERPDB');
+        h.append('FYear', '0');
+
+
+        req = new Request(urlUGList, {
+            method: 'GET',
+            headers: h,
+            mode: 'cors'
+        })
+
+        try {
+
+            fetch(req).then((res: any) => res.json()).then((res: any) => {
+                this.setState({ loadedList1: res.data })
+            });
+
+
+        } catch (err) {
+            alert(err)
+        }
+
+
+    }
     componentDidMount() {
-        //let id: string = window.location.pathname;
-        //console.log('id', id)
-        //let s: string = id.charAt(id.length - 1)
-        //console.log('s', s)
-
-        //this.setState({
-        //    configType: s
-        //})
+     
         let id: string = window.location.pathname;
         console.log('id', id)
         let s: any = id.split('/');
@@ -55,7 +78,7 @@ class Feature_Option extends React.Component<IProps, IState> {
         })
 
         }
-
+        this.FetchLoadedList(2008);
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
@@ -186,7 +209,7 @@ class Feature_Option extends React.Component<IProps, IState> {
                 }
 
                 {
-                    this.state.configType === '7' ? (<GSTConf_Page defConf={this.props.defFeatureOptionMaster} HandleIpSelect={this.HandleIpSelect.bind(this)} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />) : null
+                    this.state.configType === '7' ? (<GSTConf_Page defConf={this.props.defFeatureOptionMaster} LoadedList={this.state.loadedList1} HandleIpSelect={this.HandleIpSelect.bind(this)} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />) : null
                 }
             </>
         )

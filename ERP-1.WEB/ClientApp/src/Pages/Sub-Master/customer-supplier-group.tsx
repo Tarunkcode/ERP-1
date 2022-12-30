@@ -4,13 +4,14 @@ import CustomInput, { CustomSelect, InputList } from '../../components/custom-in
 import CustomeSwitch from '../../components/CustomSwitch/custom-switch.component';
 
 
-export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, handleChange, handlePosting, defaultData, HandleIpSelect, ...otherProps}: any) {
+export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, handleChange,UgList, handlePosting, defaultData, HandleIpSelect, ...otherProps}: any) {
     React.useEffect(() => {
         if (configType == '1') getMasterType(1005)
         else if (configType == '2') getMasterType(111)
         else alert('wrong path set in db')
     }, [])
-    const dArr = [{ code: 1, name: 'Tarun' }, { code: 2, name: 'Akhilesh' }, { code: 3, name: 'Raghav' }, { code: 4, name: 'Santosh' }, { code: 5, name: 'Narayan' }];
+
+
     const [PrimaryGroup, setPrimaryGroup]: any = useState(false)
     return (
         <>
@@ -61,7 +62,7 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
                                   /*CustomSelect({ */
                             PrimaryGroup === false ? (
                                 <>
-                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={dArr.findIndex((x : any) => x.code === parseInt(defaultData.parentGrp))} dataArray={dArr} change={HandleIpSelect} placeholder="select under group" s="20%" classCategory="form-control inp mb-2 subMaster ipselect" />
+                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="20%" classCategory="form-control inp mb-2 subMaster ipselect" />
                                
                                 </>
                             ) : null

@@ -68,7 +68,6 @@
     <None Remove="ClientApp\src\Pages\modify.component.tsx" />
     <None Remove="ClientApp\src\Pages\SetUp\Featutes-Option\gst-conf.page.tsx" />
     <None Remove="ClientApp\src\Pages\SetUp\SalePurchaseType\sale-purchase-type.page.tsx" />
-    <None Remove="ClientApp\src\Pages\Sub-Master\customer-supplier-group.tsx" />
     <None Remove="ClientApp\src\Pages\Sub-Master\process.page.tsx" />
     <None Remove="ClientApp\src\Pages\Sub-Master\production-overhead.page.tsx" />
     <None Remove="ClientApp\src\Pages\Transaction\Job-Work\material-issue.compoenent.tsx" />
@@ -126,7 +125,6 @@
     <TypeScriptCompile Include="ClientApp\src\Pages\Modify\modify.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\Featutes-Option\gst-conf.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\SalePurchaseType\sale-purchase-type.page.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\Pages\Sub-Master\customer-supplier-group.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Sub-Master\process.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Sub-Master\production-overhead.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Transaction\Sales\add-sale-order.component.tsx" />

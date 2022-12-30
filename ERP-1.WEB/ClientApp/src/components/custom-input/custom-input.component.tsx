@@ -1,6 +1,4 @@
 ﻿import * as React from 'react';
-import $ from 'jquery';
-import { listenerCount } from 'cluster';
 
 export default function CustomInput({ name, label, ipType, ipTitle, dataArray, change, classCategory, ...props }: any) {
     var ref = React.useRef<HTMLInputElement>(null);
@@ -60,7 +58,7 @@ export default function CustomInput({ name, label, ipType, ipTitle, dataArray, c
         </>
               )
 }
-export function MasterInput({ name, label, ipTitle, ipType, handleChange, classCategory,...props}: any) {
+export function MasterInput({ name,defaultt, label, ipTitle, ipType, handleChange, classCategory,...props}: any) {
 
     return (
 
@@ -68,7 +66,7 @@ export function MasterInput({ name, label, ipTitle, ipType, handleChange, classC
            
   
             <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label mr-2 col-4">{label}</label>
-            <input type={ipType} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
+            <input type={ipType} defaultValue={defaultt } name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
 
             </span>
  
@@ -108,17 +106,14 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
     var [defValue, setDefValue]: any = React.useState('');
     var [filteredData, setFilteredData]: any = React.useState(dataArray);
     var input = document.getElementById(id) as HTMLInputElement;
-
     var [defVal, setDefVal]: any = React.useState("");
+
     React.useEffect(() => {
-
-    if (!props.default) { }
-    else {
-
-    if (!props.default) { }
-    else { setDefVal(dataArray[props.default -1].name); }
-
-    }
+        console.log('props.default', props.default)
+        if (props.default === -1 || props.default === undefined) { }
+        else {
+            setDefVal(dataArray[props.default].name);
+        }
     }, [props.default])
 
 
@@ -132,6 +127,7 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
         input.value = n;
         change(code, name)
 
+        console.log([n] + ":" +code)
         setHide(true);
     }
 
@@ -157,7 +153,7 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
 
             <label htmlFor={name} style={{ fontSize: '0.8em' }} className={lablCat}>{label}</label>
             <div className="m-0 p-0 " style={{ width: 'auto', minWidth: s }}>
-                <input type={ipType} name={name} id={id} className="form-control" defaultValue={defVal} title={ipTitle} autoComplete="off" onFocus={() => { setHide(false); filterList(); }} onChange={filterList} placeholder={placeholder} />
+                <input type={ipType} name={name} id={id} className="form-control p-0" defaultValue={defVal} title={ipTitle} autoComplete="off" onFocus={() => { setHide(false); filterList(); }} onChange={filterList} placeholder={placeholder} />
              
                 <ul id="dropdown" className="dropdown" style={hide === true ? { listStyle: 'none', marginTop: '2px', zIndex: 1000, position: 'absolute', width: 'auto', minWidth: s, maxHeight: '30vh', overflowY: 'auto', backgroundColor: '#fff', borderRadius: '2px', border: '1px solid grey', visibility:'hidden' } : { listStyle: 'none', marginTop: '2px', zIndex: 1000, position: 'absolute', width: 'auto', minWidth: s, maxHeight: '60vh', overflowY: 'auto', backgroundColor: '#fff', borderRadius: '2px', border: '1px solid grey' }}>
                             {

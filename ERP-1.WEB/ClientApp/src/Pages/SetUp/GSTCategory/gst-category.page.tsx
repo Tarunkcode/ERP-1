@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import { useLocation } from 'react-router';
 import { MasterInput } from '../../../components/custom-input/custom-input.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
 
@@ -6,9 +7,49 @@ import UnderConstruction from '../../../components/under-construction';
 import { store2 } from '../../../Redux/config/config.reducer';
 
 export default function GSTCategory_Page() {
-    var [rawObj, setRawObj]: any = React.useState({});
-    var obj: object = {};
 
+    var [rawObj, setRawObj]: any = React.useState({});
+    var [def, setDef]: any = React.useState({});
+    var obj: object = {};
+    var compCode = window.sessionStorage.getItem('compCode') ||""
+    var customer: string = window.sessionStorage.getItem('customer') || ""
+
+    var loc = useLocation();
+    const state : any = loc.state;
+
+    const LoadDefaultData = async () => {
+        if (state === null || !state) { console.log('state', state) }
+        else {
+            let urlStr = `http://103.25.128.155:12019/api/LoadMasterDetails?Code=${state.code}&Company=${compCode}&Customer=${customer}`
+            console.log('urlStr', urlStr)
+            var req: Request;
+            const h = new Headers();
+            h.append('Accept', 'application/json');
+            h.append('Content-Type', 'application/json');
+            h.append('CompCode', 'ESERPDB');
+            h.append('FYear', '0');
+
+
+            req = new Request(urlStr, {
+                method: 'GET',
+                headers: h,
+                mode: 'cors'
+            })
+
+            try {
+
+                await fetch(req).then((res: any) => res.json()).then((res: any) => {
+                   setDef(res.data[0]);
+                   
+                });
+            } catch (err) {
+                alert(err)
+            }
+        }
+    }
+    React.useEffect(() => {
+        LoadDefaultData();
+    }, [])
    const handleChange = (e: any) => {
 
         e.preventDefault();
@@ -16,21 +57,40 @@ export default function GSTCategory_Page() {
        var value = e.target.value;
        var name = e.target.name;
         var label: string = ''
-        if (e.currentTarget.classList.contains('seriesConf')) label = "seriesConf";
+       if (e.currentTarget.classList.contains('subMaster')) label = "subMaster";
         else alert("category Label are not set for one or multiple inputs 1")
 
-      if(name !== "Name") value = parseFloat(value);
-        //console.log('key : ' + e.target.name + ',value : ' + value);
-        store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
+      if(name !== "name") value = parseFloat(value);
 
-        
-            obj = {
-                "MasterType": parseInt("2008"),
-                'UserName': "U1",
-                'Customer': 1,
-                'Company': 1,
-                ...store2.getState().seriesConf
+       if (state === null || !state) {
+           // INSERT
+           store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
+           obj = {
+               "MasterType": parseInt("2008"),
+               'UserName': "U1",
+               "Code": 0,
+               'Customer': parseInt(customer),
+               'Company': parseInt(compCode),
+               ...store2.getState().subMaster
+           }
+
        }
+       else {
+           // UPDATE
+           let change = { [name]: value }
+           var obj = {...def, ...change}
+           store2.dispatch({ payload: obj, key: "", type: "changeConfig", label: "modifySubMaster" });
+           obj = {
+               "MasterType": parseInt("2008"),
+               'UserName': "U1",
+               "Code": parseInt(state.code),
+               'Customer': parseInt(customer),
+               'Company': parseInt(compCode),
+               ...store2.getState().subMaster
+           }
+       }
+        
+           
        setRawObj(obj);
       
     }
@@ -40,7 +100,8 @@ export default function GSTCategory_Page() {
        let i: any = JSON.stringify(rawObj);
         console.log('i:', i);
         //console.log('calling')
-       const confUrl = 'http://103.25.128.155:12019/api/GstCategorySaving';
+       //const confUrl = 'http://103.25.128.155:12019/api/GstCategorySaving';
+       const confUrl = 'http://103.25.128.155:12019/api/SaveMasterData';
 
 
         var req1: Request;
@@ -75,12 +136,12 @@ export default function GSTCategory_Page() {
                     
                         <span className="d-flex section2 col-sm-6">
                          
-                        <MasterInput label="Name" name="Name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
-                        <MasterInput label="CGST" name="CGST" ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
+                        <MasterInput label="Name" defaultt={def.name } name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
+                        <MasterInput label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
                         </span>
                      <span className="d-flex section2 col-sm-6">
-                        <MasterInput label="SGST" name="SGST" ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
-                        <MasterInput label="IGST" name="IGST" ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
+                        <MasterInput label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
+                        <MasterInput label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
                         </span>
                    
                 </div>

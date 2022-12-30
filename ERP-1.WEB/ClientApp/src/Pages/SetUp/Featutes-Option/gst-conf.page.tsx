@@ -2,7 +2,8 @@
 import CustomInput, { CustomSelect, InputList } from '../../../components/custom-input/custom-input.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
 
-export default function GSTConf_Page({ handleChange, handlePosting, defConf, HandleIpSelect, ...otherProps}: any) {
+export default function GSTConf_Page({ handleChange,LoadedList, handlePosting, defConf, HandleIpSelect, ...otherProps }: any) {
+    const dataArr = [{ code: 1, name: 'VAT' }, { code: 2, name: 'GST' }];
     return (
         <>
             <div className="main card firstDiv">
@@ -27,14 +28,14 @@ export default function GSTConf_Page({ handleChange, handlePosting, defConf, Han
                                 name="taxtype"
                                 id="taxtype"
                                 ipType="text"
-                                dataArray={[{ code: 1, name: 'VAT' }, { code: 2, name: 'GST' }]}
+                                dataArray={dataArr}
                                 change={HandleIpSelect}
                                 classCategory="form-control inp mb-2 InventoryDet ipselect"
                                 s="20%"
                                 lablCat="form-label labl labl2"
                                 ipTitle="select type"
                                 placeholder="Select From Type List"
-                                default={defConf.taxtype} />
+                                default={dataArr.findIndex((x: any) => x.code === defConf.taxtype)} />
 
                         </>
                    
@@ -43,12 +44,12 @@ export default function GSTConf_Page({ handleChange, handlePosting, defConf, Han
                         <CustomInput
                             change={handleChange}
                             name="gstint"
-                            default={defConf.gstint }
                             classCategory="form-control inp mb-2 InventoryDet"
                             ipType="text"
                             label="GSTIN"
                             ipTitle="Enter GSTIN"
                             dataArray={[]}
+                            default={defConf.gstint }
                         />
                     </span>
                     <span className="d-flex section2 mb-2 col-sm-4">
@@ -64,14 +65,15 @@ export default function GSTConf_Page({ handleChange, handlePosting, defConf, Han
                                 ipType="text"
                                 name="dgst"
                                 id="dgst"
-                                dataArray={[{ code: 1, name: 'Category1' }, { code: 2, name: 'Category2' }]}
+                                dataArray={LoadedList}
                                 change={HandleIpSelect}
                                 classCategory="form-control inp mb-2 InventoryDet ipselect"
                                 s="20%"
                                 lablCat="form-label labl labl2"
                                 ipTitle="Select Default GST Category List"
                                 placeholder="Select From Default GST Category List"
-                                default={defConf.dgst} />
+                                default={LoadedList.findIndex((x: any) => x.code === defConf.dgst)}
+                            />
 
                         </>
                        
@@ -80,26 +82,13 @@ export default function GSTConf_Page({ handleChange, handlePosting, defConf, Han
                     </span>
                     <span className="d-flex section2 col-sm-12">
                         <>
-                            <InputList
-                                label="Transporter details in local"
-                                ipType="text"
-                                name="tdsp"
-                                id="tdsp"
-                                dataArray={[{ code: 1, name: 'Sale' }, { code: 2, name: 'Purchase' }]}
-                                change={HandleIpSelect}
-                                classCategory="form-control inp mb-2 ipselect InventoryDet"
-                                s="20%"
-                                lablCat="form-label labl labl2"
-                                ipTitle="select From Transporter Det. List"
-                                placeholder="Select From Transporter Det. List"
-                                default={defConf.tdsp} />
-
+                            <CustomeSwitch lablClass="custom-control-label col-9" label="Transporter details in local" id="tdsp" name="tdsp" classCat="form-control custom-control-input col-3 InventoryDet switch" handleChange={handleChange} default={defConf.tdsp} />
                         </>
                     </span>
                     <span className="d-flex section2 col-sm-12">
                         <CustomInput
                             name="mdhsn"
-                            classCategory="form-control inp mb-2 InventoryDet"
+                            classCategory="form-control inp mb-2 InventoryDet select"
                             ipType="number"
                             change={handleChange}
                             label="Minimum Digits for HSN"

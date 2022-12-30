@@ -15,7 +15,8 @@ interface IState {
     rawObj: object,
     masterType: number,
     configType: string,
-    ipSelectCode : string
+    ipSelectCode: string,
+    UgList : any
 }
 interface IProps {
     defSubMaster: object;
@@ -29,7 +30,8 @@ class SubMasterChild extends React.Component<IProps, IState>{
             rawObj: {},
             masterType: 0,
             configType: '',
-            ipSelectCode: ''
+            ipSelectCode: '',
+            UgList : []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handlePosting = this.handlePosting.bind(this);
@@ -52,7 +54,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
     }
     list: any[] = [];
 
-    loadedData = { ...this.props.defSubMaster}
+
 
     GetEsPayTermDet = ({ ind, val, key }: any) => {
         if (!this.list[ind]) {
@@ -97,10 +99,41 @@ class SubMasterChild extends React.Component<IProps, IState>{
         
     }
 
-   
+    FetchUnderGroupDataList = (mType: any) => {
+
+        const urlUGList = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
+      
+        var req: Request;
+        const h = new Headers();
+        h.append('Accept', 'application/json');
+        h.append('Content-Type', 'application/json');
+        h.append('CompCode', 'ESERPDB');
+        h.append('FYear', '0');
+
+
+        req = new Request(urlUGList, {
+            method: 'GET',
+            headers: h,
+            mode: 'cors'
+        })
+
+        try {
+         
+            fetch(req).then((res: any) => res.json()).then((res: any) => {
+                this.setState({ UgList: res.data })
+            });
+          
+
+        } catch (err) {
+            alert(err)
+        }
+
+
+    }
 
     getMasterType = (val: any) => {
-        this.setState({ masterType : val })
+        this.setState({ masterType: val })
+        this.FetchUnderGroupDataList(val);
     }
     handleChange = (e: any) => {
         e.preventDefault();
@@ -242,10 +275,10 @@ class SubMasterChild extends React.Component<IProps, IState>{
         return (
             <>
                 {
-                    this.state.configType === '1' ? (<Cust_Sup_Page HandleIpSelect={this.HandleIpSelect.bind(this)} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Customer Group" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                    this.state.configType === '1' ? (<Cust_Sup_Page UgList={this.state.UgList} HandleIpSelect={this.HandleIpSelect.bind(this)} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Customer Group" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
                 {
-                    this.state.configType === '2' ? (<Cust_Sup_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Supplier Group" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                    this.state.configType === '2' ? (<Cust_Sup_Page HandleIpSelect={this.HandleIpSelect} UgList={this.state.UgList } defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Supplier Group" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
                 {
                     this.state.configType === '18' ? (<Currency_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="" configType={this.state.configType}   handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
