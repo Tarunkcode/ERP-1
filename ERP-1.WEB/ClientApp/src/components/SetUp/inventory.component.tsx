@@ -1,6 +1,7 @@
 ﻿import * as React from 'react'
 import { toast } from 'react-toastify';
-import GST_Page from '../../Pages/SetUp/Featutes-Option/gst.page';
+import GSTConf_Page from '../../Pages/SetUp/Featutes-Option/gst-conf.page';
+import GSTCategory_Page from '../../Pages/SetUp/GSTCategory/gst-category.page';
 import Inventory_Page from '../../Pages/SetUp/Featutes-Option/inventory.page'
 import JobWork_Page from '../../Pages/SetUp/Featutes-Option/job-work.page';
 import Production_Page from '../../Pages/SetUp/Featutes-Option/production.page';
@@ -8,6 +9,7 @@ import Purchase_Page from '../../Pages/SetUp/Featutes-Option/purchase.page';
 import Quality_Page from '../../Pages/SetUp/Featutes-Option/quality-check.page';
 import Sale_Page from '../../Pages/SetUp/Featutes-Option/sale.page';
 import { store2 } from '../../Redux/config/config.reducer';
+import DefaultConfigConf from '../HOC/fetchDefaultConfigurationSettings';
 
 
 interface IState {
@@ -15,39 +17,54 @@ interface IState {
     configType: string,
 
 }
-export default class Inventory extends React.Component<{}, IState> {
+interface IProps {
+    defFeatureOptionMaster: object,
+    AlterLoadedData: any
+}
+class Feature_Option extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
-        this.state ={
+        this.state = {
             rawPosting: {},
             configType: '',
-    
+
         }
-    
+
     }
-compCode = window.sessionStorage.getItem('compCode') || ""
-customer = window.sessionStorage.getItem('customer') || ""
-username = window.sessionStorage.getItem('username') || ""
- 
-    componentDidMount() { 
+    compCode = window.sessionStorage.getItem('compCode') || ""
+    customer = window.sessionStorage.getItem('customer') || ""
+    username = window.sessionStorage.getItem('username') || ""
+
+    componentDidMount() {
+        //let id: string = window.location.pathname;
+        //console.log('id', id)
+        //let s: string = id.charAt(id.length - 1)
+        //console.log('s', s)
+
+        //this.setState({
+        //    configType: s
+        //})
         let id: string = window.location.pathname;
-        console.log('id',id)
-       let s : string = id.charAt(id.length - 1 )
+        console.log('id', id)
+        let s: any = id.split('/');
         console.log('s', s)
+        if (s[s.length - 1] === 'gst') this.setState({ configType: '7' })
+        else {
         this.setState({
-            configType:s
+            configType: s[s.length - 1]
         })
 
+        }
 
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
         console.log('calling');
         let i: any = JSON.stringify(this.state.rawPosting);
-            console.log('i:', i);
+        console.log('i:', i);
         //console.log('calling')
         const confUrl = 'http://103.25.128.155:12019/api/SaveConfig';
- 
+
 
         var req1: Request;
         let h = new Headers();
@@ -72,42 +89,65 @@ username = window.sessionStorage.getItem('username') || ""
                 toast.error(data.msg)
 
             }
+            store2.getState().InventoryDet = [{}]
         } catch (err) {
             alert(err)
         }
     }
-   
+
+    HandleIpSelect = (code: string, name: string) => {
+        var label: string = ''
+        console.log(name + ':' + code);
+
+        label = "InventoryDet"
+        //if (name === "") toast.error('key is not sent by store.dispatch in ipSelect')
+        let currObj = { [name]: parseInt(code) }
+        let mainObj = this.props.AlterLoadedData(currObj)
+
+        console.log('mo', mainObj)
+        store2.dispatch({ payload: mainObj, key: "", type: "changeConfig", label: label });
+
+    }
     handleChange = (e: any) => {
         e.preventDefault();
         var value: any;
         var label: string = '';
 
-        if (e.currentTarget.classList.contains('InventoryDet')) label = "InventoryDet";
-       
-        else alert("category Label are not set for one or multiple inputs 1")
-        if (e.target.name === 'QtyTolPo') {
+        if (e.currentTarget.classList.contains('InventoryDet')) {
+            label = "InventoryDet";
+            if (e.target.name === 'qtyTolPo') {
 
-            value = parseFloat(e.target.value).toFixed(1);
-            value = parseFloat(value);
-        } else {
-       e.target.checked ? value = '1': value= '0'
-        value = parseInt(value);
-
+                value = parseFloat(e.target.value).toFixed(2);
+                value = parseFloat(value);
+            }
+            else if (e.currentTarget.classList.contains('switch')) {
+                e.target.checked === true ? value = 1 : value = 0
+            }
+            else if (e.currentTarget.classList.contains('select')) {
+                value = parseInt(e.target.value)
+            }
+            else value = e.target.value;
         }
 
-        console.log('key : ' + e.target.name + ',value : ' + value);
-        store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
+        else alert("category Label are not set for one or multiple inputs 1")
+
+
+        let currObj = { [e.target.name]: value }
+        let mainObj = this.props.AlterLoadedData(currObj)
+       
+        console.log('mo', mainObj)
+        store2.dispatch({ payload: mainObj, key: "", type: "changeConfig", label: label });
 
         this.setState({
             rawPosting: {
                 "ConfigType": parseInt(this.state.configType),
-                "Customer":parseInt(this.customer),
+                "Customer": parseInt(this.customer),
                 "Company": parseInt(this.compCode),
-                "InventoryDet" : [...store2.getState().InventoryDet]
-                
+                "InventoryDet": [...store2.getState().InventoryDet]
+
             }
         })
-    
+        console.log('raw Data', this.state.rawPosting)
     }
 
     render() {
@@ -115,38 +155,43 @@ username = window.sessionStorage.getItem('username') || ""
             <>
                 {
                     this.state.configType === "3" ? (
-                        <Purchase_Page handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
+                        <Purchase_Page defConf={this.props.defFeatureOptionMaster} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
                     ) : null
                 }
                 {
-                    this.state.configType === "1" ?(
-                        <Inventory_Page handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
-                        ): null
-                }
-                {
-                    this.state.configType === "2" ? (
-                        <Sale_Page handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
-                    ) : null
-                }
-              
-                {
-                    this.state.configType === "4" ? (
-                        <Production_Page handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
-                    ) : null
-                }
-                {
-                    this.state.configType === "5" ? (
-                        <JobWork_Page handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
+                    this.state.configType === "1" ? (
+                        <Inventory_Page defConf={this.props.defFeatureOptionMaster} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
                     ) : null
                 }
                 {
                     this.state.configType === "6" ? (
-                        <Quality_Page handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
+                        <Sale_Page defConf={this.props.defFeatureOptionMaster} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
                     ) : null
                 }
-              
-               
+
+                {
+                    this.state.configType === "2" ? (
+                        <Production_Page defConf={this.props.defFeatureOptionMaster} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
+                    ) : null
+                }
+                {
+                    this.state.configType === "5" ? (
+                        <JobWork_Page defConf={this.props.defFeatureOptionMaster} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
+                    ) : null
+                }
+                {
+                    this.state.configType === "4" ? (
+                        <Quality_Page defConf={this.props.defFeatureOptionMaster} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />
+                    ) : null
+                }
+
+                {
+                    this.state.configType === '7' ? (<GSTConf_Page defConf={this.props.defFeatureOptionMaster} HandleIpSelect={this.HandleIpSelect.bind(this)} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />) : null
+                }
             </>
-            )
+        )
     }
 }
+
+const Inventory = DefaultConfigConf(Feature_Option);
+export default Inventory;

@@ -111,7 +111,7 @@ export default class Role_Master extends React.Component<{}, IState> {
                 toast.error(data.msg)
 
             }
-            /*this.props.postApi(i)*/
+            store2.getState().roleMaster = []
         } catch (err) {
             alert(err)
         }

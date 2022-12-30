@@ -43,7 +43,7 @@ export default class Series_Conf extends React.Component<{},IState> {
 
         else alert("category Label are not set for one or multiple inputs 1")
 
-        if (e.target.name !== "Prefix" && e.target.name !== "Suffix" && e.target.name !== "DateVchNoSep" && e.target.name !== "PadChar") value = parseInt(value);
+        if (e.target.name !== "Prefix" || e.target.name !== "Suffix" || e.target.name !== "DateVchNoSep" || e.target.name !== "PadChar") value = parseInt(value);
 
         console.log('key : ' + e.target.name + ',value : ' + value);
         store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
@@ -89,6 +89,7 @@ export default class Series_Conf extends React.Component<{},IState> {
                 toast.error(data.msg)
 
             }
+            store2.getState().seriesConf = {}
         } catch (err) {
             alert(err)
         }

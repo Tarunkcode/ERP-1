@@ -24,7 +24,8 @@ import ProductionPlanning from './Pages/DashBoards/production-planning/productio
 import HouseKeeping from './Pages/SetUp/House-Keeping/house-keeping.component';
 import Approval from './Pages/SetUp/approval/approval.component';
 import Inventory from "./components/SetUp/inventory.component"
-import GST_Page from "./Pages/SetUp/Featutes-Option/gst.page";
+import SPType from "./components/SetUp/saleType-purchaseType.component"
+import GSTCategory_Page from "./Pages/SetUp/GSTCategory/gst-category.page";
 import Series_Conf from './components/SetUp/series_config.component';
 import BillSundry from './components/SetUp/bill-sundry.component';
 import Role_Master from './components/SetUp/role-master.component';
@@ -36,6 +37,12 @@ import GSTConf_Page from './Pages/SetUp/Featutes-Option/gst-conf.page';
 //----------------------------------- Sub Master -----------------------------------------------------------------------------------------------
 import Cust_Sup_Page from './Pages/Sub-Master/customer-supplier-group';
 import Process_Page from './Pages/Sub-Master/process.page';
+import Currency_Page from './Pages/Sub-Master/currency.page';
+import PaymentTerm_Page from './Pages/Sub-Master/payment-term.page';
+import ItemGroup_Page from './Pages/Sub-Master/item-group.page';
+
+import ProductType_Page from './Pages/Sub-Master/product-type.page';
+import SubUnit_Page from './Pages/Sub-Master/sub-unit.page';
 
 //---------------------------------Master Imports---------------------------------------------------------------------------------------------------
 import AddQcPlan from './Pages/Master/AddQcPlan/add-qc-plan.component';
@@ -96,13 +103,14 @@ import SaleOrderDetails from './Pages/Reports/Sale-Report/sale-order-details/sal
 import SaleRegister from './Pages/Reports/Sale-Report/sale-register/sale-register.component';
 //---------------------------------Additional Imports---------------------------------------------------------------------------------------------------
 import Nothing from './components/nothing';
-import Modify from './Pages/modify.component';
+import Modify from './components/Modify/modify.component';
 import List from './components/List/list.component';
 import YetNotStarted from './Pages/YetNotStarted'
 import { DomainContext } from './AppContext/domainContext.component';
 import Notify from '../src/components/Notifications/index';
+import SubMaster from './components/SubMasters/submaster.component';
 
-
+import ProductionOverHead_Page from './Pages/Sub-Master/production-overhead.page';
 
 
   
@@ -129,7 +137,8 @@ function App() {
         <>
            <ToastContainer/>
         <Switch>
-                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales", "/add-sale-order", "/features-option", "/approval", "/house-keeping", "/balance-only", "/details", "/pr-details", "/pending-pr-details", "/purchase-order-details", "/pending-purchase-details", "/pr-po-details", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master",
+                <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales",
+                    "/add-sale-order", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master",
                     "/add-MatIssue",
                     "/material-recieve",
                     "/loose-pack",
@@ -161,17 +170,18 @@ function App() {
                     "/sales-return",
                     "/sale-quotation",
                     "/purchase-requisation",
-                    "/modify",
+                    "/modify/:master",
                     '/list',
                     "/material-movement",
                     "/feature-option/gst",
                     "/feature-option/inventory/1",
                     "/feature-option/job-work/5",
-                    "/feature-option/production-and-planning/4",
+                    "/feature-option/production-and-planning/2",
                     "/feature-option/purchase/3",
-                    "/feature-option/quality-check/6",
-                    "/feature-option/sale/2",
+                    "/feature-option/quality-check/4",
+                    "/feature-option/sale/6",
                     "/series-configuration",
+                    '/add-user-master',
                     "/role-master-configuration",
                     "/bill-sundry",
                     "/user-master",
@@ -180,64 +190,69 @@ function App() {
                     '/Import-Item',
                     '/Import-Qc-Plan',
                     '/Item-Opening-Stock',
-                    '/add-customer-group',
-                    '/add-supplier-group',
-                    '/add-item-group',
-                    '/add-material-center',
-                    '/add-machine',
-                    '/add-mold',
-                    '/add-qc-parameter',
-                    '/add-sampling-type',
-                    '/add-delivery-term',
-                    '/add-payment-term',
-                    '/add-product-type',
-                    '/add-product-category',
-                    '/add-employee',
-                    '/add-shift',
-                    '/add-bill-sundry',
-                    '/add-brand',
-                    '/add-unit',
-                    '/add-currency',
-                    '/add-process',
-                    '/add-state',
-                    '/add-city',
-                    '/add-zone',
-                    '/add-discount-type',
-                    '/add-qc-type',
-                    '/add-cost-center',
-                    '/add-vehical-type',
-                    '/add-parameter-master',
-                    '/add-bank',
-                    '/add-bank-branch',
-                    '/add-option-text-field',
-                    '/add-measuring-methord',
-                    '/add-delivery-schedule',
-                    '/add-bin',
-                    '/add-dispatch-type',
-                    '/add-port',
-                    '/add-cash-center',
-                    '/add-reason',
-                    '/add-production-overhead',
-                    '/add-business-nature',
-                    '/add-clearance',
-                    '/add-component',
-                    '/add-production-opration',
-                    '/add-sub-category',
-                    '/add-worktype',
-                    '/add-machine-portion',
-                    '/add-user-master',
-                    '/add-methord',
-                    '/add-standard',
-                    '/add-stand',
-                    '/add-item-description',
-                    '/add-item-defact-point',
-                    '/add-production-time-slab',
-                    '/add-complaint-nature',
-                    '/add-complaint-component',
-                    '/add-component-vendor',
-                    '/add-component-deviation',
-                    '/add-scan-format',
-                    '/add-digital-signature',
+
+
+                    '/add-customer-group/1',
+                    '/add-supplier-group/2',
+                    '/add-item-group/3',
+                    '/add-material-center/4',
+                    '/add-machine/5',
+                    '/add-mold/6',
+                    '/add-qc-parameter/7',
+                    '/add-sampling-type/8',
+                    '/add-delivery-term/9',
+                    '/add-payment-term/10',
+                    '/add-product-type/11',
+                    '/add-product-category/12',
+                    '/add-employee/13',
+                    '/add-shift/14',
+                    '/add-bill-sundry/15',
+                    '/add-brand/16',
+                    '/add-unit/17',
+                    '/add-currency/18',
+                    '/add-process/19',
+                    '/add-state/20',
+                    '/add-city/21',
+                    '/add-zone/22',
+                    '/add-discount-type/23',
+                    '/add-qc-type/24',
+                    '/add-cost-center/25',
+                    '/add-vehical-type/26',
+                    '/add-parameter-master/27',
+                    '/add-bank/28',
+                    '/add-bank-branch/29',
+                    '/add-option-text-field/30',
+                    '/add-measuring-methord/31',
+                    '/add-delivery-schedule/32',
+                    '/add-bin/33',
+                    '/add-dispatch-type/34',
+                    '/add-port/35',
+                    '/add-cash-center/36',
+                    '/add-reason/37',
+                    '/add-production-overhead/38',
+                    '/add-business-nature/39',
+                    '/add-clearance/40',
+                    '/add-component/41',
+                    '/add-production-opration/42',
+                    '/add-sub-category/43',
+                    '/add-worktype/44',
+                    '/add-machine-portion/45',
+                    '/add-methord/46',
+                    '/add-standard/47',
+                    '/add-stand/48',
+                    '/add-item-description/49',
+                    '/add-item-defact-point/50',
+                    '/add-production-time-slab/51',
+                    '/add-complaint-nature/52',
+                    '/add-complaint-component/53',
+                    '/add-component-vendor/54',
+                    '/add-component-deviation/55',
+                    '/add-scan-format/56',
+                    '/add-digital-signature/57',
+
+
+
+
                     '/add-mrp',
                     '/add-sample',
                     '/Rpt-Search',
@@ -318,93 +333,93 @@ function App() {
 
 
 
-                        <Route exact path='/modify' component={Modify} />
+                        <Route exact path='/modify/:master' component={Modify} />
                         <Route exact path='/list' component={List} />
 
 
                         {/*Configuration*/}
-                        <Route exact path="/feature-option/gst" component={GSTConf_Page} />
+                        <Route exact path="/feature-option/gst" component={Inventory} />
                         <Route exact path="/feature-option/inventory/1" component={Inventory} />
                         <Route exact path="/feature-option/job-work/5" component={Inventory} />
-                        <Route exact path="/feature-option/production-and-planning/4" component={Inventory} />
+                        <Route exact path="/feature-option/production-and-planning/2" component={Inventory} />
                         <Route exact path="/feature-option/purchase/3" component={Inventory} />
-                        <Route exact path="/feature-option/quality-check/6" component={Inventory} />
-                        <Route exact path="/feature-option/sale/2" component={Inventory} />
+                        <Route exact path="/feature-option/quality-check/4" component={Inventory} />
+                        <Route exact path="/feature-option/sale/6" component={Inventory} />
 
                         <Route exact path="/add-series-configuration" component={Series_Conf} />
 
                         <Route exact path="/add-role-master-configuration" component={Role_Master} />
-                        <Route exact path="/add-gst-category" component={GST_Page} />
+                        <Route exact path="/add-gst-category" component={GSTCategory_Page} />
 
                         <Route exact path='/add-user-master' component={UserMaster_Page} />
                         {/*/add-sale-type*/} {/*/add-purchase-type*/}
                         <Route exact path="/bill-sundry" component={BillSundry} />
                         <Route exact path='/house-keeping' component={HouseKeeping} />
                         <Route exact path='/approval' component={Approval} />
-                        <Route exact path='/add-sale-type' component={SalePurchaseType_Page} />
-                        <Route exact path='/add-purchase-type' component={SalePurchaseType_Page} />
+                        <Route exact path='/add-sale-type' component={SPType} />
+                        <Route exact path='/add-purchase-type' component={SPType} />
 
 
                         {/*SubMaster*/}
 
-                      
-                        <Route exact path='/add-customer-group' component={Cust_Sup_Page} />
-                        <Route exact path='/add-supplier-group' component={Cust_Sup_Page} />
-                        <Route exact path='/add-item-group' component={YetNotStarted} />
-                        <Route exact path='/add-material-center' component={YetNotStarted} />
-                        <Route exact path='/add-machine' component={YetNotStarted} />
-                        <Route exact path='/add-mold' component={YetNotStarted} />
-                        <Route exact path='/add-qc-parameter' component={YetNotStarted} />
-                        <Route exact path='/add-sampling-type' component={YetNotStarted} />
-                        <Route exact path='/add-delivery-term' component={YetNotStarted} />
-                        <Route exact path='/add-payment-term' component={YetNotStarted} />
-                        <Route exact path='/add-product-type' component={YetNotStarted} />
-                        <Route exact path='/add-product-category' component={YetNotStarted} />
-                        <Route exact path='/add-employee' component={YetNotStarted} />
-                        <Route exact path='/add-shift' component={YetNotStarted} />
-                        <Route exact path='/add-bill-sundry' component={YetNotStarted} />
-                        <Route exact path='/add-brand' component={YetNotStarted} />
-                        <Route exact path='/add-unit' component={YetNotStarted} />
-                        <Route exact path='/add-currency' component={YetNotStarted} />
-                        <Route exact path='/add-process' component={Process_Page} />
-                        <Route exact path='/add-state' component={YetNotStarted} />
-                        <Route exact path='/add-city' component={YetNotStarted} />
-                        <Route exact path='/add-zone' component={YetNotStarted} />
-                        <Route exact path='/add-discount-type' component={YetNotStarted} />
-                        <Route exact path='/add-qc-type' component={YetNotStarted} />
-                        <Route exact path='/add-cost-center' component={YetNotStarted} />
-                        <Route exact path='/add-vehical-type' component={YetNotStarted} />
-                        <Route exact path='/add-parameter-master' component={YetNotStarted} />
-                        <Route exact path='/add-bank' component={YetNotStarted} />
-                        <Route exact path='/add-bank-branch' component={YetNotStarted} />
-                        <Route exact path='/add-option-text-field' component={YetNotStarted} />
-                        <Route exact path='/add-measuring-methord' component={YetNotStarted} />
-                        <Route exact path='/add-delivery-schedule' component={YetNotStarted} />
-                        <Route exact path='/add-bin' component={YetNotStarted} />
-                        <Route exact path='/add-dispatch-type' component={YetNotStarted} />
-                        <Route exact path='/add-port' component={YetNotStarted} />
-                        <Route exact path='/add-cash-center' component={YetNotStarted} />
-                        <Route exact path='/add-reason' component={YetNotStarted} />
-                        <Route exact path='/add-production-overhead' component={YetNotStarted} />
-                        <Route exact path='/add-business-nature' component={YetNotStarted} />
-                        <Route exact path='/add-clearance' component={YetNotStarted} />
-                        <Route exact path='/add-component' component={YetNotStarted} />
-                        <Route exact path='/add-production-opration' component={YetNotStarted} />
-                        <Route exact path='/add-sub-category' component={YetNotStarted} />
-                        <Route exact path='/add-worktype' component={YetNotStarted} />
-                        <Route exact path='/add-machine-portion' component={YetNotStarted} />
-                        <Route exact path='/add-methord' component={YetNotStarted} />
-                        <Route exact path='/add-standard' component={YetNotStarted} />
-                        <Route exact path='/add-stand' component={YetNotStarted} />
-                        <Route exact path='/add-item-description' component={YetNotStarted} />
-                        <Route exact path='/add-item-defact-point' component={YetNotStarted} />
-                        <Route exact path='/add-production-time-slab' component={YetNotStarted} />
-                        <Route exact path='/add-complaint-nature' component={YetNotStarted} />
-                        <Route exact path='/add-complaint-component' component={YetNotStarted} />
-                        <Route exact path='/add-component-vendor' component={YetNotStarted} />
-                        <Route exact path='/add-component-deviation' component={YetNotStarted} />
-                        <Route exact path='/add-scan-format' component={YetNotStarted} />
-                        <Route exact path='/add-digital-signature' component={YetNotStarted} />
+
+                        <Route exact path='/add-customer-group/1' component={SubMaster} />
+                        <Route exact path='/add-supplier-group/2' component={SubMaster} />
+                        <Route exact path='/add-item-group/3' component={SubMaster} />
+                        <Route exact path='/add-material-center/4' component={YetNotStarted} />
+                        <Route exact path='/add-machine/5' component={YetNotStarted} />
+                        <Route exact path='/add-mold/6' component={YetNotStarted} />
+                        <Route exact path='/add-qc-parameter/7' component={YetNotStarted} />
+                        <Route exact path='/add-sampling-type/8' component={YetNotStarted} />
+                        <Route exact path='/add-delivery-term/9' component={SubMaster} />
+                        <Route exact path='/add-payment-term/10' component={SubMaster} />
+                        <Route exact path='/add-product-type/11' component={SubMaster} />
+                        <Route exact path='/add-product-category/12' component={SubMaster} />
+                        <Route exact path='/add-employee/13' component={YetNotStarted} />
+                        <Route exact path='/add-shift/14' component={YetNotStarted} />
+                        <Route exact path='/add-bill-sundry/15' component={YetNotStarted} />
+                        <Route exact path='/add-brand/16' component={SubMaster} />
+                        <Route exact path='/add-unit/17' component={SubMaster} />
+                        <Route exact path='/add-currency/18' component={SubMaster} />
+                        <Route exact path='/add-process/19' component={SubMaster} />
+                        <Route exact path='/add-state/20' component={YetNotStarted} />
+                        <Route exact path='/add-city/21' component={YetNotStarted} />
+                        <Route exact path='/add-zone/22' component={YetNotStarted} />
+                        <Route exact path='/add-discount-type/23' component={YetNotStarted} />
+                        <Route exact path='/add-qc-type/24' component={YetNotStarted} />
+                        <Route exact path='/add-cost-center/25' component={YetNotStarted} />
+                        <Route exact path='/add-vehical-type/26' component={YetNotStarted} />
+                        <Route exact path='/add-parameter-master/27' component={YetNotStarted} />
+                        <Route exact path='/add-bank/28' component={YetNotStarted} />
+                        <Route exact path='/add-bank-branch/29' component={YetNotStarted} />
+                        <Route exact path='/add-option-text-field/30' component={YetNotStarted} />
+                        <Route exact path='/add-measuring-methord/31' component={YetNotStarted} />
+                        <Route exact path='/add-delivery-schedule/32' component={YetNotStarted} />
+                        <Route exact path='/add-bin/33' component={YetNotStarted} />
+                        <Route exact path='/add-dispatch-type/34' component={YetNotStarted} />
+                        <Route exact path='/add-port/35' component={YetNotStarted} />
+                        <Route exact path='/add-cash-center/36' component={YetNotStarted} />
+                        <Route exact path='/add-reason/37' component={YetNotStarted} />
+                        <Route exact path='/add-production-overhead/38' component={SubMaster} />
+                        <Route exact path='/add-business-nature/39' component={YetNotStarted} />
+                        <Route exact path='/add-clearance/40' component={SubMaster} />
+                        <Route exact path='/add-component/41' component={YetNotStarted} />
+                        <Route exact path='/add-production-opration/42' component={SubMaster} />
+                        <Route exact path='/add-sub-category/43' component={SubMaster} />
+                        <Route exact path='/add-worktype/44' component={YetNotStarted} />
+                        <Route exact path='/add-machine-portion/45' component={YetNotStarted} />
+                        <Route exact path='/add-methord/46' component={YetNotStarted} />
+                        <Route exact path='/add-standard/47' component={YetNotStarted} />
+                        <Route exact path='/add-stand/48' component={YetNotStarted} />
+                        <Route exact path='/add-item-description/49' component={YetNotStarted} />
+                        <Route exact path='/add-item-defact-point/50' component={YetNotStarted} />
+                        <Route exact path='/add-production-time-slab/51' component={YetNotStarted} />
+                        <Route exact path='/add-complaint-nature/52' component={YetNotStarted} />
+                        <Route exact path='/add-complaint-component/53' component={YetNotStarted} />
+                        <Route exact path='/add-component-vendor/54' component={YetNotStarted} />
+                        <Route exact path='/add-component-deviation/55' component={YetNotStarted} />
+                        <Route exact path='/add-scan-format/56' component={YetNotStarted} />
+                        <Route exact path='/add-digital-signature/57' component={YetNotStarted} />
                        
                     
                        

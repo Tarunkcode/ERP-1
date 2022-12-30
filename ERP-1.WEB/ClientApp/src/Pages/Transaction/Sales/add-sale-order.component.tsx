@@ -49,23 +49,11 @@ const AddSaleOrder = () => {
     var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
     var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
-    const itemCodeUrl = `http://${state.domain}:${state.port}/api/values/GetItemMaster?itemgroup=265&Itembrand=0&Itemcategory=0&Itemsubcategory=0&itemtype=0&itemgrptype=0&Comp=${getCompCode}&FY=${state.Fy}`;
 
-    const itemDetailsUrl = `http://${state.domain}:${state.port}/api/values/getitemDetails`
-    var params2: any = [];
-    params2.push(`item=${changeItemCode}`);
-    params2.push(`comp=${getCompCode}`)
-    params2.push(`fy=${state.Fy}`)
-
-    const partyCodeUrl = `http://${state.domain}:${state.port}/api/values/GetAccountMasterDetails`
-    var params: any = [];
-
-    params.push(`partyName=${getAccName}`)
-    params.push(`comp=${getCompCode}`)
-    params.push(`fy=${state.Fy}`)
 
     //Fetch Item COde 
     const fetchItemCodeArr = async () => {
+        const itemCodeUrl = `http://${state.domain}:${state.port}/api/values/GetItemMaster?itemgroup=265&Itembrand=0&Itemcategory=0&Itemsubcategory=0&itemtype=0&itemgrptype=0&Comp=${getCompCode}&FY=${state.Fy}`;
         try {
             const response = await fetch(itemCodeUrl);
             const json = await response.json();
@@ -87,6 +75,12 @@ const AddSaleOrder = () => {
 
     //Fetch MasterDetails
     const fetchMasterDetails = async () => {
+        const partyCodeUrl = `http://${state.domain}:${state.port}/api/values/GetAccountMasterDetails`
+        var params: any = [];
+
+        params.push(`partyName=${getAccName}`)
+        params.push(`comp=${getCompCode}`)
+        params.push(`fy=${state.Fy}`)
         try {
             const response2 = await fetch(partyCodeUrl + '?' + params.join('&'));
             const json2 = await response2.json();
@@ -121,6 +115,12 @@ const AddSaleOrder = () => {
 
     //fetch item Details
     const fetchItemDetails = async () => {
+        const itemDetailsUrl = `http://${state.domain}:${state.port}/api/values/getitemDetails`
+        var params2: any = [];
+        params2.push(`item=${changeItemCode}`);
+        params2.push(`comp=${getCompCode}`)
+        params2.push(`fy=${state.Fy}`)
+
         if (changeItemCode != '') {
 
             try {
@@ -171,7 +171,7 @@ const AddSaleOrder = () => {
     }
 
     return (
-        <div className="firstDiv" >
+        <div className="firstDiv card main" >
 
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">

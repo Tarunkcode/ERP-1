@@ -186,22 +186,31 @@ class ChildLog extends React.Component<IProps, IState>{
         return (<>
             {compList.length != 0 && compList != undefined && compList != null ?
                 (
-                    <textarea rows={1} className="form-control col-2 text-danger m-0 float-left text-center" readOnly>{compList[0].msg}</textarea>
+                    compList[0].msg !== '' || compList[0].msg !== null || compList[0].msg !== undefined ? (
+                        <div className="m-0 p-0" style={{position:'absolute', left:'10px', top:'50px'}}>
+                        <textarea rows={2} className="form-control col-12 text-danger m-0 float-left text-center" readOnly>{compList[0].msg}</textarea>
+                            
+                        </div>
+                    ): null
+                   
 
                 ) : null
             }
             <div className="outer-container">
-               
 
-                <div className="card" style={{ width: "83%" }}>
-                    <span className="page_Header">SIGN IN</span>
+                <span className="card" style={{ border: 'none', background:'none', height: 'auto', minHeight: '110px' }}>
                     {
                         this.state.isLoader === true ? (<ClipLoader color="#52bfd9" size={100} loading={this.state.isLoader} />) : null
                     }
-                  
-                    <img src={'./assets/erpLogo.png'} style={{ width: "33%" }} />
 
-                    <div className="inner-container">
+
+                </span>
+                <div className="card" style={{ width: "83%" }}>
+                    <span className="page_Header">SIGN IN</span>
+                  
+                    <img src={'./assets/erpLogo.png'} style={{ width: "52%" }} />
+
+                  
                         <form onSubmit={this.handleSubmit}>
 
                             <select name="comp" id="compcode" className="form-control text-primary text-center" onChange={this.handleCompCodeChange.bind(this)}>
@@ -225,7 +234,6 @@ class ChildLog extends React.Component<IProps, IState>{
                         </form>
 
 
-                    </div>
                     <div className="footer2">
                         <h6> Developed By Excellent Softwares <br /> <span> © 2022 </span> </h6>
                     </div>

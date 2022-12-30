@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 //parent
 export default function NavTree({ treeData }: any) {
-
+    
 
     return (
         <ul>
@@ -19,9 +19,8 @@ export default function NavTree({ treeData }: any) {
 }
 //child
 function TreeNode({ node, key }: any) {
-    const { Children, label, Key, type, address } = node;
+    const { Children, label, Key, type, address, Mt, Maddress } = node;
     var [showChildren, setShowChildren]: any = useState(false);
-
     const handleClick = (e: any) => {
         const list = document.querySelectorAll('.ram');
 
@@ -40,7 +39,7 @@ function TreeNode({ node, key }: any) {
     return (
         <>
             
-            <ul  >
+            <ul>
                 <li className="ram" id={Key} style={{ backgroundColor: '#24509e', fontWeight: 600, color: 'black' }}>
                     {
                         type === '1' ? (<a className="p-1 pt-3 pb-3 level0" onClick={handleClick} key={type} id={Key} ><span className="ml-1 nav-span">{label}</span><svg style={{ width: '10px', float: 'right', marginLeft: '10px', color: 'white' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z" /></svg>
@@ -60,7 +59,9 @@ function TreeNode({ node, key }: any) {
                     
                    
                     {
-                        type === '3' ? (<NavLink className="p-1 m-0 abascus" to={address}><span className=" ml-5 nav-span">{label}</span></NavLink>):null
+                        type === '3' ? (
+                            address === '/modify' ? ((<NavLink className="p-1 m-0 abascus" to={{ pathname: address + `/${Mt}`, state: { mAdd: `${Maddress}`, mT: `${Mt}` } }}><span className=" ml-5 nav-span">{label}</span></NavLink>)) : (<NavLink className="p-1 m-0 abascus" to={address}><span className=" ml-5 nav-span">{label}</span></NavLink>)
+                        ) : null
 
                     }
                  </li>

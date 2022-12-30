@@ -93,6 +93,7 @@ export default class BillSundry extends React.Component<{},IState> {
                  toast.error(data.msg)
 
              }
+             store2.getState().seriesConf = {}
              /*this.props.postApi(i)*/
          } catch (err) {
              alert(err)

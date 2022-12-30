@@ -23,6 +23,7 @@ function TreeNode({ node, GetAddNew, viewAddNew, getParentCode}: any) {
     var [showChildren, setShowChildren]: any = useState(false);
  
     const handleClick = (e: any) => {
+        console.log('type', type)
         const list = document.querySelectorAll('.ram');
         getParentCode(e.target.id)
         list.forEach((curr: any) => {

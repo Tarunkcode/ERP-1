@@ -111,12 +111,15 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
         return (
             <>
                 <div className="outer-container">
-                    <div className="card" style={{ width: "83%" }}>
-                        <span className="page_Header form_title">Validate Customer</span>
+                    <span className="card" style={{ border: 'none', background: 'none', height: 'auto', minHeight:'110px' }}>
                         {
                             this.state.isLoader === true ? (<ClipLoader color="#52bfd9" size={100} loading={this.state.isLoader} />) : null
                         }
-                        <img src={'./assets/erpLogo.png'} style={{ width: "33%" }} />
+                  
+                    </span>
+                    <div className="card" style={{ width: "83%" }}>
+                        <span className="page_Header form_title">Validate Customer</span>
+                        <img src={'./assets/erpLogo.png'} style={{ width: "52%" }} />
 
                         {/*<div className="inner-container">*/}
                 <form className="sign-up-form" onSubmit={this.handleSubmit}>
