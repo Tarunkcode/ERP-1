@@ -5,7 +5,7 @@ import CustomeSwitch from "../../../components/CustomSwitch/custom-switch.compon
 
 
 
-export default function Purchase_Page({ handleChange, handlePosting, defConf , ...oherProps }: any) {
+export default function Purchase_Page({ handleChange, handlePosting, defConf , ...otherProps }: any) {
 
     console.log('currentSTtae', defConf);
    

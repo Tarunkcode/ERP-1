@@ -43,6 +43,9 @@ import ItemGroup_Page from './Pages/Sub-Master/item-group.page';
 
 import ProductType_Page from './Pages/Sub-Master/product-type.page';
 import SubUnit_Page from './Pages/Sub-Master/sub-unit.page';
+import SubMaster from './components/SubMasters/submaster.component';
+import Process from './components/SubMasters/process-submaster.component';
+import MatCentre from '../src/Pages/Sub-Master/matrial-center.page';
 
 //---------------------------------Master Imports---------------------------------------------------------------------------------------------------
 import AddQcPlan from './Pages/Master/AddQcPlan/add-qc-plan.component';
@@ -51,9 +54,10 @@ import BomRoutingConfig from './Pages/Master/BomRoutingConfiguration/bom-routing
 import RouteDetails from './Pages/Master/BomRoutingConfiguration/RouteDetails.component';
 import BranchMaster from './Pages/Master/BranchMaster/branch-master.component';
 import CostSheetDetails from './Pages/Master/CostSheet/cost-sheet-details.component';
-import CusSupMaster from './Pages/Master/Customer-Supplier-Master/index';
+
+import CusSupMaster from './components/Account Masters/customer.component';
 import AddItemMaster from './Pages/Master/ItemMaster/add-item-master.component';
-import AddSupplierMaster from './Pages/Master/SupplierMaster/index';
+import AddSupplierMaster from './components/Account Masters/supplier.component';
 //---------------------------------Transactions Imports---------------------------------------------------------------------------------------------------
 import AddSaleOrder from './Pages/Transaction/Sales/add-sale-order.component';
 
@@ -106,11 +110,12 @@ import Nothing from './components/nothing';
 import Modify from './components/Modify/modify.component';
 import List from './components/List/list.component';
 import YetNotStarted from './Pages/YetNotStarted'
-import { DomainContext } from './AppContext/domainContext.component';
+
 import Notify from '../src/components/Notifications/index';
-import SubMaster from './components/SubMasters/submaster.component';
+
 
 import ProductionOverHead_Page from './Pages/Sub-Master/production-overhead.page';
+
 
 
   
@@ -126,12 +131,22 @@ function App() {
 
 
     useEffect(() => {
-     
-        document.body.style.zoom = "85%";
+      document.body.style.zoom = "82%"; 
+        //var w = window.innerWidth; 
+        //console.log('w', w)
+        //if (w > 0 && w <= 1268) document.body.style.zoom = "72%";
+      //if (w > 1218 && w <= 1268) document.body.style.zoom = "82%";
+      //  else if (w > 1268 && w <= 1318) document.body.style.zoom = "82%"; 
+      //  else if (w > 1318 && w <= 1368) document.body.style.zoom = "87%";
+      //  else if (w > 1368 && w <= 1418) document.body.style.zoom = "92%";
+      //  else if (w > 1418 && w <= 1468) document.body.style.zoom = "97%";
+      //  else if (w > 1468 && w <= 1518) document.body.style.zoom = "105%";
+      //  else document.body.style.zoom = "120%";
+        
 
-    }, [])
+    }, [window.innerWidth])
 
-    var { defaultState} = React.useContext(DomainContext)
+
     
     return (
         <>
@@ -313,7 +328,7 @@ function App() {
                     '/add-SR',
                     "/add-mrp",
                     "/material-recieve",
-                    "/add-ind",
+                    "/add-prod-ind",
                     "/add-loose-pack",
                     "/add-pack-to-loose",
                     "/add-material-movement",
@@ -366,7 +381,7 @@ function App() {
                         <Route exact path='/add-customer-group/1' component={SubMaster} />
                         <Route exact path='/add-supplier-group/2' component={SubMaster} />
                         <Route exact path='/add-item-group/3' component={SubMaster} />
-                        <Route exact path='/add-material-center/4' component={YetNotStarted} />
+                        <Route exact path='/add-material-center/4' component={SubMaster} />
                         <Route exact path='/add-machine/5' component={YetNotStarted} />
                         <Route exact path='/add-mold/6' component={YetNotStarted} />
                         <Route exact path='/add-qc-parameter/7' component={YetNotStarted} />
@@ -377,11 +392,11 @@ function App() {
                         <Route exact path='/add-product-category/12' component={SubMaster} />
                         <Route exact path='/add-employee/13' component={YetNotStarted} />
                         <Route exact path='/add-shift/14' component={YetNotStarted} />
-                        <Route exact path='/add-bill-sundry/15' component={YetNotStarted} />
+                        <Route exact path='/add-bill-sundry/15' component={BillSundry} />
                         <Route exact path='/add-brand/16' component={SubMaster} />
                         <Route exact path='/add-unit/17' component={SubMaster} />
                         <Route exact path='/add-currency/18' component={SubMaster} />
-                        <Route exact path='/add-process/19' component={SubMaster} />
+                        <Route exact path='/add-process/19' component={Process} />
                         <Route exact path='/add-state/20' component={YetNotStarted} />
                         <Route exact path='/add-city/21' component={YetNotStarted} />
                         <Route exact path='/add-zone/22' component={YetNotStarted} />
@@ -504,7 +519,7 @@ function App() {
                         <Route exact path='/add-SR' component={SaleReturn} />
                         <Route exact path="/add-mrp" component={MRP} />
                         <Route exact path="/material-recieve" component={MaterialRecieve} />
-                        <Route exact path="/add-ind" component={ProductionIndent} />
+                        <Route exact path="/add-prod-ind" component={ProductionIndent} />
                         <Route exact path="/add-loose-pack" component={LoosePack} />
                         <Route exact path="/add-pack-to-loose" component={PackToLoose} />
                         <Route exact path="/add-material-movement" component={MaterialMovement} />
@@ -555,9 +570,9 @@ function App() {
                     </Layout>
             </Route>
 
-                <Route path={["/Login", "/notify"]}>
+                <Route path={["/Login", "/notify", "/route-details"]}>
                 <LayoutLog>
-                    
+                        <Route exact path='/route-details' component={RouteDetails} />
                         <Route exact path='/notify' component={Notify}/>
                         <Route exact path='/Login' component={LogIn} />
                         {/*<Route exact path="/Login" render={(props) => <LogIn {...props} />} />*/}

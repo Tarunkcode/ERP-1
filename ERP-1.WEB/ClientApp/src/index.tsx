@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import DomainProvider from '../src/AppContext/domainContext.component';
+import ThemeProvider from './AppContext/ThemeContext';
 import { createBrowserHistory } from 'history';
 import './Fonts/trebuc.ttf';
 
@@ -26,9 +26,11 @@ const store = configureStore()
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <DomainProvider>
+            {/*  <DomainProvider>*/}
+            <ThemeProvider>
                 <App />
-            </DomainProvider>
+            </ThemeProvider>
+            {/*</DomainProvider>*/}
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));

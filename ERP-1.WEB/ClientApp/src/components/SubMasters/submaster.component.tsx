@@ -10,6 +10,7 @@ import PaymentTrem_Page from '../../Pages/Sub-Master/payment-term.page';
 import Process_Page from '../../Pages/Sub-Master/process.page';
 import DefaultSubMaster from '../HOC/fetchDefaultSubMaster.hoc';
 import ProductionOverHead_Page from '../../Pages/Sub-Master/production-overhead.page';
+import MatCentre from '../../Pages/Sub-Master/matrial-center.page';
 
 interface IState {
     rawObj: object,
@@ -49,8 +50,8 @@ class SubMasterChild extends React.Component<IProps, IState>{
         this.setState({
             configType: s[s.length - 1]
         })
-   
 
+        console.log('def', this.props.defSubMaster)
     }
     list: any[] = [];
 
@@ -69,7 +70,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
         return this.list;
     }
 
-    HandleIpSelect = (code: string, name: string) => {
+    HandleIpSelect = (code: string, name: string, row : any) => {
         var label: string = ''
         console.log(name + ':' + code);
         let mainObj : object = {};
@@ -144,46 +145,46 @@ class SubMasterChild extends React.Component<IProps, IState>{
             
             label = "subMaster"
             switch (e.target.name) {
-                case 'C1': value = parseInt(e.target.value); break;
-                case 'C2': value = parseInt(e.target.value); break;
-                case 'C3': value = parseInt(e.target.value); break;
-                case 'C4': value = parseInt(e.target.value); break;
-                case 'C5': value = parseInt(e.target.value); break;
-                case 'C6': value = parseInt(e.target.value); break;
-                case 'C7': value = parseInt(e.target.value); break;
-                case 'C8': value = parseInt(e.target.value); break;
-                case 'C9': value = parseInt(e.target.value); break;
-                case 'C10': value = parseInt(e.target.value); break;
-                case 'C11': value = parseInt(e.target.value); break;
-                case 'C12': value = parseInt(e.target.value); break;
-                case 'C13': value = parseInt(e.target.value); break;
-                case 'C14': value = parseInt(e.target.value); break;
-                case 'C15': value = parseInt(e.target.value); break;
-                case 'C16': value = parseInt(e.target.value); break;
-                case 'C17': value = parseInt(e.target.value); break;
-                case 'C18': value = parseInt(e.target.value); break;
-                case 'C19': value = parseInt(e.target.value); break;
-                case 'C20': value = parseInt(e.target.value); break;
-                case 'C21': value = parseInt(e.target.value); break;
-                case 'C22': value = parseInt(e.target.value); break;
-                case 'C23': value = parseInt(e.target.value); break;
-                case 'C24': value = parseInt(e.target.value); break;
-                case 'C25': value = parseInt(e.target.value); break;
+                case 'c1': value = parseInt(e.target.value); break;
+                case 'c2': value = parseInt(e.target.value); break;
+                case 'c3': value = parseInt(e.target.value); break;
+                case 'c4': value = parseInt(e.target.value); break;
+                case 'c5': value = parseInt(e.target.value); break;
+                case 'c6': value = parseInt(e.target.value); break;
+                case 'c7': value = parseInt(e.target.value); break;
+                case 'c8': value = parseInt(e.target.value); break;
+                case 'c9': value = parseInt(e.target.value); break;
+                case 'c10': value = parseInt(e.target.value); break;
+                case 'c11': value = parseInt(e.target.value); break;
+                case 'c12': value = parseInt(e.target.value); break;
+                case 'c13': value = parseInt(e.target.value); break;
+                case 'c14': value = parseInt(e.target.value); break;
+                case 'c15': value = parseInt(e.target.value); break;
+                case 'c16': value = parseInt(e.target.value); break;
+                case 'c17': value = parseInt(e.target.value); break;
+                case 'c18': value = parseInt(e.target.value); break;
+                case 'c19': value = parseInt(e.target.value); break;
+                case 'c20': value = parseInt(e.target.value); break;
+                case 'c21': value = parseInt(e.target.value); break;
+                case 'c22': value = parseInt(e.target.value); break;
+                case 'c23': value = parseInt(e.target.value); break;
+                case 'c24': value = parseInt(e.target.value); break;
+                case 'c25': value = parseInt(e.target.value); break;
 
-                case 'D1': value = parseFloat(e.target.value); break;
-                case 'D2': value = parseFloat(e.target.value); break;
-                case 'D3': value = parseFloat(e.target.value); break;
-                case 'D4': value = parseFloat(e.target.value); break;
-                case 'D5': value = parseFloat(e.target.value); break;
-                case 'D6': value = parseFloat(e.target.value); break;
-                case 'D7': value = parseFloat(e.target.value); break;
-                case 'D8': value = parseFloat(e.target.value); break;
-                case 'D9': value = parseFloat(e.target.value); break;
-                case 'D10': value = parseFloat(e.target.value); break;
-                case 'D11': value = parseFloat(e.target.value); break;
-                case 'D12': value = parseFloat(e.target.value); break;
-                case 'D13': value = parseFloat(e.target.value); break;
-                case 'D14': value = parseFloat(e.target.value); break;
+                case 'd1': value = parseFloat(e.target.value); break;
+                case 'd2': value = parseFloat(e.target.value); break;
+                case 'd3': value = parseFloat(e.target.value); break;
+                case 'd4': value = parseFloat(e.target.value); break;
+                case 'd5': value = parseFloat(e.target.value); break;
+                case 'd6': value = parseFloat(e.target.value); break;
+                case 'd7': value = parseFloat(e.target.value); break;
+                case 'd8': value = parseFloat(e.target.value); break;
+                case 'd9': value = parseFloat(e.target.value); break;
+                case 'd10': value = parseFloat(e.target.value); break;
+                case 'd11': value = parseFloat(e.target.value); break;
+                case 'd12': value = parseFloat(e.target.value); break;
+                case 'd13': value = parseFloat(e.target.value); break;
+                case 'd14': value = parseFloat(e.target.value); break;
 
                 case 'BranchCode': value = parseFloat(e.target.value); break;
                 case 'BusyCode': value = parseFloat(e.target.value); break;
@@ -311,9 +312,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
                     this.state.configType === '9' ? (<PaymentTrem_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Delivery Term" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
             
-                {
-                    this.state.configType === '19' ? (<Process_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Process Master" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
-                }
+              
             
                 {
                     this.state.configType === '42' ? (<ProductionOverHead_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Production Operation" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
@@ -322,6 +321,11 @@ class SubMasterChild extends React.Component<IProps, IState>{
                  {
                     this.state.configType === '38' ? (<ProductionOverHead_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Production OverHead" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
+           
+             {
+                    this.state.configType === '4' ? (<MatCentre HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Material Center" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+           
             
 
             </>

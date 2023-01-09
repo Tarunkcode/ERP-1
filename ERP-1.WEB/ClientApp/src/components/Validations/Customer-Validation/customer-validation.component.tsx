@@ -63,8 +63,9 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
                 //            "custName": "Intech",
                 //                "compCode": 13,
                 console.log('result', result)
-                    this.setState({ isLoader: false })
+           
                 if (result.data[0].result === 1) {
+                    this.setState({ isLoader: false })
                     window.sessionStorage.setItem("compName", result.data[0].compName)
                     window.sessionStorage.setItem("url", result.data[0].url)
                     window.sessionStorage.setItem("port", result.data[0].port)
@@ -78,6 +79,7 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
                     this.setState({ redirect: true })
                 } else {
                     /*  alert(result.data[0].msg);*/
+                    this.setState({ isLoader: false })
                     toast.error(result.data[0].msg);
                     this.setState({ redirect: false });
                     return;
@@ -86,6 +88,7 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
             })
 
         } catch (err) {
+            this.setState({ isLoader: false })
             alert(err);
         }
 
@@ -102,6 +105,7 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
         const { redirect, compList } = this.state;
         console.log('redirect', redirect);
         if (redirect === true) {
+            this.setState({ isLoader: false })
             //return <Redirect to={{
             //    pathname: "/Login",
             //    state: { compList: compList}
@@ -128,7 +132,7 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
                         name="regNo"
                         value={this.state.regNo}
                         handleChange={this.handleRegNoChange}
-                        label="Registration No."
+                        label="Customer Code"
                         required
                     />
                     <FormInput

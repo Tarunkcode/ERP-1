@@ -134,14 +134,13 @@ export default function GSTCategory_Page() {
             <div className="card-body" style={{ margin: '0', padding: '0', minHeight: '80vh' }}>
                 <div className="form">
                     
-                        <span className="d-flex section2 col-sm-6">
+                        <span className="d-flex flex-column section2 col-sm-12">
                          
-                        <MasterInput label="Name" defaultt={def.name } name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
-                        <MasterInput label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
-                        </span>
-                     <span className="d-flex section2 col-sm-6">
-                        <MasterInput label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
-                        <MasterInput label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 subMaster" />
+                        <MasterInput label="Name" defaultt={def.name } name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        
+                        <MasterInput label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
                         </span>
                    
                 </div>

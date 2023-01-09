@@ -30,8 +30,8 @@ function CustomeSwitch(_a) {
 exports.default = CustomeSwitch;
 function CustomeSwitch2(_a) {
     var label = _a.label, id = _a.id, lablClass = _a.lablClass, handleChange = _a.handleChange, name = _a.name, classCat = _a.classCat, otherProps = __rest(_a, ["label", "id", "lablClass", "handleChange", "name", "classCat"]);
-    return (React.createElement("div", { className: "custom-control custom-switch m-0 p-0  col-md-4" },
-        React.createElement("input", { type: "checkbox", onBlur: handleChange, className: classCat, name: name, id: id, style: { cursor: 'pointer' } }),
+    return (React.createElement("div", { className: "custom-control custom-switch m-0 p-0  col-md-12" },
+        otherProps.default == '1' ? (React.createElement("input", { type: "checkbox", defaultChecked: true, onBlur: handleChange, className: classCat, name: name, id: id, style: { cursor: 'pointer' } })) : (React.createElement("input", { type: "checkbox", onBlur: handleChange, className: classCat, name: name, id: id, style: { cursor: 'pointer' } })),
         React.createElement("label", { className: lablClass, htmlFor: id, style: { cursor: 'pointer' } }, label)));
 }
 exports.CustomeSwitch2 = CustomeSwitch2;

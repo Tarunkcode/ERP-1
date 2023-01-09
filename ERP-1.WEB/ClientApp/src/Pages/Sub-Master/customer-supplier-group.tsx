@@ -9,6 +9,7 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
         if (configType == '1') getMasterType(1005)
         else if (configType == '2') getMasterType(111)
         else alert('wrong path set in db')
+        console.log('def1111111', defaultData);
     }, [])
 
 
@@ -17,8 +18,9 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
         <>
             <div className="main card firstDiv">
                 <div
+                    id="cardTitle"
                     className="text-center card-title col-12"
-                    style={{ textAlign: "start", backgroundColor: "#8389d4" }}
+                    style={{ textAlign: "start" }}
                 >
                     <span className="row-header p-0 m-0">{pageTitle}</span>
                 </div>
@@ -62,7 +64,7 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
                                   /*CustomSelect({ */
                             PrimaryGroup === false ? (
                                 <>
-                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="20%" classCategory="form-control inp mb-2 subMaster ipselect" />
+                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="24%" classCategory="form-control inp mb-2 subMaster ipselect" />
                                
                                 </>
                             ) : null

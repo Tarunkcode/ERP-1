@@ -12,12 +12,57 @@
     src: url("../Fonts/Trebuchet-MS-Italic.ttf") format("truetype");
     font-weight: bold;
 }
+
+
+:root {
+    --background: #6778BF;
+    --text-primary: #000;
+    --text-secondary: cornflowerblue;
+    --border: #333;
+    --form-bg: #fff;
+    --bgColor: #fff;
+    --cardTitle: #8389d4;
+    --ipBg: #fff;
+    --rCont: whitesmoke;
+    --abascusBg: #C2CAED;
+    --abascust-text: darkblue;
+    --abascusTextHover: lightcyan;
+    --lvl1Bg: #9BA8E1;
+}
+
+
+[data-theme = "dark"] {
+    --background: #2c3968;
+    --text-primary: #fff;
+    --text-secondary: #000;
+    --border: #808080;
+    --form-bg: #191919;
+    --bgColor: #002244;
+    --cardTitle: #1F305E;
+    --ipBg: slategray;
+    --ipBg: #36454F;
+    /*--rCont: dimgrey;*/
+    --rCont: darkslateblue;
+    --abascusBg: slategray;
+    --abascust-text: #fff;
+    --abascusTextHover: #6778BF;
+    --lvl1Bg: #3f5277;
+}
+
+
+
+
+
+
 body {
     /*font-family: 'Lato','Poppins', sans-serif;*/
     /*font-family: 'Roboto Mono', monospace;*/
     font-family: trebuc;
     background: #fafafa;
     font-weight: bolder;
+}
+label{
+    color:var(--text-primary)
 }
 li:hover{
     background-color:lightskyblue;
@@ -49,6 +94,16 @@ li:hover{
 }*/
 .firstDiv{
     margin:0 -3em;
+    background-color:var(--bgColor);
+    color: var(--text-primary)
+}
+.card {
+    background-color: var(--bgColor);
+    color: var(--text-primary)
+}
+.home-cards {
+    background-color: var(--bgColor);
+    color: var(--text-primary)
 }
 .cc {
     /*background: #cbcad9;*/
@@ -144,31 +199,38 @@ a, a:hover, a:focus {
     margin-right: 2em;
 }
 .card-title {
-    background-color: #7386D5;
-    color:white;
-    padding:0;
+    background-color: var(--cardTitle);
+    color: var(--text-primary);
+    padding: 0;
 }
 
 #sidebar {
-    min-width: 18%;
-    max-width: 18%;
-    min-height: 101vh;
+    min-width: 23vw;
+    max-width: 23vw;
+    min-height: 110vh;
    
-    background: #6778BF;
+    background: var(--background);
     color: #fff;
     transition: all 0.5s ease;
     margin-left: -280px;
     overflow: hidden;
+
 }
 
 /*a:visited{
     background-color:red;
     color:white;
 }*/
-@media (max-width: 834px) {
+@media (max-width: 987px) {
     #sidebar{
-        min-width:200px;
-        max-width:200px;
+        min-width:30vw;
+        max-width:30vw;
+    }
+}
+@media (max-width: 600px) {
+    #sidebar{
+        min-width:60vw;
+        max-width:60vw;
     }
 }
 .components {
@@ -348,15 +410,16 @@ a.navbar-brand {
 }*/
 #sidebar .level0 {
     color: #fff;
-    background-color: #7386D5;
+    background-color: var(--background);
     border: 1px solid;
     cursor: pointer;
     margin: 0;
 }
 #sidebar .level1 {
     font-weight: 600;
-    color: black;
-    border: 1px solid cornflowerblue;
+    color: var(--text-primary);
+    border: 1px solid var(--text-secondary);
+    background-color: var(--lvl1Bg);
     margin: 0;
     cursor: pointer;
 }
@@ -404,9 +467,9 @@ a.navbar-brand {
 
 #sidebar .abascus {
     /* border-spacing: 5px;*/
-   color:darkblue;
-    border: 1px solid #C2CAED;
-    background-color: #C2CAED;
+    color: var(--abascust-text);
+    border: 1px solid var(--abascusBg);
+    background-color: var(--abascusBg);
     margin: 0;
     cursor: pointer;
 }
@@ -419,12 +482,24 @@ a.navbar-brand {
   
 }*/
 #sidebar .abascus:hover{
-    background-color:lightcyan;
+    background-color:var(--abascusTextHover);
     padding-left:10px;
 }
 
 .nav-span:hover{
     padding-left:15px
+}
+.form-control {
+    background-color: var(--ipBg);
+    color: var(--text-primary);
+}
+/*.row-content {
+    background-color:var(--rCont);
+    color:var(--text-primary)
+}*/
+.card-footer {
+    background-color: var(--rCont);
+    color: var(--text-primary)
 }
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -438,3 +513,14 @@ a.navbar-brand {
     padding-left: 10px;
 }*/
 
+.table-sm th, .table-sm td {
+    padding: 0;
+    border:none;
+    border-radius:0;
+}
+.table-sm th, .table-sm td input{
+   border-radius:0;
+}
+.btn-group{
+    padding-bottom:35px;
+}

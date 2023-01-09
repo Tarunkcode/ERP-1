@@ -11,9 +11,9 @@ function BomRoutingConfig() {
         return (
             
             <>
-                <div className="main card firstDiv" style={{ backgroundColor:'#8ac5ed' }}>
+                <div className="main card firstDiv">
 
-                    <div className="text-center card-title col-12" style={{ textAlign: 'start', backgroundColor: '#8389d4' }}>
+                    <div className="text-center card-title col-12" style={{ textAlign: 'start' }}>
                         <span className="row-header p-0 m-0" >BOM Routing Configuration</span>
                     </div>
                     <div className="card-body row col-sm-12 m-0 p-0" >
@@ -76,8 +76,8 @@ function BomRoutingConfig() {
                         <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
                             <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
 
-                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0', width: '100%' }}>
-                                    <span className="card-title" style={{ fontSize: '15px', margin: '0', padding: '0' }}>Route Details</span>
+                                <div className="text-center card-title col-12" style={{ textAlign: 'start' }}>
+                                    <span className="row-header p-0 m-0" >Route Details</span>
                                 </div>
                                 <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
                                     width: "100%"
@@ -115,7 +115,8 @@ function BomRoutingConfig() {
                                            
                                             <td></td>
                                             <td></td>
-                                            <td><NavLink to="/route-details"><button type="button" className="btn btn-info m-0 p-0">Enter Details</button></NavLink></td>
+                                            {/*Route Details below navLink*/}
+                                            <td><NavLink to="/add-bom-routing-configuration-master"><button type="button" className="btn btn-info m-0 p-0">Enter Details</button></NavLink></td>
                                         </tr>
                                       
 
@@ -126,7 +127,7 @@ function BomRoutingConfig() {
                         <div style={{ margin: '0 auto' }} className="col-12 card-footer">
                             <textarea rows={5} className="col-7 form-control active" placeholder="Enter Item Description..." />
                         </div>
-                        <div className="row row-content col-12 " style={{ margin: '1em 0%', backgroundColor: 'whitesmoke' }}>
+                        <div className="row card-footer col-12 " style={{ margin: '1em 0%'}}>
                             <span className="d-flex align-items-center m-0 p-0">
                                 <>
                                     <label htmlFor="1payDate" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Created By</label>
@@ -156,7 +157,7 @@ function BomRoutingConfig() {
 
                             </span>
                         </div>
-                        <div className="row row-content col-12 " style={{ margin: '0', backgroundColor: 'whitesmoke' }}>
+                        <div className="row card-footer col-12 m-0">
                             <span className="d-flex col-12 align-items-center m-0 p-0">
                                
                                     <label htmlFor="1payDate" style={{ fontSize: '0.8em', margin: 'auto 2em' }} className="form-label">Approval Details</label>

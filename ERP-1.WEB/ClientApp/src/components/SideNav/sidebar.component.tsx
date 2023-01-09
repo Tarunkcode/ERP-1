@@ -1,12 +1,15 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { ThemeContext } from '../../AppContext/ThemeContext';
 import NavTree from '../SideNav/nav-tree.component'
 
 export default function Sidebar({ state }: any) {
     var [source, setSource]: any = useState([])
     const roleStr : any = window.sessionStorage.getItem('roleCode')
-    const roleCode : number = parseInt(roleStr);
+    const roleCode: number = parseInt(roleStr);
+
+    const { theme } = React.useContext(ThemeContext);
     React.useEffect(() => {
         const url = `http://103.25.128.155:12019/api/LoadUserManuTree?RC=${roleCode}`
         console.log(url)
@@ -32,10 +35,10 @@ export default function Sidebar({ state }: any) {
     return (
         <nav className="accordion active" id="sidebar">
             <ul className="list-unstyled components">
-            <div className="sidebar-header" style={{ margin: "0", display: "flex", flexDirection: "column", backgroundColor: "white", border: "6px solid #798cd4", padding: "0" }}>
+                <div className="sidebar-header" style={theme === 'dark' ? { margin: "0", display: "flex", flexDirection: "column", backgroundColor: "white", border: "6px solid #2c3968", padding: "0"}: { margin: "0", display: "flex", flexDirection: "column", backgroundColor: "white", border: "6px solid #798cd4", padding: "0" }}>
 
 
-                <img src={'./assets/erpLogo.png'} style={{ width: "56vw", borderRadius: "6%", margin: "0" }} className="img-fluid erp-logo" alt="Responsive image" />
+                <img src={'./assets/erpLogo.png'} style={{ width: "56vw", borderRadius: "6%", margin: "0" }} className="img-fluid erp-logo" alt="LOGO" />
             </div>
 
             <p className="text-center text-white" style={{ margin: '0', padding: '0' }}><span style={{ fontWeight: "bolder", color: "black", margin: '0' }}>FY :</span> {state.Fy}</p>

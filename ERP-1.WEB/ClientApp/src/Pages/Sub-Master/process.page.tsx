@@ -1,18 +1,98 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
-import CustomInput from '../../components/custom-input/custom-input.component';
+import CustomInput, { InputList } from '../../components/custom-input/custom-input.component';
 import {CustomeSwitch2} from '../../components/CustomSwitch/custom-switch.component';
-export default function Process_Page({ getMasterType , pageTitle, configType, handleChange ,handlePosting, defaultData, ...otherProps}: any) {
+import { WriteTable } from '../../components/CustomTable/CustomTable.component';
+export default function Process_Page({ getMasterType, pageTitle, configType, handleChange, handlePosting, getCurrentRowNo, HandleOverHeadIpSelect, HandleJobIpSelect, HandleOperationIpSelect, defaultData, ...otherProps}: any) {
     const [ToggelValue, setToggelValue]: any = useState(false);
+    const [overHeadArr, setOverHeadArr]: any = useState([]);
+    const [operationArr, setOperationArr]: any = useState([]);
+    const [masterlist, setMasterList]: any = useState({});
+    const [oprnlist, setOperationList]: any = useState([]);
+    const [joblist, setJobList]: any = useState([]);
+    const [overheadlist, setOverHeadList]: any = useState([]);
+
     console.log("toggel Value", ToggelValue);
 
+    React.useEffect(() => {
+     
+        getMasterType(11);
+        var Req: Request;
+        var Req2: Request;
+        let h = new Headers();
+        h.append('Accept', 'application/json');
+        h.append('Content-Type', 'application/json');
+        h.append('CompCode', 'ESERPDB');
+        h.append('FYear', '0');
+        // Process OverHead
+        const OvrHeadStr = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=1030&company=${otherProps.compCode}&customer=${otherProps.customer}`;
+        // Process Operation
+        const OprnStr = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=1034&company=${otherProps.compCode}&customer=${otherProps.customer}`;
 
+
+        console.log('overhead', OvrHeadStr)
+        console.log('operation', OprnStr)
+
+        try {
+            Req = new Request(OvrHeadStr, {
+                method: 'GET',
+                headers: h,
+                mode: 'cors'
+            });
+            Req2 = new Request(OprnStr, {
+                method: 'GET',
+                headers: h,
+                mode: 'cors'
+            });
+
+
+            fetch(Req).then((res: any) => { return res.json() }).then((res: any) => {
+
+                let data = res.data;
+
+                setOverHeadArr(data);
+
+
+            });
+            fetch(Req2).then((res: any) => { return res.json() }).then((res: any) => {
+
+                let data = res.data;
+
+                setOperationArr(data);
+
+            });
+
+        } catch (err) {
+            alert(err)
+
+        }
+    }, [])
+    React.useEffect(() => {
+
+        if (defaultData.esmastertable !== undefined) {
+            let masterlist: any = defaultData.esmastertable[0]
+             setMasterList(masterlist);
+        }
+        if (defaultData.processopration !== undefined) {
+            let oprlist: any = defaultData.processopration
+            setOperationList(oprlist)
+        }
+        if (defaultData.processjobworker !== undefined) {
+            let joblist: any = defaultData.processjobworker
+            setJobList(joblist)
+        }
+        if (defaultData.processpoh !== undefined) {
+            let overlist: any = defaultData.processpoh
+            setOverHeadList(overlist)
+        }
+    }, [defaultData])
+/*    var esMasterData: object = defaultData.esMsater*/
     return (
         <>
             <div className="main card firstDiv">
                 <div
                     className="text-center card-title col-12"
-                    style={{ textAlign: "start", backgroundColor: "#8389d4" }}
+                    style={{ textAlign: "start" }}
                 >
                     <span className="row-header p-0 m-0">{pageTitle}</span>
                 </div>
@@ -23,8 +103,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                         <>
                             <span className="d-flex section2 col-sm-12">
                                 <CustomInput
-                                    name="process"
-                                    classCategory="form-control inp mb-2 Process"
+                                name="name"
+                                change={handleChange}
+                                default={masterlist.name}
+                                    classCategory="form-control inp mb-2 pMaster"
                                     ipType="text"
                                     label="Process"
                                     ipTitle="Enter Process"
@@ -32,8 +114,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
 
                                 <CustomInput
-                                    name="processFloor"
-                                    classCategory="form-control inp mb-2 ProcessFloor"
+                                name="c21"
+                                change={handleChange}
+                                default={masterlist.c21}
+                                classCategory="form-control inp mb-2 pMaster select"
                                     ipType="text"
                                     label="Process Floor"
                                     ipTitle="Enter Process Floor"
@@ -41,8 +125,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
 
                                 <CustomInput
-                                    name="clipBoard"
-                                    classCategory="form-control inp mb-2 ClipBoard"
+                                name="c22"
+                                default={masterlist.c22}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster select"
                                     ipType="text"
                                     label="P Srno For ClipBoard"
                                     ipTitle="Enter ClipBoard"
@@ -52,8 +138,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
 
                             <span className="d-flex section2 col-sm-12">
                                 <CustomInput
-                                    name="debitorAccount"
-                                    classCategory="form-control inp mb-2 DebitorAccount"
+                                name="c23"
+                                default={masterlist.c23}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster select"
                                     ipType="text"
                                     label="Debitor Account"
                                     ipTitle="Enter Debitor Account"
@@ -61,17 +149,21 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
 
                                 <CustomInput
-                                    name="addJobWork"
-                                    classCategory="form-control inp mb-2 AddJobWork"
+                                name="c24"
+                                default={masterlist.c24}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster select"
                                     ipType="text"
                                     label="Add JobWork chrgs."
                                     ipTitle="Enter Add JobWork chrgs."
                                     dataArray={[]}
                                 />
 
-                                <CustomInput
-                                    name="tollerance"
-                                    classCategory="form-control inp mb-2 Tollerance"
+                            <CustomInput
+                                default={masterlist.d1}
+                                name="d1"
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster number"
                                     ipType="number"
                                     label="Tollerance (%)"
                                     ipTitle="Enter Tollerance"
@@ -79,9 +171,11 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
                             </span>
                             <span className="d-flex section2 col-sm-12">
-                                <CustomInput
-                                    name="overHead"
-                                    classCategory="form-control inp mb-2 OverHead"
+                            <CustomInput
+                                default={masterlist.d2}
+                                name="d2"
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster number"
                                     ipType="number"
                                     label="OverHead (%)"
                                     ipTitle="Enter OverHead"
@@ -89,8 +183,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
 
                                 <CustomInput
-                                    name="Material Req"
-                                    classCategory="form-control inp mb-2 MaterialReq"
+                                name="c25"
+                                default={masterlist.c25}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster select"
                                     ipType="text"
                                     label="Material Req. before Days"
                                     ipTitle="Enter Material Req. before Days"
@@ -98,8 +194,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
 
                                 <CustomInput
-                                    name="Process Group No"
-                                    classCategory="form-control inp mb-2 MaterialReq"
+                                name="d3"
+                                default={masterlist.d3}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster number"
                                     ipType="text"
                                     label="Process Group No"
                                     ipTitle="Enter Process Group No"
@@ -108,8 +206,10 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                             </span>
                             <span className="d-flex section2 col-sm-12">
                                 <CustomInput
-                                    name="PlanHours"
-                                    classCategory="form-control inp mb-2 PlanHours"
+                                name="d4"
+                                default={masterlist.d4}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster number"
                                     ipType="number"
                                     label="Plan Hours Per Day"
                                     ipTitle="Enter Plan Hours Per Day"
@@ -117,12 +217,15 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                                 />
 
                                 <CustomInput
-                                    name="Before Days"
-                                    classCategory="form-control inp mb-2 BeforeDays"
-                                    ipType="text"
-                                    label="Before Days"
-                                    ipTitle="Enter Before Days"
-                                    dataArray={[]}
+                                name="d5"
+                                default={masterlist.d5}
+                                change={handleChange}
+                                classCategory="form-control inp mb-2 pMaster number"
+                                ipType="text"
+                                label="Before Days"
+                                ipTitle="Enter Before Days"
+                                dataArray={[]}
+                            
                                 />
                             </span>
                         </>
@@ -130,445 +233,129 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                     
                 </form>
                 {/* -------------------------------------------------CheckBox-------------------------------------------------------------------- */}
-                <span className="row-content col-sm-12 pt-0">
+                <hr/>
+                <span className="d-flex col-sm-12 pt-0">
                   
-
-                        <div className="show" id="Switch">
-                            <span className="d-flex justify-content-between section2 col-sm-12">
+                    <div className="show m-0 p-0 col-6" id="Switch">
+                            <span className="d-flex flex-column justify-content-between section2 col-sm-12">
 
                                 <>
-                                    <CustomeSwitch2 lablClass="custom-control-label col-9" label="For Job Working" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="For Job Working" id="c1" name="c1" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c1} />
                                 </>
                                 <>
-                                    <CustomeSwitch2 lablClass="custom-control-label col-9" label="is Accounting Posting" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="is Accounting Posting" id="c2" name="c2" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c2} />
                                 </>
 
                                 <>
-                                    <CustomeSwitch2 lablClass="custom-control-label col-9" label="Produce Qty is Greater then Paln Qty" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Produce Qty is Greater then Paln Qty" id="c3" name="c3" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c3} />
                             </>
 
 
-                            </span>
-                            <span className="d-flex justify-content-between section2 col-sm-12">
+                          
                             <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Change Consume Item Quantity" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Change Consume Item Quantity" id="c4" name="c4" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c4} />
                             </>
                             <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Is Consume Qty Less than Req. Qty" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Is Consume Qty Less than Req. Qty" id="c5" name="c5" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c5}/>
                             </>
                                <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Is Consume Qty Zero" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Is Consume Qty Zero" id="c6" name="c6" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c6}/>
                             </>
                                
 
-                            </span>
-                        <span className="d-flex justify-content-between section2 col-sm-12">
+                        
                                
                              <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Mold Req" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Mold Req" id="c7" name="c7" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c7} />
                             </>
                            <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Minus Stock Qty in Req." id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Minus Stock Qty in Req." id="c8" name="c8" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c8}/>
                             </>
                               <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Add New Cons. Item at Production" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Add New Cons. Item at Production" id="c9" name="c9" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c9}/>
                             </>
-                        </span>
-                            <span className="d-flex justify-content-between section2 col-sm-12">
+               
 
                             
                               <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Plan As Per Del. Date" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Plan As Per Del. Date" id="c10" name="c10" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c10} />
                             </>
                               <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Consumption Not on Rejection" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Consumption Not on Rejection" id="c11" name="c11" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c11} />
                             </>
                             <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Produce Item As Per Process In Sample Prod" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Produce Item As Per Process In Sample Prod" id="c12" name="c12" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c12}/>
                             </>
-                            </span>
-
-                            <span className="d-flex justify-content-between section2 col-sm-12">
+                         
 
                               <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Electricity Req." id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Electricity Req." id="c13" name="c13" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c13}/>
                             </>
                                 
                                <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Show in Rejection Details Report" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Show in Rejection Details Report" id="c14" name="c14" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c14}/>
                             </>
                              
                                 
                                <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Enable Operator Details" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Enable Operator Details" id="c15" name="c15" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c15} />
                             </>
                                 
-                            
-
-
-                            </span>
-                            <span className="d-flex justify-content-between section2 col-sm-12">
-
                               <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Production With Scan Data" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Production With Scan Data" id="c16" name="c16" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c16}/>
                             </>
                                   <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Time Slab Wise Production" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Time Slab Wise Production" id="c17" name="c17" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c17}/>
                             </>
                                 
                                <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Show Rejection % In Production MIS Report" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label="Show Rejection % In Production MIS Report" id="c18" name="c18" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c18}/>
                             </>
-                            </span>
-                                
-                        <span className="d-flex justify-content-between section2 col-sm-12">
+                      
                             <>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Tollerance Not Required" id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Tollerance Not Required" id="c19" name="c19" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c19}/>
                             </><>
-                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Enable Produce Item Serial No." id="SClsBal" name="SClsBal" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch2 lablClass="custom-control-label col-9" label=" Enable Produce Item Serial No." id="c20" name="c20" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={masterlist.c20}/>
                             </>
 
-                            <div className="col-4"></div>
+                            {/*<div className="col-4"></div>*/}
                            </span>
-
-                    
                         </div>
-                
+                    <span className="card d-flex flex-column justify-content-between section2 col-sm-6" style={{height:'100vh'}}>
+                        <WriteTable
+                            HandleIpSelect={HandleOverHeadIpSelect}
+                            getCurrentRowNo={getCurrentRowNo}
+                            default = {overheadlist}
+                            columns={[{ field: 'Name', header: "Name" }]}
+                            dataArr={[{ Name: { name: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select",placeholder: "Enter Process OverHead Name" } }]}
+                            title="Process OverHead"
+                        />
+                        <WriteTable
+                            HandleIpSelect={HandleJobIpSelect}
+                            getCurrentRowNo={getCurrentRowNo}
+                            columns={[{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }]}
+                            default={joblist}
+                            dataArr={[{
+                                Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name" }
+
+                                , JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On"}
+                            }]}
+                            title="Job Worker List"
+                        />
+
+                        <WriteTable
+                            HandleIpSelect={HandleOperationIpSelect}
+                            getCurrentRowNo={getCurrentRowNo}
+                            default= {oprnlist}
+                            columns={[{ field: 'Oprn', header: "Operation" }]}
+                            dataArr={[{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name" } }]}
+                            title="Process Operation Details"
+                        />
+                     </span>
+                    
                 </span>
                 {/*---------------------------------------------------Tables-----------------------------------------------------------------  */}
-                <hr/>
-                <span className="row-content form col-sm-12 pt-0">
-                  
-                        <div className="show collapse" id="OverHead">
-                            <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                                <div
-                                    className="card col-sm-6"
-                                    style={{ padding: "0", margin: "0" }}
-                                >
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            borderBottom: "1px solid grey",
-                                            backgroundColor: "#8389d4",
-                                            margin: "0",
-                                            padding: "0",
-                                        }}
-                                    >
-                                        <span
-                                            className="card-title"
-                                            style={{ fontSize: "15px", margin: "0", padding: "0" }}
-                                        >
-                                            Process OverHead
-                                        </span>
-                                    </div>
-                                    <div
-                                        className="card-body table-responsive"
-                                        style={{ margin: "0", padding: "0" }}
-                                    >
-                                        <table
-                                            className="table table-striped table-bordered table-hover table-sm"
-                                            style={{ margin: "0" }}
-                                        >
-                                            <thead className="thead-light table-secondary text-center">
-                                                <tr>
-                                                    <th>S. No</th>
-                                                    <th>Name</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>
-                                                        {" "}
-                                                        <input
-                                                            name="Name1"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Name"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>
-                                                        <input
-                                                            name="Name2"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Name"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>
-                                                        <input
-                                                            name="Name3"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Name"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div
-                                    className="card col-sm-6 "
-                                    style={{ padding: "0", margin: "0" }}
-                                >
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            borderBottom: "1px solid grey",
-                                            backgroundColor: "#8389d4",
-                                            margin: "0",
-                                            padding: "0",
-                                        }}
-                                    >
-                                        <span
-                                            className="card-title"
-                                            style={{ fontSize: "15px", margin: "0", padding: "0" }}
-                                        >
-                                            Job Worker List
-                                        </span>
-                                    </div>
-                                    <div
-                                        className="card-body table-responsive"
-                                        style={{ margin: "0", padding: "0" }}
-                                    >
-                                        <table
-                                            className="table table-striped table-bordered table-hover table-sm"
-                                            style={{ margin: "0" }}
-                                        >
-                                            <thead className="thead-light table-secondary text-center">
-                                                <tr>
-                                                    <th>S. No</th>
-                                                    <th>Name</th>
-                                                    <th>Job Work On</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>
-                                                        {" "}
-                                                        <input
-                                                            name="Name1"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Name"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        {" "}
-                                                        <input
-                                                            name="jobWork1"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter job Work"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>
-                                                        <input
-                                                            name="Name2"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Name"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            name="jobWork2"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter job Work"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>
-                                                        <input
-                                                            name="Name3"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Name"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            name="jobWork3"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter job Work"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div
-                                    className="card col-sm-6 mt-2"
-                                    style={{ padding: "0", margin: "0" }}
-                                >
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            borderBottom: "1px solid grey",
-                                            backgroundColor: "#8389d4",
-                                            margin: "0",
-                                            padding: "0",
-                                        }}
-                                    >
-                                        <span
-                                            className="card-title"
-                                            style={{
-                                                fontSize: "15px",
-                                                margin: "0",
-                                                padding: "0",
-                                                height: "25px",
-                                            }}
-                                        >
-                                            Process Operation Details{" "}
-                                        </span>
-                                    </div>
-                                    <div
-                                        className="card-body table-responsive"
-                                        style={{ margin: "0", padding: "0" }}
-                                    >
-                                        <table
-                                            className="table table-striped table-bordered table-hover table-sm"
-                                            style={{ margin: "0" }}
-                                        >
-                                            <thead className="thead-light table-secondary text-center">
-                                                <tr>
-                                                    <th>S. No</th>
-                                                    <th>Opeartion</th>
-                                                    {/* <th>TurnOver(Lacks)</th> */}
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>
-                                                        {" "}
-                                                        <input
-                                                            name="Operation1"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Operation"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>
-                                                        <input
-                                                            name="Operation2"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Operation"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>
-                                                        <input
-                                                            name="Operation3"
-                                                            className="form-control inp AccountMaster"
-                                                            type="text"
-                                                            title="Enter Operation"
-                                                            style={{
-                                                                width: "100%",
-                                                                margin: "auto",
-                                                                height: "25px",
-                                                            }}
-                                                        />
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                 
-                </span>
+          
             </div>
             <div
                 className="btn-group col-12 mt-3"
@@ -597,6 +384,7 @@ export default function Process_Page({ getMasterType , pageTitle, configType, ha
                         width: "200px",
                     }}
                     className="btn btn-success mr-2 ml-2 pl-0 pr-0 "
+                    onClick={handlePosting}
                 >
                     Save & Submit
                 </button>

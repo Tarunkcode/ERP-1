@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { selectCurrentUser } from "../../../Redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
 import { setCurrentUser } from '../../../Redux/user/user.actions';
-import { DomainContext } from '../../../AppContext/domainContext.component';
+
 import { toast } from 'react-toastify';
 //import "./spinner.styles.css";
 
@@ -19,12 +19,12 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 //import Spinner from '../../Spinner/spinner.component';
 
-interface IProps {
-    setCurrentUser: any,
-    currentUser: any,
-    appContext: any,
-    location: any
-}
+//interface IProps {
+//    setCurrentUser: any,
+//    currentUser: any,
+//    appContext: any,
+//    location: any
+//}
 
 interface IState {
     username: string;
@@ -38,17 +38,17 @@ interface IState {
     fy: number;
 }
 //hoc
-export function LogInHoc(Component: any) {
-    const C = (props: any) => {
-        let { domainState } = React.useContext(DomainContext);
-        console.log(domainState);
-        return <Component appContext={domainState} {...props} ></Component>
-    };
-    return C;
-};
-class ChildLog extends React.Component<IProps, IState>{
+//export function LogInHoc(Component: any) {
+//    const C = (props: any) => {
+//        let { domainState } = React.useContext(DomainContext);
+//        console.log(domainState);
+//        return <Component appContext={domainState} {...props} ></Component>
+//    };
+//    return C;
+//};
+export default class ChildLog extends React.Component<{}, IState>{
 
-    constructor(props: IProps) {
+    constructor(props: any) {
         super(props);
        
         this.state = {
@@ -99,16 +99,9 @@ class ChildLog extends React.Component<IProps, IState>{
         const {compCode, password, username } = this.state;
        
         var urlStart = `http://${this.ip}:${this.port}/api/UserValidates`
-        //UID = U1 & Pwd=U1 & LoginID=tarun1 & LoginPwd=tarun1 & CompCode=1 & Customer=1
-        //string UserName, string Pwd, int Company, int Customer
+
         var params = []
 
-        //params.push(`UID=${this.state.uid}`);
-        //params.push(`Pwd=${this.state.pass}`);
-        //params.push(`LoginID=${username}`);
-        //params.push(`LoginPwd=${password}`);
-        //params.push(`CompCode=${compCode}`);
-        //params.push(`Customer=${compList[0].customer}`);
         params.push(`UserName=${username}`);
         params.push(`Pwd=${password}`);
         params.push(`Company=${compCode}`);
@@ -130,7 +123,6 @@ class ChildLog extends React.Component<IProps, IState>{
             await fetch(req).then(res => res.json()).then(result => {
 
 
-                    this.setState({ isLoader: false })
 
                 if (result.data[0].result == 1) {
                     window.sessionStorage.setItem('state', JSON.stringify({ 'domain': this.ip, 'port': this.port, 'Fy': this.state.fy }))
@@ -139,8 +131,10 @@ class ChildLog extends React.Component<IProps, IState>{
          
                     toast.success('You have Signed in Successfully!');
                     this.setState({ redirect: true })
+                   
                 } else {
                     /*  alert(result.data[0].msg);*/
+                    this.setState({ isLoader: false })
                     toast.error(result.data[0].msg);
                     return;
                 }
@@ -148,6 +142,7 @@ class ChildLog extends React.Component<IProps, IState>{
             })
 
         } catch (err) {
+            this.setState({ isLoader: false })
             alert(err);
         }
 
@@ -158,21 +153,23 @@ class ChildLog extends React.Component<IProps, IState>{
         this.setState({ isLoader : true })
         try {
 
-            const { setCurrentUser } = this.props;
+            /*const { setCurrentUser } = this.props;*/
             // var { domainState } = React.useContext(DomainContext);
 
             window.sessionStorage.setItem('user', this.state.username)
             //window.sessionStorage.setItem('compCode', this.state.compCode)
 
-            let i = JSON.stringify(this.props.appContext)
-            await setCurrentUser(i)
-            window.localStorage.setItem('state', i);
+            //let i = JSON.stringify(this.props.appContext)
+            let i = {domain:'103.25.128.155', port:'12019',Fy:'2022'}
+            /*           await setCurrentUser(i)*/
+            window.localStorage.setItem('state', JSON.stringify(i));
 
             this.fetchValidateUserApi();
 
         }
         catch (error) {
-            console.log(error);
+             this.setState({ isLoader : false })
+            alert(error);
         }
     }
 
@@ -180,6 +177,7 @@ class ChildLog extends React.Component<IProps, IState>{
         const {compList, redirect } = this.state;
         //console.log('compList obj', this.tempArr)
         if (redirect == true) {
+            this.setState({ isLoader: false })
             return <Redirect to='/home' />;
         } else { }
 
@@ -248,13 +246,13 @@ class ChildLog extends React.Component<IProps, IState>{
 
 }
 
-const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser
-});
-const mapDispatchToProps = (dispatch: any) => ({
-    setCurrentUser: (user: any) => dispatch(setCurrentUser(user))
-});
-const LogIn = connect(mapStateToProps, mapDispatchToProps)(ChildLog)
-export default LogInHoc(LogIn);
+//const mapStateToProps = createStructuredSelector({
+//    currentUser: selectCurrentUser
+//});
+//const mapDispatchToProps = (dispatch: any) => ({
+//    setCurrentUser: (user: any) => dispatch(setCurrentUser(user))
+//});
+//const LogIn = connect(mapStateToProps, mapDispatchToProps)(ChildLog)
+//export default LogInHoc(LogIn);
 
 

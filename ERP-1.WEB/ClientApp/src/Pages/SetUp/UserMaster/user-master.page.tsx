@@ -1,13 +1,6 @@
 ﻿import * as React from 'react';
-import { CustomSelect, MasterInput } from '../../../components/custom-input/custom-input.component';
+import { CustomSelect, InputList, MasterInput } from '../../../components/custom-input/custom-input.component';
 import { store2 } from '../../../Redux/config/config.reducer';
- //public int Code { get; set; }
- //        public string UName { get; set; }
- //        public string PWD { get; set; }
- //        public int Active { get; set; }
- //        public int SU { get; set; }
- //        public int Block  { get; set; }
- //        public int Role  { get; set; }
 
 function UserMaster_Page() {
     var [currRoleData, setCurrRoleData]: any = React.useState([]);
@@ -110,11 +103,11 @@ function UserMaster_Page() {
                         <MasterInput label="Password" name="PWD" ipType="password" ipTitle="" handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
                     </span>
                     <span className="d-flex section2 col-sm-6">
-                        <CustomSelect label="SuperUser" name="SU" dataArray={[{ 'code': 0, name: 'N' }, { 'code': 1, name: 'Y' }]} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
-                        <CustomSelect label="is Block" name="Block" dataArray={[{ 'code': 0, name: 'N' }, { 'code': 1, name: 'Y' }]} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
+                        <CustomSelect label="SuperUser" name="SU" change={[{ 'code': 0, name: 'N' }, { 'code': 1, name: 'Y' }]} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
+                        <CustomSelect label="is Block" name="Block" change={[{ 'code': 0, name: 'N' }, { 'code': 1, name: 'Y' }]} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
                     </span>
                     <span className="d-flex section2 col-sm-6">
-                        <CustomSelect label="Role" name="Role" dataArray={currRoleData} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />
+                        <CustomSelect label="Role" name="Role" dataArray={currRoleData} change={handleChange} classCategory="form-control col-7 seriesConf" />
                        
                     </span>
 

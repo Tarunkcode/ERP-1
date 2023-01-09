@@ -21,7 +21,7 @@ const AxisLabel = ({ axisType, x, y, width, height, stroke, children }: any) => 
 const Home = () => {
 
 let [posData, setposData] = useState({});
-    const getState = window.localStorage.getItem('state');
+    const getState = window.sessionStorage.getItem('state');
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
 
@@ -49,155 +49,155 @@ let [posData, setposData] = useState({});
 
     
 
-    var urlStart = `http://${state.domain}:${state.port}/api/values/GetMisReport?Comp=${getCompCode}&Fy=${state.Fy}&Acccode=0`
-    var urlSaleComparision = `http://${state.domain}:${state.port}/api/values/spsalecompprvyear?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
-    var urlPendingMonthlySO = `http://${state.domain}:${state.port}/api/values/GetPendingMonthlySO?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
-    var urlSODetails = `http://${state.domain}:${state.port}/api/values/getmonthlysodetails?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
+    //var urlStart = `http://${state.domain}:${state.port}/api/values/GetMisReport?Comp=${getCompCode}&Fy=${state.Fy}&Acccode=0`
+    //var urlSaleComparision = `http://${state.domain}:${state.port}/api/values/spsalecompprvyear?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
+    //var urlPendingMonthlySO = `http://${state.domain}:${state.port}/api/values/GetPendingMonthlySO?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
+    //var urlSODetails = `http://${state.domain}:${state.port}/api/values/getmonthlysodetails?acccode=0&comp=${getCompCode}&fy=${state.Fy}`
 
 
-    React.useEffect(() => {
-        console.log(urlStart)
-        fetch(urlStart).then(res => res.json()).then(result => {
+    //React.useEffect(() => {
+    //    console.log(urlStart)
+    //    fetch(urlStart).then(res => res.json()).then(result => {
            
 
-            if (result.Status == '1') {
-                var D1, D2, D3, obj, fill;
+    //        if (result.Status == '1') {
+    //            var D1, D2, D3, obj, fill;
 
-                for (let item = 0; item < result.Data.length; item++) {
+    //            for (let item = 0; item < result.Data.length; item++) {
 
-                    D1 = result.Data[item].D1;
-                    D2 = result.Data[item].D2;
-                    D3 = result.Data[item].D3;
+    //                D1 = result.Data[item].D1;
+    //                D2 = result.Data[item].D2;
+    //                D3 = result.Data[item].D3;
 
-                    D2 = parseFloat(D2);
-                    D3 = parseFloat(D3);
+    //                D2 = parseFloat(D2);
+    //                D3 = parseFloat(D3);
 
-                    D2 = D2 / 10000000;
-                    D3 = D3 / 10000000;
-                    fill = colors[item];
-                    var Sale_Amount = D3.toFixed(2);
+    //                D2 = D2 / 10000000;
+    //                D3 = D3 / 10000000;
+    //                fill = colors[item];
+    //                var Sale_Amount = D3.toFixed(2);
 
-                    var Purchase_Amt = D2.toFixed(2);
+    //                var Purchase_Amt = D2.toFixed(2);
 
-                    obj = { D1, Sale_Amount, Purchase_Amt, fill, D2 };
-                   var obj2 = { D1, Sale_Amount, Purchase_Amt, D2 };
-                    //[dataArray].
-                    dataArray = [...dataArray]; // copying the old datas array
-                    dataArray[item] = obj; // replace e.target.value with whatever you want to change it to
+    //                obj = { D1, Sale_Amount, Purchase_Amt, fill, D2 };
+    //               var obj2 = { D1, Sale_Amount, Purchase_Amt, D2 };
+    //                //[dataArray].
+    //                dataArray = [...dataArray]; // copying the old datas array
+    //                dataArray[item] = obj; // replace e.target.value with whatever you want to change it to
 
-                    setDataArray(dataArray);
+    //                setDataArray(dataArray);
 
-                    dataArray2 = [...dataArray2]
-                    dataArray2[item] = obj2;
-                    setDataArray2(dataArray2);
-                }
+    //                dataArray2 = [...dataArray2]
+    //                dataArray2[item] = obj2;
+    //                setDataArray2(dataArray2);
+    //            }
 
-                console.log(dataArray);
+    //            console.log(dataArray);
 
-            } else {
-                console.log("Calling APi failed");
-            }
-        })
-    }, [])
+    //        } else {
+    //            console.log("Calling APi failed");
+    //        }
+    //    })
+    //}, [])
 
-    React.useEffect(() => {
-        fetch(urlSaleComparision).then(res => res.json()).then(result => {
-            if (result.Status == '1') {
+    //React.useEffect(() => {
+    //    fetch(urlSaleComparision).then(res => res.json()).then(result => {
+    //        if (result.Status == '1') {
 
-                var Monthname, PSaleAmt, SaleAmt, obj;
+    //            var Monthname, PSaleAmt, SaleAmt, obj;
              
-                for (let item = 0; item < result.Data.length; item++) {
-                    Monthname = result.Data[item].Monthname;
-                    PSaleAmt = result.Data[item].PSaleAmt;
-                    SaleAmt = result.Data[item].SaleAmt;
+    //            for (let item = 0; item < result.Data.length; item++) {
+    //                Monthname = result.Data[item].Monthname;
+    //                PSaleAmt = result.Data[item].PSaleAmt;
+    //                SaleAmt = result.Data[item].SaleAmt;
 
 
-                    PSaleAmt = parseFloat(PSaleAmt);
-                    SaleAmt = parseFloat(SaleAmt);
+    //                PSaleAmt = parseFloat(PSaleAmt);
+    //                SaleAmt = parseFloat(SaleAmt);
 
-                    PSaleAmt = PSaleAmt / 10000000;
-                    SaleAmt = SaleAmt / 10000000;
-                    var Prev_Year_Sale_Amount = PSaleAmt.toFixed(2);
-                    var This_Year_Sale_Amount = SaleAmt.toFixed(2);
-                    obj = { Monthname, Prev_Year_Sale_Amount, This_Year_Sale_Amount };
-                    //[dataArray].
-                    saleArr = [...saleArr]; // copying the old datas array
-                    saleArr[item] = obj; // replace e.target.value with whatever you want to change it to
+    //                PSaleAmt = PSaleAmt / 10000000;
+    //                SaleAmt = SaleAmt / 10000000;
+    //                var Prev_Year_Sale_Amount = PSaleAmt.toFixed(2);
+    //                var This_Year_Sale_Amount = SaleAmt.toFixed(2);
+    //                obj = { Monthname, Prev_Year_Sale_Amount, This_Year_Sale_Amount };
+    //                //[dataArray].
+    //                saleArr = [...saleArr]; // copying the old datas array
+    //                saleArr[item] = obj; // replace e.target.value with whatever you want to change it to
 
-                    setSaleArr(saleArr);
-                }
-                console.log(saleArr);
-            } else {
-                console.log("Calling APi failed");
-            }
-        })
-    }, [])
+    //                setSaleArr(saleArr);
+    //            }
+    //            console.log(saleArr);
+    //        } else {
+    //            console.log("Calling APi failed");
+    //        }
+    //    })
+    //}, [])
 
-    React.useEffect(() => {
-    console.log('pending monthly so', urlPendingMonthlySO);
-        fetch(urlPendingMonthlySO).then(res => res.json()).then(result => {
+    //React.useEffect(() => {
+    //console.log('pending monthly so', urlPendingMonthlySO);
+    //    fetch(urlPendingMonthlySO).then(res => res.json()).then(result => {
          
-            if (result.Status == '1') {
+    //        if (result.Status == '1') {
 
-                var Monthname, Amt,  obj;
+    //            var Monthname, Amt,  obj;
 
-                for (let item = 0; item < result.Data.length; item++) {
-                    Monthname = result.Data[item].MonthName;
-                    Amt = result.Data[item].Amt;
-                    Amt = parseFloat(Amt);
+    //            for (let item = 0; item < result.Data.length; item++) {
+    //                Monthname = result.Data[item].MonthName;
+    //                Amt = result.Data[item].Amt;
+    //                Amt = parseFloat(Amt);
 
                     
-                    Amt = Amt / 10000000;
-                    var Amount = Amt;
-                   var fill = colors[item]
-                    obj = { Monthname, Amount, fill};
-                    //[dataArray].
-                    pendingSO = [...pendingSO];
-                    pendingSO[item] = obj;
+    //                Amt = Amt / 10000000;
+    //                var Amount = Amt;
+    //               var fill = colors[item]
+    //                obj = { Monthname, Amount, fill};
+    //                //[dataArray].
+    //                pendingSO = [...pendingSO];
+    //                pendingSO[item] = obj;
 
-                    setPendingSO(pendingSO);
-                }
-                console.log(pendingSO);
-            } else {
-                console.log("Calling APi failed");
-            }
-        })
-    }, [])
+    //                setPendingSO(pendingSO);
+    //            }
+    //            console.log(pendingSO);
+    //        } else {
+    //            console.log("Calling APi failed");
+    //        }
+    //    })
+    //}, [])
 
-    React.useEffect(() => {
-        fetch(urlSODetails).then(res => res.json()).then(result => {
+    //React.useEffect(() => {
+    //    fetch(urlSODetails).then(res => res.json()).then(result => {
            
-            if (result.Status == '1') {
+    //        if (result.Status == '1') {
 
-                var Monthname, Amt, obj;
+    //            var Monthname, Amt, obj;
 
-                for (let item = 0; item < result.Data.length; item++) {
-                    Monthname = result.Data[item].MonthName;
-                    Amt = result.Data[item].SoAmt;
-                    Amt = parseFloat(Amt);
+    //            for (let item = 0; item < result.Data.length; item++) {
+    //                Monthname = result.Data[item].MonthName;
+    //                Amt = result.Data[item].SoAmt;
+    //                Amt = parseFloat(Amt);
 
 
-                     Amt =Amt / 10000000;
-                    var Amount = Amt;
-                    var fill = colors[item]
-                    obj = { Monthname, Amount, fill };
-                    //[dataArray].
-                    soSetails = [...soSetails];
-                    soSetails[item] = obj;
+    //                 Amt =Amt / 10000000;
+    //                var Amount = Amt;
+    //                var fill = colors[item]
+    //                obj = { Monthname, Amount, fill };
+    //                //[dataArray].
+    //                soSetails = [...soSetails];
+    //                soSetails[item] = obj;
 
-                    setSODetails(soSetails);
-                }
-                console.log(soSetails);
-            } else {
-                console.log("Calling APi failed");
-            }
-        })
-    }, [])
+    //                setSODetails(soSetails);
+    //            }
+    //            console.log(soSetails);
+    //        } else {
+    //            console.log("Calling APi failed");
+    //        }
+    //    })
+    //}, [])
    
     return (
         <div>
             <div className='first'>
-                <div className="row card home-cards">
+               {/* <div className="row card home-cards">*/}
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0", width: '100%' }}>Monthly Sale</span>
@@ -224,9 +224,9 @@ let [posData, setposData] = useState({});
 
 
                     </div>
-                </div>
+              {/*  </div>*/}
              
-                <div className="row card home-cards">
+               {/* <div className="row card home-cards">*/}
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Purchase</span>
@@ -249,7 +249,7 @@ let [posData, setposData] = useState({});
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
-                </div>
+             {/*   </div>*/}
             </div>
 
             <hr />
@@ -303,7 +303,7 @@ let [posData, setposData] = useState({});
             </div>
             <hr />
             <div className="last">
-                <div className="row card home-cards">
+              {/*  <div className="row card home-cards">*/}
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Sale Order</span>
@@ -326,8 +326,8 @@ let [posData, setposData] = useState({});
                         </PieChart>
                         </ResponsiveContainer>
                    </div>
-                </div>
-                <div className="row card home-cards">
+                {/*</div>*/}
+                {/*<div className="row card home-cards">*/}
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>
 
                         <span className="card-title" style={{ fontSize: "20px", margin: "0px", width: '100%' }}>Monthly Pending Sale Order</span>
@@ -351,7 +351,7 @@ let [posData, setposData] = useState({});
                             </PieChart>
                         </ResponsiveContainer>
                        
-                 </div>
+               {/*  </div>*/}
                 </div>
             </div>
             <hr />

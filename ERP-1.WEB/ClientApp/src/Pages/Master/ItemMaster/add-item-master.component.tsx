@@ -10,7 +10,7 @@ class AddItemMaster extends React.Component {
             <>
                 <div className="main card firstDiv">
 
-                    <div className="text-center card-title col-12" style={{ textAlign: 'start', backgroundColor: '#8389d4' }}>
+                    <div className="text-center card-title col-12" style={{ textAlign: 'start' }}>
                         <span className="row-header p-0 m-0" >Item Master</span>
                     </div>
                     <div className="card-body row col-sm-12 m-0 p-0" >

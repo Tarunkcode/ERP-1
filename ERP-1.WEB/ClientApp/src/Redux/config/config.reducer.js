@@ -20,6 +20,12 @@ var INITIAL_STATE = {
     subMaster: {
         'EsMasterTable': [{}],
         'EsPaymentTermDet': []
+    },
+    pMaster: {
+        'esmastertable': [{}],
+        'processjobworker': [],
+        'processpoh': [],
+        'processopration': []
     }
 };
 var configReducer = function (STATE, action) {
@@ -27,18 +33,40 @@ var configReducer = function (STATE, action) {
     if (STATE === void 0) { STATE = INITIAL_STATE; }
     switch (action.type) {
         case "changeConfig":
-            if (action.label == "InventoryDet")
+            if (action.label === "InventoryDet") {
                 STATE.InventoryDet[0] = action.payload;
-            else if (action.label == "seriesConf")
+            }
+            else if (action.label === "seriesConf")
                 STATE.seriesConf[action.key] = action.payload;
-            else if (action.label == "roleMaster")
+            else if (action.label === "roleMaster")
                 STATE.roleMaster.push((_a = {}, _a[action.key] = action.payload, _a));
+            else if (action.label === 'pMaster')
+                STATE.pMaster.esmastertable[0][action.key] = action.payload;
+            else if (action.label === 'pMasterJob') {
+                STATE.pMaster.processjobworker[parseInt(action.key)] = __assign(__assign({}, STATE.pMaster.ProcessJobWorker[parseInt(action.key)]), action.payload);
+            } // action.payload carry table row Obj
+            else if (action.label === 'pMasterOverHead')
+                STATE.pMaster.processpoh[parseInt(action.key)] = (action.payload); // action.payload carry table row Obj
+            else if (action.label === 'pMasterOperation')
+                STATE.pMaster.processopration[parseInt(action.key)] = (action.payload); // action.payload carry table row Obj
             else if (action.label == "subMaster") {
                 var obj = __assign(__assign({}, STATE.subMaster['EsMasterTable'][0]), (_b = {}, _b[action.key] = action.payload, _b));
                 STATE.subMaster['EsMasterTable'][0] = obj;
             }
             else if (action.label == "modifySubMaster") {
                 STATE.subMaster['EsMasterTable'][0] = action.payload;
+            }
+            else if (action.label == "modify_P_ESMaster") {
+                STATE.pMaster.esmastertable[0] = action.payload;
+            }
+            else if (action.label == "modify_P_Job") {
+                STATE.pMaster.processjobworker = action.payload;
+            }
+            else if (action.label == "modify_P_overHead") {
+                STATE.pMaster.processpoh = action.payload;
+            }
+            else if (action.label == "modify_P_oprn") {
+                STATE.pMaster.processopration = action.payload;
             }
         /* else alert("set wrong label error");*/
         case 'table':

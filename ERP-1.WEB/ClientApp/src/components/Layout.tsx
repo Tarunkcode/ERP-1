@@ -7,6 +7,7 @@ import $ from 'jquery';
 import { LogOut } from './logout/logout.component';
 import Sidebar from './SideNav/sidebar.component';
 import registerServiceWorker from '../components/Notifications/registerServiceWorker';
+import { ThemeContext } from '../AppContext/ThemeContext';
 /*import Notify from '../components/Notifications/index';*/
 
 
@@ -16,12 +17,17 @@ export default (props: any) => {
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
     var [Open, setState]: any = React.useState(false);
+    var { theme, changeTheme } = React.useContext(ThemeContext);
 
+    React.useEffect(() => {
+        console.log('currentTheme', theme)
+
+    }, [theme])
     $(document).ready(function () {
 
-        $('#sidebarCollapse').on('click', function () {
+        $('#sidebarCollapse').on('click', function (e: any) {
+            console.log('clciked navbar toggler')
             $('#sidebar').toggleClass('active');
-            
         });
         $('.cc').on('keydown', 'input, select', function (e) {
             if (e.key === "Enter") {
@@ -37,21 +43,18 @@ export default (props: any) => {
             }
           
         });
-    
-
-        
     });
    
     return (
-        <div className="cc">
+        <div className="cc" data-theme={theme}  >
             <React.Fragment>
                 <div className="wrapper ">
 
                     {/*topbar*/}
-                    <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light fixed-top" style={{ backgroundColor: "#798cd4", padding: '0', margin: '0', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'center' }}>
+                    <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light fixed-top" style={theme === 'dark' ? { backgroundColor: '#1F305E', padding: '0', margin: '0', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }:{ backgroundColor: '#798cd4', padding: '0', margin: '0', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'center' }}>
                         <div className="cont d-flex flex-row justify-content-around mnav text-center" >
 
-                            <button type="button" id="sidebarCollapse" className="btn btn-primary" style={{ padding: '10px', margin:'10px' }}>
+                            <button type="button" id="sidebarCollapse" className={theme === 'dark' ? "btn btn-light" : "btn btn-primary" } style={{ padding: '10px', margin:'10px' }}>
                                 <i className="fas fa-align-left"></i>
                                 <span></span>
                             </button>
@@ -71,18 +74,23 @@ export default (props: any) => {
                                 <span style={{ margin: '0', padding: '0', color: 'blue', marginTop: '3px', fontSize:'1rem' }}>{getUserName}</span>
 
                             </span>
-                           {/* <Notify />*/}
+                            {/* <Notify />*/}
+
+                            <div className="custom-control custom-switch">
+                                <input type="checkbox" className="custom-control-input" id="themeSwitch" onChange={changeTheme} /><br />
+                                <label className="custom-control-label" htmlFor="themeSwitch" style={{ cursor: 'pointer' }}>Dark Theme</label>
+                            </div>
                             <LogOut />
                         </div>
                     </nav>
                 </div>
 
-                <div  style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", width: "100%", maxHeight: "110vh", padding: '4em 0 0 0' }}>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", width: "100%", minHeight: 'auto', padding: '3.7em 0 0 0' }}>
 
                     {/* Sidebar*/}
                     <Sidebar state={state }/>
 
-                    <div className="homeDiv" style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "100vh", maxWidth: "118vw", margin: "0", padding: "0 0 30em 0", overflowY: "scroll", overflowX: "hidden" }}>
+                    <div className={theme === 'dark' ? 'homeDiv bg-secondary' : 'homeDiv bg-light' } style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "100vh", minHeight: '110vh', maxWidth: "118vw", margin: "0 0 30px 0", padding: "0 0 30em 0", overflowY: "scroll", overflowX: "hidden" }}>
 
                         <Container style={{ maxHeight: "100vh", width: "100vw" }}>
                             {props.children}
