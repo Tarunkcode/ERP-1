@@ -36,8 +36,11 @@ class RootProcess extends React.Component<IProps, IState> {
     compCode = window.sessionStorage.getItem('compCode') || ""
     customer = window.sessionStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-
-    
+    localState: any = {}
+    mainObj: object = {};
+    ovrhdArr: any = [];
+    jbWorkerArr: any = [];
+    oprnArr: any = [];
 
     componentDidMount() {
         let id: string = window.location.pathname;
@@ -54,49 +57,59 @@ class RootProcess extends React.Component<IProps, IState> {
         //-----------------------------------------
         if (this.props.gettingVirtualCode === 0 || this.props.state === null) {
         } else {
-          /*  console.log('code', this.props.state)*/
+            /*  console.log('code', this.props.state)*/
             this.fetchDefProcessMaster(this.props.state.code);
 
         }
     }
-   
-
-    fetchDefProcessMaster = async (code : any) => {
-       
-            let urlStr = `http://103.25.128.155:12019/api/LoadProcessMaster?Code=${code}&Company=${this.compCode}&Customer=${this.customer}`
-            console.log('load sub Master', urlStr);
-            console.log('calling')
-            var req: Request;
-            const h = new Headers();
-            h.append('Accept', 'application/json');
-            h.append('Content-Type', 'application/json');
-            h.append('CompCode', 'ESERPDB');
-            h.append('FYear', '0');
 
 
-            req = new Request(urlStr, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            })
+    fetchDefProcessMaster = async (code: any) => {
 
-            try {
+        let urlStr = `http://103.25.128.155:12019/api/LoadProcessMaster?Code=${code}&Company=${this.compCode}&Customer=${this.customer}`
+        console.log('load sub Master', urlStr);
+        console.log('calling')
+        var req: Request;
+        const h = new Headers();
+        h.append('Accept', 'application/json');
+        h.append('Content-Type', 'application/json');
+        h.append('CompCode', 'ESERPDB');
+        h.append('FYear', '0');
 
-               await fetch(req).then((res: any) => res.json()).then((res: any) => {
-                    var data = res.data[0];
-                   this.setState({ defProcessMaster: data });
-               
-                });
-            } catch (err) {
-                alert(err)
-            }
+
+        req = new Request(urlStr, {
+            method: 'GET',
+            headers: h,
+            mode: 'cors'
+        })
+
+        try {
+
+            await fetch(req).then((res: any) => res.json()).then((res: any) => {
+                var data = res.data[0];
+                this.setState({ defProcessMaster: data });
+           
+                this.mainObj = data.esmastertable[0];
+                this.oprnArr = [...data.processopration];
+                this.ovrhdArr = [...data.processpoh];
+                this.jbWorkerArr = [...data.processjobworker];
+                console.log('overhead', this.ovrhdArr)
+                console.log('operation', this.oprnArr)
+                store2.dispatch({ payload: this.mainObj, key: "", type: "changeConfig", label: "modify_P_ESMaster" });
+                store2.dispatch({ payload: this.ovrhdArr, key: '', type: "changeConfig", label: "modify_P_overHead" });
+                store2.dispatch({ payload: this.oprnArr, key: '', type: "changeConfig", label: "modify_P_opr" });
+                store2.dispatch({ payload: this.jbWorkerArr, key: '', type: "changeConfig", label: "modify_P_Job" });
+            });
+        } catch (err) {
+            alert(err)
+        }
     }
     componentDidUpdate(prevProps: any, prevState: any) {
         if (prevState.defProcessMaster !== this.state.defProcessMaster) {
             console.log('updates', this.state.defProcessMaster);
         }
     }
-   
+
     HandleOverHeadIpSelect = (code: string, name: string, row: any) => {
       
         let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code)};
@@ -104,9 +117,11 @@ class RootProcess extends React.Component<IProps, IState> {
             store2.dispatch({ payload: mainObj, key: row, type: "changeConfig", label: "pMasterOverHead" });
 
         } else {
-            this.state.defProcessMaster.processpoh[parseInt(row)] = mainObj
-            let local: any = [this.state.defProcessMaster.processpoh]
-            store2.dispatch({ payload: local, key: '', type: "changeConfig", label: "modify_P_overHead" });
+            this.ovrhdArr[parseInt(row)] = mainObj
+ 
+                //this.localState.processpoh = this.ovrhdArr;
+
+            store2.dispatch({ payload: this.ovrhdArr, key: '', type: "changeConfig", label: "modify_P_overHead" });
         }
         
           
@@ -127,12 +142,14 @@ class RootProcess extends React.Component<IProps, IState> {
     HandleOperationIpSelect = (code: string, name: string, row: any) => {
         let mainObj: object = { srno : parseInt(row) + 1, [name]: parseInt(code) };
         if (this.props.gettingVirtualCode === 0) {
-        store2.dispatch({ payload: mainObj, key:row, type: "changeConfig", label: "pMasterOperation" });
+            store2.dispatch({ payload: mainObj, key: row, type: "changeConfig", label: "pMasterOperation" });
 
         } else {
-            this.state.defProcessMaster.processopration[parseInt(row)] = mainObj
-            let local: any = [this.state.defProcessMaster.processopration]
-            store2.dispatch({ payload: local, key: '', type: "changeConfig", label: "modify_P_oprn" });
+            this.oprnArr[parseInt(row)] = mainObj
+          
+            //this.localState.processopration = this.oprnArr;
+            console.log('oprn', this.oprnArr)
+            store2.dispatch({ payload: this.oprnArr, key: '', type: "changeConfig", label: "modify_P_opr" });
 
         }
 
@@ -160,9 +177,11 @@ class RootProcess extends React.Component<IProps, IState> {
 
 
         } else {
-            this.state.defProcessMaster.processjobworker[parseInt(row)] = mainObj
-            let local: any = [this.state.defProcessMaster.processjobworker]
-            store2.dispatch({ payload: local, key: '', type: "changeConfig", label: "modify_P_Job" });
+            this.jbWorkerArr[parseInt(row)] = mainObj
+         
+            this.localState.processjobworker = this.jbWorkerArr;
+
+            store2.dispatch({ payload: this.jbWorkerArr, key: '', type: "changeConfig", label: "modify_P_Job" });
 
         }
             
@@ -186,10 +205,10 @@ class RootProcess extends React.Component<IProps, IState> {
 
         var value: any = '';
         var label: string = e.target.name;
-        let mainObj: any = {};
         //-------------------------------------------------------------------------------
         if (e.currentTarget.classList.contains('switch')) {
-            e.target.value === 'on' ? value = 1 : value = 0;
+            console.log('switch', e.target.value);
+            e.target.checked === true ? value = 1 : value = 0;
 
         } else if (e.currentTarget.classList.contains('select')) {
             value = parseInt(e.target.value);
@@ -212,8 +231,9 @@ class RootProcess extends React.Component<IProps, IState> {
             }
         } else {
             let change = { [label]: value }
-            mainObj = { ...this.state.defProcessMaster.esmastertable[0], ...change }
-            store2.dispatch({ payload: mainObj,  key: "", type: "changeConfig", label: "modify_P_ESMaster" });
+
+            this.mainObj = { ...this.mainObj, ...change }
+            store2.dispatch({ payload: this.mainObj, key: "", type: "changeConfig", label: "modify_P_ESMaster" });
         }
         //-------------------------------------------------------------------------------
         this.setState({

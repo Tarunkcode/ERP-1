@@ -66,19 +66,19 @@ const configReducer = (STATE = INITIAL_STATE, action: IAction) => {
             }
             else if (action.label == "modify_P_ESMaster") {
 
-                STATE.pMaster.esmastertable[0] = action.payload;
+                STATE.pMaster.esmastertable[0] = action.payload ;
             }
             else if (action.label == "modify_P_Job") {
 
-                STATE.pMaster.processjobworker = action.payload;
+                STATE.pMaster.processjobworker = [...action.payload ];
             }
             else if (action.label == "modify_P_overHead") {
 
-                STATE.pMaster.processpoh = action.payload
+                STATE.pMaster.processpoh = [...action.payload ];
             }
-            else if (action.label == "modify_P_oprn") {
+            else if (action.label == "modify_P_opr") {
 
-                STATE.pMaster.processopration = action.payload;
+                STATE.pMaster.processopration = [...action.payload];
             }
         /* else alert("set wrong label error");*/
 

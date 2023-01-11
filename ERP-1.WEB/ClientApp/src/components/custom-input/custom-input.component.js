@@ -48,9 +48,13 @@ function CustomInput(_a) {
 exports.default = CustomInput;
 function MasterInput(_a) {
     var name = _a.name, defaultt = _a.defaultt, label = _a.label, ipTitle = _a.ipTitle, ipType = _a.ipType, handleChange = _a.handleChange, classCategory = _a.classCategory, props = __rest(_a, ["name", "defaultt", "label", "ipTitle", "ipType", "handleChange", "classCategory"]);
-    return (React.createElement("span", { className: "row row-content d-flex section2 col-sm-12 m-0" },
+    return (
+    //<span className="row row-content d-flex section2 col-sm-12 m-0">
+    React.createElement(React.Fragment, null,
         React.createElement("label", { htmlFor: name, style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, label),
-        React.createElement("input", { type: ipType, defaultValue: defaultt, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true })));
+        React.createElement("input", { type: ipType, defaultValue: defaultt, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true }))
+    //</span>
+    );
 }
 exports.MasterInput = MasterInput;
 function CustomSelect(_a) {
@@ -75,12 +79,14 @@ function InputList(_a) {
     var theme = (0, react_1.useContext)(ThemeContext_1.ThemeContext).theme;
     var _g = React.useState(false), isDataListLoad = _g[0], setIsDataListLoad = _g[1];
     React.useEffect(function () {
-        console.log('props.default', props.default);
-        if (props.default === -1 || props.default === undefined) { }
+        if (props.default === -1 || props.default === undefined || dataArray.length === 0) { }
+        else if (props.default >= dataArray.length) {
+            alert('Array size exceed Error in Input List');
+        }
         else {
             setDefVal(dataArray[props.default].name);
         }
-    }, [props.default]);
+    }, [props.default, dataArray]);
     React.useEffect(function () {
         if (!dataArray || dataArray == undefined || dataArray === null || dataArray.length === 0)
             setIsDataListLoad(true);
@@ -93,10 +99,8 @@ function InputList(_a) {
         setListCurrentVal(code);
         /*console.log('row input', row)*/
         input.value = n;
-        if (row === undefined || !row)
-            change(code, name, row = null);
-        else
-            change(code, name, row);
+        //if (row === undefined || !row) change(code, name, row)
+        //else change(code , name , row )
         change(code, name, row);
         //console.log([n] + ":" +code)
         setHide(true);

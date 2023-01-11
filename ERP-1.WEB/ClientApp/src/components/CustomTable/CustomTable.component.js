@@ -32,7 +32,6 @@ function LoadTable(_a) {
 exports.default = LoadTable;
 function WriteTable(_a) {
     var columns = _a.columns, dataArr = _a.dataArr, title = _a.title, getCurrentRowNo = _a.getCurrentRowNo, HandleIpSelect = _a.HandleIpSelect, props = __rest(_a, ["columns", "dataArr", "title", "getCurrentRowNo", "HandleIpSelect"]);
-    console.log("table default", props.default);
     return (React.createElement("div", { className: "card-body m-0 p-0 mb-1 table-responsive", style: { margin: "0", padding: "0", overflow: 'auto' } },
         React.createElement("div", { className: "text-center card-title col-12 m-0", style: { textAlign: "start" } },
             React.createElement("span", { className: "row-header p-0 m-0" }, title)),
@@ -48,7 +47,7 @@ function WriteTable(_a) {
                     React.createElement("th", null, parseInt(ind) + 1),
                     columns.map(function (col, index) {
                         return (React.createElement("td", null,
-                            React.createElement(custom_input_component_1.InputList, { row: ind, name: row[col.field].name, change: HandleIpSelect, ipType: "text", ipTitle: row[col.field].ipTitle, dataArray: row[col.field].dataArray, classCategory: row[col.field].classCat, placeholder: row[col.field].placeholder, s: "100%", id: row[col.field].name, default: props.default ? props.default.findIndex(function (x) { return x.code === props.default[ind].name; }) : null })));
+                            React.createElement(custom_input_component_1.InputList, { row: ind, name: row[col.field].name, change: HandleIpSelect, ipType: "text", ipTitle: row[col.field].ipTitle, dataArray: row[col.field].dataArray, classCategory: row[col.field].classCat, placeholder: row[col.field].placeholder, s: "100%", id: row[col.field].name, default: row[col.field].dataArray.length !== 0 && row[col.field].defaultList.length !== 0 ? row[col.field].dataArray.findIndex(function (x) { return x.code == row[col.field].defaultList[ind][row[col.field].name]; }) : undefined })));
                         //return ( <td>{row[col.field]}</td>)
                     })));
             })))));

@@ -36,8 +36,7 @@ export default function LoadTable({columns, dataArr }: any) {
 
 
 export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpSelect, ...props }: any) {
-   
-    console.log(`table default`, props.default)
+
     return (
         <div
             className="card-body m-0 p-0 mb-1 table-responsive"
@@ -74,7 +73,8 @@ export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpS
                                         columns.map((col: any, index: any) => {
                                             return (
                                             <td>
-                                               < InputList
+                                                    < InputList
+                                                     
                                                  row={ind}
                                                  name={row[col.field].name}
                                                  change={HandleIpSelect}
@@ -84,8 +84,8 @@ export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpS
                                                  classCategory={row[col.field].classCat}
                                                  placeholder={row[col.field].placeholder}
                                                  s="100%"
-                                                 id={row[col.field].name}
-                                                 default={props.default ? props.default.findIndex((x: any) => x.code === props.default[ind].name): null}
+                                                        id={row[col.field].name}
+                                                        default={row[col.field].dataArray.length !== 0 && row[col.field].defaultList.length !== 0 ? row[col.field].dataArray.findIndex((x: any) => x.code == row[col.field].defaultList[ind][row[col.field].name]) : undefined} // passing index
                                                 />
                                             </td>)
                                   

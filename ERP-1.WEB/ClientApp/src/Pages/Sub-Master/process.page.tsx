@@ -12,7 +12,6 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
     const [joblist, setJobList]: any = useState([]);
     const [overheadlist, setOverHeadList]: any = useState([]);
 
-    console.log("toggel Value", ToggelValue);
 
     React.useEffect(() => {
      
@@ -75,6 +74,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
         }
         if (defaultData.processopration !== undefined) {
             let oprlist: any = defaultData.processopration
+            console.log('oprlist', oprlist)
             setOperationList(oprlist)
         }
         if (defaultData.processjobworker !== undefined) {
@@ -83,9 +83,10 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
         }
         if (defaultData.processpoh !== undefined) {
             let overlist: any = defaultData.processpoh
+            console.log('overlist', overlist)
             setOverHeadList(overlist)
         }
-    }, [defaultData])
+    }, [defaultData, masterlist, oprnlist, joblist, overheadlist])
 /*    var esMasterData: object = defaultData.esMsater*/
     return (
         <>
@@ -325,20 +326,20 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         <WriteTable
                             HandleIpSelect={HandleOverHeadIpSelect}
                             getCurrentRowNo={getCurrentRowNo}
-                            default = {overheadlist}
+                         
                             columns={[{ field: 'Name', header: "Name" }]}
-                            dataArr={[{ Name: { name: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select",placeholder: "Enter Process OverHead Name" } }]}
+                            dataArr={[{ Name: { name: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name", defaultList: overheadlist } }]}
                             title="Process OverHead"
                         />
                         <WriteTable
                             HandleIpSelect={HandleJobIpSelect}
                             getCurrentRowNo={getCurrentRowNo}
                             columns={[{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }]}
-                            default={joblist}
+                          
                             dataArr={[{
-                                Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name" }
+                                Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy-1' }, { code: 2, name: 'dumy-2' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name", defaultList: [{ srno: 1, jbcode: 2 }] }
 
-                                , JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On"}
+                                , JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
                             }]}
                             title="Job Worker List"
                         />
@@ -346,9 +347,9 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         <WriteTable
                             HandleIpSelect={HandleOperationIpSelect}
                             getCurrentRowNo={getCurrentRowNo}
-                            default= {oprnlist}
+                           
                             columns={[{ field: 'Oprn', header: "Operation" }]}
-                            dataArr={[{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name" } }]}
+                            dataArr={[{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }]}
                             title="Process Operation Details"
                         />
                      </span>

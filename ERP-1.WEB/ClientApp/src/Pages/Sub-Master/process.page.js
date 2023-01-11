@@ -25,7 +25,6 @@ function Process_Page(_a) {
     var _f = (0, react_1.useState)([]), oprnlist = _f[0], setOperationList = _f[1];
     var _g = (0, react_1.useState)([]), joblist = _g[0], setJobList = _g[1];
     var _h = (0, react_1.useState)([]), overheadlist = _h[0], setOverHeadList = _h[1];
-    console.log("toggel Value", ToggelValue);
     React.useEffect(function () {
         getMasterType(11);
         var Req;
@@ -72,6 +71,7 @@ function Process_Page(_a) {
         }
         if (defaultData.processopration !== undefined) {
             var oprlist = defaultData.processopration;
+            console.log('oprlist', oprlist);
             setOperationList(oprlist);
         }
         if (defaultData.processjobworker !== undefined) {
@@ -80,9 +80,10 @@ function Process_Page(_a) {
         }
         if (defaultData.processpoh !== undefined) {
             var overlist = defaultData.processpoh;
+            console.log('overlist', overlist);
             setOverHeadList(overlist);
         }
-    }, [defaultData]);
+    }, [defaultData, masterlist, oprnlist, joblist, overheadlist]);
     /*    var esMasterData: object = defaultData.esMsater*/
     return (React.createElement(React.Fragment, null,
         React.createElement("div", { className: "main card firstDiv" },
@@ -151,12 +152,12 @@ function Process_Page(_a) {
                         React.createElement(React.Fragment, null,
                             React.createElement(custom_switch_component_1.CustomeSwitch2, { lablClass: "custom-control-label col-9", label: " Enable Produce Item Serial No.", id: "c20", name: "c20", classCat: "form-control custom-control-input col-3 pMaster switch", handleChange: handleChange, default: masterlist.c20 })))),
                 React.createElement("span", { className: "card d-flex flex-column justify-content-between section2 col-sm-6", style: { height: '100vh' } },
-                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOverHeadIpSelect, getCurrentRowNo: getCurrentRowNo, default: overheadlist, columns: [{ field: 'Name', header: "Name" }], dataArr: [{ Name: { name: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name" } }], title: "Process OverHead" }),
-                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleJobIpSelect, getCurrentRowNo: getCurrentRowNo, columns: [{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }], default: joblist, dataArr: [{
-                                Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name" },
-                                JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On" }
+                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOverHeadIpSelect, getCurrentRowNo: getCurrentRowNo, columns: [{ field: 'Name', header: "Name" }], dataArr: [{ Name: { name: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name", defaultList: overheadlist } }], title: "Process OverHead" }),
+                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleJobIpSelect, getCurrentRowNo: getCurrentRowNo, columns: [{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }], dataArr: [{
+                                Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy-1' }, { code: 2, name: 'dumy-2' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name", defaultList: [{ srno: 1, jbcode: 2 }] },
+                                JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
                             }], title: "Job Worker List" }),
-                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOperationIpSelect, getCurrentRowNo: getCurrentRowNo, default: oprnlist, columns: [{ field: 'Oprn', header: "Operation" }], dataArr: [{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name" } }], title: "Process Operation Details" })))),
+                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOperationIpSelect, getCurrentRowNo: getCurrentRowNo, columns: [{ field: 'Oprn', header: "Operation" }], dataArr: [{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }], title: "Process Operation Details" })))),
         React.createElement("div", { className: "btn-group col-12 mt-3", style: {
                 display: "flex",
                 justifyContent: "flex-end",

@@ -10,6 +10,15 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.store2 = void 0;
 var redux_1 = require("redux");
@@ -60,13 +69,13 @@ var configReducer = function (STATE, action) {
                 STATE.pMaster.esmastertable[0] = action.payload;
             }
             else if (action.label == "modify_P_Job") {
-                STATE.pMaster.processjobworker = action.payload;
+                STATE.pMaster.processjobworker = __spreadArray([], action.payload, true);
             }
             else if (action.label == "modify_P_overHead") {
-                STATE.pMaster.processpoh = action.payload;
+                STATE.pMaster.processpoh = __spreadArray([], action.payload, true);
             }
-            else if (action.label == "modify_P_oprn") {
-                STATE.pMaster.processopration = action.payload;
+            else if (action.label == "modify_P_opr") {
+                STATE.pMaster.processopration = __spreadArray([], action.payload, true);
             }
         /* else alert("set wrong label error");*/
         case 'table':

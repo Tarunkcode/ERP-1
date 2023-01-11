@@ -69,20 +69,32 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
      
         try {
             //fetch series master 
-            this.props.fetchApi(3, 'series').then((res: any) => {
-                if (res.ok) return res.json();
+            this.props.fetchApi(48, 'series').then((res: any) => {
+                if (res.ok) {
+                    console.log('srrr...', res.json())
+                    return res.json();
+                }
                 else throw new Error('Bad Fetch 1')
-            }).then((result: any) => this.setState({ series: result.data }));
+            }).then((result: any) => {
+                this.setState({ series: result.data });
+            });
 
             //fetch del terms master
             this.props.fetchApi(30, 'master').then((res: any) => {
                 if (res.ok) return res.json();
                 else throw new Error('Bad Fetch 2')
-            }).then((result: any) => this.setState({ delT: result.data }))
+            }).then((result: any) =>
+
+                this.setState({ delT: result.data })
+
+            )
 
             // fetch pay terms master
             this.props.fetchApi(31, 'master').then((res: any) => {
-                if (res.ok) return res.json();
+                if (res.ok) {
+                    console.log('mastrrr', res.json())
+                    return res.json()
+                }
                 else throw new Error('Bad Fetch 3')
             }).then((result: any) => this.setState({ payT: result.data }));
 
@@ -111,19 +123,19 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
             }).then((result: any) => this.setState({ state: result.data }));
 
             // fetch city master
-            this.props.fetchApi(26, 'master').then((res: any) => {
+            this.props.fetchApi(120, 'master').then((res: any) => {
                 if (res.ok) return res.json();
                 else throw new Error('Bad Fetch 8')
             }).then((result: any) => this.setState({ city: result.data }));
 
             // fetch bank master
-            this.props.fetchApi(1018, 'master').then((res: any) => {
+            this.props.fetchApi(16, 'master').then((res: any) => {
                 if (res.ok) return res.json();
                 else throw new Error('Bad Fetch 9')
             }).then((result: any) => this.setState({ bank: result.data }));
 
             // fetch branch master
-            this.props.fetchApi(1019, 'master').then((res: any) => {
+            this.props.fetchApi(17, 'master').then((res: any) => {
                 if (res.ok) return res.json();
                 else throw new Error('Bad Fetch 10')
             }).then((result: any) => this.setState({ branch: result.data }));

@@ -11,6 +11,10 @@ import { PayTermsModal } from '../../../components/Modals/master.modals';
 
 
 export function CusSupMaster({ handleChangeField, bank, branch, currency, masters, handleAddressOptions, opn, title, handleSave$Submit, handleAddressTypeChange, formDataCollection, accountType, ...otherProps }: any) {
+    React.useEffect(() => {
+    console.log('series', masters);
+
+    }, [masters])
     return (
         <>
             <div className="main card firstDiv" >
@@ -26,17 +30,17 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                             <div className="show" id="genDetails">
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <CustomInput name="Series" classCategory="form-control inp AccountMaster" ipType="text" label="Series" ipTitle="Enter Series" dataArray={masters.series} change={handleChangeField} />
+                                        <CustomInput name="series" classCategory="form-control inp AccountMaster" ipType="text" label="Series" ipTitle="Enter Series" dataArray={masters.series} change={handleChangeField} />
 
                                         <SeriesMasterModal />
                                     </>
                                     <>
-                                        <CustomInput name="CodeStr" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Code" : "Supplier Code"} ipTitle={accountType == "3" ? "Enter Customer Code" : "Enter Supplier Code"} dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="codestr" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Code" : "Supplier Code"} ipTitle={accountType == "3" ? "Enter Customer Code" : "Enter Supplier Code"} dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
 
                                     </>
                                     <>
-                                        <CustomInput name="Name" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Name" : "Supplier Name"} ipTitle={accountType == "3" ? "Enter Customer Name" : "Enter Supplier Name"} dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="name" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Name" : "Supplier Name"} ipTitle={accountType == "3" ? "Enter Customer Name" : "Enter Supplier Name"} dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
 
@@ -44,20 +48,20 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <CustomInput name="PrintName" classCategory="form-control inp AccountMaster" ipType="text" label="Print Name" ipTitle="Enter Print Name" dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="printname" classCategory="form-control inp AccountMaster" ipType="text" label="Print Name" ipTitle="Enter Print Name" dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
 
                                     <>
 
-                                        <CustomInput name="Group" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Group" : "Supplier Group"} ipTitle={accountType === "3" ? "Enter Customer Group" : "Enter Supplier Group"} dataArray={masters.custGp} change={handleChangeField} />
+                                        <CustomInput name="group" classCategory="form-control inp AccountMaster" ipType="text" label={accountType == "3" ? "Customer Group" : "Supplier Group"} ipTitle={accountType === "3" ? "Enter Customer Group" : "Enter Supplier Group"} dataArray={masters.custGp} change={handleChangeField} />
                                         <CustomerGroupModal />
 
                                     </>
                                     <>
                                         <label htmlFor="MajorProduct" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Major Products</label>
 
-                                        <select name="MajorProduct" className="form-control inp AccountMaster" style={{ height: '25px' }} title="Major Products" onBlur={handleChangeField}>
+                                        <select name="majorproduct" className="form-control inp AccountMaster" style={{ height: '25px' }} title="Major Products" onBlur={handleChangeField}>
                                             <option value={1} >Y</option>
                                             <option value={0} >N</option>
                                         </select>
@@ -69,13 +73,13 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                     <>
 
-                                        <CustomInput name="DelTerm" classCategory="form-control inp AccountMaster" ipType="text" label="Delivery Terms" ipTitle="Enter Delievery Terms" dataArray={masters.delT} change={handleChangeField} />
+                                        <CustomInput name="delterm" classCategory="form-control inp AccountMaster" ipType="text" label="Delivery Terms" ipTitle="Enter Delievery Terms" dataArray={masters.delT} change={handleChangeField} />
                                         <DelTermsModal />
                                     </>
 
                                     <>
 
-                                        <CustomInput name="PayTerm" classCategory="form-control inp AccountMaster" ipType="text" label="Payment terms" ipTitle="Enter Payment Terms" dataArray={masters.payT} change={handleChangeField} />
+                                        <CustomInput name="payterm" classCategory="form-control inp AccountMaster" ipType="text" label="Payment terms" ipTitle="Enter Payment Terms" dataArray={masters.payT} change={handleChangeField} />
                                         <PayTermsModal />
                                     </>
 
@@ -85,7 +89,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                 <span className="d-flex section2 col-sm-12">
                                     <>
                                         <label htmlFor="OpBal" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Opening Balance</label>
-                                        <input type="text" name="OpBal" className="form-control AccountMaster" style={{ width: '18%' }} title="Opening Balance" onBlur={handleChangeField} />
+                                        <input type="text" name="opbal" className="form-control AccountMaster" style={{ width: '18%' }} title="Opening Balance" onBlur={handleChangeField} />
                                         <select className="form-control ml-1" style={{
                                             width: '4%',
                                             height: '25px',
@@ -112,8 +116,8 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                         <HiddenModal />
                                     </>
                                     <>
-                                        <label htmlFor="LedgerType" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Ledger Type</label>
-                                        <select name="LedgerType" className="form-control inp AccountMaster" style={{ height: '25px' }} title="Is Ledger Type" onBlur={handleChangeField}>
+                                        <label htmlFor="ledgertype " style={{ fontSize: '0.8em' }} className="form-label labl labl2">Ledger Type</label>
+                                        <select name="ledgertype " className="form-control inp AccountMaster" style={{ height: '25px' }} title="Is Ledger Type" onBlur={handleChangeField}>
                                             <option value={1} >Y</option>
                                             <option value={0} selected>N</option>
                                         </select>
@@ -136,15 +140,15 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                     <div className="row card-footer col-12 " style={{ margin: '1em 0%'}}>
                         <span className="d-flex align-items-center m-0 p-0">
                             <>
-                                <label htmlFor="PayDate" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">First Payment Date</label>
-                                <input className="form-control AccountMaster" name="PayDate" type="date" onBlur={handleChangeField} />
+                                <label htmlFor="paydate" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">First Payment Date</label>
+                                <input className="form-control AccountMaster" name="paydate" type="date" onBlur={handleChangeField} />
                                 <HiddenModal />
 
                             </>
 
                             <>
-                                <label htmlFor="DayFreq" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label ">Days Frequency</label>
-                                <input type="text" name="DayFreq AccountMaster" className="form-control AccountMaster" title="Days Frequency" onBlur={handleChangeField} />
+                                <label htmlFor="dayfreq" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label ">Days Frequency</label>
+                                <input type="text" name="dayfreq" className="form-control AccountMaster" title="Days Frequency" onBlur={handleChangeField} />
                                 <HiddenModal />
                             </>
 
@@ -159,22 +163,22 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <CustomInput name="PdPerSon" classCategory="form-control inp AccountMaster" ipType="text" label="Contact Person" ipTitle="Enter Contact  Person" dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pdperson" classCategory="form-control inp AccountMaster" ipType="text" label="Contact Person" ipTitle="Enter Contact  Person" dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
                                     <>
-                                        <CustomInput name="PDDesignation" classCategory="form-control inp AccountMaster" ipType="text" label="Designation" ipTitle="Enter Designation" dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pddesignation" classCategory="form-control inp AccountMaster" ipType="text" label="Designation" ipTitle="Enter Designation" dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <CustomInput name="PDExe" classCategory="form-control inp AccountMaster" ipType="text" label="Chief Executive" ipTitle="Enter Chief Executive" dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pdexe" classCategory="form-control inp AccountMaster" ipType="text" label="Chief Executive" ipTitle="Enter Chief Executive" dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
                                     <>
-                                        <CustomInput name="PDExeTel" classCategory="form-control inp AccountMaster" ipType="text" label="Chief Exe. Tel. No." ipTitle="Enter Chief Executive Tel. No." dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pdexetel" classCategory="form-control inp AccountMaster" ipType="text" label="Chief Exe. Tel. No." ipTitle="Enter Chief Executive Tel. No." dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
 
@@ -184,11 +188,11 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                 <span className="d-flex section2 col-sm-12">
 
                                     <>
-                                        <CustomInput name="PDTel" classCategory="form-control inp AccountMaster" ipType="text" label="Tel. No." ipTitle="Tel. No." dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pdtel" classCategory="form-control inp AccountMaster" ipType="text" label="Tel. No." ipTitle="Tel. No." dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
                                     <>
-                                        <CustomInput name="Pdmob" classCategory="form-control inp AccountMaster" ipType="text" label="Mobile No." ipTitle="Enter Mobile No." dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pdmob" classCategory="form-control inp AccountMaster" ipType="text" label="Mobile No." ipTitle="Enter Mobile No." dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
 
@@ -198,7 +202,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
 
                                     <>
-                                        <CustomInput name="PDEMAIL" classCategory="form-control inp AccountMaster" ipType="text" label="Email" ipTitle="Enter Email" dataArray={[]} change={handleChangeField} />
+                                        <CustomInput name="pdemail" classCategory="form-control inp AccountMaster" ipType="text" label="Email" ipTitle="Enter Email" dataArray={[]} change={handleChangeField} />
                                         <HiddenModal />
                                     </>
                                 </span>
@@ -209,8 +213,8 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                     <div className="row card-footer col-12 " style={{ margin: '1em 0%' }}>
                         <span className="d-flex align-items-center m-0 p-0">
                             <>
-                                <label htmlFor="zone" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Address. Options</label>
-                                <select name="zone" className="form-control" onBlur={handleAddressOptions} >
+                                <label htmlFor="addresstype" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Address. Options</label>
+                                <select name="addresstype" className="form-control AddressDetail" onBlur={handleAddressOptions} >
 
                                     <option style={{ fontFamily: "trebuc" }} value="Corporate" selected >Corporate</option>
                                     <option style={{ fontFamily: "trebuc" }} value="Plant">Plant</option>
@@ -239,34 +243,15 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                         <div className="collapse" id="contAdd">
                                             <span className="d-flex section2 col-sm-12">
                                                 <>
-                                                    <CustomInput name="Address1" classCategory="form-control inp AddressDetail" ipType="text" label="Address-1" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} onChange={handleAddressTypeChange(1)} />
+                                                    <CustomInput name="address1" classCategory="form-control inp AddressDetail" ipType="text" label="Address-1" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} onChange={handleAddressTypeChange(1)} />
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="Address2" classCategory="form-control inp AddressDetail" ipType="text" label="Address-2" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} />
+                                                    <CustomInput name="address2" classCategory="form-control inp AddressDetail" ipType="text" label="Address-2" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="Address3" classCategory="form-control inp AddressDetail" ipType="text" label="Address-3" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} />
-                                                    <HiddenModal />
-                                                </>
-
-
-
-
-                                            </span>
-
-                                            <span className="d-flex section2 col-sm-12">
-                                                <>
-                                                    <CustomInput name="Address4" classCategory="form-control inp AddressDetail" ipType="text" label="Address-4" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} />
-                                                    <HiddenModal />
-                                                </>
-                                                <>
-                                                    <CustomInput name="Country" classCategory="form-control inp AddressDetail" ipType="text" label="Country" ipTitle="Enter Country" dataArray={masters.country} change={handleChangeField} />
-                                                    <HiddenModal />
-                                                </>
-                                                <>
-                                                    <CustomInput name="Zone" classCategory="form-control inp AddressDetail" ipType="text" label="Zone" ipTitle="Enter Zone" dataArray={masters.zone} change={handleChangeField} />
+                                                    <CustomInput name="address3" classCategory="form-control inp AddressDetail" ipType="text" label="Address-3" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
 
@@ -277,15 +262,34 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                             <span className="d-flex section2 col-sm-12">
                                                 <>
-                                                    <CustomInput name="State" classCategory="form-control inp AddressDetail" ipType="text" label="State" ipTitle="Enter State" dataArray={masters.state} change={handleChangeField} />
+                                                    <CustomInput name="address4" classCategory="form-control inp AddressDetail" ipType="text" label="Address-4" ipTitle="Enter Address" dataArray={[]} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="City" classCategory="form-control inp AddressDetail" ipType="text" label="City" ipTitle="Enter City" dataArray={masters.city} change={handleChangeField} />
+                                                    <CustomInput name="country" classCategory="form-control inp AddressDetail" ipType="text" label="Country" ipTitle="Enter Country" dataArray={masters.country} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="Tel" classCategory="form-control inp AddressDetail" ipType="tel" label="Tel. No." ipTitle="Enter Telephone Number" dataArray={[]} change={handleChangeField} />
+                                                    <CustomInput name="zone" classCategory="form-control inp AddressDetail" ipType="text" label="Zone" ipTitle="Enter Zone" dataArray={masters.zone} change={handleChangeField} />
+                                                    <HiddenModal />
+                                                </>
+
+
+
+
+                                            </span>
+
+                                            <span className="d-flex section2 col-sm-12">
+                                                <>
+                                                    <CustomInput name="state" classCategory="form-control inp AddressDetail" ipType="text" label="State" ipTitle="Enter State" dataArray={masters.state} change={handleChangeField} />
+                                                    <HiddenModal />
+                                                </>
+                                                <>
+                                                    <CustomInput name="city" classCategory="form-control inp AddressDetail" ipType="text" label="City" ipTitle="Enter City" dataArray={masters.city} change={handleChangeField} />
+                                                    <HiddenModal />
+                                                </>
+                                                <>
+                                                    <CustomInput name="tel" classCategory="form-control inp AddressDetail" ipType="tel" label="Tel. No." ipTitle="Enter Telephone Number" dataArray={[]} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
 
@@ -293,15 +297,15 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                             <span className="d-flex section2 col-sm-12">
                                                 <>
-                                                    <CustomInput name="Email" classCategory="form-control inp AddressDetail" ipType="text" label="Email ID" ipTitle="Enter Email" dataArray={[]} change={handleChangeField} />
+                                                    <CustomInput name="email" classCategory="form-control inp AddressDetail" ipType="text" label="Email ID" ipTitle="Enter Email" dataArray={[]} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="PostCode" classCategory="form-control inp AddressDetail" ipType="text" label="Pin Code" ipTitle="Enter Pin" dataArray={[]} change={handleChangeField} />
+                                                    <CustomInput name="postcode" classCategory="form-control inp AddressDetail" ipType="text" label="Pin Code" ipTitle="Enter Pin" dataArray={[]} change={handleChangeField} />
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="pan" classCategory="form-control inp AddressDetail" ipType="text" label="Pan" ipTitle="Enter Pan No." dataArray={[]} /> {/* notFound*/}
+                                                    <CustomInput name="pan" classCategory="form-control inp CommercialDetail" ipType="text" label="Pan" ipTitle="Enter Pan No." dataArray={[]} /> {/* notFound*/}
                                                     <HiddenModal />
                                                 </>
 
@@ -309,15 +313,15 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                             <span className="d-flex section2 col-sm-12">
                                                 <>
-                                                    <CustomInput name="gst" classCategory="form-control inp AddressDetail" ipType="text" label="GST No." ipTitle="Enter GST" dataArray={[]} /> {/* notFound*/}
+                                                    <CustomInput name="gstno" classCategory="form-control inp CommercialDetail" ipType="text" label="GST No." ipTitle="Enter GST" dataArray={[]} /> {/* notFound*/}
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="dist" classCategory="form-control inp AddressDetail" ipType="text" label="Distance" ipTitle="Enter Distance" dataArray={[]} /> {/* notFound*/}
+                                                    <CustomInput name="distance" classCategory="form-control inp CommercialDetail" ipType="text" label="Distance" ipTitle="Enter Distance" dataArray={[]} /> {/* notFound*/}
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="station" classCategory="form-control inp AddressDetail" ipType="text" label="Station" ipTitle="Enter Station" dataArray={[]} /> {/* notFound*/}
+                                                    <CustomInput name="station" classCategory="form-control inp AccountMaster" ipType="text" label="Station" ipTitle="Enter Station" dataArray={[]} />  notFound
                                                     <HiddenModal />
                                                 </>
                                             </span>
@@ -346,16 +350,16 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                                 <tbody>
                                                     <tr>
                                                         <th>1</th>
-                                                        <td><input name="Accounttype" className="form-control inp AddressDetail" type="tel" title="Enter P/L"  style={{ width: '300px' }} onChange={handleAddressTypeChange(2)} required /></td> {/*Accounttype CONFLICT*/}
+                                                        <td><input name="accounttype" className="form-control inp AddressDetail" type="tel" title="Enter P/L"  style={{ width: '300px' }} onChange={handleAddressTypeChange(2)} required /></td> {/*Accounttype CONFLICT*/}
 
 
-                                                        <td><input name="Name" className="form-control inp AddressDetail" type="tel" title="Enter Plant Name" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
+                                                        <td><input name="name" className="form-control inp AddressDetail" type="tel" title="Enter Plant Name" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
 
-                                                        <td><input name="Address1" className="form-control inp AddressDetail" type="tel" title="Enter Address Line 1" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
+                                                        <td><input name="address1" className="form-control inp AddressDetail" type="tel" title="Enter Address Line 1" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
 
-                                                        <td><input name="Address2" className="form-control inp AddressDetail" type="tel" title="Enter Address Line 2" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="address2" className="form-control inp AddressDetail" type="tel" title="Enter Address Line 2" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
 
-                                                        <td><input name="Country" className="form-control inp AddressDetail" type="tel" title="Enter Country" onBlur={handleChangeField} style={{ width: '300px' }} list="countryList"/>
+                                                        <td><input name="country" className="form-control inp AddressDetail" type="tel" title="Enter Country" onBlur={handleChangeField} style={{ width: '300px' }} list="countryList"/>
                                                             {
                                                                 masters.country != null && bank.length > 0 ?
 
@@ -378,7 +382,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                                             }
                                                         </td>
 
-                                                        <td><input name="Zone" className="form-control inp AddressDetail" type="tel" title="Enter Zone" onBlur={handleChangeField} style={{ width: '300px' }} list="zoneList" />
+                                                        <td><input name="zone" className="form-control inp AddressDetail" type="tel" title="Enter Zone" onBlur={handleChangeField} style={{ width: '300px' }} list="zoneList" />
                                                             {
                                                                 masters.zone != null && bank.length > 0 ?
 
@@ -437,19 +441,19 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                                 <tbody>
                                                     <tr>
                                                         <th>1</th>
-                                                        <td><input name="PAN" className="form-control inp AddressDetail" type="text" title="Enter PAN No." style={{ width: '300px' }} /></td>{/* notFound*/}
-                                                        <td><input name="Address1" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} onChange={handleAddressTypeChange(3)} required /></td>
-                                                        <td><input name="Address2" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="Address3" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="Address4" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="Country" className="form-control inp AddressDetail" type="text" title="Enter Country" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="Zone" className="form-control inp AddressDetail" type="text" title="Enter Zone" style={{ width: '300px' }} /></td>
-                                                        <td><input name="State" className="form-control inp AddressDetail" type="text" title="Enter State" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="City" className="form-control inp AddressDetail" type="text" title="Enter City" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="PostCode" className="form-control inp AddressDetail" type="text" title="Enter Post Code" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="Tel" className="form-control inp AddressDetail" type="text" title="Enter Telephone" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                                        <td><input name="GST" className="form-control inp AddressDetail" type="text" title="Enter GST" style={{ width: '300px' }} /></td>
-                                                        <td><input name="Distance" className="form-control inp AddressDetail" type="text" title="Enter Distance"  style={{ width: '300px' }} /></td>
+                                                        <td><input name="pan" className="form-control inp CommercialDetail" type="text" title="Enter PAN No." style={{ width: '300px' }} /></td>{/* notFound*/}
+                                                        <td><input name="address1" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} onChange={handleAddressTypeChange(3)} required /></td>
+                                                        <td><input name="address2" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="address3" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="address4" className="form-control inp AddressDetail" type="text" title="Enter Address" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="country" className="form-control inp AddressDetail" type="text" title="Enter Country" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="zone" className="form-control inp AddressDetail" type="text" title="Enter Zone" style={{ width: '300px' }} /></td>
+                                                        <td><input name="state" className="form-control inp AddressDetail" type="text" title="Enter State" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="city" className="form-control inp AddressDetail" type="text" title="Enter City" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="postcode" className="form-control inp AddressDetail" type="text" title="Enter Post Code" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="tel" className="form-control inp AddressDetail" type="text" title="Enter Telephone" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                                        <td><input name="gstno" className="form-control inp CommercialDetail" type="text" title="Enter GST" style={{ width: '300px' }} /></td>
+                                                        <td><input name="distance" className="form-control inp CommercialDetail" type="text" title="Enter Distance"  style={{ width: '300px' }} /></td>
 
                                                     </tr>
                                                   
@@ -484,8 +488,8 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                         <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>IFSC Code</th>
                                         <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Currency</th>
                                         <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Country</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>GST</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Distance</th>
+                                        {/*<th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>GST</th>*/}
+                                        {/*<th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Distance</th>*/}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -494,7 +498,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                         <td><input type="text" className="form-control inp" style={{ width: '300px' }} /></td> {/*NotFound*/}
                                         <td>
                                            
-                                            <input name="Name" className="form-control inp BankDetail" type="text" title="Select Bank Name" onBlur={handleChangeField} style={{ width: '300px' }} list="bankNameList" />
+                                            <input name="name" className="form-control inp BankDetail" type="text" title="Select Bank Name" onBlur={handleChangeField} style={{ width: '300px' }} list="bankNameList" />
                                             {
                                                 bank != null && bank.length > 0 ?
 
@@ -517,7 +521,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                             }
 
                                         </td>
-                                        <td>  <input name="Address" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }} list="branchNameList" />
+                                        <td>  <input name="branch" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }} list="branchNameList" />
                                             {
                                                 branch != null && branch.length > 0 ?
 
@@ -538,11 +542,11 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
 
                                             }</td>
-                                        <td>  <input name="ACNo" className="form-control inp BankDetail" type="text" title="Enter Account No." onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                        <td>  <input name="ACType" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
-                                        <td>  <input name="SwiftCode" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                        <td>  <input name="IFSCCode" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
-                                        <td> <input name="Currency" className="form-control inp BankDetail" type="text" title="Select Currency Name" onBlur={handleChangeField} style={{ width: '300px' }} list="currNameList" />
+                                        <td>  <input name="accno" className="form-control inp BankDetail" type="text" title="Enter Account No." onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                        <td>  <input name="acctype" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }}/></td>
+                                        <td>  <input name="swiftcode" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                        <td>  <input name="ifsccode" className="form-control inp BankDetail" type="text" title="Select Branch Name" onBlur={handleChangeField} style={{ width: '300px' }} /></td>
+                                        <td> <input name="currency" className="form-control inp BankDetail" type="text" title="Select Currency Name" onBlur={handleChangeField} style={{ width: '300px' }} list="currNameList" />
                                             {
                                                 currency != null && currency.length > 0 ?
 
@@ -564,7 +568,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                             }
                                         </td>
-                                        <td> <input name="Country" className="form-control inp BankDetail" type="text" title="Select Country Name" onBlur={handleChangeField} style={{ width: '300px' }} list="countryList" />
+                                        <td> <input name="country" className="form-control inp BankDetail" type="text" title="Select Country Name" onBlur={handleChangeField} style={{ width: '300px' }} list="countryList" />
 
                                             {
                                                 masters.country != null && currency.length > 0 ?
@@ -587,8 +591,8 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                             }
                                         </td>
-                                        <td> <input name="SwiftCode" className="form-control inp BankDetail" type="text" title="Select Branch Name" style={{ width: '300px' }} /></td> {/* NotFound*/}
-                                        <td> <input name="SwiftCode" className="form-control inp BankDetail" type="text" title="Select Branch Name" style={{ width: '300px' }} /></td>{/* NotFound*/}
+                                        {/*<td> <input name="gst" className="form-control inp BankDetail" type="text" title="Select Branch Name" style={{ width: '300px' }} /></td> */}{/* NotFound*/}
+                                        {/*<td> <input name="SwiftCode" className="form-control inp BankDetail" type="text" title="Select Branch Name" style={{ width: '300px' }} /></td>*/}{/* NotFound*/}
                                     </tr>
                                   
 

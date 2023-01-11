@@ -65,13 +65,13 @@ export function MasterInput({ name,defaultt, label, ipTitle, ipType, handleChang
 
     return (
 
-        <span className="row row-content d-flex section2 col-sm-12 m-0">
+        //<span className="row row-content d-flex section2 col-sm-12 m-0">
            
-  
+  <>
             <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label labl labl2">{label}</label>
             <input type={ipType} defaultValue={defaultt } name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
-
-            </span>
+   </>
+            //</span>
  
     )
 }
@@ -114,25 +114,30 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
     var [isDataListLoad, setIsDataListLoad]: any = React.useState(false);
 
     React.useEffect(() => {
-        console.log('props.default', props.default)
-        if (props.default === -1 || props.default === undefined) { }
+  
+        if (props.default === -1 || props.default === undefined || dataArray.length === 0) { }
+        else if (props.default >= dataArray.length) {
+            alert('Array size exceed Error in Input List')
+        }
         else {
             setDefVal(dataArray[props.default].name);
         }
-    }, [props.default])
+   
+    }, [props.default, dataArray])
     React.useEffect(() => {
-        if (!dataArray || dataArray == undefined || dataArray === null || dataArray.length === 0) setIsDataListLoad(true)
-        else setIsDataListLoad(false);
+    if (!dataArray || dataArray == undefined || dataArray === null || dataArray.length === 0) setIsDataListLoad(true)
+    else setIsDataListLoad(false);
     }, [dataArray])
 
     const SetInputData = (e: any) => {
         var n = e.target.id;
         var code = e.target.value;
+      
         setListCurrentVal(code);
        /*console.log('row input', row)*/
         input.value = n;
-        if (row === undefined || !row) change(code, name, row = null)
-        else change(code , name , row)
+        //if (row === undefined || !row) change(code, name, row)
+        //else change(code , name , row )
        change(code , name , row)
      
         //console.log([n] + ":" +code)

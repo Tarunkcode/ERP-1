@@ -14,8 +14,8 @@ export function fetchMasters(Component: any) {
         //urlStr = this.props.url;
 
         fetchApi = ( masterCode : number, label: string ) => {
-            const urlStr = `http://103.25.128.155:12019/api/GetSeries?TranType=${masterCode}&SrType=1&TranSubType=0`;
-            const urlMaster = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}`;
+            const urlStr = `http://103.25.128.155:12019/api/GetSeries?TranType=48&SrType=0&customer=57&company=46`;
+            const urlMaster = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}&SrType=1&customer=${57}&company=${46}`;
             try {
 
             var req: Request;
