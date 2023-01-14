@@ -28,9 +28,9 @@ interface IProps {
         }
     }
 
-    compCode = window.sessionStorage.getItem('compCode') || ""
-    customer = window.sessionStorage.getItem('customer') || ""
-    username = window.sessionStorage.getItem('username') || ""
+     compCode = window.localStorage.getItem('compCode') || ""
+     customer = window.localStorage.getItem('customer') || ""
+     username = window.sessionStorage.getItem('username') || ""
 
     FetchLoadingSubMasterData = (mType:any) => {
      

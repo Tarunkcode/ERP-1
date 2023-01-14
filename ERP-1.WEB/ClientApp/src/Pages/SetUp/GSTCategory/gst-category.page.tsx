@@ -11,8 +11,8 @@ export default function GSTCategory_Page() {
     var [rawObj, setRawObj]: any = React.useState({});
     var [def, setDef]: any = React.useState({});
     var obj: object = {};
-    var compCode = window.sessionStorage.getItem('compCode') ||""
-    var customer: string = window.sessionStorage.getItem('customer') || ""
+    var compCode = window.localStorage.getItem('compCode') || ""
+    var customer: string = window.localStorage.getItem('customer') || ""
 
     var loc = useLocation();
     const state : any = loc.state;

@@ -21,10 +21,9 @@ export default class Series_Conf extends React.Component<{},IState> {
         this.handlePosting = this.handlePosting.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
-    compCode = window.sessionStorage.getItem('compCode') || ""
-    customer = window.sessionStorage.getItem('customer') || ""
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-
 
     getCode = (value: any) => {
         this.setState({ Code: value })

@@ -12,10 +12,10 @@ import { ThemeContext } from '../AppContext/ThemeContext';
 
 
 export default (props: any) => {
-    const getUserName = window.sessionStorage.getItem('user');
-    const getState = window.localStorage.getItem('state');
+    const getUserName = window.sessionStorage.getItem('username');
+    const getState = window.sessionStorage.getItem('state');
     const state = JSON.parse(getState!)
-    const getCompCode = window.sessionStorage.getItem('compCode');
+    const getCompCode = window.localStorage.getItem('compCode');
     var [Open, setState]: any = React.useState(false);
     var { theme, changeTheme } = React.useContext(ThemeContext);
 

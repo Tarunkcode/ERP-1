@@ -39,8 +39,8 @@ class SubMasterChild extends React.Component<IProps, IState>{
         this.HandleIpSelect = this.HandleIpSelect.bind(this);
 
     }
-    compCode = window.sessionStorage.getItem('compCode') || ""
-    customer = window.sessionStorage.getItem('customer') || ""
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
     componentDidMount() {
         let id: string = window.location.pathname;

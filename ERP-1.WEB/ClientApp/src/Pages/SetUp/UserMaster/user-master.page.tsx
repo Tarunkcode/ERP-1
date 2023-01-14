@@ -8,8 +8,8 @@ function UserMaster_Page() {
    
     var obj: object = {};
 
-    const compCode = window.sessionStorage.getItem('compCode') || ""
-    const customer = window.sessionStorage.getItem('customer') || ""
+    const compCode = window.localStorage.getItem('compCode') || ""
+    const customer = window.localStorage.getItem('customer') || ""
     const username = window.sessionStorage.getItem('username') || ""
     React.useEffect(() => {
         const url =`http://103.25.128.155:12019/api/LoadUserRoles?Customer=${customer}&Company=${compCode}`

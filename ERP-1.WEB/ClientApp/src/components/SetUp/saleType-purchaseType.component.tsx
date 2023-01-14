@@ -33,8 +33,8 @@ export default class SPType extends React.Component<{}, IState> {
     getMasterType = (val: number) => { this.setState({ masterType: val }) }
    
 
-    compCode = window.sessionStorage.getItem('compCode') || ""
-    customer = window.sessionStorage.getItem('customer') || ""
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
 
 

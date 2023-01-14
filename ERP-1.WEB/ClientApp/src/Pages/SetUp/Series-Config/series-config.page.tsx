@@ -4,8 +4,8 @@ import ConfigModal from "../../../components/Modals/config_Modals"
 function SeriesConfig_Page({ handleChange, handlePosting, getCode, getCtype,parentCode }: any) {
    
     var [tree, setTree]: any = React.useState([])
-    const compCode = window.sessionStorage.getItem('compCode') || ""
-   const customer = window.sessionStorage.getItem('customer') || ""
+    const compCode = window.localStorage.getItem('compCode') || ""
+    const customer = window.localStorage.getItem('customer') || ""
     const username = window.sessionStorage.getItem('username') || ""
     const renderTreeData = () => {
         var urlStr = `http://103.25.128.155:12019/api/GetSeriesNode?Customer=${customer}&Company=${compCode}`;

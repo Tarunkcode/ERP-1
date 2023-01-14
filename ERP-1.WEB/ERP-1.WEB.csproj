@@ -120,7 +120,6 @@
     <TypeScriptCompile Include="ClientApp\src\components\List\list.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Modify\modify.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\SideNav\sidebar.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Modify\modify.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\Featutes-Option\gst-conf.page.tsx" />

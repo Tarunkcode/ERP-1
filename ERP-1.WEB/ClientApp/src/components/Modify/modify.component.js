@@ -24,8 +24,8 @@ var Modify_Child = /** @class */ (function (_super) {
     __extends(Modify_Child, _super);
     function Modify_Child(props) {
         var _this = _super.call(this, props) || this;
-        _this.compCode = window.sessionStorage.getItem('compCode') || "";
-        _this.customer = window.sessionStorage.getItem('customer') || "";
+        _this.compCode = window.localStorage.getItem('compCode') || "";
+        _this.customer = window.localStorage.getItem('customer') || "";
         _this.username = window.sessionStorage.getItem('username') || "";
         _this.FetchLoadingSubMasterData = function (mType) {
             var urlLoadModify = "http://103.25.128.155:12019/api/LoadMasterData?MasterType=" + mType + "&Company=" + _this.compCode + "&Customer=" + _this.customer;

@@ -1,9 +1,9 @@
 ﻿
 import * as React from 'react';
-import { useState } from 'react';
+
 import './login.styles.css';
 import CustomButton from '../../custom-button/custom-button.component';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 
 import { connect } from "react-redux";
@@ -37,6 +37,9 @@ interface IState {
     //pass: any;
     fy: number;
 }
+interface IProps {
+    history: any;
+}
 //hoc
 //export function LogInHoc(Component: any) {
 //    const C = (props: any) => {
@@ -46,7 +49,7 @@ interface IState {
 //    };
 //    return C;
 //};
-export default class ChildLog extends React.Component<{}, IState>{
+export default class ChildLog extends React.Component<IProps, IState>{
 
     constructor(props: any) {
         super(props);
@@ -63,11 +66,12 @@ export default class ChildLog extends React.Component<{}, IState>{
             fy: 0
         };
     }
-    ip = window.sessionStorage.getItem('url')
-    port = window.sessionStorage.getItem('port')
-    compCode = window.sessionStorage.getItem('compCode')
-    customer = window.sessionStorage.getItem('customer')
-    compName = window.sessionStorage.getItem('compName')
+
+    ip = window.localStorage.getItem('url')
+    port = window.localStorage.getItem('port')
+    compCode = window.localStorage.getItem('compCode')
+    customer = window.localStorage.getItem('customer')
+    compName = window.localStorage.getItem('compName')
     componentDidMount() {
 
         this.setState({ compList: [{'compCode': this.compCode, 'compName':this.compName}] })
@@ -156,13 +160,13 @@ export default class ChildLog extends React.Component<{}, IState>{
             /*const { setCurrentUser } = this.props;*/
             // var { domainState } = React.useContext(DomainContext);
 
-            window.sessionStorage.setItem('user', this.state.username)
+        /*    window.sessionStorage.setItem('user', this.state.username)*/
             //window.sessionStorage.setItem('compCode', this.state.compCode)
 
             //let i = JSON.stringify(this.props.appContext)
-            let i = {domain:'103.25.128.155', port:'12019',Fy:'2022'}
+      /*      let i = {domain:'103.25.128.155', port:'12019',Fy:'2022'}*/
             /*           await setCurrentUser(i)*/
-            window.localStorage.setItem('state', JSON.stringify(i));
+   /*         window.localStorage.setItem('state', JSON.stringify(i));*/
 
             this.fetchValidateUserApi();
 
@@ -186,8 +190,14 @@ export default class ChildLog extends React.Component<{}, IState>{
                 (
                     compList[0].msg !== '' || compList[0].msg !== null || compList[0].msg !== undefined ? (
                         <div className="m-0 p-0" style={{position:'absolute', left:'10px', top:'50px'}}>
-                        <textarea rows={2} className="form-control col-12 text-danger m-0 float-left text-center" readOnly>{compList[0].msg}</textarea>
-                            
+                            <textarea rows={2} className="form-control col-12 text-danger m-0 float-left text-center" readOnly>{compList[0].msg}</textarea>
+                            <button className="btn btn-danger p-1 mt-3" onClick={() => {
+                                const { history } = this.props;
+                                    localStorage.clear();
+                                sessionStorage.clear();
+                                history.push('/')
+
+                            }}>Change User</button>
                         </div>
                     ): null
                    

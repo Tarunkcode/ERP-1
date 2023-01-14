@@ -32,7 +32,9 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
         this.handleUIdChange = this.handleUIdChange.bind(this)
         this.handlePassChange = this.handlePassChange.bind(this)
     }
-    
+
+    data = window.localStorage.getItem('compCode') || '';
+   
     handleSubmit = async (e: any) => {
         e.preventDefault();
         this.setState({ isLoader : true })
@@ -66,13 +68,13 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
            
                 if (result.data[0].result === 1) {
                     this.setState({ isLoader: false })
-                    window.sessionStorage.setItem("compName", result.data[0].compName)
-                    window.sessionStorage.setItem("url", result.data[0].url)
-                    window.sessionStorage.setItem("port", result.data[0].port)
-                    window.sessionStorage.setItem("customer", result.data[0].customer)
-                    window.sessionStorage.setItem("custName", result.data[0].custName)
-                    window.sessionStorage.setItem("compCode", result.data[0].compCode)
-                    window.sessionStorage.setItem("compName", result.data[0].compName)
+                    window.localStorage.setItem("compName", result.data[0].compName)
+                    window.localStorage.setItem("url", result.data[0].url)
+                    window.localStorage.setItem("port", result.data[0].port)
+                    window.localStorage.setItem("customer", result.data[0].customer)
+                    window.localStorage.setItem("custName", result.data[0].custName)
+                    window.localStorage.setItem("compCode", result.data[0].compCode)
+                    window.localStorage.setItem("compName", result.data[0].compName)
        
                     this.setState({ compList: result.data[0].compName })
                     toast.success(`Customer Validate Successfully`);
@@ -102,16 +104,21 @@ export default class CustomerVaildate extends React.Component<IProps, IState> {
 
     render() {
         //const { redirect, compList, uid, pass } = this.state;
-        const { redirect, compList } = this.state;
-        console.log('redirect', redirect);
-        if (redirect === true) {
-            this.setState({ isLoader: false })
-            //return <Redirect to={{
-            //    pathname: "/Login",
-            //    state: { compList: compList}
-            //}} />;
-           return <Redirect to="/Login" />
-        } else { }
+        if (this.data) {
+            return <Redirect to="/Login" />
+        } else {
+            const { redirect, compList } = this.state;
+            console.log('redirect', redirect);
+            if (redirect === true) {
+                this.setState({ isLoader: false })
+                //return <Redirect to={{
+                //    pathname: "/Login",
+                //    state: { compList: compList}
+                //}} />;
+                return <Redirect to="/Login" />
+            }
+        }
+      
         return (
             <>
                 <div className="outer-container">

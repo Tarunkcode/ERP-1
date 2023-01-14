@@ -15,8 +15,8 @@ export default function LoadProcessMaster(Component: any) {
             }
         }
         code = null;
-    compCode = window.sessionStorage.getItem('compCode') || ""
-    customer = window.sessionStorage.getItem('customer') || ""
+        compCode = window.localStorage.getItem('compCode') || ""
+        customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
         routeObj = this.props.location.state;
         //componentDidMount() {

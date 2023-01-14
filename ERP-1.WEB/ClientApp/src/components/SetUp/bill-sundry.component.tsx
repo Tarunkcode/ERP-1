@@ -15,8 +15,8 @@ export default class BillSundry extends React.Component<{},IState> {
         this.handleChange = this.handleChange.bind(this);
         this.handlePosting = this.handlePosting.bind(this);
     }
-    compCode = window.sessionStorage.getItem('compCode') || ""
-    customer = window.sessionStorage.getItem('customer') || ""
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
 
     handleChange = (e: any) => {

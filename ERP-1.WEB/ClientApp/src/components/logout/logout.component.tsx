@@ -6,7 +6,7 @@ export function LogOut() {
     const history = useHistory();
     const handleLogOut = () => {
      
-        localStorage.clear();
+      /*  localStorage.clear();*/
         sessionStorage.clear();
         history.push('/');
       
