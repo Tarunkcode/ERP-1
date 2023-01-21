@@ -167,9 +167,9 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
             <label htmlFor={name} style={{ fontSize: '0.8em' }} className={lablCat}>{label}</label>
             <div className="m-0 p-0 text-center" style={{ width: 'auto', minWidth: s }}>
                 <span className="col-12 m-0 p-0 d-flex">
-                    <input type={ipType} name={name} id={id} className="form-control p-0" defaultValue={defVal} title={ipTitle} autoComplete="off" onFocus={() => { setHide(false); filterList(); }} onChange={filterList} placeholder={placeholder} />
-            
-                            <img src={'./assets/load-datalist.gif'} style={isDataListLoad === true ? { width: "24px", borderRadius: "6%", margin: "0 10px 0" } : { visibility: 'hidden', width: "24px", borderRadius: "6%", margin: "0 10px 0"  }} className="img-fluid erp-logo" alt="loading..." />
+                    <input type={ipType} name={name} id={id} className="form-control p-0" defaultValue={defVal} title={ipTitle} autoComplete="off" onFocus={() => { setHide(false); filterList(); }} onChange={filterList} placeholder={placeholder} style={{ position: 'relative' }} />
+
+                    <img src={'./assets/load-datalist.gif'} style={isDataListLoad === true ? { width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' } : { visibility: 'hidden', width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' }} className="img-fluid erp-logo" alt="loading..." />
                 </span>
                 {
                     hide === false ? (

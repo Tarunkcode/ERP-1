@@ -49,7 +49,7 @@ const configReducer = (STATE = INITIAL_STATE, action: IAction) => {
 
             else if (action.label === 'pMasterJob')
             {
-                STATE.pMaster.processjobworker[parseInt(action.key)] = { ...STATE.pMaster.ProcessJobWorker[parseInt(action.key)], ...action.payload }
+                STATE.pMaster.processjobworker[parseInt(action.key)] = { ...STATE.pMaster.processjobworker[parseInt(action.key)], ...action.payload }
             } // action.payload carry table row Obj
             else if (action.label === 'pMasterOverHead') STATE.pMaster.processpoh[parseInt(action.key)] = (action.payload) // action.payload carry table row Obj
             else if (action.label === 'pMasterOperation') STATE.pMaster.processopration[parseInt(action.key)] = (action.payload) // action.payload carry table row Obj

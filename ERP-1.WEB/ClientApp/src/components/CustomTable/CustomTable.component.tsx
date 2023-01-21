@@ -35,7 +35,7 @@ export default function LoadTable({columns, dataArr }: any) {
 }
 
 
-export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpSelect, ...props }: any) {
+export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpSelect, addRowFunc, deleteRowFunc ,...props }: any) {
 
     return (
         <div
@@ -50,7 +50,7 @@ export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpS
             </div>
             <table
                 className="table table-striped table-bordered table-hover table-sm"
-                style={{ margin: "0" }}
+                style={{ margin: "0" , width:'100%'}}
             >
                 <thead className="thead-light table-secondary text-center">
                     <tr>
@@ -60,6 +60,7 @@ export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpS
                                return( <th>{head.header}</th> )
                             })
                         }
+                        <th><button type="button" className="btn btn-outline-success m-0 p-1 pr-2 pl-2" onClick={addRowFunc}>+</button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,11 +71,10 @@ export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpS
                                 <tr key={ind} id={ind}>
                                     <th>{parseInt(ind) + 1}</th>
                                    {
-                                        columns.map((col: any, index: any) => {
+                                        columns.map((col: any) => {
                                             return (
                                             <td>
-                                                    < InputList
-                                                     
+                                               <InputList
                                                  row={ind}
                                                  name={row[col.field].name}
                                                  change={HandleIpSelect}
@@ -91,7 +91,13 @@ export function WriteTable({ columns, dataArr, title, getCurrentRowNo, HandleIpS
                                   
                                         //return ( <td>{row[col.field]}</td>)
                                       })
-                                   }
+                                    }
+                                    {
+                                        ind === dataArr.length - 1 ? (
+
+                                            <td><button type="button" className="btn btn-outline-danger m-0 p-1 pr-2 pl-2" onClick={() => deleteRowFunc(ind)}>x</button></td>
+                                        ) : <td></td>
+                                    }
                                </tr>
                         
                                 )

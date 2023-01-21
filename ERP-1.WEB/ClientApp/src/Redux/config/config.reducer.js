@@ -52,7 +52,7 @@ var configReducer = function (STATE, action) {
             else if (action.label === 'pMaster')
                 STATE.pMaster.esmastertable[0][action.key] = action.payload;
             else if (action.label === 'pMasterJob') {
-                STATE.pMaster.processjobworker[parseInt(action.key)] = __assign(__assign({}, STATE.pMaster.ProcessJobWorker[parseInt(action.key)]), action.payload);
+                STATE.pMaster.processjobworker[parseInt(action.key)] = __assign(__assign({}, STATE.pMaster.processjobworker[parseInt(action.key)]), action.payload);
             } // action.payload carry table row Obj
             else if (action.label === 'pMasterOverHead')
                 STATE.pMaster.processpoh[parseInt(action.key)] = (action.payload); // action.payload carry table row Obj

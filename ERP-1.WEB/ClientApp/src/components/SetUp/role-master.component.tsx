@@ -59,7 +59,7 @@ export default class Role_Master extends React.Component<{}, IState> {
         var value: any;
         var Code: any;
         var label: string = '';
-        Code = e.target.id
+        Code = e.target.name
       
         store2.dispatch({ payload: parseInt(Code), key: "Code", type: "changeConfig", label: "roleMaster" });
 

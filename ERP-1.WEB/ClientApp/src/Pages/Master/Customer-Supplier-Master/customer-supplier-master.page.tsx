@@ -321,7 +321,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                                     <HiddenModal />
                                                 </>
                                                 <>
-                                                    <CustomInput name="station" classCategory="form-control inp AccountMaster" ipType="text" label="Station" ipTitle="Enter Station" dataArray={[]} />  notFound
+                                                    <CustomInput name="station" classCategory="form-control inp AccountMaster" ipType="text" label="Station" ipTitle="Enter Station" dataArray={[]} /> {/* notFound*/}
                                                     <HiddenModal />
                                                 </>
                                             </span>

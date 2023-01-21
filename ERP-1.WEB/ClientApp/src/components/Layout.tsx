@@ -92,9 +92,9 @@ export default (props: any) => {
 
                     <div className={theme === 'dark' ? 'homeDiv bg-secondary' : 'homeDiv bg-light' } style={{ display: "flex", justifyContent: 'center', width: "100%", maxHeight: "100vh", minHeight: '110vh', maxWidth: "118vw", margin: "0 0 30px 0", padding: "0 0 30em 0", overflowY: "scroll", overflowX: "hidden" }}>
 
-                        <Container style={{ maxHeight: "100vh", width: "100vw" }}>
+                        <div style={{ maxHeight: "100vh", width: "100vw" }}>
                             {props.children}
-                        </Container>
+                        </div>
                     </div>
 
                 </div>

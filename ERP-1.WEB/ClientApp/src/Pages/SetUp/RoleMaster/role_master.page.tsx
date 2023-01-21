@@ -47,24 +47,34 @@ export default function Role_Master_Page({ handleChange, handlePosting, getName,
                 {
                     tree.length != 0 && tree != null ? (
                         <div className=" d-md-flex flex-md-row">
-                            <div className="left-window p-3" style={{ border: '1px solid black', width: '60vw', minHeight: '92vh', margin: 'auto' }}>
+                            <div className="left-window p-3" style={{ border: '1px solid black', width: '60vw', minHeight: '100vh', margin: 'auto' }}>
                              
-                                <div className="col-8 p-3" style={{border:'1px solid black'}}>
-                                    <span className="m-0 p-0 col-12 d-flex">
-                                    <label htmlFor="Name" className="form-label col-3">Name</label>
-                                        <input name="Name" type="text" title="" className="form form-control col-8" required onChange={findName}/>
+                                <div className="col-8 p-3 m-0">
+                                    <span className="m-0 mb-2 p-0 col-12 d-flex">
+                                    <label htmlFor="Name" className="form-label p-0 m-0 mt-2 col-2">Name</label>
+                                        <input name="Name" type="text" title="" className="form form-control col-10 mt-2" required onChange={findName}/>
                                     </span>
-                                    
-                                    <input className="form form-control col-10 mt-2" placeholder="Enter Description 1" onBlur={ findDes1} required />
+                                       <span className="m-0 mb-2 p-0 col-12 d-flex">
+                                    <label htmlFor="Name" className="form-label col-2"></label>
+                                    <input className="form form-control col-10 mt-2" placeholder="Enter Description 1" onBlur={findDes1} required />
+                                     </span>
+                                       <span className="m-0 mb-2 p-0 col-12 d-flex">
+                                    <label htmlFor="Name" className="form-label col-2"></label>
                                     <input onBlur={findDes2} className="form form-control col-10 mt-2" placeholder="Enter Description 2" required />
-                                    <input onBlur={ findDes3} className="form form-control col-10 mt-2" placeholder="Enter Description 3" required />
+                                     </span>
+                                       <span className="m-0 p-0 mb-2 col-12 d-flex">
+                                    <label htmlFor="Name" className="form-label col-2"></label>
+                                    <input onBlur={findDes3} className="form form-control col-10 mt-2" placeholder="Enter Description 3" required />
+                                     </span>
+                                       <span className="m-0 mb-2 p-0 col-12 d-flex">
+                                    <label htmlFor="Name" className="form-label col-2"></label>
                                     <input className="form form-control col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4 } required />
-
+                                     </span>
                                     <button className="btn btn-primary col-4 m-3" onClick={handlePosting }>Save</button>
                                 </div>
 
                             </div>
-                            <div className="right-panel p-3" style={{ border: '1px solid black', width: '35vw', maxHeight: '92vh', backgroundColor: '#fff', overflow: 'scroll' }}>
+                            <div className="right-panel p-3" style={{ border: '1px solid black', width: '35vw', maxHeight: '100vh', backgroundColor: '#fff', overflow: 'scroll' }}>
                                 <Tree2 handleChange={ handleChange} treeData={tree} />
                             </div>
 

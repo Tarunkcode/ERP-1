@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
+import { store2 } from '../../Redux/config/config.reducer';
 import "./tree.styles.css"
 //parent
 export default function Tree2({ treeData, handleChange}: any) {
@@ -24,28 +25,34 @@ function TreeNode2({ node, handleChange}: any) {
     //var isNodeChecked = document.getElementById
     //useState(() => { },[])
     const handleClick = (e: any) => {
-        const list = document.querySelectorAll('.ram');
-       /* getParentCode(e.target.id)*/
-        list.forEach((curr: any) => {
-            curr.style.backgroundColor = '#fff';
-            curr.style.color = 'black';
+        var check: any = document.getElementById(label) as HTMLInputElement;
 
-        });
-        document.getElementById(Key)!.style.backgroundColor = 'pink';
-        document.getElementById(Key)!.style.color = '#fff';
+        if (check.checked) {
+            const list = document.querySelectorAll('.ram');
+            /* getParentCode(e.target.id)*/
+            list.forEach((curr: any) => {
+                curr.style.backgroundColor = '#fff';
+                curr.style.color = 'black';
 
-        console.log('e', e.target.id);
-       
-        setShowChildren(!showChildren);
+            });
+           /* document.getElementById(Key)!.style.backgroundColor = 'pink';*/
+            document.getElementById(Key)!.style.color = '#fff';
+
+            console.log('e', e.target.id);
+
+            setShowChildren(!showChildren);
+
+        } else {}
+   
     };
     return (
         <>
             <ul style={{ marginBottom: "10px", borderLeft: "1px solid black", }}>
-                <li className="ram" id={Key}>
+                <li className="ram" id={Key} style={{ fontSize:'1.4rem' }}>
                     <span>
-                        <a className="m-1 p-1 Snode" onClick={handleClick} key={type} id={Key} style={{ border: '1px solid black', cursor:'pointer' }} >{label}</a>
+                        <a className="m-1 p-2 Snode" onClick={handleClick} key={type} id={Key} style={{ border: '1px solid black', cursor:'pointer', backgroundColor: 'navy',  color: 'white' }} >{label}</a>
                     </span>
-                <input type="checkbox" id={Key} onBlur={handleChange} className="col-1 m-0 p-0" />
+                    <input type="checkbox" id={label} name={Key } onBlur={handleChange} className="col-1 m-0 p-0" />
                 </li>
             </ul>
 

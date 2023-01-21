@@ -39,8 +39,9 @@
     --form-bg: #191919;
     --bgColor: #002244;
     --cardTitle: #1F305E;
-    --ipBg: slategray;
+    /*--ipBg: slategray;*/
     --ipBg: #36454F;
+    /*--ipBg: transparent;*/
     /*--rCont: dimgrey;*/
     --rCont: darkslateblue;
     --abascusBg: slategray;
@@ -93,7 +94,8 @@ li:hover{
    display:block;
 }*/
 .firstDiv{
-    margin:0 -3em;
+    margin:0 auto;
+    width:100%;
     background-color:var(--bgColor);
     color: var(--text-primary)
 }
@@ -254,7 +256,7 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding: 0;
-    max-height: 100vh;
+    max-height: 107vh;
 }
 
 #sidebar ul p {

@@ -64,7 +64,7 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
                                   /*CustomSelect({ */
                             PrimaryGroup === false ? (
                                 <>
-                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="24%" classCategory="form-control inp mb-2 subMaster ipselect" />
+                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="20%" classCategory="form-control inp mb-2 subMaster ipselect" />
                                
                                 </>
                             ) : null

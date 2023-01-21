@@ -151,7 +151,7 @@ export default class ChildLog extends React.Component<IProps, IState>{
         }
 
     }
-
+ 
     handleSubmit = async (event: any) => {
         event.preventDefault();
         this.setState({ isLoader : true })
@@ -169,7 +169,7 @@ export default class ChildLog extends React.Component<IProps, IState>{
    /*         window.localStorage.setItem('state', JSON.stringify(i));*/
 
             this.fetchValidateUserApi();
-
+        
         }
         catch (error) {
              this.setState({ isLoader : false })
