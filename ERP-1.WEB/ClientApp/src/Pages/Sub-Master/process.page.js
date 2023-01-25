@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -21,23 +10,15 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_1 = require("react");
 var custom_input_component_1 = require("../../components/custom-input/custom-input.component");
 var custom_switch_component_1 = require("../../components/CustomSwitch/custom-switch.component");
 var CustomTable_component_1 = require("../../components/CustomTable/CustomTable.component");
+var table_1 = require("../Helper Functions/table");
 function Process_Page(_a) {
-    var getMasterType = _a.getMasterType, pageTitle = _a.pageTitle, configType = _a.configType, handleChange = _a.handleChange, handlePosting = _a.handlePosting, getCurrentRowNo = _a.getCurrentRowNo, HandleOverHeadIpSelect = _a.HandleOverHeadIpSelect, HandleJobIpSelect = _a.HandleJobIpSelect, HandleOperationIpSelect = _a.HandleOperationIpSelect, defaultData = _a.defaultData, otherProps = __rest(_a, ["getMasterType", "pageTitle", "configType", "handleChange", "handlePosting", "getCurrentRowNo", "HandleOverHeadIpSelect", "HandleJobIpSelect", "HandleOperationIpSelect", "defaultData"]);
+    var getMasterType = _a.getMasterType, pageTitle = _a.pageTitle, configType = _a.configType, handleChange = _a.handleChange, handlePosting = _a.handlePosting, HandleOverHeadIpSelect = _a.HandleOverHeadIpSelect, HandleJobIpSelect = _a.HandleJobIpSelect, HandleOperationIpSelect = _a.HandleOperationIpSelect, defaultData = _a.defaultData, virtualCode = _a.virtualCode, otherProps = __rest(_a, ["getMasterType", "pageTitle", "configType", "handleChange", "handlePosting", "HandleOverHeadIpSelect", "HandleJobIpSelect", "HandleOperationIpSelect", "defaultData", "virtualCode"]);
     var _b = (0, react_1.useState)(false), ToggelValue = _b[0], setToggelValue = _b[1];
     var _c = (0, react_1.useState)([]), overHeadArr = _c[0], setOverHeadArr = _c[1];
     var _d = (0, react_1.useState)([]), operationArr = _d[0], setOperationArr = _d[1];
@@ -81,7 +62,7 @@ function Process_Page(_a) {
         catch (err) {
             alert(err);
         }
-    }, [overHeadArr]);
+    }, [overHeadArr, operationArr]);
     React.useEffect(function () {
         if (defaultData.esmastertable !== undefined) {
             var masterlist_1 = defaultData.esmastertable[0];
@@ -103,34 +84,15 @@ function Process_Page(_a) {
         }
     }, [defaultData, masterlist, oprnlist, joblist, overheadlist]);
     /*    var esMasterData: object = defaultData.esMsater*/
-    var maindata = [{ Name: { name: 'poh', id: 1, ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name", defaultList: overheadlist } }];
-    var _j = (0, react_1.useState)([{
-            Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy-1' }, { code: 2, name: 'dumy-2' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name", defaultList: joblist },
-            JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
-        }]), JobTableArr = _j[0], setJobTableArr = _j[1];
+    var maindata = [{ Name: { name: 1, id: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name", defaultList: overheadlist } }];
+    var jobTableProps = [{
+            Name: { name: 100, id: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy-1' }, { code: 2, name: 'dumy-2' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name", defaultList: joblist },
+            JWOn: { name: 200, id: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
+        }];
+    var oprnTableProps = [{ Oprn: { name: 300, id: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }];
+    var _j = (0, react_1.useState)(jobTableProps), JobTableArr = _j[0], setJobTableArr = _j[1];
     var _k = (0, react_1.useState)(maindata), OverHeadTableArr = _k[0], setOverHeadtableArr = _k[1];
-    var _l = (0, react_1.useState)([{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }]), OprnTableArr = _l[0], setOprnTableArr = _l[1];
-    var AddRow = function () {
-        if (OverHeadTableArr.length !== 0) {
-            var mArr = __spreadArray([], OverHeadTableArr, true);
-            var ob = mArr[mArr.length - 1]; // first instance
-            var code = ob.Name.name;
-            var ob2 = __assign(__assign({}, ob.Name), { name: code + 1 }); // latest instance
-            var latest = { Name: ob2 };
-            mArr.push(latest);
-            setOverHeadtableArr(mArr);
-            // console.log('latest',ob);
-        }
-        else {
-            setOverHeadtableArr(maindata);
-        }
-    };
-    var DeleteRow = function (index) {
-        maindata = __spreadArray([], OverHeadTableArr, true);
-        var i = parseInt(index);
-        maindata.splice(i, 1);
-        setOverHeadtableArr(maindata);
-    };
+    var _l = (0, react_1.useState)(oprnTableProps), OprnTableArr = _l[0], setOprnTableArr = _l[1];
     return (React.createElement(React.Fragment, null,
         React.createElement("div", { className: "main card firstDiv" },
             React.createElement("div", { className: "text-center card-title col-12", style: { textAlign: "start" } },
@@ -198,9 +160,9 @@ function Process_Page(_a) {
                         React.createElement(React.Fragment, null,
                             React.createElement(custom_switch_component_1.CustomeSwitch2, { lablClass: "custom-control-label col-9", label: " Enable Produce Item Serial No.", id: "c20", name: "c20", classCat: "form-control custom-control-input col-3 pMaster switch", handleChange: handleChange, default: masterlist.c20 })))),
                 React.createElement("span", { className: "card d-flex flex-column justify-content-between section2 col-sm-6", style: { height: '100vh' } },
-                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOverHeadIpSelect, getCurrentRowNo: getCurrentRowNo, addRowFunc: AddRow, deleteRowFunc: DeleteRow, columns: [{ field: 'Name', header: "Name" }], dataArr: OverHeadTableArr, title: "Process OverHead" }),
-                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleJobIpSelect, getCurrentRowNo: getCurrentRowNo, columns: [{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }], dataArr: JobTableArr, title: "Job Worker List" }),
-                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOperationIpSelect, getCurrentRowNo: getCurrentRowNo, columns: [{ field: 'Oprn', header: "Operation" }], dataArr: OprnTableArr, title: "Process Operation Details" })))),
+                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOverHeadIpSelect, getCurrentRowNo: table_1.getCurrentRowNo, addRowFunc: table_1.AddRow, setRowFunc: setOverHeadtableArr, deleteRowFunc: table_1.DeleteRow, tableProps: maindata, columns: [{ field: 'Name', header: "Name" }], dataArr: OverHeadTableArr, title: "Process OverHead" }),
+                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleJobIpSelect, getCurrentRowNo: table_1.getCurrentRowNo, addRowFunc: table_1.AddRow, tableProps: jobTableProps, setRowFunc: setJobTableArr, deleteRowFunc: table_1.DeleteRow, columns: [{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }], dataArr: JobTableArr, title: "Job Worker List" }),
+                    React.createElement(CustomTable_component_1.WriteTable, { HandleIpSelect: HandleOperationIpSelect, getCurrentRowNo: table_1.getCurrentRowNo, addRowFunc: table_1.AddRow, tableProps: oprnTableProps, setRowFunc: setOprnTableArr, deleteRowFunc: table_1.DeleteRow, columns: [{ field: 'Oprn', header: "Operation" }], dataArr: OprnTableArr, title: "Process Operation Details" })))),
         React.createElement("div", { className: "btn-group col-12 mt-3", style: {
                 display: "flex",
                 justifyContent: "flex-end",

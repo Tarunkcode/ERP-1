@@ -5,3 +5,10 @@ export const setCurrentUser = (user : any) => ({
     type: UserActionTypes.SET_CURRENT_USER,
     payload: user
 });
+
+//export const setCurrentUser = ({ user, authTokens }: any) => {
+//    return {
+//        type: UserActionTypes.SET_CURRENT_USER,
+//        payload: { user, authTokens }
+//    }
+//}

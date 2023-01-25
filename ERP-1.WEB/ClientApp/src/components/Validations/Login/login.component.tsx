@@ -4,7 +4,7 @@ import * as React from 'react';
 import './login.styles.css';
 import CustomButton from '../../custom-button/custom-button.component';
 import { Redirect } from 'react-router-dom';
-
+import { useContext } from 'react';
 
 import { connect } from "react-redux";
 import { selectCurrentUser } from "../../../Redux/user/user.selectors";
@@ -13,18 +13,18 @@ import { setCurrentUser } from '../../../Redux/user/user.actions';
 
 import { toast } from 'react-toastify';
 //import "./spinner.styles.css";
-
+import AuthContext from '../../../AppContext/AuthContext';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 
 //import Spinner from '../../Spinner/spinner.component';
 
-//interface IProps {
-//    setCurrentUser: any,
-//    currentUser: any,
-//    appContext: any,
-//    location: any
-//}
+interface IProps {
+    currentUser: any,
+    history: any;
+    setCurrentUser: any;
+/*    currentUser: any;*/
+}
 
 interface IState {
     username: string;
@@ -37,19 +37,17 @@ interface IState {
     //pass: any;
     fy: number;
 }
-interface IProps {
-    history: any;
-}
-//hoc
-//export function LogInHoc(Component: any) {
-//    const C = (props: any) => {
-//        let { domainState } = React.useContext(DomainContext);
-//        console.log(domainState);
-//        return <Component appContext={domainState} {...props} ></Component>
-//    };
-//    return C;
-//};
-export default class ChildLog extends React.Component<IProps, IState>{
+
+/*hoc*/
+export function LogInHoc(Component: any) {
+    const C = (props: any) => {
+        let contextData: any = useContext(AuthContext);
+      
+        return <Component auth={contextData} {...props} ></Component>
+    };
+    return C;
+};
+class ChildLog extends React.Component<IProps, IState>{
 
     constructor(props: any) {
         super(props);
@@ -61,8 +59,7 @@ export default class ChildLog extends React.Component<IProps, IState>{
             compCode:'',
             compList: [],
             isLoader:false,
-            //uid: this.props.location.state.uid,
-            //pass: this.props.location.state.pass,
+       
             fy: 0
         };
     }
@@ -76,8 +73,56 @@ export default class ChildLog extends React.Component<IProps, IState>{
 
         this.setState({ compList: [{'compCode': this.compCode, 'compName':this.compName}] })
     }
-   
+    fetchValidateUserApi = async (raws: any) => {
+        /*   const { setAuthTokens, setUser } = this.props.auth;*/
+        let { setCurrentUser, currentUser } = this.props;
+        const { compCode, password, customer, username, ip, port, fy } = raws;
 
+        var urlStart = `http://${ip}:${port}/api/Authentication`
+
+        var params = []
+
+        params.push(`UserName=${username}`);
+        params.push(`Pwd=${password}`);
+        params.push(`Company=${compCode}`);
+        params.push(`Customer=${customer}`);
+
+        var logInUrl = urlStart + '?' + params.join('&');
+        console.log(logInUrl);
+        try {
+            var req: Request;
+            let h = new Headers();
+            h.append('Accept', 'application/json');
+            h.append('CompCode', 'EsErpDb');
+            h.append('FYear', '0');
+            req = new Request(logInUrl, {
+                method: 'GET',
+                headers: h,
+                mode: 'cors'
+            });
+            const response = await fetch(req);
+
+            if (response.status === 200) {
+                let data = await response.json();
+                window.sessionStorage.setItem('state', JSON.stringify({ 'domain': ip, 'port': port, 'Fy': fy }))
+                //window.sessionStorage.setItem('roleCode', result.data[0].role.toString())
+                window.sessionStorage.setItem('username', username)
+                setCurrentUser({user: data.token})
+               /* setAuthTokens(data.token)*/
+               /* setUser(data.name)*/
+                return { redirect: true, status: response.status }
+
+            } else {
+
+                return { redirect: false, status: response.status }
+            }
+
+        } catch (err) {
+
+            return { redirect: false, status: "Exception Occured in LogIn Module" }
+        }
+
+    }
 
     handleCompCodeChange(e: any) {
       
@@ -99,82 +144,44 @@ export default class ChildLog extends React.Component<IProps, IState>{
        /* if (e.target.value.length !== 4) return alert("Please Enter a Valid FY in Format 'YYYY'")*/
        this.setState({ fy: e.target.value })
     }
-    fetchValidateUserApi = async () => {
-        const {compCode, password, username } = this.state;
-       
-        var urlStart = `http://${this.ip}:${this.port}/api/UserValidates`
 
-        var params = []
-
-        params.push(`UserName=${username}`);
-        params.push(`Pwd=${password}`);
-        params.push(`Company=${compCode}`);
-        params.push(`Customer=${this.customer}`);
-
-        var logInUrl = urlStart + '?' + params.join('&');
-        console.log(logInUrl);
-        try {
-            var req: Request;
-            let h = new Headers();
-            h.append('Accept', 'application/json');
-            h.append('CompCode', 'EsErpDb');
-            h.append('FYear', '0');
-            req = new Request(logInUrl, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            });
-            await fetch(req).then(res => res.json()).then(result => {
-
-
-
-                if (result.data[0].result == 1) {
-                    window.sessionStorage.setItem('state', JSON.stringify({ 'domain': this.ip, 'port': this.port, 'Fy': this.state.fy }))
-                    window.sessionStorage.setItem('roleCode', result.data[0].role.toString())
-                    window.sessionStorage.setItem('username', this.state.username)
-         
-                    toast.success('You have Signed in Successfully!');
-                    this.setState({ redirect: true })
-                   
-                } else {
-                    /*  alert(result.data[0].msg);*/
-                    this.setState({ isLoader: false })
-                    toast.error(result.data[0].msg);
-                    return;
-                }
-
-            })
-
-        } catch (err) {
-            this.setState({ isLoader: false })
-            alert(err);
-        }
-
-    }
  
     handleSubmit = async (event: any) => {
         event.preventDefault();
         this.setState({ isLoader : true })
-        try {
-
-            /*const { setCurrentUser } = this.props;*/
-            // var { domainState } = React.useContext(DomainContext);
-
-        /*    window.sessionStorage.setItem('user', this.state.username)*/
-            //window.sessionStorage.setItem('compCode', this.state.compCode)
-
-            //let i = JSON.stringify(this.props.appContext)
-      /*      let i = {domain:'103.25.128.155', port:'12019',Fy:'2022'}*/
-            /*           await setCurrentUser(i)*/
-   /*         window.localStorage.setItem('state', JSON.stringify(i));*/
-
-            this.fetchValidateUserApi();
+      
+     
+            const param = {
+                compCode: this.compCode,
+                password: this.state.password,
+                customer: this.customer,
+                username: this.state.username,
+                ip: this.ip,
+                port: this.port,
+                fy: this.state.fy
+            }
+        const { redirect, status } = await this.fetchValidateUserApi(param);
+        const { user } = this.props.currentUser
+        window.sessionStorage.setItem('token', user);
         
+        if (redirect === true) {
+
+            this.setState({ isLoader: false })
+            toast.success(`You Signed In Successfully with status code ${status}`)
+            this.setState({ redirect: true })
         }
-        catch (error) {
-             this.setState({ isLoader : false })
-            alert(error);
+        else if (redirect === false) {
+            this.setState({ isLoader: false })
+            toast.error(status)
+            this.setState({ redirect: false })
         }
+        else {
+            if (redirect === undefined) {
+                this.setState({ isLoader: false })
+                alert(`Exception Occured : ${status}`)
+            }
+        }
+       
     }
 
     render() {
@@ -256,13 +263,14 @@ export default class ChildLog extends React.Component<IProps, IState>{
 
 }
 
-//const mapStateToProps = createStructuredSelector({
-//    currentUser: selectCurrentUser
-//});
-//const mapDispatchToProps = (dispatch: any) => ({
-//    setCurrentUser: (user: any) => dispatch(setCurrentUser(user))
-//});
-//const LogIn = connect(mapStateToProps, mapDispatchToProps)(ChildLog)
-//export default LogInHoc(LogIn);
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser
+});
+const mapDispatchToProps = (dispatch: any) => ({
+    setCurrentUser: ({ user }: any) => dispatch(setCurrentUser({ user }))
+});
+const LogIn = connect(mapStateToProps, mapDispatchToProps)(ChildLog)
+/*const LogIn = LogInHoc(ChildLog)*/
+export default LogIn;
 
 

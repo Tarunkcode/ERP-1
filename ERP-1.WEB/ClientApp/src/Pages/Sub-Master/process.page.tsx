@@ -3,7 +3,8 @@ import { useState } from 'react';
 import CustomInput, { InputList } from '../../components/custom-input/custom-input.component';
 import { CustomeSwitch2 } from '../../components/CustomSwitch/custom-switch.component';
 import { WriteTable } from '../../components/CustomTable/CustomTable.component';
-export default function Process_Page({ getMasterType, pageTitle, configType, handleChange, handlePosting, getCurrentRowNo, HandleOverHeadIpSelect, HandleJobIpSelect, HandleOperationIpSelect, defaultData, ...otherProps }: any) {
+import { AddRow, DeleteRow, getCurrentRowNo } from '../Helper Functions/table';
+export default function Process_Page({ getMasterType, pageTitle, configType, handleChange, handlePosting, HandleOverHeadIpSelect, HandleJobIpSelect, HandleOperationIpSelect, defaultData, virtualCode, ...otherProps }: any) {
     const [ToggelValue, setToggelValue]: any = useState(false);
     const [overHeadArr, setOverHeadArr]: any = useState([]);
     const [operationArr, setOperationArr]: any = useState([]);
@@ -61,7 +62,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
             alert(err)
 
         }
-    }, [overHeadArr])
+    }, [overHeadArr, operationArr])
     React.useEffect(() => {
 
         if (defaultData.esmastertable !== undefined) {
@@ -82,56 +83,28 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
             console.log('overlist', overlist)
             setOverHeadList(overlist)
         }
+      
     }, [defaultData, masterlist, oprnlist, joblist, overheadlist])
     /*    var esMasterData: object = defaultData.esMsater*/
+   
+    var maindata: any[] = [{ Name: { name: 1, id: 'poh', ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name", defaultList: overheadlist } }];
 
-    var maindata: any[] = [{ Name: { name: 'poh', id: 1, ipTitle: "Enter Process OverHead Name", dataArray: overHeadArr, classCat: "form-control text-center pMasterOverHead select", placeholder: "Enter Process OverHead Name", defaultList: overheadlist } }];
+    var jobTableProps : any[] = [{
+        Name: { name: 100, id: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy-1' }, { code: 2, name: 'dumy-2' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name", defaultList: joblist }
 
-    var [JobTableArr, setJobTableArr]: any[] = useState([{
-        Name: { name: "jbcode", ipTitle: "Enter Job Worker Name", dataArray: [{ code: 1, name: 'dumy-1' }, { code: 2, name: 'dumy-2' }], classCat: "form-control text-center select pMasterJob", placeholder: "Enter Job Worker Name", defaultList: joblist }
+        , JWOn: { name: 200, id: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
+    }]
 
-        , JWOn: { name: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
-    }])
+    var oprnTableProps : any[] = [{ Oprn: { name: 300, id: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }]
+
+    var [JobTableArr, setJobTableArr]: any[] = useState(jobTableProps)
 
     var [OverHeadTableArr, setOverHeadtableArr]: any[] = useState(maindata)
 
 
-    var [OprnTableArr, setOprnTableArr]: any[] = useState([{ Oprn: { name: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }])
+    var [OprnTableArr, setOprnTableArr]: any[] = useState(oprnTableProps)
 
-    
-
-    const AddRow = () => {
-        if (OverHeadTableArr.length !== 0) {
-            let mArr = [...OverHeadTableArr];
-
-
-            let ob = mArr[mArr.length - 1] // first instance
-            let code = ob.Name.name;
-
-            let ob2 = { ...ob.Name, name: code + 1 } // latest instance
-            let latest = { Name: ob2 };
-            mArr.push(latest);
-
-
-            setOverHeadtableArr(mArr);
-
-            // console.log('latest',ob);
-
-
-        } else {
-            setOverHeadtableArr(maindata);
-        }
-    }
-    
-    const DeleteRow = (index: any) => {
-        maindata = [...OverHeadTableArr];
-        let i = parseInt(index);
-        maindata.splice(i, 1);
-        setOverHeadtableArr(maindata);
-
-    
-    }
-
+ 
     return (
         <>
             <div className="main card firstDiv">
@@ -367,21 +340,27 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         </span>
                     </div>
                     <span className="card d-flex flex-column justify-content-between section2 col-sm-6" style={{ height: '100vh' }}>
+                       
                         <WriteTable
                             HandleIpSelect={HandleOverHeadIpSelect}
                             getCurrentRowNo={getCurrentRowNo}
-                            addRowFunc={ AddRow }
-                            deleteRowFunc={ DeleteRow}
+                            addRowFunc={AddRow}
+                            setRowFunc={setOverHeadtableArr}
+                            deleteRowFunc={DeleteRow}
+                            tableProps={maindata}
                             columns={[{ field: 'Name', header: "Name" }]}
                             dataArr={OverHeadTableArr}
                             title="Process OverHead"
                         />
+                         
                         <WriteTable
                             HandleIpSelect={HandleJobIpSelect}
                             getCurrentRowNo={getCurrentRowNo}
-                          
+                            addRowFunc={AddRow}
+                            tableProps={jobTableProps}
+                            setRowFunc={setJobTableArr}
+                            deleteRowFunc={DeleteRow}
                             columns={[{ field: 'Name', header: "Name" }, { field: 'JWOn', header: "Job Worker On" }]}
-
                             dataArr={JobTableArr}
                             title="Job Worker List"
                         />
@@ -389,7 +368,10 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         <WriteTable
                             HandleIpSelect={HandleOperationIpSelect}
                             getCurrentRowNo={getCurrentRowNo}
-                           
+                            addRowFunc={AddRow}
+                            tableProps={oprnTableProps}
+                            setRowFunc={setOprnTableArr}
+                            deleteRowFunc={DeleteRow}
                             columns={[{ field: 'Oprn', header: "Operation" }]}
                             dataArr={OprnTableArr}
                             title="Process Operation Details"

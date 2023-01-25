@@ -31,7 +31,7 @@ class RootProcess extends React.Component<IProps, IState> {
         this.HandleOperationIpSelect = this.HandleOperationIpSelect.bind(this);
         this.HandleJobIpSelect = this.HandleJobIpSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.findCurrentRowNo = this.findCurrentRowNo.bind(this);
+   
     }
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
@@ -62,7 +62,7 @@ class RootProcess extends React.Component<IProps, IState> {
 
         }
     }
-
+   
 
     fetchDefProcessMaster = async (code: any) => {
 
@@ -289,10 +289,7 @@ class RootProcess extends React.Component<IProps, IState> {
             alert(err)
         }
     }
-    findCurrentRowNo = (val: number) => {
-        this.setState({ sNo: val })
-        console.log('val', val + 1);
-    }
+   
    
     getMasterType = (val: any) => {
         this.setState({ masterType: val })
@@ -301,7 +298,7 @@ class RootProcess extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Process_Page HandleOperationIpSelect={this.HandleOperationIpSelect} HandleJobIpSelect={this.HandleJobIpSelect} HandleOverHeadIpSelect={this.HandleOverHeadIpSelect} defaultData={this.state.defProcessMaster} getCurrentRowNo={this.findCurrentRowNo} getMasterType={this.getMasterType} pageTitle="Add Process Master" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} compCode={this.compCode} customer={this.customer} />
+            <Process_Page HandleOperationIpSelect={this.HandleOperationIpSelect} HandleJobIpSelect={this.HandleJobIpSelect} HandleOverHeadIpSelect={this.HandleOverHeadIpSelect} defaultData={this.state.defProcessMaster} getMasterType={this.getMasterType} pageTitle="Add Process Master" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} compCode={this.compCode} customer={this.customer} virtualCode={this.props.gettingVirtualCode} />
         )
          
     }

@@ -3,10 +3,8 @@ import { createStore } from 'redux';
 import { UserActionTypes } from './user.types' // store the state of our current User
 const INITIAL_STATE = {
     currentUser: {
-        domain: '',
-        port: '',
-        FY: '',
-       }
+        user: ''
+    }
 }
 const userReducer = (state = INITIAL_STATE, action: any) => {
 
@@ -14,7 +12,9 @@ const userReducer = (state = INITIAL_STATE, action: any) => {
         case UserActionTypes.SET_CURRENT_USER:
             state = {
                 ...state,
-                currentUser: state.currentUser + action.payload
+                currentUser: {
+                    user: action.payload.user
+                }
             };
     }
     return { ...state };

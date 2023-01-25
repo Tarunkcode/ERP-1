@@ -217,13 +217,7 @@ class AddItemMaster extends React.Component {
 
                         <div className="detailsComponent m-0 p-0  col-12">
 
-                          
-
-                          
-                                     
-                      
                         </div>
-
                     </div>
                     <hr style={{ margin: '0', padding: '0' }} />
                 </div>

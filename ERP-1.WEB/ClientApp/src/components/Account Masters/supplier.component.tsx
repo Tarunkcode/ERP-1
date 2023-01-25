@@ -35,7 +35,7 @@ interface IProps {
     postApi : any,
     currentData: any,
     setFormDataCollection: any
-}
+}   
 
 
 
@@ -64,78 +64,78 @@ class SupplierMaster extends React.PureComponent<IProps, IState> {
 
     }
 
-    componentDidMount() {
+    //componentDidMount() {
 
-        try {
-            //fetch series master 
-            this.props.fetchApi(22, 'series').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 1')
-            }).then((result: any) => this.setState({ series: result.data }));
+    //    try {
+    //        //fetch series master 
+    //        this.props.fetchApi(22, 'series').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 1')
+    //        }).then((result: any) => this.setState({ series: result.data }));
 
-            //fetch del terms master
-            this.props.fetchApi(30, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 2')
-            }).then((result: any) => this.setState({ delT: result.data }))
+    //        //fetch del terms master
+    //        this.props.fetchApi(30, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 2')
+    //        }).then((result: any) => this.setState({ delT: result.data }))
 
-            // fetch pay terms master
-            this.props.fetchApi(31, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 3')
-            }).then((result: any) => this.setState({ payT: result.data }));
+    //        // fetch pay terms master
+    //        this.props.fetchApi(31, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 3')
+    //        }).then((result: any) => this.setState({ payT: result.data }));
 
-            // fetch Supplier Group master
-            this.props.fetchApi(111, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 4')
-            }).then((result: any) => this.setState({ custGp: result.data }));
+    //        // fetch Supplier Group master
+    //        this.props.fetchApi(111, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 4')
+    //        }).then((result: any) => this.setState({ custGp: result.data }));
 
-            // fetch Country master
-            this.props.fetchApi(1003, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 5')
-            }).then((result: any) => this.setState({ country: result.data }));
+    //        // fetch Country master
+    //        this.props.fetchApi(1003, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 5')
+    //        }).then((result: any) => this.setState({ country: result.data }));
 
-            // fetch Zone master
-            this.props.fetchApi(1004, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 6')
-            }).then((result: any) => this.setState({ zone: result.data }));
+    //        // fetch Zone master
+    //        this.props.fetchApi(1004, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 6')
+    //        }).then((result: any) => this.setState({ zone: result.data }));
 
-            // fetch state master
-            this.props.fetchApi(26, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 7')
-            }).then((result: any) => this.setState({ state: result.data }));
+    //        // fetch state master
+    //        this.props.fetchApi(26, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 7')
+    //        }).then((result: any) => this.setState({ state: result.data }));
 
-            // fetch city master
-            this.props.fetchApi(26, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 8')
-            }).then((result: any) => this.setState({ city: result.data }));
+    //        // fetch city master
+    //        this.props.fetchApi(26, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 8')
+    //        }).then((result: any) => this.setState({ city: result.data }));
 
-            // fetch bank master
-            this.props.fetchApi(1018, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 9')
-            }).then((result: any) => this.setState({ bank: result.data }));
+    //        // fetch bank master
+    //        this.props.fetchApi(1018, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 9')
+    //        }).then((result: any) => this.setState({ bank: result.data }));
 
-            // fetch branch master
-            this.props.fetchApi(1019, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 10')
-            }).then((result: any) => this.setState({ branch: result.data }));
+    //        // fetch branch master
+    //        this.props.fetchApi(1019, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 10')
+    //        }).then((result: any) => this.setState({ branch: result.data }));
 
-            // fetch currency master
-            this.props.fetchApi(102, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 11')
-            }).then((result: any) => this.setState({ currency: result.data }));
-            this.setState({ tryNotToReRender:true })
-        } catch (err) { alert(err); }
+    //        // fetch currency master
+    //        this.props.fetchApi(102, 'master').then((res: any) => {
+    //            if (res.ok) return res.json();
+    //            else throw new Error('Bad Fetch 11')
+    //        }).then((result: any) => this.setState({ currency: result.data }));
+    //        this.setState({ tryNotToReRender:true })
+    //    } catch (err) { alert(err); }
 
-    }
+    //}
     SetCustomerAccountType = (() => {
         store1.dispatch({ payload: 22, key: "AccountType", type: "AddOnFormData", label: "AccountMaster" });
         store1.dispatch({ payload: 22, key: "AccountType", type: "AddOnFormData", label: "AddressDetail" });

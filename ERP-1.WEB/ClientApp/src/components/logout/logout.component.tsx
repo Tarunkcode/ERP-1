@@ -8,7 +8,7 @@ export function LogOut() {
      
       /*  localStorage.clear();*/
         sessionStorage.clear();
-        history.push('/');
+        history.push('/sign-in');
       
     }
     return (

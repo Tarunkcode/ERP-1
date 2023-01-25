@@ -51,6 +51,7 @@
     <None Remove="ClientApp\src\components\sidebar.component.tsx" />
     <None Remove="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
     <None Remove="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
+    <None Remove="ClientApp\src\Pages\Helper Functions\table.tsx" />
     <None Remove="ClientApp\src\Pages\Master\add-customer-master.component.tsx" />
     <None Remove="ClientApp\src\Pages\Master\add-supplier-master.component.tsx" />
     <None Remove="ClientApp\src\Pages\Master\AddQcPlan\add-qc-plan.component.tsx" />
@@ -121,6 +122,7 @@
     <TypeScriptCompile Include="ClientApp\src\components\Modify\modify.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Pages\Helper Functions\table.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Modify\modify.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\Featutes-Option\gst-conf.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\SalePurchaseType\sale-purchase-type.page.tsx" />

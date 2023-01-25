@@ -64,92 +64,26 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
 
     }
 
-    componentDidMount() {
-        
-     
-        try {
-            //fetch series master 
-            this.props.fetchApi(48, 'series').then((res: any) => {
-                if (res.ok) {
-                    console.log('srrr...', res.json())
-                    return res.json();
-                }
-                else throw new Error('Bad Fetch 1')
-            }).then((result: any) => {
-                this.setState({ series: result.data });
-            });
+  
+    HandleShippingTable = (code: string, name: string, row: any) => {
 
-            //fetch del terms master
-            this.props.fetchApi(30, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 2')
-            }).then((result: any) =>
-
-                this.setState({ delT: result.data })
-
-            )
-
-            // fetch pay terms master
-            this.props.fetchApi(31, 'master').then((res: any) => {
-                if (res.ok) {
-                    console.log('mastrrr', res.json())
-                    return res.json()
-                }
-                else throw new Error('Bad Fetch 3')
-            }).then((result: any) => this.setState({ payT: result.data }));
-
-            // fetch Customer master
-            this.props.fetchApi(1005, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 4')
-            }).then((result: any) => this.setState({ custGp: result.data }));
-
-            // fetch Country master
-            this.props.fetchApi(1003, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 5')
-            }).then((result: any) => this.setState({ country: result.data }));
-
-            // fetch Zone master
-            this.props.fetchApi(1004, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 6')
-            }).then((result: any) => this.setState({ zone: result.data }));
-
-            // fetch state master
-            this.props.fetchApi(26, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 7')
-            }).then((result: any) => this.setState({ state: result.data }));
-
-            // fetch city master
-            this.props.fetchApi(120, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 8')
-            }).then((result: any) => this.setState({ city: result.data }));
-
-            // fetch bank master
-            this.props.fetchApi(16, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 9')
-            }).then((result: any) => this.setState({ bank: result.data }));
-
-            // fetch branch master
-            this.props.fetchApi(17, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 10')
-            }).then((result: any) => this.setState({ branch: result.data }));
-
-            // fetch currency master
-            this.props.fetchApi(102, 'master').then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 11')
-            }).then((result: any) => this.setState({ currency: result.data }));
-            this.setState({ tryNotToReRender: true })
-        } catch (err) { alert(err); }
+        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
+        console.log('created', mainObj)
 
     }
-    
+    HandlePlantTable = (code: string, name: string, row: any) => {
+
+        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
+        console.log('created', mainObj)
+
+    }
+    HandleBankDetails = (code: string, name: string, row: any) => {
+
+        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
+        console.log('created', mainObj)
+
+    }
+
     SetCustomerAccountType = (() => {
         store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AccountMaster" });
         store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AddressDetail" });
@@ -159,6 +93,8 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AccountBillByBillDetail" });
         store1.dispatch({ payload: 3, key: "MasterType", type: "AddOnFormData", label: "AccMasterSeries" });
     })()
+
+
     handleAddressOptions = (event: any) => {
         event.preventDefault();
 
@@ -168,40 +104,12 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
 
     }
 
-    formatJSONData = (value : string,name: string, label: string) => {
+    formatJSONData = (name: string, label: string, event : any) => {
         let modifyValue: any;
-          if (label == "BankDetail") {
-            switch (name) {
-                case 'Name': modifyValue = parseInt(value); break;
-                case 'Address': modifyValue = parseInt(value); break;
-                case 'Currency': modifyValue = parseInt(value); break;
-                case 'Country': modifyValue = parseInt(value); break;
-                default: modifyValue = value;
-            }
-              return modifyValue;
-          }
-        switch (name) {
-            case 'Series': modifyValue = parseInt(value); break;
-            case 'MajorProduct': modifyValue = parseInt(value); break;
-            case 'DelTerm': modifyValue = parseInt(value); break;
-            case 'PayTerm': modifyValue = parseInt(value); break;
-            case 'Group': modifyValue = parseInt(value); break;
-            case 'PayTo': modifyValue = parseInt(value); break;
-            case 'OpBal': modifyValue = parseFloat(value); break;
-            case 'TurnOver1': modifyValue = parseFloat(value); break;
-            case 'TurnOver2': modifyValue = parseFloat(value); break;
-            case 'TurnOver3': modifyValue = parseFloat(value); break;
-            case 'PayDate': modifyValue = new Date(value).toISOString(); break;
-            case 'DayFreq': modifyValue = parseInt(value); break;
-            case 'Country': modifyValue = parseInt(value); break;
-            case 'Zone': modifyValue = parseInt(value); break;
-            case 'State': modifyValue = parseInt(value); break;
-            case 'City': modifyValue = parseInt(value); break;
-
-            default: modifyValue = value;
-        }
-      
-        
+        if (event.currentTarget.classList.contains('str')) modifyValue = event.target.value;
+        else if (event.currentTarget.classList.contains('float')) modifyValue = parseFloat(event.target.value)
+        else if (name === 'paydate') modifyValue =  new Date(event.target.value).toISOString();
+        else modifyValue = parseInt(event.target.value)
         return modifyValue;
     }
 
@@ -221,13 +129,16 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         else if (e.currentTarget.classList.contains('AccountBillByBillDetail')) label = "AccountBillByBillDetail";
         else if (e.currentTarget.classList.contains('AccMasterSeries')) label = "AccMasterSeries";
         else alert("category Label are not set for one or multiple inputs 1")
-        let key = window.localStorage.getItem('key')!;
+    
         
         var name: string = e.target.name
-        if (key) value = parseInt(key);
-        else value = this.formatJSONData(e.target.value, name, label);
-            console.log('key : ' + e.target.name + ',value : ' + value);
-            store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
+        value = this.formatJSONData(name, label, e);
+
+
+
+        store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
+
+
         /*console.log(store1.getState())*/
         window.localStorage.removeItem('key');
     }
@@ -236,7 +147,7 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         e.preventDefault();
         let i: any = JSON.stringify(store1.getState());
         console.log('i:', i);
-            const urlSaveMaster = 'http://103.25.128.155:12019/api/SaveToAccountMaster';
+        const urlSaveMaster = 'http://103.25.128.155:12019/api/SaveToAccountMaster';
 
             var req1: Request;
             let h = new Headers();
@@ -268,11 +179,12 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         const { bank, branch, currency } = this.state;
         return (
             <>
-                <CusSupMaster handleChangeField={this.handleChangeField} bank={bank} branch={branch} currency={currency} masters={{ 'series': this.state.series, 'delT': this.state.delT, 'payT': this.state.payT, 'custGp': this.state.custGp, 'country': this.state.country, 'zone': this.state.zone, 'state': this.state.state, 'city': this.state.city, 'bank': this.state.bank, 'branch': this.state.branch, 'currency': this.state.currency }} handleAddressOptions={this.handleAddressOptions} opn={this.state.opn} title="Add Customer Master" handleSave$Submit={this.handleSave$Submit} handleAddressTypeChange={this.handleAddressTypeChange} accountType={this.accountType}  />
+                <CusSupMaster handleChangeField={this.handleChangeField} bank={bank} branch={branch} currency={currency} masters={{ 'series': this.state.series, 'delT': this.state.delT, 'payT': this.state.payT, 'custGp': this.state.custGp, 'country': this.state.country, 'zone': this.state.zone, 'state': this.state.state, 'city': this.state.city, 'bank': this.state.bank, 'branch': this.state.branch, 'currency': this.state.currency }} handleAddressOptions={this.handleAddressOptions} opn={this.state.opn} title="Add Customer Master" handleSave$Submit={this.handleSave$Submit} handleAddressTypeChange={this.handleAddressTypeChange} accountType={this.accountType} HandleShippingTable={this.HandleShippingTable.bind(this)} HandleBankDetails={this.HandleBankDetails.bind(this) }  />
             </>
         )
     }
 }
+
 
 
 const mapStateToProps = createStructuredSelector({

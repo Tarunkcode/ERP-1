@@ -36,7 +36,7 @@ function CustomInput(_a) {
             window.sessionStorage.setItem('datalist', '');
     }, [ref, dataArray.length != 0]);
     return (React.createElement(React.Fragment, null,
-        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, label),
+        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8rem' }, className: "form-label labl labl2 mr-2 ml-2" }, label),
         React.createElement("input", { type: "hidden", name: name, className: classCategory, title: ipTitle, id: "visible-hidden" }),
         React.createElement("input", { ref: ref, list: name, type: ipType, name: name, className: classCategory, defaultValue: props.default, title: ipTitle, autoComplete: "off", id: "visible", onBlur: change }),
         dataArray != null && dataArray.length > 0 ?
@@ -51,7 +51,7 @@ function MasterInput(_a) {
     return (
     //<span className="row row-content d-flex section2 col-sm-12 m-0">
     React.createElement(React.Fragment, null,
-        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, label),
+        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8rem' }, className: "form-label labl ml-2 mr-2 labl2" }, label),
         React.createElement("input", { type: ipType, defaultValue: defaultt, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true }))
     //</span>
     );
@@ -60,7 +60,7 @@ exports.MasterInput = MasterInput;
 function CustomSelect(_a) {
     var label = _a.label, name = _a.name, dataArray = _a.dataArray, handleChange = _a.handleChange, classCategory = _a.classCategory, otherProps = __rest(_a, ["label", "name", "dataArray", "handleChange", "classCategory"]);
     return (React.createElement("span", { className: "row row-content d-flex section2 col-sm-12 m-0" },
-        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8em' }, className: "form-label labl labl2" }, label),
+        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8rem' }, className: "form-label labl ml-2 mr-2 labl2" }, label),
         React.createElement("select", { name: name, className: classCategory, onBlur: handleChange, style: { height: '26px', padding: '0' } }, dataArray != null && dataArray.length > 0 ?
             dataArray.map(function (obj) {
                 return (React.createElement(React.Fragment, null,
@@ -69,7 +69,7 @@ function CustomSelect(_a) {
 }
 exports.CustomSelect = CustomSelect;
 function InputList(_a) {
-    var name = _a.name, label = _a.label, ipType = _a.ipType, ipTitle = _a.ipTitle, dataArray = _a.dataArray, change = _a.change, lablCat = _a.lablCat, row = _a.row, classCategory = _a.classCategory, placeholder = _a.placeholder, s = _a.s, id = _a.id, props = __rest(_a, ["name", "label", "ipType", "ipTitle", "dataArray", "change", "lablCat", "row", "classCategory", "placeholder", "s", "id"]);
+    var name = _a.name, label = _a.label, ipType = _a.ipType, ipTitle = _a.ipTitle, dataArray = _a.dataArray, change = _a.change, lablCat = _a.lablCat, row = _a.row, classCategory = _a.classCategory, placeholder = _a.placeholder, s = _a.s, id = _a.id, type = _a.type, width = _a.width, props = __rest(_a, ["name", "label", "ipType", "ipTitle", "dataArray", "change", "lablCat", "row", "classCategory", "placeholder", "s", "id", "type", "width"]);
     var _b = React.useState(true), hide = _b[0], setHide = _b[1];
     var _c = React.useState(''), listCurrentVal = _c[0], setListCurrentVal = _c[1];
     var _d = React.useState(''), defValue = _d[0], setDefValue = _d[1];
@@ -82,6 +82,8 @@ function InputList(_a) {
         if (props.default === -1 || props.default === undefined || dataArray.length === 0) { }
         else if (props.default >= dataArray.length) {
             alert('Array size exceed Error in Input List');
+        }
+        else if (props.default.length === 0) {
         }
         else {
             setDefVal(dataArray[props.default].name);
@@ -122,11 +124,11 @@ function InputList(_a) {
         }
     };
     return (React.createElement("span", { className: "row row-content d-flex section2 col-sm-12 m-0" },
-        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8em' }, className: lablCat }, label),
+        React.createElement("label", { htmlFor: name, style: { fontSize: '0.8rem' }, className: lablCat }, label),
         React.createElement("div", { className: "m-0 p-0 text-center", style: { width: 'auto', minWidth: s } },
             React.createElement("span", { className: "col-12 m-0 p-0 d-flex" },
-                React.createElement("input", { type: ipType, name: name, id: id, className: "form-control p-0", defaultValue: defVal, title: ipTitle, autoComplete: "off", onFocus: function () { setHide(false); filterList(); }, onChange: filterList, placeholder: placeholder, style: { position: 'relative' } }),
-                React.createElement("img", { src: './assets/load-datalist.gif', style: isDataListLoad === true ? { width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' } : { visibility: 'hidden', width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' }, className: "img-fluid erp-logo", alt: "loading..." })),
+                React.createElement("input", { type: ipType, name: name, id: id, className: "form-control p-0", defaultValue: defVal, title: ipTitle, autoComplete: "off", onFocus: function () { setHide(false); filterList(); }, onChange: filterList, placeholder: placeholder, style: { position: 'relative', width: width } }),
+                type == 1 ? null : React.createElement("img", { src: './assets/load-datalist.gif', style: isDataListLoad === true ? { width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' } : { visibility: 'hidden', width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' }, className: "img-fluid erp-logo", alt: "loading..." })),
             hide === false ? (React.createElement("ul", { id: "dropdown", className: theme === 'dark' ? 'dropdown bg-dark' : 'dropdown bg-light', style: hide === true ? { listStyle: 'none', marginTop: '2px', zIndex: 1000, position: 'absolute', width: 'auto', minWidth: s, maxHeight: '30vh', overflowY: 'auto', borderRadius: '2px', border: '1px solid grey', visibility: 'hidden' } : { listStyle: 'none', marginTop: '2px', zIndex: 1000, position: 'absolute', width: 'auto', minWidth: s, maxWidth: s, maxHeight: '60vh', overflowY: 'auto', color: 'black', borderRadius: '2px', border: '1px solid grey' } }, filteredData != null && filteredData.length > 0 ?
                 filteredData.map(function (obj) {
                     return (React.createElement(React.Fragment, null,

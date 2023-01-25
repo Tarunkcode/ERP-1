@@ -2,34 +2,32 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../../AppContext/ThemeContext';
+import useFetch from '../Hooks/useFetch';
 import NavTree from '../SideNav/nav-tree.component'
 
 export default function Sidebar({ state }: any) {
     var [source, setSource]: any = useState([])
-    const roleStr : any = window.sessionStorage.getItem('roleCode')
-    const roleCode: number = parseInt(roleStr);
+    //const roleStr : any = window.sessionStorage.getItem('roleCode')
+    //const roleCode: number = parseInt(roleStr);
 
     const { theme } = React.useContext(ThemeContext);
-    React.useEffect(() => {
-        const url = `http://103.25.128.155:12019/api/LoadUserManuTree?RC=${roleCode}`
-        console.log(url)
-        var h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        var req1: Request;
-        req1 = new Request(url, {
-            method: 'GET',
-            headers: h,
-            mode: 'cors'
-        });
+    let api = useFetch();
+    const renderNavTree = async () => {
         try {
-            fetch(req1).then(res => res.json()).then(r => { setSource(JSON.parse(r.data)); })
 
-        } catch (err) {
-            alert(err);
-        }
+            let path = `/api/LoadUserManuTree?RC=34`
+            let { res, got } = await api(path)
+           console.log('res', res)
+            if (res.status === 200) {
+                var r: string = got.data;
+                setSource(JSON.parse(r));
+            }
+            else throw new Error('Bad Fetch 1')
+        } catch (err) { alert(err) }
+
+    }
+    React.useEffect(() => {
+        renderNavTree();
 
     }, [])
     return (

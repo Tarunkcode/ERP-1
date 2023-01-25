@@ -46,6 +46,7 @@ import SubUnit_Page from './Pages/Sub-Master/sub-unit.page';
 import SubMaster from './components/SubMasters/submaster.component';
 import Process from './components/SubMasters/process-submaster.component';
 import MatCentre from '../src/Pages/Sub-Master/matrial-center.page';
+import QcParam_SampleType from '../src/Pages/Sub-Master/qc-parameter.component';
 
 //---------------------------------Master Imports---------------------------------------------------------------------------------------------------
 import AddQcPlan from './Pages/Master/AddQcPlan/add-qc-plan.component';
@@ -384,8 +385,8 @@ function App() {
                         <Route exact path='/add-material-center/4' component={SubMaster} />
                         <Route exact path='/add-machine/5' component={YetNotStarted} />
                         <Route exact path='/add-mold/6' component={YetNotStarted} />
-                        <Route exact path='/add-qc-parameter/7' component={YetNotStarted} />
-                        <Route exact path='/add-sampling-type/8' component={YetNotStarted} />
+                        <Route exact path='/add-qc-parameter/7' component={SubMaster} />
+                        <Route exact path='/add-sampling-type/8' component={SubMaster} />
                         <Route exact path='/add-delivery-term/9' component={SubMaster} />
                         <Route exact path='/add-payment-term/10' component={SubMaster} />
                         <Route exact path='/add-product-type/11' component={SubMaster} />
@@ -401,14 +402,14 @@ function App() {
                         <Route exact path='/add-city/21' component={YetNotStarted} />
                         <Route exact path='/add-zone/22' component={YetNotStarted} />
                         <Route exact path='/add-discount-type/23' component={YetNotStarted} />
-                        <Route exact path='/add-qc-type/24' component={YetNotStarted} />
+                        <Route exact path='/add-qc-type/24' component={SubMaster} />
                         <Route exact path='/add-cost-center/25' component={YetNotStarted} />
                         <Route exact path='/add-vehical-type/26' component={YetNotStarted} />
                         <Route exact path='/add-parameter-master/27' component={YetNotStarted} />
                         <Route exact path='/add-bank/28' component={YetNotStarted} />
                         <Route exact path='/add-bank-branch/29' component={YetNotStarted} />
                         <Route exact path='/add-option-text-field/30' component={YetNotStarted} />
-                        <Route exact path='/add-measuring-methord/31' component={YetNotStarted} />
+                        <Route exact path='/add-measuring-methord/31' component={SubMaster} />
                         <Route exact path='/add-delivery-schedule/32' component={YetNotStarted} />
                         <Route exact path='/add-bin/33' component={YetNotStarted} />
                         <Route exact path='/add-dispatch-type/34' component={YetNotStarted} />
@@ -570,11 +571,12 @@ function App() {
                     </Layout>
             </Route>
 
-                <Route path={["/Login", "/notify", "/route-details"]}>
+                <Route path={["/Login",'/sign-in', "/notify", "/route-details"]}>
                 <LayoutLog>
                         <Route exact path='/route-details' component={RouteDetails} />
                         <Route exact path='/notify' component={Notify}/>
                         <Route exact path='/Login' component={LogIn} />
+                        <Route exact path='/sign-in' component={LogIn} />
                         {/*<Route exact path="/Login" render={(props) => <LogIn {...props} />} />*/}
                 </LayoutLog>
             </Route>

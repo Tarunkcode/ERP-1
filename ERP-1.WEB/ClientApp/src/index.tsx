@@ -19,6 +19,7 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as
 import configureStore from './store/configureStore'
 import { history } from './store/configureStore';
 import register from './components/Notifications/registerServiceWorker';
+//import { AuthProvider } from './AppContext/AuthContext';
 
 
 const store = configureStore()
@@ -26,11 +27,11 @@ const store = configureStore()
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            {/*  <DomainProvider>*/}
-            <ThemeProvider>
-                <App />
-            </ThemeProvider>
-            {/*</DomainProvider>*/}
+         
+               <ThemeProvider>
+                   <App />
+               </ThemeProvider>
+
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));

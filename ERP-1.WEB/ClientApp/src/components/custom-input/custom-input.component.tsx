@@ -32,7 +32,7 @@ export default function CustomInput({ name, label, ipType, ipTitle, dataArray, c
           }, [ref, dataArray.length != 0])
           return (
               <>
-            <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label labl labl2">{label}</label>
+            <label htmlFor={name} style={{ fontSize: '0.8rem' }} className="form-label labl labl2 mr-2 ml-2">{label}</label>
                   <input type="hidden" name={name} className={classCategory} title={ipTitle} id="visible-hidden" />
                   <input ref={ref} list={name} type={ipType} name={name} className={classCategory} defaultValue={props.default} title={ipTitle} autoComplete="off" id="visible" onBlur={change} />
             {
@@ -68,7 +68,7 @@ export function MasterInput({ name,defaultt, label, ipTitle, ipType, handleChang
         //<span className="row row-content d-flex section2 col-sm-12 m-0">
            
   <>
-            <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label labl labl2">{label}</label>
+            <label htmlFor={name} style={{ fontSize: '0.8rem' }} className="form-label labl ml-2 mr-2 labl2">{label}</label>
             <input type={ipType} defaultValue={defaultt } name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
    </>
             //</span>
@@ -81,8 +81,8 @@ export function CustomSelect({ label, name, dataArray, handleChange, classCatego
         <span className="row row-content d-flex section2 col-sm-12 m-0">
     
 
-            <label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label labl labl2">{label}</label>
-            {/*<label htmlFor={name} style={{ fontSize: '0.8em' }} className="form-label mr-2 col-4">{label}</label>*/}
+            <label htmlFor={name} style={{ fontSize: '0.8rem' }} className="form-label labl ml-2 mr-2 labl2">{label}</label>
+            {/*<label htmlFor={name} style={{ fontSize: '0.8rem' }} className="form-label mr-2 col-4">{label}</label>*/}
             <select name={name} className={classCategory} onBlur={handleChange} style={{height:'26px', padding:'0'}}>
               
 
@@ -103,7 +103,7 @@ export function CustomSelect({ label, name, dataArray, handleChange, classCatego
 }
 
 
-export function InputList({ name, label, ipType, ipTitle, dataArray, change, lablCat,row, classCategory,placeholder,s,id,...props }: any) {
+export function InputList({ name, label, ipType, ipTitle, dataArray, change, lablCat,row, classCategory,placeholder,s,id,type,width,...props }: any) {
     var [hide, setHide]: any = React.useState(true);
     var [listCurrentVal, setListCurrentVal]: any = React.useState('');
     var [defValue, setDefValue]: any = React.useState('');
@@ -118,6 +118,8 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
         if (props.default === -1 || props.default === undefined || dataArray.length === 0) { }
         else if (props.default >= dataArray.length) {
             alert('Array size exceed Error in Input List')
+        } else if (props.default.length === 0) {
+
         }
         else {
             setDefVal(dataArray[props.default].name);
@@ -164,12 +166,15 @@ export function InputList({ name, label, ipType, ipTitle, dataArray, change, lab
         <span className="row row-content d-flex section2 col-sm-12 m-0">
 
 
-            <label htmlFor={name} style={{ fontSize: '0.8em' }} className={lablCat}>{label}</label>
+            <label htmlFor={name} style={{ fontSize: '0.8rem' }} className={lablCat}>{label}</label>
             <div className="m-0 p-0 text-center" style={{ width: 'auto', minWidth: s }}>
                 <span className="col-12 m-0 p-0 d-flex">
-                    <input type={ipType} name={name} id={id} className="form-control p-0" defaultValue={defVal} title={ipTitle} autoComplete="off" onFocus={() => { setHide(false); filterList(); }} onChange={filterList} placeholder={placeholder} style={{ position: 'relative' }} />
+                    <input type={ipType} name={name} id={id} className="form-control p-0" defaultValue={defVal} title={ipTitle} autoComplete="off" onFocus={() => { setHide(false); filterList(); }} onChange={filterList} placeholder={placeholder} style={{ position: 'relative', width:width }} />
+                    {
+                        type == 1 ? null : <img src={'./assets/load-datalist.gif'} style={isDataListLoad === true ? { width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' } : { visibility: 'hidden', width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' }} className="img-fluid erp-logo" alt="loading..." />
+                    }
+                  
 
-                    <img src={'./assets/load-datalist.gif'} style={isDataListLoad === true ? { width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' } : { visibility: 'hidden', width: "24px", borderRadius: "6%", margin: "0 10px 0", position: 'absolute', right: '0' }} className="img-fluid erp-logo" alt="loading..." />
                 </span>
                 {
                     hide === false ? (

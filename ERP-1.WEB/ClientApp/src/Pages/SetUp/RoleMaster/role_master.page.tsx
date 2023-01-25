@@ -1,34 +1,23 @@
 ﻿import * as React from 'react';
 import Tree2 from "../../../components/custom-tree/tree2.component"
+import useFetch from '../../../components/Hooks/useFetch';
 export default function Role_Master_Page({ handleChange, handlePosting, getName, getDes1, getDes2, getDes3, getDes4,...props}: any) {
-
     var [tree, setTree]: any = React.useState([])
+    let api = useFetch();
+       const renderTreeData = async () => {
 
-    const renderTreeData = () => {
-        var urlStr = `http://103.25.128.155:12019/api/LoadRoleManuTree`;
-        var req: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        try {
-            req = new Request(urlStr, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            });
-            fetch(req).then((res: any) => {
-                if (res.ok) return res.json();
+            try {
+           
+                let path = `/api/LoadRoleManuTree`
+                let { res, got } = await api(path)
+                console.log('res', res)
+                if (res.status === 200) {
+                    var jsonStr: string = got.data;
+                    setTree(JSON.parse(jsonStr))
+                }
                 else throw new Error('Bad Fetch 1')
-            }).then((result: any) => {
-                var jsonStr: string = result.data;
-                console.log('json', jsonStr)
-                setTree(JSON.parse(jsonStr))
-
-            });;
-
-        } catch (err) { alert(err) }
-    }
+            } catch (err) { alert(err) }
+        }
     React.useEffect(() => {
 
         renderTreeData()

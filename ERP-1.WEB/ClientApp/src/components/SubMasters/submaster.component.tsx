@@ -11,6 +11,9 @@ import Process_Page from '../../Pages/Sub-Master/process.page';
 import DefaultSubMaster from '../HOC/fetchDefaultSubMaster.hoc';
 import ProductionOverHead_Page from '../../Pages/Sub-Master/production-overhead.page';
 import MatCentre from '../../Pages/Sub-Master/matrial-center.page';
+import QcParam_SampleType from '../../Pages/Sub-Master/qc-parameter.component';
+import Measuring from '../../Pages/Sub-Master/measuring.page';
+import QcType from '../../Pages/Sub-Master/qc-type.page';
 
 interface IState {
     rawObj: object,
@@ -325,6 +328,20 @@ class SubMasterChild extends React.Component<IProps, IState>{
              {
                     this.state.configType === '4' ? (<MatCentre HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Material Center" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
+            {
+                    this.state.configType === '7' ? (<QcParam_SampleType  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Qc Parameter" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            {
+                    this.state.configType === '8' ? (<QcParam_SampleType  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Sampling Type" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+              {
+                    this.state.configType === '31' ? (<Measuring  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Measuring Master" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            
+            {
+                    this.state.configType === '24' ? (<QcType  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Qc Type" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            
            
             
 
