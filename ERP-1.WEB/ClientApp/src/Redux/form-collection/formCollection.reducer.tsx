@@ -15,7 +15,8 @@ interface IState {
     AccProductCurrency:any[],
     CommercialDetail: any[],
     AccountBillByBillDetail:any[],
-    AccMasterSeries: any[]
+    AccMasterSeries: any[],
+    ItemMaster : any
 }
 
 
@@ -26,7 +27,8 @@ const INITIAL_STATE: IState = {
     AccProductCurrency: [{}],
     CommercialDetail: [{}],
     AccountBillByBillDetail: [{}],
-    AccMasterSeries: [{}]
+    AccMasterSeries: [{}],
+    ItemMaster: {}
 }
 
 const formDataCollectionReducer = (STATE = INITIAL_STATE, action: IAction) => {
@@ -46,6 +48,8 @@ const formDataCollectionReducer = (STATE = INITIAL_STATE, action: IAction) => {
             else if (action.label == "AccountBillByBillDetail") STATE.AccountBillByBillDetail[0][action.key] = action.payload;
 
             else if (action.label == "AccMasterSeries") STATE.AccMasterSeries[0][action.key] = action.payload;
+
+            else if (action.label == "ItemMaster") STATE.ItemMaster[action.key] = action.payload;
 
             else alert("set wrong label error");
             

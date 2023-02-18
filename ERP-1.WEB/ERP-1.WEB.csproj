@@ -43,6 +43,7 @@
     <None Remove="ClientApp\src\components\custom-input\custom-input.component.tsx" />
     <None Remove="ClientApp\src\components\custom-pagination\main-pagination.component.js" />
     <None Remove="ClientApp\src\components\custom-pagination\usePagination.custom-component.js" />
+    <None Remove="ClientApp\src\components\Grid Component\grid.component.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchDefaultConfigurationSettings.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchDefaultSubMaster.hoc.tsx" />
@@ -115,6 +116,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\%40types\alltypes.d.ts" />
     <TypeScriptCompile Include="ClientApp\src\components\custom-input\custom-input.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Grid Component\grid.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchDefaultConfigurationSettings.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchDefaultSubMaster.hoc.tsx" />
@@ -179,6 +181,10 @@
     <TypeScriptCompile Include="ClientApp\src\Redux\user\user.selectors.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Redux\user\user.types.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Redux\rootReducer.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\components\Date Component\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

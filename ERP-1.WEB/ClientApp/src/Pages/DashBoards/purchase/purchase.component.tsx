@@ -21,7 +21,7 @@ const override = css`
 export default function Purchase() {
 
 
-    const getState = window.localStorage.getItem('state');
+    const getState = window.sessionStorage.getItem('state');
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
   

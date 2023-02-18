@@ -17,7 +17,7 @@ var custom_input_component_1 = require("../../../components/custom-input/custom-
 var custom_switch_component_1 = require("../../../components/CustomSwitch/custom-switch.component");
 function SalePurchaseType_Page(_a) {
     var handleChange = _a.handleChange, handlePosting = _a.handlePosting, pageTitle = _a.pageTitle, getMasterType = _a.getMasterType, configType = _a.configType, otherProps = __rest(_a, ["handleChange", "handlePosting", "pageTitle", "getMasterType", "configType"]);
-    (0, react_1.useEffect)(function () {
+    react_1.useEffect(function () {
         if (configType == '/add-sale-type') {
             getMasterType(13);
         }

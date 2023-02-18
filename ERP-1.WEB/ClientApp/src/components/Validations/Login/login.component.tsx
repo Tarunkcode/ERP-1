@@ -1,6 +1,4 @@
-﻿
-import * as React from 'react';
-
+﻿import * as React from 'react';
 import './login.styles.css';
 import CustomButton from '../../custom-button/custom-button.component';
 import { Redirect } from 'react-router-dom';
@@ -192,26 +190,20 @@ class ChildLog extends React.Component<IProps, IState>{
             return <Redirect to='/home' />;
         } else { }
 
-        return (<>
-            {compList.length != 0 && compList != undefined && compList != null ?
-                (
-                    compList[0].msg !== '' || compList[0].msg !== null || compList[0].msg !== undefined ? (
-                        <div className="m-0 p-0" style={{position:'absolute', left:'10px', top:'50px'}}>
-                            <textarea rows={2} className="form-control col-12 text-danger m-0 float-left text-center" readOnly>{compList[0].msg}</textarea>
-                            <button className="btn btn-danger p-1 mt-3" onClick={() => {
-                                const { history } = this.props;
-                                    localStorage.clear();
-                                sessionStorage.clear();
-                                history.push('/')
-
-                            }}>Change User</button>
-                        </div>
-                    ): null
+            //{compList.length != 0 && compList != undefined && compList != null ?
+            //    (
+            //        compList[0].msg !== '' || compList[0].msg !== null || compList[0].msg !== undefined ? (
+            //            <div className="m-0 p-0" style={{position:'absolute', left:'10px', top:'50px'}}>
+            //                <textarea rows={2} className="form-control col-12 text-danger m-0 float-left text-center" readOnly>{compList[0].msg}</textarea>
+                           
+            //            </div>
+            //        ): null
                    
 
-                ) : null
-            }
-            <div className="outer-container">
+            //    ) : null
+            //}
+        return (<>
+            <div className="outer-container mt-1">
 
                 <span className="card" style={{ border: 'none', background:'none', height: 'auto', minHeight: '110px' }}>
                     {
@@ -247,6 +239,13 @@ class ChildLog extends React.Component<IProps, IState>{
                             <CustomButton type="submit" className='custom-button'>Log in</CustomButton>
 
                         </form>
+                        <span style={{ cursor: 'pointer', color: 'blue' }} className="m-0" onClick={() => {
+                            const { history } = this.props;
+                            localStorage.clear();
+                            sessionStorage.clear();
+                            history.push('/')
+
+                        }}>ReValidate Customer</span>
 
 
                     <div className="footer2">

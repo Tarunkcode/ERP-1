@@ -19,13 +19,13 @@ var CustomTable_component_1 = require("../../components/CustomTable/CustomTable.
 var table_1 = require("../Helper Functions/table");
 function Process_Page(_a) {
     var getMasterType = _a.getMasterType, pageTitle = _a.pageTitle, configType = _a.configType, handleChange = _a.handleChange, handlePosting = _a.handlePosting, HandleOverHeadIpSelect = _a.HandleOverHeadIpSelect, HandleJobIpSelect = _a.HandleJobIpSelect, HandleOperationIpSelect = _a.HandleOperationIpSelect, defaultData = _a.defaultData, virtualCode = _a.virtualCode, otherProps = __rest(_a, ["getMasterType", "pageTitle", "configType", "handleChange", "handlePosting", "HandleOverHeadIpSelect", "HandleJobIpSelect", "HandleOperationIpSelect", "defaultData", "virtualCode"]);
-    var _b = (0, react_1.useState)(false), ToggelValue = _b[0], setToggelValue = _b[1];
-    var _c = (0, react_1.useState)([]), overHeadArr = _c[0], setOverHeadArr = _c[1];
-    var _d = (0, react_1.useState)([]), operationArr = _d[0], setOperationArr = _d[1];
-    var _e = (0, react_1.useState)({}), masterlist = _e[0], setMasterList = _e[1];
-    var _f = (0, react_1.useState)([]), oprnlist = _f[0], setOperationList = _f[1];
-    var _g = (0, react_1.useState)([]), joblist = _g[0], setJobList = _g[1];
-    var _h = (0, react_1.useState)([]), overheadlist = _h[0], setOverHeadList = _h[1];
+    var _b = react_1.useState(false), ToggelValue = _b[0], setToggelValue = _b[1];
+    var _c = react_1.useState([]), overHeadArr = _c[0], setOverHeadArr = _c[1];
+    var _d = react_1.useState([]), operationArr = _d[0], setOperationArr = _d[1];
+    var _e = react_1.useState({}), masterlist = _e[0], setMasterList = _e[1];
+    var _f = react_1.useState([]), oprnlist = _f[0], setOperationList = _f[1];
+    var _g = react_1.useState([]), joblist = _g[0], setJobList = _g[1];
+    var _h = react_1.useState([]), overheadlist = _h[0], setOverHeadList = _h[1];
     React.useEffect(function () {
         getMasterType(11);
         var Req;
@@ -90,9 +90,9 @@ function Process_Page(_a) {
             JWOn: { name: 200, id: "jobworkon", ipTitle: "Job Worker On", dataArray: [{ code: 1, name: 'Inside' }, { code: 2, name: 'Outside' }], classCat: "form-control pMasterJob select text-center", placeholder: "Select Job Worker On", defaultList: joblist }
         }];
     var oprnTableProps = [{ Oprn: { name: 300, id: "opr", ipTitle: "Enter Process Operation Name", dataArray: operationArr, classCat: "form-control text-center pMasterOperation select", placeholder: "Enter Operation Name", defaultList: oprnlist } }];
-    var _j = (0, react_1.useState)(jobTableProps), JobTableArr = _j[0], setJobTableArr = _j[1];
-    var _k = (0, react_1.useState)(maindata), OverHeadTableArr = _k[0], setOverHeadtableArr = _k[1];
-    var _l = (0, react_1.useState)(oprnTableProps), OprnTableArr = _l[0], setOprnTableArr = _l[1];
+    var _j = react_1.useState(jobTableProps), JobTableArr = _j[0], setJobTableArr = _j[1];
+    var _k = react_1.useState(maindata), OverHeadTableArr = _k[0], setOverHeadtableArr = _k[1];
+    var _l = react_1.useState(oprnTableProps), OprnTableArr = _l[0], setOprnTableArr = _l[1];
     return (React.createElement(React.Fragment, null,
         React.createElement("div", { className: "main card firstDiv" },
             React.createElement("div", { className: "text-center card-title col-12", style: { textAlign: "start" } },

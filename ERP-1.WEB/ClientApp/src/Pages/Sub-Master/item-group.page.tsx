@@ -58,7 +58,7 @@ export default function ItemGroup_Page({ getMasterType, handleChange, handlePost
                     <span className="d-flex section2 col-sm-12">
 
                         <>
-                            <InputList label="Under Group" name="c2" default={defaultData.c2} dataArray={[{ code: 0, name: '' }, { code: 1, name: 'group1' }, { code: 2, name: 'group12' }]} placeholder="Select Under Group" s="20%" handleChange={HandleIpSelect} classCategory="form-control inp mb-2 subMaster select" />
+                            <InputList label="Under Group" name="c2" id="c2" default={defaultData.c2} dataArray={[{ code: 0, name: '' }, { code: 1, name: 'group1' }, { code: 2, name: 'group12' }]} placeholder="Select Under Group" s="20%" change={HandleIpSelect} classCategory="form-control inp mb-2 subMaster select" />
                          
                         </>
 
@@ -66,7 +66,7 @@ export default function ItemGroup_Page({ getMasterType, handleChange, handlePost
 
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <InputList label="Group Type" name="c3" default={defaultData.c3} dataArray={[{ code: 0, name: '' }, { code: 1, name: 'Finish Good (FG) Group' }, { code: 2, name: 'Semi Finish Good (SFG) Group' }, { code: 3, name: 'Raw Material (RM) Group' }, { code: 4, name: 'Scrap Material Group' }, { code: 5, name: 'Other Group' }]} placeholder="Select Under Group" s="20%" handleChange={HandleIpSelect} classCategory="form-control inp mb-2 subMaster select" />
+                        <InputList label="Group Type" name="c3" id="c3" default={defaultData.c3} dataArray={[{ code: 0, name: '' }, { code: 1, name: 'Finish Good (FG) Group' }, { code: 2, name: 'Semi Finish Good (SFG) Group' }, { code: 3, name: 'Raw Material (RM) Group' }, { code: 4, name: 'Scrap Material Group' }, { code: 5, name: 'Other Group' }]}  placeholder="Select Under Group" s="20%" change={HandleIpSelect} classCategory="form-control inp mb-2 subMaster select" />
                     </span>
                     <span className="d-flex section2 mb-2 col-sm-12">
                        

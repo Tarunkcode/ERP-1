@@ -1,16 +1,96 @@
-﻿import * as React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+﻿
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { NavLink, Prompt, useHistory } from 'react-router-dom';
+import { InputList, DownShift } from '../../../components/custom-input/custom-input.component';
+import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
+
+import BOMModals from '../../../components/Modals/BomModals';
+import { AddRow, DeleteRow, getCurrentRowNo } from '../../Helper Functions/table';
+
+import RouteDetails from './RouteDetails.component';
+/*import DataGrid from '../../../components/GRID_COMPONENT/Grid.index';*/
+/*import { OLYMPIC_SPORTS, OLYMPIC_COUNTRIES } from "../../../components/GRID_COMPONENT/ApiData/list";*/
+import { TextField, Autocomplete } from '@mui/material'
+
+import { AutocompleteSelectCellEditor } from 'ag-grid-autocomplete-editor';
+import 'ag-grid-autocomplete-editor/dist/main.css';
+import WriteGrid from '../../../components/Grid Component/grid.component';
+
 
 function BomRoutingConfig() {
+ let [isCopy, setIsCopy] : any = useState(false)
     const history = useHistory();
-    const handleClickRoute = () => {
 
-        history.push('/route-details');
 
+    const OpenPrompt = (e: any) => {
+        if (e.key === 'Insert') {
+        let res = confirm("Do You Wnat to Copy");
+        console.log(res);
+        setIsCopy(res);
+
+        }
+    };
+
+    let [isItemBox, setIsItemBox]: any = React.useState(false);
+    const OpenBOMItemCons = (e: any) => {
+        console.log('this is pressed', e.keyCode)
+        if (e.keyCode === 13) {
+            setIsItemBox(true);
+        }
     }
+
+    let data: any[] = [{ ut: null, amt: null, setup: null, cyc: null, manpow: null, ifin: null, elec: null, totOvr: null, jbWork: null, mcDep: null }]
+
+
+    var ColDef: any[] = [
+        {
+            field: 'prc', headerName: 'Process', width: 400, cellStyle: { paddingLeft: '0', paddingRight: '0' }, cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            selectData: [
+                { label: 'Canada', value: 'CA', group: 'North America' },
+                { label: 'United States', value: 'US', group: 'North America' },
+                { label: 'Uzbekistan', value: 'UZ', group: 'Asia' },
+            ],
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params : any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return "";
+        },
+            editable: true,
+           
+        },
+        { field: 'ut', headerName: 'Unit', width: 200 },
+        { field: 'amt', headerName: 'Amount', width: 200 },
+        { field: 'setup', headerName: 'Set Up Time', width: 200 },
+        { field: 'cyc', headerName: 'Cyclic Time', width: 200 },
+        { field: 'manpow', headerName: 'Manpower', width: 200 },
+        { field: 'ifin', headerName: 'Is Final', width: 200 },
+        { field: 'elec', headerName: 'Electricity Unit', width: 200 },
+        { field: 'totOvr', headerName: 'Total OverHead', width: 200 },
+        { field: 'jbWork', headerName: 'Job Work', width: 200 },
+        { field: 'mcDep', headerName: 'Machine Dep.', width: 200 }
+    ]
+    
+
+
+
+  
+  
         return (
-            
             <>
+          
+                <BOMModals isCopy={isCopy} isBOMAlt={false} isBOMProcess={false} isBOMRouting={false} setIsCopy={setIsCopy} />
+                {
+                    isItemBox ? (
+
+                <RouteDetails isItemBox={isItemBox} setIsItemBox={setIsItemBox} />
+                    ): null
+                }
                 <div className="main card firstDiv">
 
                     <div className="text-center card-title col-12" style={{ textAlign: 'start' }}>
@@ -24,44 +104,49 @@ function BomRoutingConfig() {
                                 <div className="collapse show" id="genDetails">
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Series</label>
+                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Series</label>
                                             <input type="text" name="series" className="form-control inp" />
                                         </>
                                         <>
-                                            <label htmlFor="RCode" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Routing Code</label>
+                                            <label htmlFor="RCode" style={{ fontSize: '1rem' }} className="form-label labl labl2">Routing Code</label>
                                             <input type="text" name="RCode" className="form-control inp" />
                                         </>
                                         <>
-                                            <label htmlFor="RName" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Routing Name</label>
+                                            <label htmlFor="RName" style={{ fontSize: '1rem' }} className="form-label labl labl2">Routing Name</label>
                                             <input type="text" name="RName" className="form-control inp" />
                                         </>
                                     </span>
 
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Item</label>
+                                      
+                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Code</label>
+                                            <input type="text" name="custCode" className="form-control inp" onKeyUp={OpenPrompt } />
+                                        </>
+                                        <>
+                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Name</label>
                                             <input type="text" name="custCode" className="form-control inp" />
                                         </>
                                         <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Valid From</label>
-                                            <input type="date" name="payTerm" className="form-control inp" />
+                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">UOM</label>
+                                            <input type="text" name="payTerm" className="form-control inp" />
                                         </>
                                     </span>
 
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Produce Quantity</label>
+                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Quantity</label>
                                             <input type="text" name="custName" className="form-control inp" />
                                         </>
+                                       
+                                       
                                         <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">UOM</label>
-                                            <input type="text" name="payTerm" className="form-control inp" />
+                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Valid From</label>
+                                            <input type="date" name="payTerm" className="form-control inp" />
                                         </>
-                                       <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Alt UOM</label>
-                                            <input type="text" name="payTerm" className="form-control inp" />
-                                        </>
-                                     
+                                        <span className="col-4">
+                                            <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Freeze" id="freeze" name="freeze" classCat="form-control custom-control-input col-3" handleChange={() => { }} />
+                                        </span>
                                     </span>
 
                                  
@@ -73,106 +158,87 @@ function BomRoutingConfig() {
                    
                      
                         <hr style={{ margin: '0', padding: '0' }} />
-                        <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                            <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
-
-                                <div className="text-center card-title col-12" style={{ textAlign: 'start' }}>
-                                    <span className="row-header p-0 m-0" >Route Details</span>
-                                </div>
-                                <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
-                                    width: "100%"
-                                }}>
-                                    <thead>
-                                        <tr>
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>S.No</th>
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Process</th>
-                                           
-                                         
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UoM</th>
-                                           
-                                       
-                                          
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Is Final</th>
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Man Power</th>
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Electricity(/Unit)</th>
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Total Overhead</th>
-                                            <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Produce Prod. No.</th>
-                                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>1</th>
-                                            <td></td>
-                                            
-                                            
-                                            <td></td>
-                                            <td></td>
-
-                                            <td></td>
-                                            <td></td>
-                                        
-                                           
-                                            <td></td>
-                                            <td></td>
-                                            {/*Route Details below navLink*/}
-                                            <td><NavLink to="/add-bom-routing-configuration-master"><button type="button" className="btn btn-info m-0 p-0">Enter Details</button></NavLink></td>
-                                        </tr>
-                                      
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div style={{ margin: '0 auto' }} className="col-12 card-footer">
-                            <textarea rows={5} className="col-7 form-control active" placeholder="Enter Item Description..." />
-                        </div>
-                        <div className="row card-footer col-12 " style={{ margin: '1em 0%'}}>
-                            <span className="d-flex align-items-center m-0 p-0">
-                                <>
-                                    <label htmlFor="1payDate" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Created By</label>
-                                    <input className="form-control" name="1payDate" type="text" title="Created By" />
+              
+                        <WriteGrid title="Routing Details" titleClr="blue" colDef={ColDef} data={data }/>
+                    {/*    <GridA title="Routing Details" titleClr="blue" colDef={route_det}/>*/}
+                        {/*<DataGrid title="Routing Details" titleClr="blue" colDef={route_det}/>*/}
+                        {/*<WriteTable*/}
+                        {/*    HandleIpSelect={() => { }}*/}
+                        {/*    firstCol="Stage"*/}
+                        {/*    getCurrentRowNo={getCurrentRowNo}*/}
+                        {/*    addRowFunc={AddRow}*/}
+                        {/*    tableProps={route_det}*/}
+                        {/*    setRowFunc={setRouteDet}*/}
+                        {/*    deleteRowFunc={DeleteRow}*/}
+                        {/*    columns={[{ field: 'pro', header: "Process" },{ field: 'ut', header: "Unit" }, { field: 'amt', header: "Amount" }, { field: 'setTime', header: "Set Up Time" }, , { field: 'cycTime', header: "Cyclic Time" }, { field: 'manPow', header: "Man Power" }, { field: 'isFinal', header: "Is Final" }, { field: 'elecUt', header: "Electricity Unit" }, { field: 'totOvrHd', header: "Total OverHead" }, { field: 'jw', header: "Job Worker" }, { field: 'mcDep', header: "Machine Dep." }]}*/}
+                        {/*    dataArr={RouteDet}*/}
+                        {/*    title="Routing Details"*/}
+                        {/*/>*/}
+                     
+                        {/*<div style={{ margin: '0 auto' }} className="col-12 card-footer">*/}
+                        {/*    <textarea rows={5} className="col-7 form-control active" placeholder="Enter Item Description..." />*/}
+                        {/*</div>*/}
+                        {/*<div className="row card-footer col-12 " style={{ margin: '1em 0%'}}>*/}
+                        {/*    <span className="d-flex align-items-center m-0 p-0">*/}
+                        {/*        <>*/}
+                        {/*            <label htmlFor="1payDate" style={{ fontSize: '1rem', width: '100%', marginLeft: '2em' }} className="form-label">Created By</label>*/}
+                        {/*            <input className="form-control" name="1payDate" type="text" title="Created By" />*/}
 
 
-                                </>
+                        {/*        </>*/}
 
-                                <>
-                                    <label htmlFor="daysFreq" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label ">Created On</label>
-                                    <input type="date" name="daysFreq" className="form-control" title="Created On" />
+                        {/*        <>*/}
+                        {/*            <label htmlFor="daysFreq" style={{ fontSize: '1rem', width: '100%', marginLeft: '2em' }} className="form-label ">Created On</label>*/}
+                        {/*            <input type="date" name="daysFreq" className="form-control" title="Created On" />*/}
 
-                                </>
-                                <>
-                                    <label htmlFor="daysFreq" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label ">Modify By</label>
-                                    <input type="text" name="daysFreq" className="form-control" title="Created On" />
+                        {/*        </>*/}
+                        {/*        <>*/}
+                        {/*            <label htmlFor="daysFreq" style={{ fontSize: '1rem', width: '100%', marginLeft: '2em' }} className="form-label ">Modify By</label>*/}
+                        {/*            <input type="text" name="daysFreq" className="form-control" title="Created On" />*/}
 
-                                </>
+                        {/*        </>*/}
 
-                                <>
-                                    <label htmlFor="daysFreq" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label ">Modify On</label>
-                                    <input type="text" name="daysFreq" className="form-control" title="Created On" />
+                        {/*        <>*/}
+                        {/*            <label htmlFor="daysFreq" style={{ fontSize: '1rem', width: '100%', marginLeft: '2em' }} className="form-label ">Modify On</label>*/}
+                        {/*            <input type="text" name="daysFreq" className="form-control" title="Created On" />*/}
 
-                                </>
+                        {/*        </>*/}
 
 
 
-                            </span>
-                        </div>
-                        <div className="row card-footer col-12 m-0">
-                            <span className="d-flex col-12 align-items-center m-0 p-0">
+                        {/*    </span>*/}
+                        {/*</div>*/}
+                        {/*<div className="row card-footer col-12 m-0">*/}
+                        {/*    <span className="d-flex col-12 align-items-center m-0 p-0">*/}
                                
-                                    <label htmlFor="1payDate" style={{ fontSize: '0.8em', margin: 'auto 2em' }} className="form-label">Approval Details</label>
-                                    <input className="form-control col-5" name="1payDate" type="text" title="Approval Details" />
+                        {/*            <label htmlFor="1payDate" style={{ fontSize: '1rem', margin: 'auto 2em' }} className="form-label">Approval Details</label>*/}
+                        {/*            <input className="form-control col-5" name="1payDate" type="text" title="Approval Details" />*/}
 
-                            </span>
-                        </div>
+                        {/*    </span>*/}
+                        {/*</div>*/}
+                       
                     </div>
                     <hr style={{ margin: '0', padding: '0' }} />
                 </div>
-                <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                    <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                    <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                    <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+
+                   
+
+                <div className=" row col-12 pl-4">
+                    
+                    <div className="col-4 mr-0" style={{ float: 'left' }}>
+                            <label htmlFor="docs" style={{ fontSize: '0.8em' }} className="form-label ml-2">Upload Image</label>
+                            <input type="file" name="docs" />
+
+                    </div>
+
+                    <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float:'right' }}>
+                       <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
+                        <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                        <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
+                    </div>
+
                 </div>
+                
             </>
             );
   

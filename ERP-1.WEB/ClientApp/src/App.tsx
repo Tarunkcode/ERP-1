@@ -52,13 +52,15 @@ import QcParam_SampleType from '../src/Pages/Sub-Master/qc-parameter.component';
 import AddQcPlan from './Pages/Master/AddQcPlan/add-qc-plan.component';
 import AssortmentMaster from './Pages/Master/AssortmentMaster/assortment-master.component';
 import BomRoutingConfig from './Pages/Master/BomRoutingConfiguration/bom-routing-config.component';
-import RouteDetails from './Pages/Master/BomRoutingConfiguration/RouteDetails.component';
+//import RouteDetails from './Pages/Master/BomRoutingConfiguration/RouteDetails.component';
 import BranchMaster from './Pages/Master/BranchMaster/branch-master.component';
 import CostSheetDetails from './Pages/Master/CostSheet/cost-sheet-details.component';
 
 import CusSupMaster from './components/Account Masters/customer.component';
 import AddItemMaster from './Pages/Master/ItemMaster/add-item-master.component';
 import AddSupplierMaster from './components/Account Masters/supplier.component';
+
+
 //---------------------------------Transactions Imports---------------------------------------------------------------------------------------------------
 import AddSaleOrder from './Pages/Transaction/Sales/add-sale-order.component';
 
@@ -116,6 +118,8 @@ import Notify from '../src/components/Notifications/index';
 
 
 import ProductionOverHead_Page from './Pages/Sub-Master/production-overhead.page';
+import IMaster from './components/Account Masters/item.component';
+import GridA from './Pages/ag-grid';
 
 
 
@@ -338,7 +342,9 @@ function App() {
                     '/tran-list',
                     '/tran-modify',
                     '/add-Vendor-Quot-Comp',
-                    '/add-TBE'
+                    '/add-TBE',
+                
+              
                 ]}>
                     <Layout>
                         {/*Dashboards*/}
@@ -442,9 +448,10 @@ function App() {
                         {/*Master*/}
                         <Route exact path='/add-customer-master' component={CusSupMaster} />
                         <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
-                        <Route exact path='/add-item-master' component={AddItemMaster} />
+                        <Route exact path='/add-item-master' component={IMaster} />
                         <Route exact path='/add-cost-sheet-details' component={CostSheetDetails} />
                         <Route exact path="/add-bom-routing-configuration-master" component={BomRoutingConfig} />
+                        
                         <Route exact path='/add-branch-master' component={BranchMaster} />
                         <Route exact path='/add-Qc-Plan' component={AddQcPlan} />
                         <Route exact path='/Import-Customer' component={YetNotStarted} />
@@ -525,6 +532,8 @@ function App() {
                         <Route exact path="/add-pack-to-loose" component={PackToLoose} />
                         <Route exact path="/add-material-movement" component={MaterialMovement} />
                         <Route exact path='/add-material-dispatch' component={MarerialDispatch} />
+                    
+            
                      
 
               
@@ -573,7 +582,7 @@ function App() {
 
                 <Route path={["/Login",'/sign-in', "/notify", "/route-details"]}>
                 <LayoutLog>
-                        <Route exact path='/route-details' component={RouteDetails} />
+                     
                         <Route exact path='/notify' component={Notify}/>
                         <Route exact path='/Login' component={LogIn} />
                         <Route exact path='/sign-in' component={LogIn} />
@@ -582,19 +591,20 @@ function App() {
             </Route>
 
 
-            <Route path={["/register", "/"]}>
+                <Route path={["/register", "/", '/GridA']}>
                 <RegisterLayout>
                    <Route exact path="/" component={CustomerVaildate} />
-                    <Route exact path='/register' component={RegisterDomain} />
+                        <Route exact path='/register' component={RegisterDomain} />
+                        <Route exact path='/GridA' component={GridA} />
 
                 </RegisterLayout>
             </Route>
-            <Route path={["/route-details"]}>
-                <Secret_LayOut>
-                        <Route exact path='/route-details' component={RouteDetails} />
+            {/*<Route path={["/route-details"]}>*/}
+            {/*    <Secret_LayOut>*/}
+            {/*            <Route exact path='/route-details' component={RouteDetails} />*/}
                   
-                </Secret_LayOut>
-            </Route>
+            {/*    </Secret_LayOut>*/}
+            {/*</Route>*/}
 
 
                 {/*{defaultState == 1 ?*/}

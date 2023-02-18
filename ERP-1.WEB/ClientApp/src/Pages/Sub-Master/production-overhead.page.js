@@ -16,7 +16,7 @@ var react_1 = require("react");
 var custom_input_component_1 = require("../../components/custom-input/custom-input.component");
 function ProductionOverHead_Page(_a) {
     var handleChange = _a.handleChange, pageTitle = _a.pageTitle, handlePosting = _a.handlePosting, configType = _a.configType, getMasterType = _a.getMasterType, defaultData = _a.defaultData, props = __rest(_a, ["handleChange", "pageTitle", "handlePosting", "configType", "getMasterType", "defaultData"]);
-    (0, react_1.useEffect)(function () {
+    react_1.useEffect(function () {
         console.log('def', defaultData);
         configType == '42' ? getMasterType(1034) : null;
         configType == '38' ? getMasterType(1030) : null;

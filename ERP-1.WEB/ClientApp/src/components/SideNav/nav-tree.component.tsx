@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 //parent
 export default function NavTree({ treeData }: any) {
   
-
     return (
         <ul>
             {
@@ -68,8 +67,6 @@ function TreeNode({ node, key }: any) {
                  </li>
               </ul>
         
-
-
             <ul data-parent="#sidebar">
                 {showChildren && <NavTree treeData={Children} />}
             </ul>

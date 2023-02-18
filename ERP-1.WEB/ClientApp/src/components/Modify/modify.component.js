@@ -93,6 +93,6 @@ var Modify_Child = /** @class */ (function (_super) {
     };
     return Modify_Child;
 }(React.Component));
-var Modify = (0, react_router_dom_1.withRouter)(Modify_Child);
+var Modify = react_router_dom_1.withRouter(Modify_Child);
 exports.default = Modify;
 //# sourceMappingURL=modify.component.js.map

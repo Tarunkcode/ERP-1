@@ -9,7 +9,7 @@ export default function Role_Master_Page({ handleChange, handlePosting, getName,
             try {
            
                 let path = `/api/LoadRoleManuTree`
-                let { res, got } = await api(path)
+                let { res, got } = await api(path, 'GET', '')
                 console.log('res', res)
                 if (res.status === 200) {
                     var jsonStr: string = got.data;

@@ -1,15 +1,125 @@
 ﻿import * as React from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { WriteTable } from '../../../components/CustomTable/CustomTable.component';
 import BOMModals from '../../../components/Modals/BomModals';
+import { AddRow, DeleteRow, getCurrentRowNo } from '../../Helper Functions/table';
+import Modal from 'react-modal';
 
-export default class RouteDetails extends React.Component {
-    render() {
-        return (
+const customStyles : any = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '100%',
+        maxHeight: '100vh',
+        minHeight: '100vh',
+        overflowX: 'hidden',
+        overflowY : 'auto'
+    },
+};
+
+export default function RouteDetails({ isItemBox, setIsItemBox }: any) {
+    let subtitle: any;
+  
+    let [isBomAltItem, setIsBomAltItem]: any = React.useState(false);
+    let [isOtherItem, setIsOtherItem]: any = React.useState(false);
+
+
+    const OpenAltItemPopUp = (e: any) => {
+      
+        if (e.keyCode === 13) {
+            setIsBomAltItem(true);
+        }
+    }
+
+
+    const OpenOtherProduce = (e: any) => {
+       
+        if (e.keyCode === 13) {
+            setIsOtherItem(true);
+        }
+    }
+
+  
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#f00';
+    }
+
+    function closeItemBox() {
+        setIsItemBox(false);
+    }
+    
+    var cons_itemDetils: any[] = [
+
+        {
+
+            'itC': {
+                name: 1000, id: "itc", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: () => { }
+            },
+            'itN': {
+                name: 1100, id: "itN", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '400px', ipType: 'text', onEnterOpen$RedirectModal: () => { console.log('hmm') }
+            },
+            'rt': { name: 1200, id: "rt", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'consQty': { name: 1300, id: "consQty", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'uom4cons': { name: 1400, id: "uom4cons", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'prdcQty': { name: 1500, id: "prdcQty", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'uom4prdc': { name: 1600, id: "uom4prdc", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'cst': { name: 1700, id: "cst", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'altItm': {
+                name: 1800, id: "altUm", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: OpenAltItemPopUp
+            }
+        
+        }
+    ]
+
+
+
+    var prdc_itmDetails: any[] = [
+
+        //[{ field: 'itC', header: "Item Code" }, { field: 'itmName', header: "Item Name" }, { field: 'qty', header: "Quantity" }, { field: 'uom', header: "UOM" }, , { field: 'rat', header: "Rate" }, { field: 'cst', header: "Cost" }, { field: 'OPI', header: "Other Produce Item" }]
+        {
+
+            'itC': { name: 1900, id: "itC", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: () => { } },
+            'itmName': {  name: 2000, id: "itmName", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '400px', ipType: 'text', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'qty': { name: 2100, id: "qty", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'uom': { name: 2200, id: "uom", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'rat': { name: 2300, id: "rat", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'cst': { name: 2400, id: "cst", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'number', onEnterOpen$RedirectModal: () => { console.log('hmm') } },
+            'OPI': { name: 2500, id: "OpI", typeBox: 1, dataArray: [], classCat: "form-control inp ", defaultList: [], width: '140px', ipType: 'text', onEnterOpen$RedirectModal: OpenOtherProduce  }
+
+        }
+    ]
+
+    var [consumeItem, setConsumeItem]: any[] = useState(cons_itemDetils)
+    var [produceItem, setProduceItem]: any[] = useState(prdc_itmDetails)
+    return (
+        <>
+            {
+                isBomAltItem ? (<BOMModals isCopy={false} isBomAltItem={isBomAltItem} isOtherItem={isOtherItem} setIsOtherItem={setIsOtherItem} setIsBomAltItem={setIsBomAltItem} />) : null
+            }
+            {
+                isOtherItem ? (<BOMModals isCopy={false} isBomAltItem={isBomAltItem} isOtherItem={isOtherItem} setIsOtherItem={setIsOtherItem} setIsBomAltItem={setIsBomAltItem} />) : null
+            }
+                <Modal
+            isOpen={isItemBox}
+            onAfterOpen={afterOpenModal}
+                onRequestClose={closeItemBox}
+                style={customStyles}
+            contentLabel="Example Modal"
+        >
      <>
-
+                <div className="row row-content section2 d-flex justify-content-end col-sm-12">
+                    <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={closeItemBox} style={{ width: '30px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
+                </div>
+                <hr />
             <div className="card col-12 p-3 pt-0" style={{ overflow:'auto' }}>
 
-                <div className="text-center card-title col-12 bg-info" style={{ textAlign: 'start' }}>
+                    <div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>
                     <span className="row-header p-0 m-0" >BOM Process Item Details</span>
                 </div>
                
@@ -21,84 +131,46 @@ export default class RouteDetails extends React.Component {
                             <div className="collapse show" id="genDetails">
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Item Name</label>
+                                        <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Name</label>
                                         <input type="text" name="series" className="form-control inp" />
                                     </>
                                     <>
-                                        <label htmlFor="RCode" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Color</label>
-                                        <input type="text" name="RCode" className="form-control inp" />
+                                        <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">UOM</label>
+                                        <input type="text" name="payTerm" className="form-control inp" />
                                     </>
                                     <>
-                                        <label htmlFor="RName" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Assortment</label>
-                                        <input type="text" name="RName" className="form-control inp" />
+                                        <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
+                                        <input type="date" name="payTerm" className="form-control inp" />
                                     </>
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Satge No.</label>
+                                        <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Satge No.</label>
                                         <input type="text" name="custCode" className="form-control inp" />
                                     </>
                                     <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Process</label>
-                                        <input type="date" name="payTerm" className="form-control inp" />
+                                        <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Quantity</label>
+                                        <input type="text" name="custName" className="form-control inp" />
                                     </>
                                     <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Overhead Amt.</label>
+                                        <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Overhead Amt.</label>
                                         <input type="date" name="payTerm" className="form-control inp" />
                                     </>
+                                   
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
                                     <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Quantity</label>
+                                        <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Rate</label>
                                         <input type="text" name="custName" className="form-control inp" />
                                     </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">UOM</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Alt UOM</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
+                                  <span className="col-8"></span>
 
                                 </span>
 
-                                 <span className="d-flex section2 col-sm-12">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Amount</label>
-                                        <input type="text" name="custName" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">SetUp Time</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Cycle Time</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
-
-                                </span>
-
-                                 <span className="d-flex section2 col-sm-12">
-                                    <>
-                                        <label htmlFor="jobW" style={{ fontSize: '0.8em' }} className="form-label labl labl2">JOB Work</label>
-                                        <select name="jobW" className="form-control inp" style={{ height:'25px' }}>
-                                                 <option value="1">Y</option>
-                                                 <option value="0">N</option>
-                                        </select>
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Machine Department</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
-                                   
-
-                                </span>
-
-
-
+                                
+                          
 
                             </div>
                         </fieldset>
@@ -106,170 +178,52 @@ export default class RouteDetails extends React.Component {
 
 
                     <hr style={{ margin: '0', padding: '0' }} />
-                    <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                        <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
+                 
 
-                                <div className="text-center card-title col-12 bg-info m-0" style={{ textAlign: 'start' }}>
-                                    <span className="row-header p-0 m-0" >Route Details</span>
-                                </div>
-                            <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
-                                width: "100%"
-                            }}>
-                                <thead>
-                                    <tr>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Code</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Description</th>
+                        <WriteTable
+                            HandleIpSelect={() => { }}
+                            firstCol="Sr.No."
+                            getCurrentRowNo={getCurrentRowNo}
+                            addRowFunc={AddRow}
+                            deleteRowFunc={DeleteRow}
+                            titleClr="lightsteelblue"
 
+                            tableProps={cons_itemDetils}
+                            setRowFunc={setConsumeItem}
+                            columns={[{ field: 'itC', header: "Item Code" }, { field: 'itN', header: "Item Name" }, { field: 'rt', header: "Rate" }, { field: 'consQty', header: "Consume Quantity" }, , { field: 'uom4cons', header: "UOM" }, { field: 'prdcQty', header: "Produce Quantity" }, { field: 'uom4prdc', header: "UOM" }, { field: 'cst', header: "Cost" }, { field: 'altItm', header: "Alt Item" }]}
+                            dataArr={consumeItem}
+                            title="Consumed Item Details"
+                        />
 
-
-
-
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Cons. Aty</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UOM</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>isProcess Dep.</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Alt Item</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Operation</th>
-                                      
-                                  
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td></td>
+                        <hr style={{ margin: '0', padding: '0' }} />
 
 
-                                     
-
-                                        <td></td>
-                                        <td></td>
-
-
-                                        <td></td>
-                                            <td><BOMModals isBOMAlt={true } isBOMProcess={false } isBOMRouting={false }/></td>
-                                            <td><BOMModals isBOMAlt={false } isBOMProcess={ false} isBOMRouting={true } /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <td></td>
-
-
-
-                                        <td></td>
-                                        <td></td>
-
-
-                                        <td></td>
-                                            <td><BOMModals isBOMAlt={true} isBOMProcess={false} isBOMRouting={false} /></td>
-                                            <td><BOMModals isBOMAlt={false} isBOMProcess={false} isBOMRouting={true} /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>3</th>
-                                        <td></td>
-
-
-                                  
-
-                                        <td></td>
-                                        <td></td>
-
-
-                                        <td></td>
-                                            <td><BOMModals isBOMAlt={true} isBOMProcess={false} isBOMRouting={false} /></td>
-                                            <td><BOMModals isBOMAlt={false} isBOMProcess={false} isBOMRouting={true} /></td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-
-                    <hr style={{ margin: '0', padding: '0' }} />
-                    <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                        <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
-
-                                <div className="text-center card-title col-12 bg-info m-0" style={{ textAlign: 'start' }}>
-                                    <span className="row-header p-0 m-0" >Produce Item Details</span>
-                                </div>
-                            <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
-                                width: "100%"
-                            }}>
-                                <thead>
-                                    <tr>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Code</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Description</th>
-
-
-
-
-
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Quantity</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UOM</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Other Product</th>
-                                      
-
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td></td>
-
-
-
-
-                                        <td></td>
-                                        <td></td>
-
-
-                                            <td><BOMModals isBOMAlt={false } isBOMProcess={true } isBOMRouting={ false} /></td>
-                                      
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <td></td>
-
-
-
-                                        <td></td>
-                                        <td></td>
-
-
-                                            <td><BOMModals isBOMAlt={false} isBOMProcess={true} isBOMRouting={false} /></td>
-                                      
-                                    </tr>
-                                    <tr>
-                                        <th>3</th>
-                                        <td></td>
-
-
-
-
-                                        <td></td>
-                                        <td></td>
-
-
-                                            <td><BOMModals isBOMAlt={false} isBOMProcess={true} isBOMRouting={false} /></td>
-                                       
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        <WriteTable
+                            HandleIpSelect={() => { }}
+                            firstCol="Sr.No."
+                            getCurrentRowNo={getCurrentRowNo}
+                            addRowFunc={AddRow}
+                            deleteRowFunc={DeleteRow}
+                            titleClr="lightsteelblue"
+                            tableProps={prdc_itmDetails}
+                            setRowFunc={setProduceItem}
+                            columns={[{ field: 'itC', header: "Item Code" }, { field: 'itmName', header: "Item Name" }, { field: 'qty', header: "Quantity" }, { field: 'uom', header: "UOM" }, , { field: 'rat', header: "Rate" }, { field: 'cst', header: "Cost" }, { field: 'OPI', header: "Other Prod." }]}
+                            dataArr={produceItem}
+                            title="Produce Item Details"
+                        />
+             
                 </div>
              </div>
               
                     <hr style={{ margin: '0', padding: '0' }} />
               
                     <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
-                    <><NavLink to="/bom-routing-configuration" ><button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1">Quit</button></NavLink></>
+                <><NavLink to="/add-bom-routing-configuration-master" ><button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1">Quit</button></NavLink></>
                   
                
-          </>
+            </>
+            </Modal>
+           </>
         )
-    }
+    
 }

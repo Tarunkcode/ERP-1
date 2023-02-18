@@ -16,7 +16,7 @@ export default function Sidebar({ state }: any) {
         try {
 
             let path = `/api/LoadUserManuTree?RC=34`
-            let { res, got } = await api(path)
+            let { res, got } = await api(path, 'GET', '')
            console.log('res', res)
             if (res.status === 200) {
                 var r: string = got.data;

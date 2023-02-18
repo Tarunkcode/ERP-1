@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@material/textfield": "^14.0.0",
+    "@mui/lab": "^5.0.0-alpha.120",
+    "@mui/material": "^5.11.9",
+    "@mui/x-date-pickers": "^5.0.18",
     "@progress/kendo-data-query": "^1.6.0",
     "@progress/kendo-licensing": "^1.2.2",
     "@progress/kendo-react-excel-export": "^5.5.0",
@@ -10,8 +16,19 @@
     "@progress/kendo-react-pdf": "^5.5.0",
     "@types/jquery": "^3.5.14",
     "@types/react-datepicker": "^4.4.1",
+
+
+    "ag-grid-enterprise": "23.1.1",
+    "ag-grid-community": "^23.1.1",
+    "ag-grid-react": "^23.1.1",
+    "ag-grid-autocomplete-editor": "^3.0.1",
+
+
     "bootstrap": "^4.3.1",
     "connected-react-router": "^6.5.2",
+    "date-fns": "2.12.0",
+    "dayjs": "^1.11.7",
+    "downshift": "^7.2.0",
     "firebase": "^9.10.0",
     "history": "^4.10.1",
     "jquery": "^3.6.0",

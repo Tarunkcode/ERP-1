@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const MapChart = () => {
 
-    const getState = window.localStorage.getItem('state');
+    const getState = window.sessionStorage.getItem('state');
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
 

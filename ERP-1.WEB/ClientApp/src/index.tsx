@@ -36,4 +36,8 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root'));
 
-register();
+//register();
+
+
+
+
