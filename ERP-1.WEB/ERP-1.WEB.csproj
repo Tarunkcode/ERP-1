@@ -47,7 +47,9 @@
     <None Remove="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchDefaultConfigurationSettings.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchDefaultSubMaster.hoc.tsx" />
+    <None Remove="ClientApp\src\components\HOC\loadBOM.tsx" />
     <None Remove="ClientApp\src\components\List\list.component.tsx" />
+    <None Remove="ClientApp\src\components\Masters\bom_routing.component.tsx" />
     <None Remove="ClientApp\src\components\Modify\modify.component.tsx" />
     <None Remove="ClientApp\src\components\sidebar.component.tsx" />
     <None Remove="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
@@ -120,7 +122,9 @@
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchDefaultConfigurationSettings.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchDefaultSubMaster.hoc.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\HOC\loadBOM.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\List\list.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Masters\bom_routing.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Modify\modify.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
@@ -199,7 +203,7 @@
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 
     <!-- Include the newly-built files in the publish output -->

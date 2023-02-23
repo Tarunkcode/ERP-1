@@ -2,7 +2,7 @@
 
 import BOMModals_layer2 from '../Modals/BOM_Modals(II layer)';
 import Modal from 'react-modal';
-import { InputList } from '../custom-input/custom-input.component';
+import WriteGrid from '../Grid Component/grid.component';
 
 const customStyles = {
     content: {
@@ -33,13 +33,19 @@ const customStyles2 = {
 export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostDet, setIsCopy,  setItemCostDet, setIsOtherItem, setIsBomAltItem,...props }: any) {
     let subtitle: any;
     
-   
+    let ColDef1: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 100 }, { field: "itc", headerName: 'Item Code', minWidth: 200 }, { field: "itn", headerName: 'Item Name', minWidth: 400 }, { field: "rate", headerName: 'Rate', minWidth: 200 }, { field: "consQty", headerName: 'Consume Qty', minWidth: 200 }, { field: "uom1", headerName: 'UOM', minWidth: 200 }, { field: "prdQty", headerName: 'Produce Qty', minWidth: 200 }, { field: "uom2", headerName: 'UOM', minWidth: 200 }, { field: "cst", headerName: 'Cost', minWidth: 200 }, { field: "altItm", headerName: 'Alt Item', minWidth: 200 }]
 
-   
-    //function openBOMCopy() {
-    //    setIsCopy(true);
-    //}
-    
+
+
+    const rawData1: any[] = [{ srno: null }, { itc: null }, { itn: null }, { rate: null }, { consQty: null }, { uom1: null }, { prdQty: null }, { uom2: null }, { cst: null }, { altItm: null}];
+
+
+
+    let ColDef2: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 100 }, { field: "itc", headerName: 'Item Code', minWidth: 200 }, { field: "itn", headerName: 'Item Name', minWidth: 400 }, { field: "qty", headerName: 'Quantity', minWidth: 200 }, { field: "uom", headerName: 'UOM', minWidth: 200 }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
+
+
+    const rawData2: any[] = [{ srno: null }, { itc: null }, { itn: null }, { qty: null }, { uom: null }, { rate : null}]
+  
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
         subtitle.style.color = '#f00';
@@ -155,7 +161,7 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
 
                     ): null
                 }
-                <div className="card col-12 p-3 pt-0" style={{ overflow: 'auto' }}>
+                <div className="card col-12 p-3 pt-0" style={{ overflow: 'auto', maxHeight:'80vh' }}>
 
                     <div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>
                         <span className="row-header p-0 m-0" >BOM Process Item Details</span>
@@ -214,77 +220,8 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                             
 
                 <hr />
-                          <div
-                    className="card-body m-0 p-0 mb-1 table-responsive"
-                    style={{ margin: "0", padding: "0", overflow: 'auto' }}
-                >
-                    <table className="table table-bordered"
-                        style={{
-                            width: '100%', minHeight: '30vh', borderCollapse: "separate",
-                            boxSizing: "border-box",
-                            textIndent: "initial",
-                            borderSpacing: "2px"
-                        }}
-                    >
-                            <thead>
-                            <tr>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} >Sr.No.</th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Item Code</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Item Name</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Rate</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Consume Qty</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>UOM</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Produce Quantity</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>UOM</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Cost</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Alt Item</span></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>1</th>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width:'140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '400px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px'}} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px'}} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px'}} /></td>
-                              
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                <td className="p-0"><input className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '400px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
+                    <WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef1} data={rawData1} />
 
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                <td className="p-0"><input className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '400px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-
-                                </tr>
-
-                            </tbody>
-                        </table>
-               
-                        </div>
 
             
               </div>
@@ -302,7 +239,8 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                     <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={closeProduceItem} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
                 </span>
                 <hr />
-                <div className="card col-12 p-3 pt-0" style={{ overflow: 'auto' }}>
+
+                <div className="card col-12 p-3 pt-0" style={{ overflowY: 'auto', overflowX: 'hidden', maxHeight: '85%' }}>
 
                     <div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>
                         <span className="row-header p-0 m-0" >BOM Process Item Details</span>
@@ -341,72 +279,19 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                                     </span>
 
                                    
-                                </div>
-                  
-                     <hr/>
-                <div
-                    className="card-body m-0 p-0 mb-1 table-responsive"
-                    style={{ margin: "0", padding: "0", overflow: 'auto' }}
-                >
-                    <table className="table table-bordered"
-                        style={{
-                            width: '74%', minHeight: '30vh', borderCollapse: "separate",
-                            boxSizing: "border-box",
-                            textIndent: "initial",
-                            borderSpacing: "2px"
-                        }}
-                    >
-                            <thead>
-                                <tr>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} >S.No</th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Item Code</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}> Item Name</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Quantity</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>UOM</span></th>
-                                <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Rate</span></th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>1</th>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '400px' }}  /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }}  /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }}  /></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '400px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '400px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                <td className="p-0"><input  className="m-0 form-control" style={{ padding: '22px 5px', border: 'none', width: '140px' }} /></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-             
-              
                     </div>
-                     </div>
+                    <hr />
+                    <WriteGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={rawData2} />
 
+                </div>
+                  
+             
             </Modal>
 
 
            
-        </> 
+ 
+      </>
     )
 
 

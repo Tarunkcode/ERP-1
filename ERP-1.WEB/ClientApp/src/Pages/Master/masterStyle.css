@@ -33,9 +33,10 @@ table.dataTable thead .sorting_desc_disabled:before {
   margin-left:2%;
 }
 .inp {
-    width: 22%;
-    padding: 16px 3px;
+    width: 24%;
+    padding:20px 3px;
     margin: 5px 0;
+    font-size:18px;
 }
 .button{
 

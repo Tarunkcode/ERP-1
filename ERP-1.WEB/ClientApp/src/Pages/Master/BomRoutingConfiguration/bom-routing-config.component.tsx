@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { NavLink, Prompt, useHistory } from 'react-router-dom';
-import { InputList, DownShift } from '../../../components/custom-input/custom-input.component';
+import { InputList } from '../../../components/custom-input/custom-input.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
 
 import BOMModals from '../../../components/Modals/BomModals';
@@ -17,12 +17,12 @@ import { TextField, Autocomplete } from '@mui/material'
 import { AutocompleteSelectCellEditor } from 'ag-grid-autocomplete-editor';
 import 'ag-grid-autocomplete-editor/dist/main.css';
 import WriteGrid from '../../../components/Grid Component/grid.component';
+import DatalistInput from 'react-datalist-input';
+import 'react-datalist-input/dist/styles.css';
 
-
-function BomRoutingConfig() {
+function BomRoutingConfig_Page({ options,process, ...otherProps }: any) {
  let [isCopy, setIsCopy] : any = useState(false)
     const history = useHistory();
-
 
     const OpenPrompt = (e: any) => {
         if (e.key === 'Insert') {
@@ -32,56 +32,65 @@ function BomRoutingConfig() {
 
         }
     };
-
+ 
     let [isItemBox, setIsItemBox]: any = React.useState(false);
     const OpenBOMItemCons = (e: any) => {
-        console.log('this is pressed', e.keyCode)
-        if (e.keyCode === 13) {
-            setIsItemBox(true);
-        }
+        console.log('process value', e.data.prc.value)
+        console.log('event', e)
+        if (e.data.prc.value) {
+            if (e.event.keyCode === 13 || e.event.key === 'Enter') {
+                setIsItemBox(true);
+            }
+        } else {}
+  
     }
 
-    let data: any[] = [{ ut: null, amt: null, setup: null, cyc: null, manpow: null, ifin: null, elec: null, totOvr: null, jbWork: null, mcDep: null }]
+    let data: any[] = [{ prc:null, ut: null, amt: null, setup: null, cyc: null, manpow: null, ifin: null, elec: null, totOvr: null, jbWork: null, mcDep: null }]
 
-
-    var ColDef: any[] = [
+    var ColDef: any[] = [{ maxWidth: 100, headerName: "Stage", valueGetter: 'node.rowIndex + 1' },
         {
-            field: 'prc', headerName: 'Process', width: 400, cellStyle: { paddingLeft: '0', paddingRight: '0' }, cellEditor: AutocompleteSelectCellEditor,
-        cellEditorParams: {
-            selectData: [
-                { label: 'Canada', value: 'CA', group: 'North America' },
-                { label: 'United States', value: 'US', group: 'North America' },
-                { label: 'Uzbekistan', value: 'UZ', group: 'Asia' },
-            ],
-            placeholder: 'Select an option',
+            field: 'prc', headerName: 'Process', minWidth: 400, cellStyle: { paddingLeft: '0', paddingRight: '0' },
+
+            cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => {return process }, [process]),
+                placeholder: "Select a Process"
+            },
+                valueFormatter: (params: any) => {
+                    if (params.value) {
+                        return params.value.label || params.value.value || params.value;
+                    }
+                    return "";
+                },
+                editable: true
+            
         },
-        valueFormatter: (params : any) => {
-            if (params.value) {
-                return params.value.label || params.value.value || params.value;
-            }
-            return "";
-        },
-            editable: true,
-           
-        },
-        { field: 'ut', headerName: 'Unit', width: 200 },
-        { field: 'amt', headerName: 'Amount', width: 200 },
-        { field: 'setup', headerName: 'Set Up Time', width: 200 },
-        { field: 'cyc', headerName: 'Cyclic Time', width: 200 },
-        { field: 'manpow', headerName: 'Manpower', width: 200 },
-        { field: 'ifin', headerName: 'Is Final', width: 200 },
-        { field: 'elec', headerName: 'Electricity Unit', width: 200 },
-        { field: 'totOvr', headerName: 'Total OverHead', width: 200 },
-        { field: 'jbWork', headerName: 'Job Work', width: 200 },
-        { field: 'mcDep', headerName: 'Machine Dep.', width: 200 }
+    { field: 'ut', headerName: 'Unit', minWidth: 200 },
+    { field: 'amt', headerName: 'Amount', minWidth: 200 },
+    { field: 'setup', headerName: 'Set Up Time', minWidth: 200 },
+    { field: 'cyc', headerName: 'Cycle Time', minWidth: 200 },
+    { field: 'manpow', headerName: 'Manpower', minWidth: 200 },
+    { field: 'ifin', headerName: 'Is Final', minWidth: 200 },
+    { field: 'elec', headerName: 'Electricity Unit', minWidth: 200 },
+    { field: 'totOvr', headerName: 'Total OverHead', minWidth: 200 },
+    { field: 'jbWork', headerName: 'Job Work', minWidth: 200 },
+    { field: 'mcDep', headerName: 'Machine Dep.', minWidth: 200 }
     ]
-    
 
 
-
-  
-  
-        return (
+    const items = React.useMemo(
+        () =>
+            options.map((option : any) => ({
+              
+                id: option.code,
+                value: option.name,
+               
+            })),
+        [options],
+    );
+   
+    return (
             <>
           
                 <BOMModals isCopy={isCopy} isBOMAlt={false} isBOMProcess={false} isBOMRouting={false} setIsCopy={setIsCopy} />
@@ -102,21 +111,39 @@ function BomRoutingConfig() {
                                 <legend className="px-2" data-toggle="collapse" data-target="#genDetails" aria-expanded="false" aria-controls="genDetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Item Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
                                 <div className="collapse show" id="genDetails">
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Series</label>
-                                            <input type="text" name="series" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="RCode" style={{ fontSize: '1rem' }} className="form-label labl labl2">Routing Code</label>
-                                            <input type="text" name="RCode" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="RName" style={{ fontSize: '1rem' }} className="form-label labl labl2">Routing Name</label>
-                                            <input type="text" name="RName" className="form-control inp" />
-                                        </>
-                                    </span>
+                                <span className="d-flex section2 col-sm-12">
+                                  
 
+                                    <span className="col-4 m-0 p-0 d-flex">
+                                            
+                                        <>
+                                            <label htmlFor="series" style={{ fontSize: '1rem', marginRight:'35px' }} className="form-label labl labl2 col-3">Series</label>
+                                        </>
+                                        <span className="m-0 p-0" style={{width:'100%'}}>
+                                            <DatalistInput
+                                              
+                                                className="d-flex col-12 m-0 p-0"
+                                                inputProps={{ className: 'form-control inp col-12' }}
+                                                listboxProps={{ className: 'text-left mt-5' }}
+                                              
+                                                onSelect={(item : any) => console.log(item.value)}
+                                                items={items}
+                                            />
+                                       </span>
+                                    </span>
+                                        <>
+                                        <label htmlFor="RCode" style={{ fontSize: '1rem' }} className="form-label labl labl2">Routing Code</label>
+                                        <input type="text" name="RCode" className="form-control inp" />
+                                       </>
+ 
+                                       <>
+                                        <label htmlFor="RName" style={{ fontSize: '1rem' }} className="form-label labl labl2">Routing Name</label>
+                                        <input type="text" name="RName" className="form-control inp" />
+                                       </>
+                                  
+                                    
+                                    </span>
+                             
                                     <span className="d-flex section2 col-sm-12">
                                         <>
                                       
@@ -135,7 +162,7 @@ function BomRoutingConfig() {
 
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Quantity</label>
+                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Qty</label>
                                             <input type="text" name="custName" className="form-control inp" />
                                         </>
                                        
@@ -159,7 +186,7 @@ function BomRoutingConfig() {
                      
                         <hr style={{ margin: '0', padding: '0' }} />
               
-                        <WriteGrid title="Routing Details" titleClr="blue" colDef={ColDef} data={data }/>
+                        <WriteGrid title="Routing Details" titleClr="blue" OpenSubLayer={OpenBOMItemCons} colDef={ColDef} data={data }/>
                     {/*    <GridA title="Routing Details" titleClr="blue" colDef={route_det}/>*/}
                         {/*<DataGrid title="Routing Details" titleClr="blue" colDef={route_det}/>*/}
                         {/*<WriteTable*/}
@@ -244,4 +271,4 @@ function BomRoutingConfig() {
   
 }
 
-export default BomRoutingConfig;
+export default BomRoutingConfig_Page;

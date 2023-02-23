@@ -38,7 +38,6 @@
     z-index: 10000;
 }
 
-
 .ag-row-focus {
     z-index: 999;
 }
@@ -68,6 +67,7 @@
     flex-direction: row !important;
     min-height: 0;
     margin: 0;
+
 }
 .ag-grid-auto :focus{
     border:none;
@@ -124,3 +124,46 @@
 .ag-header-cell-text{
     font-weight:600;
 }
+
+.ag-body-viewport-wrapper .ag-layout-normal{
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+::-webkit-scrollbar{
+    -webkit-appearance:none;
+    width:12px;
+    height:12px;
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius:4px;
+    background-color: rgba(0,0,0,.5);
+    box-shadow:0 0 1px rgba(255, 255, 255, .5);
+}
+
+.ag-root-wrapper.ag-layout-normal {
+    height: 100%;
+    width: auto;
+    scroll-behavior:smooth;
+}
+.ag-center-cols-viewport {
+    height: calc(100% + 8px);
+    overflow: scroll;
+    width:100%;
+    max-width: 100vw;
+    min-width:100vw;
+   max-height:500px;
+   min-height:500px;
+}
+.ag-center-cols-container {
+    display: block;
+}
+/*--------------------------material ui--------------------*/
+.datalist-input {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+    width: 24%;
+}
+

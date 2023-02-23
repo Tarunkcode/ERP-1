@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { DownShift, TableInputList } from '../custom-input/custom-input.component';
+import {  TableInputList } from '../custom-input/custom-input.component';
 
 
 import {
