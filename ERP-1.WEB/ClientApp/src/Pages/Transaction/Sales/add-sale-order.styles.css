@@ -1,0 +1,60 @@
+﻿
+.addSaleForm {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.addSalecard {
+    width: 50%;
+    margin: 0;
+    padding: 0;
+}
+label{
+    text-align:left;
+    margin:0 0 10px 0;
+}
+.table-bordered th, .table-bordered td .item-code {
+    border: 1px solid #dee2e6;
+    padding: 0;
+}
+
+.hsn-btn {
+    padding: 5px 3px;
+}
+
+th > span {
+   
+    margin: 0;
+    padding: 0;
+}
+
+th {
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+label{
+    text-align:left;
+}
+
+@media(max-width:992px) {
+    .addSaleForm {
+        display: flex;
+        flex-direction: column
+    }
+
+    .addSaleForm {
+        width: 100%;
+    }
+
+    .addSalecard {
+        width: 100%;
+        margin-top: 20px;
+    }
+}

@@ -1,0 +1,27 @@
+﻿.contain-recharts {
+    width: 48%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+@media (max-width:750px) {
+    .contain-recharts {
+    width:100%;
+    margin:1em;
+    }
+    
+}
+
+@media (max-width:576px) {
+    .radio-check {
+    width:30%;
+    }
+    
+}
+
+.pagination-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+

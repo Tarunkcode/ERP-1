@@ -1,0 +1,43 @@
+﻿table {
+  
+    margin: 0;
+    border: none;
+    border-collapse: separate;
+    overflow:scroll;
+    padding: 0;
+    border: 2px solid black;
+}
+.resp-tab {
+    padding: 0;
+    
+    overflow:revert;
+}
+
+    table thead th {
+        padding: 3px;
+       
+        top: 0;
+        z-index: 1;
+        width: 25vw;
+        background: white;
+    }
+
+    table td,
+    table th {
+        border: 1px solid black;
+        padding: 0.5rem 1rem;
+    }
+  
+    table tbody th {
+        font-weight: 100;
+        font-style: italic;
+        text-align: left;
+        position: relative;
+    }
+     
+    table td {
+      
+        padding: 4px 5px;
+        text-align: center;
+    }
+
