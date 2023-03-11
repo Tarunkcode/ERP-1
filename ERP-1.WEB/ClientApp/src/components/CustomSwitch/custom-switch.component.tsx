@@ -11,7 +11,8 @@ export default function CustomeSwitch({ label, id, lablClass, handleChange, name
     /*  console.log('default', otherProps.default);*/
   
     return (
-        <div className="custom-control custom-switch m-0 p-0  col-md-12" style={{ display:'contents' }}>
+        <div className="custom-control custom-switch m-0 p-0  col-md-12" >
+           
             {
                 otherProps.default  == '1' ? (<input type="checkbox" defaultChecked={true} onBlur={handleChange} className={classCat} name={name} id={id} style={{ cursor: 'pointer' }} />) :
                     (<input type="checkbox" onBlur={handleChange} className={classCat} name={name} id={id} style={{ cursor: 'pointer' }} />)
@@ -25,7 +26,7 @@ export default function CustomeSwitch({ label, id, lablClass, handleChange, name
 export function CustomeSwitch2({ label, id, lablClass, handleChange, name, classCat, ...otherProps }: any) {
 
     return (
-        <div className="custom-control custom-switch m-0 p-0  col-md-12" style={{ display: 'contents' }}>
+        <div className="custom-control custom-switch m-0 p-0  col-md-12" >
             {
                 otherProps.default == '1' ? (<input type="checkbox" defaultChecked={ true} onBlur={handleChange} className={classCat} name={name} id={id} style={{ cursor: 'pointer' }} />) : (<input type="checkbox" onBlur={handleChange} className={classCat} name={name} id={id} style={{ cursor: 'pointer' }} />)
             }

@@ -1,14 +1,14 @@
 ﻿
-.react-datalist-input__container {
+/*.react-datalist-input__container {
     width: inherit;
     position: fixed;
     --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --gray: rgb(200, 200, 200);
     --padding: 5px;
     --border-radius: 5px;
-    --border: 1px solid var(--gray);
+    --border: 1px solid var(--gray);*/
     /*  z-index:100;*/
-}
+/*}
 
 .react-datalist-input__textbox {
     width: 100%;
@@ -18,9 +18,9 @@
     padding: var(--padding);
     border: var(--border);
     border-radius: var(--border-radius);
-    position: relative;
+    position: relative;*/
     /*    z-index: 1020;*/
-}
+/*}
 
 
 .react-datalist-input__listbox {
@@ -36,7 +36,7 @@
     list-style-type: none;
     box-shadow: var(--shadow);
     z-index: 10000;
-}
+}*/
 
 .ag-row-focus {
     z-index: 999;
@@ -167,3 +167,6 @@
     width: 24%;
 }
 
+.datalist{
+    border-color:#86a4c3;
+}

@@ -59,7 +59,7 @@ export default function Role_Master_Page({ handleChange, handlePosting, getName,
                                     <label htmlFor="Name" className="form-label col-2"></label>
                                     <input className="form form-control col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4 } required />
                                      </span>
-                                    <button className="btn btn-primary col-4 m-3" onClick={handlePosting }>Save</button>
+                                    <button className="btn btn-success col-4 m-3" onClick={handlePosting }>Save</button>
                                 </div>
 
                             </div>

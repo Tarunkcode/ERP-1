@@ -12,6 +12,7 @@ interface IState {
     defProcessMaster: any;
 }
 interface IProps {
+    api: any,
     state: any;
     gettingVirtualCode: number;
 
@@ -66,27 +67,11 @@ class RootProcess extends React.Component<IProps, IState> {
 
     fetchDefProcessMaster = async (code: any) => {
 
-        let urlStr = `http://103.25.128.155:12019/api/LoadProcessMaster?Code=${code}&Company=${this.compCode}&Customer=${this.customer}`
-        console.log('load sub Master', urlStr);
-        console.log('calling')
-        var req: Request;
-        const h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-
-
-        req = new Request(urlStr, {
-            method: 'GET',
-            headers: h,
-            mode: 'cors'
-        })
-
+        let urlStr = `/api/LoadProcessMaster?Code=${code}&Company=${this.compCode}&Customer=${this.customer}`
         try {
-
-            await fetch(req).then((res: any) => res.json()).then((res: any) => {
-                var data = res.data[0];
+            let { res, got } = await this.props.api(urlStr, "GET", '')
+            if(res.status == 200){
+                var data = got.data[0];
                 this.setState({ defProcessMaster: data });
            
                 this.mainObj = data.esmastertable[0];
@@ -99,7 +84,7 @@ class RootProcess extends React.Component<IProps, IState> {
                 store2.dispatch({ payload: this.ovrhdArr, key: '', type: "changeConfig", label: "modify_P_overHead" });
                 store2.dispatch({ payload: this.oprnArr, key: '', type: "changeConfig", label: "modify_P_opr" });
                 store2.dispatch({ payload: this.jbWorkerArr, key: '', type: "changeConfig", label: "modify_P_Job" });
-            });
+            }
         } catch (err) {
             alert(err)
         }
@@ -251,33 +236,19 @@ class RootProcess extends React.Component<IProps, IState> {
     handlePosting = async (e: any) => {
       
         e.preventDefault();
-        console.log('calling');
-        let i: any = JSON.stringify(this.state.rawObj);
-        console.log('i:', i);
-        //console.log('calling')
-        const confUrl = 'http://103.25.128.155:12019/api/SaveProcessMaster';
+          let i: any = this.state.rawObj;
+   
+        const confUrl = '/api/SaveProcessMaster';
 
 
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            if (data.data == 2) {
-                toast.success(data.msg)
+            let {res, got } = await this.props.api(confUrl, "POST", i)
+            
+            if (res.status == 200) {
+                toast.success(got.msg)
 
             } else {
-                toast.error(data.msg)
+                toast.error(got.msg)
 
             }
             store2.getState().pMaster.esmastertable[0] = {}

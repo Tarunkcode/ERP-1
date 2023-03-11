@@ -1,8 +1,10 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
-import CustomInput, { InputList } from '../../components/custom-input/custom-input.component';
+import { toast } from 'react-toastify';
+import CustomInput, { InputList, MasterInput2 } from '../../components/custom-input/custom-input.component';
 import { CustomeSwitch2 } from '../../components/CustomSwitch/custom-switch.component';
 import { WriteTable } from '../../components/CustomTable/CustomTable.component';
+import useFetch from '../../components/Hooks/useFetch';
 import { AddRow, DeleteRow, getCurrentRowNo } from '../Helper Functions/table';
 export default function Process_Page({ getMasterType, pageTitle, configType, handleChange, handlePosting, HandleOverHeadIpSelect, HandleJobIpSelect, HandleOperationIpSelect, defaultData, virtualCode, ...otherProps }: any) {
     const [ToggelValue, setToggelValue]: any = useState(false);
@@ -13,55 +15,44 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
     const [joblist, setJobList]: any = useState([]);
     const [overheadlist, setOverHeadList]: any = useState([]);
 
+    const api = useFetch()
 
-    React.useEffect(() => {
-
-        getMasterType(11);
-        var Req: Request;
-        var Req2: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
+    const load1 = async () => {
         // Process OverHead
-        const OvrHeadStr = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=1030&company=${otherProps.compCode}&customer=${otherProps.customer}`;
-        // Process Operation
-        const OprnStr = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=1034&company=${otherProps.compCode}&customer=${otherProps.customer}`;
-
+        const OvrHeadStr = `/api/LoadMasterData?MasterType=1030&company=${otherProps.compCode}&customer=${otherProps.customer}`;
         try {
-            Req = new Request(OvrHeadStr, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            });
-            Req2 = new Request(OprnStr, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            });
+            let { res, got } = await api(OvrHeadStr, "GET", '');
 
-
-            fetch(Req).then((res: any) => { return res.json() }).then((res: any) => {
-
-                let data = res.data;
-
-                setOverHeadArr(data);
-
-
-            });
-            fetch(Req2).then((res: any) => { return res.json() }).then((res: any) => {
-
-                let data = res.data;
-
-                setOperationArr(data);
-
-            });
-
+            if (res.status == 200) {
+                setOverHeadArr(got.data);
+            }
+            else { toast.error(got.msg) }
         } catch (err) {
             alert(err)
 
         }
+    }
+    const load2 = async () => {
+        // Process Operation
+        const OprnStr = `/api/LoadMasterData?MasterType=1034&company=${otherProps.compCode}&customer=${otherProps.customer}`;
+        try {
+            let { res, got } = await api(OprnStr, "GET", '');
+
+            if (res.status == 200) {
+                setOperationArr(got.data);
+            }
+            else { toast.error(got.msg) }
+        } catch (err) {
+            alert(err)
+
+        }
+    }
+    React.useEffect(() => {
+
+        getMasterType(11);
+        load1();
+        load2();
+      
     }, [overHeadArr, operationArr])
     React.useEffect(() => {
 
@@ -120,129 +111,136 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
 
                     <>
                         <span className="d-flex section2 col-sm-12">
-                            <CustomInput
+                            <MasterInput2
                                 name="name"
-                                change={handleChange}
-                                default={masterlist.name}
-                                classCategory="form-control inp mb-2 pMaster"
+                                handleChange={handleChange}
+                                defaultt={masterlist.name}
+                                classCategory="form-control inp col-4 pMaster"
                                 ipType="text"
                                 label="Process"
                                 ipTitle="Enter Process"
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
+                            />
+                            <span className="col-1 m-0"></span>
+
+                            <MasterInput2
                                 name="c21"
-                                change={handleChange}
-                                default={masterlist.c21}
-                                classCategory="form-control inp mb-2 pMaster select"
+                                handleChange={handleChange}
+                                defaultt={masterlist.c21}
+                                classCategory="form-control inp col-4 pMaster select"
                                 ipType="text"
                                 label="Process Floor"
                                 ipTitle="Enter Process Floor"
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
+                            />
+                        </span>
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2
                                 name="c22"
-                                default={masterlist.c22}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster select"
+                                defaultt={masterlist.c22}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster select"
                                 ipType="text"
                                 label="P Srno For ClipBoard"
                                 ipTitle="Enter ClipBoard"
-                                dataArray={[]}
-                            />
-                        </span>
 
-                        <span className="d-flex section2 col-sm-12">
-                            <CustomInput
+                            />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2
                                 name="c23"
-                                default={masterlist.c23}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster select"
+                                defaultt={masterlist.c23}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster select"
                                 ipType="text"
                                 label="Debitor Account"
                                 ipTitle="Enter Debitor Account"
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
+                            />
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2
                                 name="c24"
-                                default={masterlist.c24}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster select"
+                                defaultt={masterlist.c24}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster select"
                                 ipType="text"
                                 label="Add JobWork chrgs."
                                 ipTitle="Enter Add JobWork chrgs."
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
-                                default={masterlist.d1}
+                            />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2
+                                defaultt={masterlist.d1}
                                 name="d1"
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster number"
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster number"
                                 ipType="number"
                                 label="Tollerance (%)"
                                 ipTitle="Enter Tollerance"
-                                dataArray={[]}
+
                             />
                         </span>
                         <span className="d-flex section2 col-sm-12">
-                            <CustomInput
-                                default={masterlist.d2}
+                            <MasterInput2
+                                defaultt={masterlist.d2}
                                 name="d2"
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster number"
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster number"
                                 ipType="number"
                                 label="OverHead (%)"
                                 ipTitle="Enter OverHead"
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
+                            />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2
                                 name="c25"
-                                default={masterlist.c25}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster select"
+                                defaultt={masterlist.c25}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster select"
                                 ipType="text"
                                 label="Material Req. before Days"
                                 ipTitle="Enter Material Req. before Days"
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
-                                name="d3"
-                                default={masterlist.d3}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster number"
-                                ipType="text"
-                                label="Process Group No"
-                                ipTitle="Enter Process Group No"
-                                dataArray={[]}
                             />
                         </span>
                         <span className="d-flex section2 col-sm-12">
-                            <CustomInput
+                            <MasterInput2
+                                name="d3"
+                                defaultt={masterlist.d3}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster number"
+                                ipType="text"
+                                label="Process Group No"
+                                ipTitle="Enter Process Group No"
+
+                            />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2
                                 name="d4"
-                                default={masterlist.d4}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster number"
+                                defaultt={masterlist.d4}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster number"
                                 ipType="number"
                                 label="Plan Hours Per Day"
                                 ipTitle="Enter Plan Hours Per Day"
-                                dataArray={[]}
-                            />
 
-                            <CustomInput
+                            />
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2
                                 name="d5"
-                                default={masterlist.d5}
-                                change={handleChange}
-                                classCategory="form-control inp mb-2 pMaster number"
+                                defaultt={masterlist.d5}
+                                handleChange={handleChange}
+                                classCategory="form-control inp col-4 pMaster number"
                                 ipType="text"
                                 label="Before Days"
                                 ipTitle="Enter Before Days"
-                                dataArray={[]}
+
 
                             />
                         </span>

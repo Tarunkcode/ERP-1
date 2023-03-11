@@ -160,7 +160,7 @@ class ChildLog extends React.Component<IProps, IState>{
             }
         const { redirect, status } = await this.fetchValidateUserApi(param);
         const { user } = this.props.currentUser
-        window.sessionStorage.setItem('token', user);
+        window.sessionStorage.setItem('token1', user);
         
         if (redirect === true) {
 

@@ -2,13 +2,17 @@
 import SalePurchaseType_Page from '../../Pages/SetUp/SalePurchaseType/sale-purchase-type.page';
 import { store2 } from '../../Redux/config/config.reducer';
 import { toast } from 'react-toastify';
+import ProvideHookToClass from '../HOC/loadBOM';
 interface IState {
     configType: string,
     rawObj : object,
     masterType: number,
     payType: number
 }
-export default class SPType extends React.Component<{}, IState> {
+interface IProps {
+    api: any;
+}
+class SPType extends React.Component<IProps, IState> {
     constructor(props : any) {
         super(props);
         this.state = {
@@ -83,33 +87,20 @@ export default class SPType extends React.Component<{}, IState> {
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
-      
-        console.log('calling');
-        let i: any = JSON.stringify(this.state.rawObj);
+        let i: any = this.state.rawObj;
 
-        const confUrl = 'http://103.25.128.155:12019/api/SPTypeSaving';
-        console.log('i', i)
-
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
+        const confUrl = '/api/SPTypeSaving';
+       
+       
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            if (data.status == 0) {
-                toast.success(data.msg)
+
+            let { res, got } = await this.props.api(confUrl, "POST", i);
+           
+            if (res.status == 0) {
+                toast.success(got.msg)
 
             } else {
-                toast.error(data.msg)
+                toast.error(got.msg)
 
             }
             store2.getState().roleMaster = []
@@ -136,3 +127,6 @@ export default class SPType extends React.Component<{}, IState> {
             )
     }
 }
+
+const saletype$purtype = ProvideHookToClass(SPType);
+export default saletype$purtype;

@@ -3,6 +3,7 @@ import Modify_Page from '../../Pages/Modify/modify.page';
 import { toast } from 'react-toastify'
 import { withRouter } from "react-router-dom";
 import ClipLoader from 'react-spinners/ClipLoader';
+import ProvideHookToClass from '../HOC/loadBOM';
 
 interface IState {
     selectModList: any[],
@@ -15,9 +16,10 @@ interface IProps {
     history: any;
     location: any;
     match: any;
+    api: any;
 }
  class Modify_Child extends React.Component<IProps, IState> {
-    constructor(props : any) {
+    constructor(props : IProps) {
         super(props);
         this.state = {
             selectModList: [],
@@ -27,35 +29,35 @@ interface IProps {
             fetchCode:''
         }
     }
-
+   token: any = window.sessionStorage.getItem('token');
      compCode = window.localStorage.getItem('compCode') || ""
      customer = window.localStorage.getItem('customer') || ""
      username = window.sessionStorage.getItem('username') || ""
 
-    FetchLoadingSubMasterData = (mType:any) => {
+    FetchLoadingSubMasterData = async (mType:any) => {
      
-            const urlLoadModify = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
-            console.log('url load modify', urlLoadModify)
-            var req: Request;
-            const h = new Headers();
-            h.append('Accept', 'application/json');
-            h.append('Content-Type', 'application/json');
-            h.append('CompCode', 'ESERPDB');
-            h.append('FYear', '0');
-
-
-            req = new Request(urlLoadModify, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            })
-
+            const urlLoadModify = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
+       
             try {
                 /* fetch(req).then((res: any) =>  res.json() ).then((res: any) => { if (res.data.length !== 0) { const dataArr = res.data; this.setState({ selectModList: dataArr }); console.log('list to load', dataArr) } else { toast.info('No data Found') } });*/
+                let { res, got } = await this.props.api(urlLoadModify, "GET", '');
+                
+                if (res.status == 200) {
+                    if (got.data.length === 0) {
+                        toast.info('No data Found')
+                    }
 
-                fetch(req).then((res: any) => res.json()).then((res: any) => {
-                    this.setState({ selectModList: res.data }); res.data.length === 0 ? (toast.info('No data Found')) : null
-                });
+
+                    else {
+                        let modify_list: any = got.data.map((option: any) => ({
+
+                            id: option.code,
+                            value: option.name,
+
+                        }))
+                        this.setState({ selectModList: modify_list });
+                    }
+                }else toast.error(got.msg)
                 this.setState({ Loader: false })
 
             } catch (err) {
@@ -67,7 +69,7 @@ interface IProps {
      componentDidMount() {
          this.setState({ Loader: true })
         var { master } = this.props.match.params;
-       
+       console.log('master',master)
         var {mAdd}= this.props.location.state;
         this.setState({ address: mAdd })
         if (!this.props.location.state) { } else {
@@ -103,5 +105,6 @@ interface IProps {
     }
 }
 
-const Modify = withRouter(Modify_Child);
-export default Modify;
+/*const Modify = (Modify_Child);*/
+const modi = ProvideHookToClass(Modify_Child)
+export default withRouter(modi);

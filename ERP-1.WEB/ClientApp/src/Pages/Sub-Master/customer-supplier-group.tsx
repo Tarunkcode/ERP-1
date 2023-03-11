@@ -1,10 +1,11 @@
 ﻿import * as React from 'react';
-import { useState} from 'react';
-import CustomInput, { CustomSelect, InputList } from '../../components/custom-input/custom-input.component';
+import { useState } from 'react';
+import DatalistInput from 'react-datalist-input';
+import CustomInput, { CustomSelect, InputList, MasterInput2 } from '../../components/custom-input/custom-input.component';
 import CustomeSwitch from '../../components/CustomSwitch/custom-switch.component';
 
 
-export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, handleChange,UgList, handlePosting, defaultData, HandleIpSelect, ...otherProps}: any) {
+export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, handleChange, UgList, handlePosting, defaultData, HandleIpSelect, ...otherProps }: any) {
     React.useEffect(() => {
         if (configType == '1') getMasterType(1005)
         else if (configType == '2') getMasterType(111)
@@ -25,51 +26,45 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
                     <span className="row-header p-0 m-0">{pageTitle}</span>
                 </div>
                 <form className="row-content form col-sm-12 pt-0">
-             
-
-                    <span className="d-flex section2 mb-2 col-sm-12">
-                        <CustomInput
-                            change={handleChange}
-                            default={defaultData.name}
-                            name="name"
-                            classCategory="form-control inp subMaster"
-                            ipType="text"
-                            label="Name"
-                            ipTitle="Enter Name"
-                            dataArray={[]}
-                        />
-
-                    </span>
 
                     <span className="d-flex section2 col-sm-12">
-                        <CustomInput
-                            change={handleChange}
-                            name="codeStr"
-                            default={defaultData.codeStr}
-                            classCategory="form-control inp mb-2 subMaster"
-                            ipType="text"
-                            label="Alias"
-                            ipTitle="Enter Alias"
-                            dataArray={[]}
-                        />
 
+                        <MasterInput2 name="codeStr" label="Code" ipTitle="Enter Item Code" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp" />
+                        <span className="col-1 m-0"></span>
+                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp" />
                     </span>
 
-                    <span className="d-flex section2 mb-2 col-sm-4"  >
-                        <CustomeSwitch lablClass="custom-control-label col-9" default={defaultData.c1} label="Primary Group" id="c1" name="c1" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChange} />
-                        
-                    </span>
+
                     <span className="d-flex section2 col-sm-12">
                         {
-                                  /*CustomSelect({ */
+                            
                             PrimaryGroup === false ? (
                                 <>
-                                    <InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="20%" classCategory="form-control inp mb-2 subMaster ipselect" />
-                               
+
+
+                                            <>
+                                        <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Under Group</label>
+                                            </>
+                                            <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                                <DatalistInput
+
+                                                    className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control inp col-12 datalist int', name: 'parentGrp' }}
+                                                    listboxProps={{ className: 'text-left mt-5' }}
+
+                                                    onSelect={(item: any) => { console.log('id', item.id); }}
+                                                    items={[]}
+                                                />
+
+                                            </span>
                                 </>
                             ) : null
                         }
+                        {/*<InputList label="Under Group" id="parentGrp" lablCat="form-label labl labl2" name="parentGrp" default={UgList.findIndex((x: any) => x.code === defaultData.parentGrp)} dataArray={UgList} change={HandleIpSelect} placeholder="select under group" s="20%" classCategory="form-control inp mb-2 subMaster ipselect" />*/}
 
+                    </span>
+                    <span className="d-flex section2 mb-2 col-sm-4 mt-2"  >
+                        <CustomeSwitch lablClass="custom-control-label col-9" default={defaultData.c1} label="Primary Group" id="c1" name="c1" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChange} />
 
                     </span>
                     <span className="d-flex section2 mb-2 col-sm-4">
@@ -77,10 +72,10 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
                     </span>
 
 
-                    <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3, width: "100px" }} className="btn btn-info pl-0 pr-0 col-md-1 col-xs-6" onClick={handlePosting} >Save</button>
+                    <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <button type="button" style={{ border: '2px solid green', letterSpacing: 3, width: "100px" }} className="btn btn-success pl-0 pr-0 col-md-1 col-xs-6" onClick={handlePosting} >Save</button>
 
-            </div>
+                    </div>
                 </form>
             </div>
         </>

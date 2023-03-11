@@ -1,10 +1,10 @@
 ﻿import * as React from 'react';
-import CustomInput from '../../components/custom-input/custom-input.component';
+import CustomInput, { MasterInput2 } from '../../components/custom-input/custom-input.component';
 import { useEffect } from 'react';
 
 
 
-export default function Currency_Page({ getMasterType, handleChange, handlePosting,defaultData, ...otherProps }: any) {
+export default function Currency_Page({ getMasterType, handleChange, handlePosting, defaultData, ...otherProps }: any) {
 
     useEffect(() => {
         getMasterType(102)
@@ -21,92 +21,84 @@ export default function Currency_Page({ getMasterType, handleChange, handlePosti
                     <span className="row-header p-0 m-0">Currency</span>
                 </div>
                 <form className="row-content form col-sm-12 pt-0">
-                
 
-                    <span className="d-flex section2 mb-2 col-sm-12">
-                        <CustomInput
-                            name="Name"
-                            default={defaultData.name}
-                            classCategory="form-control inp subMaster"
-                            ipType="text"
-                            change={handleChange}
-                            label="name"
-                            ipTitle="Enter Name"
-                            dataArray={[]}
-                        />
 
-                    </span>
                     <span className="d-flex section2 col-sm-12">
-                        <CustomInput
-                            change={handleChange}
-                            default={defaultData.codeStr}
+                        <MasterInput2
+                            handleChange={handleChange}
+                            defaultt={defaultData.codeStr}
                             name="codeStr"
-                            classCategory="form-control inp mb-2 subMaster"
+                            classCategory="form-control inp col-4 subMaster"
                             ipType="text"
-                            label="Alias"
+                            label="Code"
                             ipTitle="Enter Alias"
-                            dataArray={[]}
                         />
+                        <span className='col-1 m-0'></span>
+                        <MasterInput2
+                            name="Name"
+                            defaultt={defaultData.name}
+                            classCategory="form-control col-4 inp subMaster"
+                            ipType="text"
+                            handleChange={handleChange}
+                            label="Name"
+                            ipTitle="Enter Name"
 
+                        />
                     </span>
 
                     <span className="d-flex section2 col-sm-12">
-                        <CustomInput
-                            change={handleChange}
-                            default={defaultData.s1}
+                        <MasterInput2
+                            handleChange={handleChange}
+                            defaultt={defaultData.s1}
                             name="s1"
-                            classCategory="form-control inp mb-2 subMaster"
+                            classCategory="form-control inp col-4 subMaster"
                             ipType="text"
                             label="Print Name"
                             ipTitle="Enter Print Name "
-                            dataArray={[]}
-                        />
-                    </span>
-                    <span className="d-flex section2 col-sm-12">
 
-                        <CustomInput
-                            change={handleChange}
-                            default={defaultData.s1}
+                        />
+                        <span className='col-1 m-0'></span>
+                        <MasterInput2
+                            handleChange={handleChange}
+                            defaultt={defaultData.s1}
                             name="s2"
-                            classCategory="form-control inp mb-2 subMaster"
+                            classCategory="form-control inp col-4 subMaster"
                             ipType="text"
                             label="Symbol"
                             ipTitle="Enter Symbol"
-                            dataArray={[]}
-                        />
 
+                        />
                     </span>
+
                     <span className="d-flex section2 col-sm-12">
-                        <CustomInput
-                            change={handleChange}
-                            default={defaultData.c1}
+                        <MasterInput2
+                            handleChange={handleChange}
+                            defaultt={defaultData.c1}
                             name="c1"
-                            classCategory="form-control inp mb-2 subMaster"
+                            classCategory="form-control inp col-4 subMaster"
                             ipType="number"
                             label="Default Currency"
                             ipTitle="Enter Default Currency "
-                            dataArray={[]}
+
                         />
-                    </span>
-                    <span className="d-flex section2 col-sm-12">
-                        <CustomInput
-                            default={defaultData.c2}
-                            change={handleChange}
+                        <span className='col-1 m-0'></span>
+                        <MasterInput2
+                            defaultt={defaultData.c2}
+                            handleChange={handleChange}
                             name="c2"
-                            classCategory="form-control inp mb-2 subMaster"
+                            classCategory="form-control inp col-4 subMaster"
                             ipType="number"
                             label="Decimal Place"
                             ipTitle="Enter Decimal Place"
-                            dataArray={[]}
                         />
                     </span>
-                
-                    <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', }}>
-                        <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3, marginLeft: "400px", width: "100px" }} className="btn btn-info pl-0 pr-0 col-xs-6 col-md-1" onClick={handlePosting}>Save</button>
-            </div>
+
+                    <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                        <button type="button" style={{ border: '2px solid green', letterSpacing: 3, marginTop: "10px", width: "100px" }} className="btn btn-success pl-0 pr-0 col-xs-6 col-md-1" onClick={handlePosting}>Save</button>
+                    </div>
                 </form>
 
-              
+
             </div>
         </>
     )

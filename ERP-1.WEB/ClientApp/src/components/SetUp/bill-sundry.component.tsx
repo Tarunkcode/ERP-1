@@ -2,11 +2,14 @@
 import BillSundry_Page from '../../Pages/SetUp/Bill-Sundry/bill-sundry.page';
 import { store2 } from '../../Redux/config/config.reducer';
 import { toast } from 'react-toastify';
-
+import ProvideHookToClass from '../HOC/loadBOM';
+interface IProps {
+    api: any
+}
 interface IState {
     postingData : object
 }
-export default class BillSundry extends React.Component<{},IState> {
+class BillSundry extends React.Component<IProps,IState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -65,7 +68,7 @@ export default class BillSundry extends React.Component<{},IState> {
      handlePosting = async (e: any) => {
          e.preventDefault();
          console.log('calling');
-         let i: any = JSON.stringify(this.state.postingData);
+         let i: any = this.state.postingData;
          console.log('i:', i);
          //console.log('calling')
          const confUrl = 'http://103.25.128.155:12019/api/BillSundrySaving';
@@ -108,3 +111,7 @@ export default class BillSundry extends React.Component<{},IState> {
             )
     }
 }
+
+
+const BillSundConf = ProvideHookToClass(BillSundry);
+export default BillSundConf;

@@ -10,7 +10,7 @@ export default function Quality_Page({ handleChange, handlePosting, defConf, ...
                 <span style={{ fontSize: "20px" }}>Quality Check Configurations</span>
             </div>
             <div className="col-12 p-3" style={{ margin: '0 auto' }}>
-                <button type="button" onClick={handlePosting} className="btn btn-danger col-1 p-1 mr-2" style={{ float: 'right' }}>Save</button>
+                <button type="button" onClick={handlePosting} className="btn btn-success col-1 p-1 mr-2" style={{ float: 'right' }}>Save</button>
             </div>
             <div className="d-flex flex-row m-0 p-0">
                 <div className="card addSalecard col-sm-6">

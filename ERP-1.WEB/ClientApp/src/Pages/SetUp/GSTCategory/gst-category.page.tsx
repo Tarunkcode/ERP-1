@@ -1,53 +1,48 @@
 ﻿import * as React from 'react';
-import { useLocation } from 'react-router';
-import { MasterInput } from '../../../components/custom-input/custom-input.component';
+import { useHistory, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import { MasterInput, MasterInput2 } from '../../../components/custom-input/custom-input.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
+import useFetch from '../../../components/Hooks/useFetch';
 
 import UnderConstruction from '../../../components/under-construction';
 import { store2 } from '../../../Redux/config/config.reducer';
+import { clear_form } from '../../Helper Functions/table';
+
 
 export default function GSTCategory_Page() {
-
+    const api = useFetch();
     var [rawObj, setRawObj]: any = React.useState({});
     var [def, setDef]: any = React.useState({});
     var obj: object = {};
     var compCode = window.localStorage.getItem('compCode') || ""
     var customer: string = window.localStorage.getItem('customer') || ""
-
+    const history: any = useHistory();
     var loc = useLocation();
     const state : any = loc.state;
 
     const LoadDefaultData = async () => {
-        if (state === null || !state) { console.log('state', state) }
-        else {
-            let urlStr = `http://103.25.128.155:12019/api/LoadMasterDetails?Code=${state.code}&Company=${compCode}&Customer=${customer}`
-            console.log('urlStr', urlStr)
-            var req: Request;
-            const h = new Headers();
-            h.append('Accept', 'application/json');
-            h.append('Content-Type', 'application/json');
-            h.append('CompCode', 'ESERPDB');
-            h.append('FYear', '0');
-
-
-            req = new Request(urlStr, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            })
+        if (state === null || !state) console.log(state, 'location state object')
+          else {
+            let urlStr = `/api/LoadMasterDetails?Code=${state.code}&Company=${compCode}&Customer=${customer}`
+            console.log(state, 'location state object')
 
             try {
+                let { res, got } = await api(urlStr, "GET", '');
+                if (res.status == 200) {
+                    setDef(got.data[0]);
 
-                await fetch(req).then((res: any) => res.json()).then((res: any) => {
-                   setDef(res.data[0]);
-                   
-                });
+
+                } else {
+                    toast.error(got.msg);
+                }
             } catch (err) {
                 alert(err)
             }
         }
     }
     React.useEffect(() => {
+
         LoadDefaultData();
     }, [])
    const handleChange = (e: any) => {
@@ -97,30 +92,21 @@ export default function GSTCategory_Page() {
    const handlePosting = async (e: any) => {
         e.preventDefault();
         console.log('calling');
-       let i: any = JSON.stringify(rawObj);
+       let i: any = rawObj;
         console.log('i:', i);
         //console.log('calling')
        //const confUrl = 'http://103.25.128.155:12019/api/GstCategorySaving';
-       const confUrl = 'http://103.25.128.155:12019/api/SaveMasterData';
+       const confUrl = '/api/SaveMasterData';
 
-
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
-        try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            console.log('got response msg', data);
-            alert(data.msg);
+       try {
+           let { res, got } = await api(confUrl, "POST", i);
+           if (res.status == 200) {
+             
+               let ref = document.getElementById("form");
+               toast.success(got.msg)
+               clear_form(ref);
+               state === null || !state ? null : history.push('/successfully-modify')
+           }else toast.error(got.msg)
         } catch (err) {
             alert(err)
         }
@@ -132,21 +118,21 @@ export default function GSTCategory_Page() {
                 <span style={{ fontSize: "20px" }}>GST Category</span>
             </div>
             <div className="card-body" style={{ margin: '0', padding: '0', minHeight: '80vh' }}>
-                <div className="form">
+                <form className="form" id="form">
                     
                         <span className="d-flex flex-column section2 col-sm-12">
                          
-                        <MasterInput label="Name" defaultt={def.name } name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
-                        <MasterInput label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput2 label="Name" defaultt={def.name } name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput2 label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
                         
-                        <MasterInput label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
-                        <MasterInput label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput2 label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput2 label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
                         </span>
                    
-                </div>
+                </form>
              
 
-                       <button className="btn btn-danger p-2 m-3" onClick={handlePosting}>Save</button>
+                <button className="btn btn-success p-2 m-3" onClick={handlePosting}>Save</button>
         
              
             </div>

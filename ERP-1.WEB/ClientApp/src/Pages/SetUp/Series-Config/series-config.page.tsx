@@ -1,34 +1,29 @@
 ﻿import * as React from 'react';
+import { toast } from 'react-toastify';
 import Tree from "../../../components/custom-tree/tree.component"
+import useFetch from '../../../components/Hooks/useFetch';
 import ConfigModal from "../../../components/Modals/config_Modals"
 function SeriesConfig_Page({ handleChange, handlePosting, getCode, getCtype,parentCode }: any) {
-   
+    const api = useFetch();
     var [tree, setTree]: any = React.useState([])
     const compCode = window.localStorage.getItem('compCode') || ""
     const customer = window.localStorage.getItem('customer') || ""
     const username = window.sessionStorage.getItem('username') || ""
-    const renderTreeData = () => {
-        var urlStr = `http://103.25.128.155:12019/api/GetSeriesNode?Customer=${customer}&Company=${compCode}`;
-        var req: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
+    const renderTreeData = async () => {
+        var urlStr = `/api/GetSeriesNode?Customer=${customer}&Company=${compCode}`;
+        
         try {
-            req = new Request(urlStr, {
-                method: 'GET',
-                headers: h,
-                mode: 'cors'
-            });
-            fetch(req).then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 1')
-            }).then((result: any) => {
-                var jsonStr: string = result.data;
-                console.log('json',jsonStr)
-                setTree(JSON.parse(jsonStr))
+            let { res, got } = await api(urlStr, "GET", '');
+           if(res.status == 200){
+               
+               var jsonStr: string = got.data;
+               console.log('json', jsonStr)
+               setTree(JSON.parse(jsonStr))
+            }
+           else throw new Error('Bad Fetch 1')
+                
 
-            });;
+
 
         } catch (err) { alert(err) }
     }
@@ -46,28 +41,23 @@ function SeriesConfig_Page({ handleChange, handlePosting, getCode, getCtype,pare
     const GetAddNew = (value: boolean) => {
         setViewAddNew(value);
     }
-    const AddNewSeriesBy_POST = () => {
-        var urlStr = `http://103.25.128.155:12019/api/AddSeriesNode?Customer=${customer}&Company=${compCode}&ParentCode=${parentCode}&Name=${name}&UserName=${username}`;
-        var req: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
+    const AddNewSeriesBy_POST = async () => {
+        var urlStr = '/api/AddSeriesNode';
+        let body : any = {
+            Customer: `${customer}`,
+            Company: `${compCode}`,
+            ParentCode: `${parentCode}`,
+            Name: `${name}`,
+            UserName: `${ username }`
+        }
         try {
-            req = new Request(urlStr, {
-                method: 'POST',
-                headers: h,
-                mode: 'cors'
-            });
-            fetch(req).then((res: any) => {
-                if (res.ok) return res.json();
-                else throw new Error('Bad Fetch 2')
-            }).then((result: any) => {
-                alert(result.msg)
+            let { res, got } = await api(urlStr, "POST", body)
+            if (res.status == 200) {
+                toast.success(got.msg)
                 renderTreeData()
 
-            });;
-
+            }
+          else throw new Error('Bad Fetch 2')
         } catch (err) { alert(err) }
     }
    return (

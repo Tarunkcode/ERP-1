@@ -23,6 +23,7 @@ interface IState {
     UgList : any
 }
 interface IProps {
+    api: any,
     defSubMaster: object;
     gettingVirtualCode: number;
     AlterLoadedData: any
@@ -103,29 +104,15 @@ class SubMasterChild extends React.Component<IProps, IState>{
         
     }
 
-    FetchUnderGroupDataList = (mType: any) => {
+    FetchUnderGroupDataList = async (mType: any) => {
 
-        const urlUGList = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
+        const urlUGList = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
       
-        var req: Request;
-        const h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-
-
-        req = new Request(urlUGList, {
-            method: 'GET',
-            headers: h,
-            mode: 'cors'
-        })
-
         try {
-         
-            fetch(req).then((res: any) => res.json()).then((res: any) => {
-                this.setState({ UgList: res.data })
-            });
+            let { res, got } = await this.props.api(urlUGList, "GET", '')
+            if(res.status == 200){
+                this.setState({ UgList: got.data })
+            }
           
 
         } catch (err) {
@@ -242,32 +229,19 @@ class SubMasterChild extends React.Component<IProps, IState>{
     handlePosting = async (e: any) => {
         e.preventDefault();
         console.log('calling');
-        let i: any = JSON.stringify(this.state.rawObj);
+        let i: any = this.state.rawObj
         console.log('i:', i);
         //console.log('calling')
-        const confUrl = 'http://103.25.128.155:12019/api/SaveMasterData';
+        const confUrl = '/api/SaveMasterData';
 
-
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            if (data.data == 2) {
-                toast.success(data.msg)
+            let {res, got } = await this.props.api(confUrl,"POST", i)
+         
+            if (res.status == 200) {
+                toast.success(got.msg)
 
             } else {
-                toast.error(data.msg)
+                toast.error(got.msg)
 
             }
             store2.getState().subMaster.EsMasterTable[0] = {}

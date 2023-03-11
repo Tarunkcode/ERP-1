@@ -1,4 +1,6 @@
-﻿
+﻿import * as React from "react";
+import { Redirect, useHistory } from "react-router-dom";
+
 export const AddRow = (arr: any[], tableProps: any[], func: any) => {
     if (arr.length !== 0) {
         let mArr = [...arr];
@@ -33,4 +35,8 @@ export const DeleteRow = (index: any, tableState: any[], func: any) => {
 
 export const getCurrentRowNo = (val: number) => {
    return { sNo: val }
+}
+
+export const clear_form = (formObj : any) => {
+    formObj.reset();
 }

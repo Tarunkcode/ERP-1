@@ -2,14 +2,17 @@
 import { toast } from 'react-toastify';
 import SeriesConfig_Page from "../../Pages/SetUp/Series-Config/series-config.page";
 import { store2 } from '../../Redux/config/config.reducer';
+import ProvideHookToClass from '../HOC/loadBOM';
 
-
+interface IProps {
+    api : any
+}
 interface IState {
     rawObj: object,
     Code: any,
     ctype: any
 }
-export default class Series_Conf extends React.Component<{},IState> {
+class Series_Conf extends React.Component<IProps,IState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -59,33 +62,20 @@ export default class Series_Conf extends React.Component<{},IState> {
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
-        console.log('calling');
-        let i: any = JSON.stringify(this.state.rawObj);
-        console.log('i:', i);
-        //console.log('calling')
-        const confUrl = 'http://103.25.128.155:12019/api/SeriesSaving';
+       
+        let i: any = this.state.rawObj;
+       
+        const confUrl = '/api/SeriesSaving';
 
 
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            if (data.status == 0) {
-                toast.success(data.msg)
+            let {res, got } = await this.props.api(confUrl, "POST", i)
+          
+            if (res.status == 0) {
+                toast.success(got.msg)
 
             } else {
-                toast.error(data.msg)
+                toast.error(got.msg)
 
             }
             store2.getState().seriesConf = {}
@@ -108,3 +98,6 @@ export default class Series_Conf extends React.Component<{},IState> {
         
     }
 }
+
+const seriesConf = ProvideHookToClass(Series_Conf)
+export default seriesConf;

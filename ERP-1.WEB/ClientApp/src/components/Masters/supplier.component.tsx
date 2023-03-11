@@ -11,6 +11,7 @@ import { setFormDataCollection } from "../../Redux/form-collection/formCollectio
 import formDataCollection, { store1 } from "../../Redux/form-collection/formCollection.reducer";
 import { createStructuredSelector } from 'reselect';
 import { CusSupMaster } from '../../Pages/Master/Customer-Supplier-Master/customer-supplier-master.page';
+import { toast } from 'react-toastify';
 
 
 
@@ -30,7 +31,7 @@ interface IState {
     tryNotToReRender: any
 }
 interface IProps {
-
+    api: any,
     fetchApi: any,
     postApi : any,
     currentData: any,
@@ -222,26 +223,17 @@ class SupplierMaster extends React.PureComponent<IProps, IState> {
         e.preventDefault();
         let i: any = JSON.stringify(store1.getState());
         console.log('i:', i);
-        const urlSaveMaster = 'http://103.25.128.155:12019/api/SaveToAccountMaster';
+        const urlSaveMaster = '/api/SaveToAccountMaster';
 
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'Comp0021');
-        h.append('FYear', '2022');
-        req1 = new Request(urlSaveMaster, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
+       
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            console.log('got response msg', data);
-            alert(data.msg);
+            let { res, got } = await this.props.api(urlSaveMaster, "POST", i);
+            if (res.status === 200) {
+             toast.success(got.msg);
 
+            }
+           
+            toast.error(got.msg)
             /*this.props.postApi(i)*/
         } catch (err) {
             alert(err)

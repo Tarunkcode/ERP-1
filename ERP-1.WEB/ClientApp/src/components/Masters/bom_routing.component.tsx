@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import BomRoutingConfig_Page from '../../Pages/Master/BomRoutingConfiguration/bom-routing-config.component';
-import useFetch from '../Hooks/useFetch';
-import BoM_Parent from '../HOC/loadBOM';
+
+import ProvideHookToClass from '../HOC/loadBOM';
 import { toast } from 'react-toastify';
 import { BOM_STORE } from '../../Redux/BOM/bom.reducer';
 
@@ -30,10 +30,12 @@ class BOM_Routing extends React.Component<IProps, IState> {
             
         }
     }
-
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
+    username = window.sessionStorage.getItem('username') || ""
   
-   getList = async () => {
-       let SeriesUrl = '/api/GetSeries?TranType=12&SrType=0&Company=46&Customer=57';
+    getList = async () => {
+        let SeriesUrl = `/api/GetSeries?TranType=12&SrType=0&Company=${this.compCode}&Customer=${this.customer}`;
        try {
         let { res, got } = await this.props.api(SeriesUrl, "GET", '');
            if (res.status == 200) {
@@ -41,7 +43,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                    numbertype: option.numbertype,
                    id: option.code,
                    value: option.name,
-
+                   name: "series"
                }))
                this.setState({ series: series })
            }
@@ -88,13 +90,12 @@ class BOM_Routing extends React.Component<IProps, IState> {
             if (res.status == 200) {
 
                 let cd$Nm: any = got.data.map((option: any)=> ({
-
                     id: option.code,
                     value: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-                    label: option.codestrname
-
+                    label: option.codestrname,
+                    name: 'item'
 
                 }))
                 console.log('code name and code................',cd$Nm)
@@ -125,7 +126,18 @@ class BOM_Routing extends React.Component<IProps, IState> {
     //    const selectedData = this.gridApi.getSelectedRows();
     //    console.log('Selection updated');
     //}
+    handle_BOM_Header_List = (item : any) => {
+        let value = parseInt(item.id);
+        let name = item.value;
+        BOM_STORE.dispatch({ payload: value, key: name, type: "bom_struct", label: 'BOMHeader' });
+        this.setState({
+            bomCurrentState: {
+                ...this.state.bomCurrentState,
+                BOMHeader: [{ ...BOM_STORE.getState().BOMHeader }]
+            }
+        })
 
+    }
     handle_BOMHeader_Change = (e: any) => {
         e.preventDefault();
         let value = this.afterValueConvert(e);
@@ -390,7 +402,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 seriesLoad={this.state.series}
                 processLoad={this.state.process}
                 codeNameLoad={this.state.Item_Code$Name}
-
+                handle_BOM_Header_List={this.handle_BOM_Header_List.bind(this) }
                 handleBOMAltItem={this.handle_BOMAltItem_Change.bind(this)}
                 handleBomCutComponenet ={this.handle_BomCutComponenet_Change.bind(this)}
                 handleBomDetails={this.handle_BomDetails_Change.bind(this)}
@@ -412,5 +424,5 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 }
 
-const BOM = BoM_Parent(BOM_Routing);
+const BOM = ProvideHookToClass(BOM_Routing);
 export default BOM;

@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import { toast } from 'react-toastify'
+import useFetch from '../Hooks/useFetch';
 interface IState {
     defSubMaster: object;
 }
@@ -8,7 +9,7 @@ interface IProps {
 }
 
 export default function DefaultSubMaster(Component: any) {
-
+    const api = useFetch();
     class SubMasterData extends React.Component<IProps, IState> {
         constructor(props: any) {
             super(props);
@@ -30,29 +31,15 @@ export default function DefaultSubMaster(Component: any) {
 
         FetchLoadingSubMasterDetails = async () => {
             if (this.props.location.state !== null) {
-                let urlStr = `http://103.25.128.155:12019/api/LoadMasterDetails?Code=${this.props.location.state.code}&Company=${this.compCode}&Customer=${this.customer}`
-                console.log('load sub Master', urlStr);
-
-                var req: Request;
-                const h = new Headers();
-                h.append('Accept', 'application/json');
-                h.append('Content-Type', 'application/json');
-                h.append('CompCode', 'ESERPDB');
-                h.append('FYear', '0');
-
-
-                req = new Request(urlStr, {
-                    method: 'GET',
-                    headers: h,
-                    mode: 'cors'
-                })
-
+                let urlStr = `/api/LoadMasterDetails?Code=${this.props.location.state.code}&Company=${this.compCode}&Customer=${this.customer}`
                 try {
-
-                   await fetch(req).then((res: any) => res.json()).then((res: any) => {
-                        this.setState({ defSubMaster: res.data[0] }); res.data.length === 0 ? console.log('No data found for loading') : null;
+                    let { res, got } = await api(urlStr, "GET", '');
+                    if (res.status == 200) {
+                        this.setState({ defSubMaster: got.data[0] });
                         this.defInitStateObj = { ...this.state.defSubMaster }
-                    });
+                    }
+                      
+               
                 } catch (err) {
                     alert(err)
                 }
@@ -77,7 +64,7 @@ export default function DefaultSubMaster(Component: any) {
                 }
         }
         render() {
-            return <Component defSubMaster={this.state.defSubMaster} AlterLoadedData={this.AlterLoadedData.bind(this)} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
+            return <Component api={api } defSubMaster={this.state.defSubMaster} AlterLoadedData={this.AlterLoadedData.bind(this)} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
         }
     }
     return SubMasterData;

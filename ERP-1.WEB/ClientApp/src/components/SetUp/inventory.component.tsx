@@ -10,14 +10,18 @@ import Quality_Page from '../../Pages/SetUp/Featutes-Option/quality-check.page';
 import Sale_Page from '../../Pages/SetUp/Featutes-Option/sale.page';
 import { store2 } from '../../Redux/config/config.reducer';
 import DefaultConfigConf from '../HOC/fetchDefaultConfigurationSettings';
+import { Redirect } from 'react-router';
 
 
 interface IState {
     rawPosting: object,
     configType: string,
-    loadedList1: any
+    loadedList1: any,
+    redirect: boolean,
 }
 interface IProps {
+    api: any,
+  /*  history : any,*/
     defFeatureOptionMaster: object,
     AlterLoadedData: any
 }
@@ -27,36 +31,24 @@ class Feature_Option extends React.Component<IProps, IState> {
         this.state = {
             rawPosting: {},
             configType: '',
-            loadedList1 :[]
+            loadedList1: [],
+            redirect : false
         }
 
     }
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-    FetchLoadedList = (mType: any) => {
+    FetchLoadedList = async (mType: any) => {
 
-        const urlUGList = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
+        const urlUGList = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
 
-        var req: Request;
-        const h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-
-
-        req = new Request(urlUGList, {
-            method: 'GET',
-            headers: h,
-            mode: 'cors'
-        })
-
+       
         try {
-
-            fetch(req).then((res: any) => res.json()).then((res: any) => {
-                this.setState({ loadedList1: res.data })
-            });
+            let { res, got } = await this.props.api(urlUGList, "GET",'')
+            if(res.status) {
+                this.setState({ loadedList1: got.data })
+            }
 
 
         } catch (err) {
@@ -83,33 +75,25 @@ class Feature_Option extends React.Component<IProps, IState> {
     handlePosting = async (e: any) => {
         e.preventDefault();
         console.log('calling');
-        let i: any = JSON.stringify(this.state.rawPosting);
+        let i: any = this.state.rawPosting;
         console.log('i:', i);
         //console.log('calling')
-        const confUrl = 'http://103.25.128.155:12019/api/SaveConfig';
+        const confUrl = '/api/SaveConfig';
 
 
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
+      
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            console.log('res', data)
-            if (data.status == 0) {
-                toast.success(data.msg)
+            let { res, got } = await this.props.api(confUrl,'POST' ,i)
+        
+            if (res.status == 200) {
+                toast.success(got.msg)
+                setTimeout(() => {
+                this.setState({ redirect: true });
+
+                }, 2000)
 
             } else {
-                toast.error(data.msg)
+                toast.error(got.msg)
 
             }
             store2.getState().InventoryDet = [{}]
@@ -118,13 +102,13 @@ class Feature_Option extends React.Component<IProps, IState> {
         }
     }
 
-    HandleIpSelect = (code: string, name: string) => {
-        var label: string = ''
-        console.log(name + ':' + code);
-
-        label = "InventoryDet"
+    SelectList = (item : any) => {
+        let name = item.value;
+        let id = item.id;
+        
+        let label = "InventoryDet"
         //if (name === "") toast.error('key is not sent by store.dispatch in ipSelect')
-        let currObj = { [name]: parseInt(code) }
+        let currObj = { [name]: parseInt(id) }
         let mainObj = this.props.AlterLoadedData(currObj)
 
         console.log('mo', mainObj)
@@ -174,6 +158,10 @@ class Feature_Option extends React.Component<IProps, IState> {
     }
 
     render() {
+        let { redirect } = this.state;
+        if (redirect === true) {
+            return <Redirect to="/successfully-modify" />
+        }
         return (
             <>
                 {
@@ -209,7 +197,7 @@ class Feature_Option extends React.Component<IProps, IState> {
                 }
 
                 {
-                    this.state.configType === '7' ? (<GSTConf_Page defConf={this.props.defFeatureOptionMaster} LoadedList={this.state.loadedList1} HandleIpSelect={this.HandleIpSelect.bind(this)} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />) : null
+                    this.state.configType === '7' ? (<GSTConf_Page defConf={this.props.defFeatureOptionMaster} LoadedList={this.state.loadedList1} SelectList={this.SelectList.bind(this)} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />) : null
                 }
             </>
         )

@@ -28,9 +28,10 @@ interface IState {
     tryNotToReRender: any
 }
 interface IProps {
-    fetchApi: any,
-    currentData: any,
-    setFormDataCollection: any,
+    api2 : any,
+    //fetchApi: any,
+    //currentData: any,
+    //setFormDataCollection: any,
     default : any,
     series: any[],
     group: any[],
@@ -68,48 +69,26 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
         };
 
     }
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
+    username = window.sessionStorage.getItem('username') || ""
+    handleList = (item: any) => {
+        let value = parseInt(item.id)
+       
+        let label = "ItemMaster";
+        store1.dispatch({ payload: value, key: item.name, type: "AddOnFormData", label: label });
 
 
-    formatJSONData = (value : string,name: string, label: string) => {
-        let modifyValue: any;
-        
-              return modifyValue;
-        
-    }
-
-    handleAddressTypeChange = (value: number) => {
-
-        store1.dispatch({ type: "AddOnFormData", payload: value, key: "AddressType", label: "AddressDetail" })
-    }
-
-    HandleIpSelect = (code: string, name: string, row: any) => {
-        var label: string = 'ItemMaster';
-        console.log(name + ':' + code);
-        //let mainObj: object = {};
-        
-        //if (name === "") toast.error('key is not sent by store.dispatch in ipSelect')
-        //else {
-        //    if (this.props.gettingVirtualCode === 0) {
-        //        store2.dispatch({ payload: parseInt(code), key: name, type: "changeConfig", label: label });
-        //    } else {
-        //        let change: object = { [name]: parseInt(code) }
-        //        mainObj = this.props.AlterLoadedData(change)
-        //        store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
-        //    }
-
-        //}
-
-        store1.dispatch({ payload: parseInt(code), key: name, type: "AddOnFormData", label: label });
-         this.setState({
+        this.setState({
             rawData: {
                 code: 0,
-                customer: parseInt("57"),
-                company : parseInt("46"),
+                customer: parseInt(this.customer),
+                company: parseInt(this.compCode),
                 ...store1.getState().ItemMaster
             }
         })
-
     }
+
     handleChangeField = (e: any) => {
         e.preventDefault(); 
         var label: string = 'ItemMaster';
@@ -124,9 +103,10 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
         this.setState({
             rawData: {
                 code: 0,
-                customer: parseInt("57"),
-                company : parseInt("46"),
+                customer: parseInt(this.customer),
+                company: parseInt(this.compCode),
                 ...store1.getState().ItemMaster
+         
             }
         })
     }
@@ -134,14 +114,12 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
     handleSave$Submit= async (e: any)=> {
      
         e.preventDefault();
-        let i: any = this.state.rawData
-        console.log('i:', i);
-        var api = useFetch();
-      
+        let i: any = this.state.rawData;
+        console.log('i', i)
         try {
 
             let path = `/api/SaveItemMaster`
-            let { res, got } = await api(path, 'POST' ,i)
+            let { res, got } = await this.props.api2(path, 'POST' ,i)
             console.log('res', res)
             if (res.status === 200) {
                 var r: string = got.msg;
@@ -159,7 +137,7 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
             <>
                 <AddItemMaster
                     default={this.props.default}
-                    HandleIpSelect={this.HandleIpSelect.bind(this)}
+                    handleList={this.handleList.bind(this)}
                     series={this.props.series}
                     group={this.props.group}
                     type={this.props.type}

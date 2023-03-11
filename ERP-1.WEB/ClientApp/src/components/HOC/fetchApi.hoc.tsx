@@ -1,7 +1,9 @@
 ﻿import * as React from 'react';
+import useFetch from '../Hooks/useFetch';
 
 export function fetchMasters(Component: any) {
-
+    const token: any = window.sessionStorage.getItem('token');
+    const api = useFetch();
     class MasterApi extends React.Component {
         constructor(props: any) {
             super(props);
@@ -18,11 +20,13 @@ export function fetchMasters(Component: any) {
             const urlMaster = `http://103.25.128.155:12019/api/GetMasterData?MasterType=${masterCode}&SrType=1&customer=${57}&company=${46}`;
             try {
 
-            var req: Request;
-            let h = new Headers();
-            h.append('Accept', 'application/json');
-            h.append('CompCode', 'Comp0021');
-            h.append('FYear', '2022');
+                var req: Request;
+                let h = new Headers();
+                h.append('Accept', 'application/json');
+                h.append('CompCode', 'ESERPDB');
+                h.append("Content-Type", "application/json");
+                h.append('FYear', '0');
+                h.append('Authorization', `Bearer ${token}`)
             switch (label) {
                 case 'series':
                     req = new Request(urlStr, {
@@ -49,7 +53,7 @@ export function fetchMasters(Component: any) {
         
         render() {
             return (
-                <Component fetchApi={this.fetchApi} {...this.props} />
+                <Component api={api } fetchApi={this.fetchApi} {...this.props} />
             )
         }
     }

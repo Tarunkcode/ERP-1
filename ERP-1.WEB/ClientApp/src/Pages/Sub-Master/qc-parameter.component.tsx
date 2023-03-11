@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import CustomInput from '../../components/custom-input/custom-input.component';
+import CustomInput, { MasterInput2 } from '../../components/custom-input/custom-input.component';
 
 export default function QcParam_SampleType({ defaultData, getMasterType, pageTitle, configType, handleChange, handlePosting }: any) {
     React.useEffect(() => {
@@ -19,29 +19,29 @@ export default function QcParam_SampleType({ defaultData, getMasterType, pageTit
 
 
                     <span className="d-flex section2 mb-2 col-sm-12">
-                        <CustomInput
+                        <MasterInput2
                             name="name"
-                            change={handleChange}
-                            default={defaultData.name}
-                            classCategory="form-control inp subMaster"
+                            handleChange={handleChange}
+                            defaultt={defaultData.name}
+                            classCategory="form-control col-4 inp subMaster"
                             ipType="text"
                             label={configType == '7' ? "Quality Parameter" : "Sampling Type"}
                             ipTitle={configType == '7' ? "Enter Quality Parameter" : "Enter Sampling Type"}
-                            dataArray={[]}
+
                         />
-                          
+
                     </span>
                     <span className="d-flex section2 mb-2 col-sm-12">
                         <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2"></label>
-                        <textarea name="s1" onChange={handleChange} defaultValue={defaultData.s1} placeholder="Enter Description" rows={4} cols={6} className="form-control col-6 subMaster" />
+                        <textarea name="s1" style={{ borderColor: '#86a4c3' }} onChange={handleChange} defaultValue={defaultData.s1} placeholder="Enter Description" rows={2} cols={6} className="form-control col-10 subMaster" />
                     </span>
 
                 </form>
-            </div>
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', }}>
-                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3, width: "100px", marginLeft: "400px" }} className="btn btn-info pl-0 pr-0 col-xs-6 col-md-1" onClick={handlePosting} >Save</button>
+                <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+                    <button type="button" style={{ border: '2px solid green', letterSpacing: 3, width: "100px", marginLeft: "" }} className="btn btn-success pl-0 pr-0 col-xs-6 col-md-1" onClick={handlePosting} >Save</button>
 
+                </div>
             </div>
         </>
-        )
+    )
 }

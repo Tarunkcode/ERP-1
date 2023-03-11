@@ -19,7 +19,8 @@ export default function Sidebar({ state }: any) {
             let { res, got } = await api(path, 'GET', '')
            console.log('res', res)
             if (res.status === 200) {
-                var r: string = got.data;
+                var r: string = got.data[0].strResult;
+                
                 setSource(JSON.parse(r));
             }
             else throw new Error('Bad Fetch 1')

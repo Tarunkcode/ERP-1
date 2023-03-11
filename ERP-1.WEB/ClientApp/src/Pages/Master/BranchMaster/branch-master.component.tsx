@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
 
 
 class BranchMaster extends React.Component {
@@ -19,95 +20,67 @@ class BranchMaster extends React.Component {
                                 <div className="collapse show" id="branch">
                                     <span className="d-flex section2 col-sm-12">
                                         <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Name</label>
-                                            <input type="text" name="series" className="form-control inp" />
+                                            <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" classCategory="form-control col-4 inp" />
+
                                         </>
-                                       
+
+                                    </span>
+                                    <span className="d-flex section2 col-sm-12">
+
+                                        <MasterInput2 name="code" label="Code" ipTitle="Enter Code" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="matCenter" label="MatCenter" ipTitle="Enter MatCenter" ipType="text" classCategory="form-control col-4 inp" />
                                     </span>
 
                                     <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Alias</label>
-                                            <input type="text" name="custCode" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">MatCenter</label>
-                                            <input type="text" name="delTerm" className="form-control inp" />
-                                        </>
+
+                                        <MasterInput2 name="add1" label="Address" ipTitle="Enter Address" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="add2" label="" ipTitle="Enter Address" ipType="text" classCategory="form-control col-4 inp" />
                                     </span>
+
+                                    <span className="d-flex section2 col-sm-12">
+
+                                        <MasterInput2 name="add3" label="" ipTitle="Enter Address" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="add4" label="" ipTitle="Enter Address" ipType="text" classCategory="form-control col-4 inp" />
+                                    </span>
+
+                                    <span className="d-flex section2 col-sm-12">
+
+                                        <MasterInput2 name="pan" label="IT PAN" ipTitle="Enter IT PAN" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="tel" label="Tel. No." ipTitle="Enter Tel. No." ipType="text" classCategory="form-control col-4 inp" />
+                                    </span>
+                                    <span className="d-flex section2 col-sm-12">
+
+                                        <MasterInput2 name="email" label="E-Mail" ipTitle="Enter E-Mail" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="fax" label="Fax" ipTitle="Enter Fax" ipType="text" classCategory="form-control col-4 inp" />
+                                    </span>
+
+                                    <span className="d-flex section2 col-sm-12">
+
+                                        <MasterInput2 name="State" label="State" ipTitle="Enter State" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="statecode" label="State Code" ipTitle="Enter State Code" ipType="text" classCategory="form-control col-4 inp" />
+                                    </span>
+
+
                                 </div>
                             </fieldset>
                         </form>
 
-                        <form className="form col-sm-12 row-content card-body pt-0 pb-0">
-                            <fieldset className="form-group border p-0">
-                                <legend className="px-2" data-toggle="collapse" data-target="#addDet" aria-expanded="false" aria-controls="addDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Address Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
-                                <div className="collapse" id="addDet">
-
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="contPerson" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Address-1</label>
-                                            <input type="text" name="contPerson" className="form-control inp" />
-                                        </>
-
-                                        <>
-                                            <label htmlFor="TelNo" style={{ fontSize: '0.8em' }} className="form-label labl labl2">IT PAN</label>
-                                            <input type="text" name="TelNo" className="form-control inp" />
-                                        </>
+                        {/*<form className="form col-sm-12 row-content card-body pt-0 pb-0">*/}
+                        {/*    <fieldset className="form-group border p-0">*/}
+                        {/*        <legend className="px-2" data-toggle="collapse" data-target="#addDet" aria-expanded="false" aria-controls="addDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Address Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>*/}
+                        {/*        <div className="collapse" id="addDet">*/}
 
 
-                                    </span>
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="desg" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Add-2.</label>
-                                            <input type="text" name="desg" className="form-control inp" />
-                                        </>
-
-                                        <>
-                                            <label htmlFor="mob" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Tel. No.</label>
-                                            <input type="text" name="mob" className="form-control inp" />
-                                        </>
-                                    </span>
-
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="cheifExe" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Add.3</label>
-                                            <input type="text" name="cheifExe" className="form-control inp" />
-                                        </>
-
-                                        <>
-                                            <label htmlFor="fax" style={{ fontSize: '0.8em' }} className="form-label labl labl2">E-Mail</label>
-                                            <input type="text" name="fax" className="form-control inp" />
-                                        </>
-                                    </span>
-
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="cheifExeTelNo" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Add.4</label>
-                                            <input type="text" name="cheifExeTelNo" className="form-control inp" />
-                                        </>
-
-                                        <>
-                                            <label htmlFor="email" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Fax</label>
-                                            <input type="text" name="email" className="form-control inp" />
-                                        </>
-                                    </span>
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="mulCurr" style={{ fontSize: '0.8em' }} className="form-label labl labl2">State</label>
-                                            <input type="text" name="mulCurr" className="form-control inp" />
-                                            <div className="col-1"></div>
-                                        </>
-                                       
-                                        <>
-                                            <label htmlFor="email" style={{ fontSize: '0.8em' }} className="form-label labl labl2">State Code</label>
-                                            <input type="text" name="email" className="form-control inp" />
-                                        </>
-                                    </span>
-                                </div>
-                            </fieldset>
-                        </form>
+                        {/*        </div>*/}
+                        {/*    </fieldset>*/}
+                        {/*</form>*/}
 
                         <form className="form col-sm-12 row-content card-body pt-0 pb-0">
                             <fieldset className="form-group border p-0">
@@ -115,103 +88,75 @@ class BranchMaster extends React.Component {
                                 <div className="collapse" id="vatGst">
 
                                     <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="add" style={{ fontSize: '0.8em' }} className="form-label labl labl2">CST Reg. No.</label>
-                                            <input type="text" name="add" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="zone" style={{ fontSize: '0.8em' }} className="form-label labl labl2">GST No.</label>
-                                            <input type="text" name="zone" className="form-control inp" />
-                                        </>
-                                       
 
+                                        <MasterInput2 name="cstr" label="CST Reg. No." ipTitle="Enter CST Reg. No." ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="gst" label="GST No." ipTitle="Enter GST No." ipType="text" classCategory="form-control col-4 inp" />
                                     </span>
-
                                     <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="state" style={{ fontSize: '0.8em' }} className="form-label labl labl2">TIN No.</label>
-                                            <input type="text" name="state" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="country" style={{ fontSize: '0.8em' }} className="form-label labl labl2">CIN No.</label>
-                                            <input type="text" name="country" className="form-control inp" />
-                                        </>
 
-                                    
+                                        <MasterInput2 name="tin" label="TIN No." ipTitle="Enter TIN No." ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="cin" label="CIN No." ipTitle="Enter CIN No." ipType="text" classCategory="form-control col-4 inp" />
                                     </span>
 
                                 </div>
                             </fieldset>
                         </form>
 
-                        <form className="form col-sm-12 row-content card-body pt-0 pb-0">
-                            <fieldset className="form-group border p-0">
-                                <legend className="px-2" data-toggle="collapse" data-target="#exciseDet" aria-expanded="false" aria-controls="exciseDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Excise Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
-                                <div className="collapse" id="exciseDet">
+                        {/*<form className="form col-sm-12 row-content card-body pt-0 pb-0">*/}
+                        {/*    <fieldset className="form-group border p-0">*/}
+                        {/*        <legend className="px-2" data-toggle="collapse" data-target="#exciseDet" aria-expanded="false" aria-controls="exciseDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Excise Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>*/}
+                        {/*        <div className="collapse" id="exciseDet">*/}
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="add" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Excise Reg. No.</label>
-                                            <input type="text" name="add" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="zone" style={{ fontSize: '0.8em' }} className="form-label labl labl2">PLA No</label>
-                                            <input type="text" name="zone" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="city" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Division</label>
-                                            <input type="text" name="city" className="form-control inp" />
-                                        </>
+                        {/*            <span className="d-flex section2 col-sm-12">*/}
+
+                        {/*                <MasterInput2 name="reg" label="Excise Reg. No." ipTitle="Enter Excise Reg. No." ipType="text" classCategory="form-control col-4 inp" />*/}
+                        {/*                <span className="col-1 m-0"></span>*/}
+                        {/*                <MasterInput2 name="plano" label="PLA No" ipTitle="Enter PLA No" ipType="text" classCategory="form-control col-4 inp" />*/}
+                        {/*            </span>*/}
+
+                        {/*            <span className="d-flex section2 col-sm-12">*/}
+
+                        {/*                <MasterInput2 name="division" label="Division" ipTitle="Enter Division" ipType="text" classCategory="form-control col-4 inp" />*/}
+                        {/*                <span className="col-1 m-0"></span>*/}
+                        {/*                <MasterInput2 name="ecc" label="ECC Code" ipTitle="Enter ECC Code" ipType="text" classCategory="form-control col-4 inp" />*/}
+                        {/*            </span>*/}
 
 
-                                    </span>
+                        {/*            <span className="d-flex section2 col-sm-12">*/}
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="state" style={{ fontSize: '0.8em' }} className="form-label labl labl2">ECC Code</label>
-                                            <input type="text" name="state" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="country" style={{ fontSize: '0.8em', marginLeft: '2%' }} className="form-label labl labl2">Range</label>
-                                            <input type="text" name="country" className="form-control inp" />
-                                        </>
+                        {/*                <MasterInput2 name="Range" label="Range" ipTitle="Enter Division" ipType="text" classCategory="form-control col-4 inp" />*/}
 
-                                 
-                                    </span>
+                        {/*            </span>*/}
 
-                                  
-                                </div>
-                            </fieldset>
-                        </form>
 
-                        <form className="form col-sm-12 row-content card-body pt-0 pb-0">
-                            <fieldset className="form-group border p-0">
-                                <legend className="px-2" data-toggle="collapse" data-target="#serviceTax" aria-expanded="false" aria-controls="serviceTax" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Service Tax Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
-                                <div className="collapse" id="serviceTax">
+                        {/*        </div>*/}
+                        {/*    </fieldset>*/}
+                        {/*</form>*/}
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="add" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Registration No.</label>
-                                            <input type="text" name="add" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="zone" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Permises Code NO</label>
-                                            <input type="text" name="zone" className="form-control inp" />
-                                        </>
-                                       
-                                    </span>
+                        {/*<form className="form col-sm-12 row-content card-body pt-0 pb-0">*/}
+                        {/*    <fieldset className="form-group border p-0">*/}
+                        {/*        <legend className="px-2" data-toggle="collapse" data-target="#serviceTax" aria-expanded="false" aria-controls="serviceTax" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Service Tax Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>*/}
+                        {/*        <div className="collapse" id="serviceTax">*/}
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="state" style={{ fontSize: '0.8em' }} className="form-label labl labl2">STC No.</label>
-                                            <input type="text" name="state" className="form-control inp" />
-                                        </>
-                                      
-                                    </span>
+                        {/*            <span className="d-flex section2 col-sm-12">*/}
 
-                                </div>
-                            </fieldset>
-                        </form>
+                        {/*                <MasterInput2 name="regno" label="Registration No." ipTitle="Enter Registration No." ipType="text" classCategory="form-control col-4 inp" />*/}
+                        {/*                <span className="col-1 m-0"></span>*/}
+                        {/*                <MasterInput2 name="pcn" label="Permises Code NO" ipTitle="Enter Permises Code NO" ipType="text" classCategory="form-control col-4 inp" />*/}
+                        {/*            </span>*/}
+
+
+                        {/*            <span className="d-flex section2 col-sm-12">*/}
+
+                        {/*                <MasterInput2 name="stcn" label="STC No." ipTitle="Enter STC No." ipType="text" classCategory="form-control col-4 inp" />*/}
+
+                        {/*            </span>*/}
+
+                        {/*        </div>*/}
+                        {/*    </fieldset>*/}
+                        {/*</form>*/}
 
                         <form className="form col-sm-12 row-content card-body pt-0 pb-0">
                             <fieldset className="form-group border p-0">
@@ -219,36 +164,23 @@ class BranchMaster extends React.Component {
                                 <div className="collapse" id="bank">
 
                                     <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="add" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Bank Name</label>
-                                            <input type="text" name="add" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="zone" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Bank Branch</label>
-                                            <input type="text" name="zone" className="form-control inp" />
-                                        </>
-                                       
+
+                                        <MasterInput2 name="bankname" label="Bank Name" ipTitle="Enter Bank Name" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="bbranch" label="Bank Branch" ipTitle="Enter Bank Branch" ipType="text" classCategory="form-control col-4 inp" />
                                     </span>
 
                                     <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="state" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Account No.</label>
-                                            <input type="text" name="state" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="country" style={{ fontSize: '0.8em' }} className="form-label labl labl2">IFSC Code</label>
-                                            <input type="text" name="country" className="form-control inp" />
-                                        </>
 
-                                      
+                                        <MasterInput2 name="accno" label="Account No." ipTitle="Enter Account No." ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+                                        <MasterInput2 name="ifsc" label="IFSC Code" ipTitle="Enter IFSC Code" ipType="text" classCategory="form-control col-4 inp" />
                                     </span>
 
                                     <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="telNo" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Insurance No.</label>
-                                            <input type="text" name="telNo" className="form-control inp" />
-                                        </>
-                                     
+
+                                        <MasterInput2 name="insurance" label="Insurance No." ipTitle="Enter Insurance No." ipType="text" classCategory="form-control col-4 inp" />
+
                                     </span>
 
                                 </div>
@@ -258,13 +190,13 @@ class BranchMaster extends React.Component {
                     </div>
                     <hr style={{ margin: '0', padding: '0' }} />
                 </div>
-                <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                     <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                    <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                    <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+                    <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                    <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
                 </div>
             </>
-            );
+        );
     }
 }
 

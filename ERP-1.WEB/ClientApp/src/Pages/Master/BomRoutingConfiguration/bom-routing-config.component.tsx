@@ -24,7 +24,7 @@ import WriteGrid from '../../../components/Grid Component/grid.component';
 import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 
-function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, ...otherProps }: any) {
+function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, handle_BOM_Header_List, ...otherProps }: any) {
 
 
  let [isCopy, setIsCopy] : any = useState(false)
@@ -155,16 +155,16 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad, handleBO
                                                 inputProps={{ className: 'form-control inp col-12 BOMHeader int', name:'series' }}
                                                 listboxProps={{ className: 'text-left mt-5' }}
 
-                                                onSelect={(item: any) => { setSeriesCode(item.id); console.log('id', item.id); setSeriesNumType(item.numbertype); console.log('num type', item.numbertype); }}
+                                                onSelect={(item: any) => { setSeriesCode(item.id); setSeriesNumType(item.numbertype); handle_BOM_Header_List(item)}}
                                                 items={seriesLoad}
                                             />
                                        </span>
                                     </span>
-                                    <MasterInput name="code" label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control inp BOMHeader text" read={seriesNumType === 1 ? true : false} handleChange={handleBOMProcessPOH} />
+                                    <MasterInput name="code" label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control inp BOMHeader text" read={seriesNumType === 1 ? true : false} handleChange={handleBOMHeader} />
 
 
  
-                                    <MasterInput name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control BOMHeader inp text" handleChange={handleBOMProcessPOH} />
+                                    <MasterInput name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control BOMHeader inp text" handleChange={() => { }} />
                                   
                                     
                                 </span>
@@ -191,6 +191,7 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad, handleBO
                                                     setIUom({uom: uom, uomName: iUomName})
                                                     setICode(iCode);
                                                     setIName(iName);
+                                                    handle_BOM_Header_List(item)
                                                 }}
                                                 items={codeNameLoad}
                                             />
@@ -198,15 +199,15 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad, handleBO
                                     </span>
 
                                     {/*missed*/}
-                                    <MasterInput name="itemname" defaultt={iName} label="Item Name" ipTitle="Enter Item Name" ipType="text" classCategory="form-control inp text" read={true}/>
+                                    <MasterInput name="itemname" defaultt={iName} label="Item Name" ipTitle="Enter Item Name" ipType="text" classCategory="form-control BOMHeader inp text" read={true} handleChange={handleBOMHeader } />
 
 
 
-                                    <MasterInput name="unit" defaultt={iUom.uomName} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader inp text" read={true} handleChange={handleBOMProcessPOH} />
+                                    <MasterInput name="unit" defaultt={iUom.uomName} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader inp text" read={true} handleChange={handleBOMHeader} />
                                     </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput name="qty" label="Produce Qty" ipTitle="Enter Produce Qty" ipType="number" classCategory="form-control inp number BOMHeader" handleChange={handleBOMProcessPOH} />
+                                    <MasterInput name="qty" label="Produce Qty" ipTitle="Enter Produce Qty" ipType="number" classCategory="form-control inp number BOMHeader" handleChange={handleBOMHeader} />
                                        
                                        
                                         <>
@@ -225,7 +226,7 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad, handleBO
                                         </LocalizationProvider>
                                         </>
                                     <span className="col-4">
-                                        <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4 switch BOMHeader" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input BOMHeader col-3" handleChange={handleBOMProcessPOH} />
+                                        <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4 switch BOMHeader" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input BOMHeader col-3" handleChange={handleBOMHeader} />
                                         </span>
                                     </span>
 

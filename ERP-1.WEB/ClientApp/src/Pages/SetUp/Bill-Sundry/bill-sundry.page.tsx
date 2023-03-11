@@ -1,6 +1,8 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
-import CustomInput, { CustomSelect, MasterInput } from '../../../components/custom-input/custom-input.component';
+import DatalistInput from 'react-datalist-input';
+import 'react-datalist-input/dist/styles.css';
+import CustomInput, { CustomSelect, MasterInput, MasterInput2 } from '../../../components/custom-input/custom-input.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
 import RadioButton from '../../../components/RadioButton/radio-button.component';
 
@@ -28,110 +30,96 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
 
                         <div className="show" id="genDetails">
-                            <>
-                                <span className="d-flex section2 col-sm-12">
-                                    <>
-                                        <CustomInput
 
-                                            name="Name"
-                                            change={handleChange}
-                                            classCategory="form-control inp  seriesConf"
-                                            ipType="text"
-                                            label="Name"
-                                            ipTitle="Enter Name"
-                                            dataArray={[]}
-                                        />
-                                    </>
+                            <span className="d-flex section2 col-sm-12">
 
-                                    <>
-                                        <CustomInput
-                                            change={handleChange}
-                                            name="Alias"
-                                            classCategory="form-control inp seriesConf"
-                                            ipType="text"
-                                            label="Alias"
-                                            ipTitle="Enter Alias"
-                                            dataArray={[]}
-                                        />
-                                    </>
+                                <MasterInput2
+                                    handleChange={handleChange}
+                                    name="Code"
+                                    classCategory="form-control inp col-4 seriesConf"
+                                    ipType="text"
+                                    label="Code"
+                                    ipTitle="Enter Alias"
 
-                                    <>
-                                        <CustomInput
-                                            change={handleChange}
-                                            name="PName"
-                                            classCategory="form-control inp seriesConf"
-                                            ipType="text"
-                                            label="Print Name"
-                                            ipTitle="Enter Print Name"
-                                            dataArray={[]}
-                                        />
-                                    </>
+                                />
+                                <span className='col-1 m-0'></span>
+                                <MasterInput2
+
+                                    name="Name"
+                                    handleChange={handleChange}
+                                    classCategory="form-control inp col-4 seriesConf"
+                                    ipType="text"
+                                    label="Name"
+                                    ipTitle="Enter Name"
+
+                                />
+
+                            </span>
+
+
+                            <span className="d-flex section2 col-sm-12">
+
+                                <MasterInput2
+                                    handleChange={handleChange}
+                                    name="PName"
+                                    classCategory="form-control inp col-4 seriesConf"
+                                    ipType="text"
+                                    label="Print Name"
+                                    ipTitle="Enter Print Name"
+
+                                />
+                                <span className='col-1 m-0'></span>
+
+                                <>
+                                    <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Bill Sundry Type</label>
+                                </>
+                                <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                    <DatalistInput
+
+                                        className="d-flex col-12 m-0 p-0"
+                                        inputProps={{ className: 'form-control inp col-12 datalist int', name: 'BSType' }}
+                                        listboxProps={{ className: 'text-left mt-5' }}
+
+                                        onSelect={handleChange}
+                                        items={[{ id: 1, value: 'Additive' }, { id: 2, value: 'Subtractive' }]}
+                                    />
+
                                 </span>
-                                <span className="d-flex section2 col-sm-12">
-                                    <>
-                                        <label
-                                            htmlFor="BillSundryType"
-                                            style={{ fontSize: "0.8em" }}
-                                            className="form-label labl labl2"
-                                        >
-                                            Bill Sundry Type
-                                        </label>
+                            </span>
+                            <span className="d-flex section2 col-sm-12">
+                                <>
+                                    <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2"> Bill Sundry Nature</label>
+                                </>
+                                <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                    <DatalistInput
 
-                                        <select
+                                        className="d-flex col-12 m-0 p-0"
+                                        inputProps={{ className: 'form-control inp col-12 datalist int', name: 'BSNature' }}
+                                        listboxProps={{ className: 'text-left mt-5' }}
 
-                                            name="BSType"
-                                            className="form-control inp mb-2 seriesConf"
-                                            onBlur={handleChange}
-                                            title="Bill Sundry Type"
-                                      
-                                        >
-                                            <option value={1}>Additive</option>
-                                            <option value={2}>Subtractive</option>
-                                        </select>
-                                    </>
-                                    <>
-                                        <label
-                                            htmlFor="BillSundryNature"
-                                            style={{ fontSize: "0.8em" }}
-                                            className="form-label labl labl2"
-                                        >
-                                            Bill Sundry Nature
-                                        </label>
+                                        onSelect={handleChange}
+                                        items={[{ id: 1, value: 'Other' }, { id: 2, value: 'CGST' }, { id: 3, value: 'SGST' }, { id: 4, value: 'IGST' }, { id: 5, value: 'Cess On GST' },
+                                        { id: 6, value: 'Add. Cess on GST' }, { id: 7, value: 'TCS' }, { id: 8, value: 'TDS' }, , { id: 9, value: 'Round Off' }]}
+                                    />
 
-                                        <select
-
-                                            name="BSNature"
-                                            className="form-control inp mb-2 seriesConf"
-                                            onBlur={handleChange}
-                                            title="BillSundryNature"
-                                        // onClick={handelshowhide}
-                                        >
-                                            <option value={1}>Other</option>
-                                            <option value={2}>CGST</option>
-                                            <option value={3}>SGST</option>
-                                            <option value={4}>IGST</option>
-                                            <option value={5}>Cess On GST</option>
-                                            <option value={6}>Add. Cess on GST</option>
-                                            <option value={7}>TCS</option>
-                                            <option value={8}>TDS</option>
-                                            <option value={9}>Round Off</option>
-                                        </select>
-                                    </>
-
-                                    <>
-                                        <CustomInput
-
-                                            name="Value"
-                                            classCategory="form-control inp mb-2 seriesConf"
-                                            change={handleChange}
-                                            ipType="number"
-                                            label="Default Value"
-                                            ipTitle="Enter Default Value"
-                                            dataArray={[]}
-                                        />
-                                    </>
                                 </span>
-                            </>
+                                <span className='col-1 m-0'></span>
+
+
+                                <>
+                                    <MasterInput2
+
+                                        name="Value"
+                                        classCategory="form-control inp mb-2 col-4 seriesConf"
+                                        handleChange={handleChange}
+                                        ipType="number"
+                                        label="Default Value"
+                                        ipTitle="Enter Default Value"
+
+                                    />
+                                </>
+                            </span>
+
 
                             <div className="col-4"></div>
                         </div>
@@ -144,22 +132,15 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <legend
                                 className="px-2"
                                 data-toggle="collapse"
-                                data-target="#personalDet"
+
                                 aria-expanded="false"
                                 aria-controls="personalDet"
                                 style={{ fontSize: "1.1rem", cursor: "pointer" }}
                             >
-                                Affects the Cost of Goods in
-                                <svg
-                                    className="ml-1"
-                                    style={{ width: "15px" }}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 448 512"
-                                >
-                                    <path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" />
-                                </svg>
+                                Affects The Cost Of Goods In
+
                             </legend>
-                            <div className="collapse d-flex flex-row" id="personalDet">
+                            <div className="collapse d-flex flex-row" >
                                 <span className="col-3">
                                     <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Purchase" id="EffCostPur" name="EffCostPur" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                 </span>
@@ -340,7 +321,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
                                     label="Per Main Qty."
                                     classCat="seriesConf"
-                                
+
                                 />
                             </span>
                             <span className="col-2">
@@ -352,7 +333,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
                                     label="Per Alt. Qty."
                                     classCat="seriesConf"
-                              
+
                                 />
                             </span>
                             <span className="col-2">
@@ -399,7 +380,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                 <span className="d-flex section col-1 col-sm-12">
                                     <>
                                         <input
-                                            className="form-control percentOf_input col-1 seriesConf" name="PerOf" onBlur={handleChange } style={{ height: "25px", width: "50%" }}
+                                            className="form-control percentOf_input col-1 seriesConf" name="PerOf" onBlur={handleChange} style={{ height: "25px", width: "50%" }}
                                             placeholder="100" />
                                         <label
                                             htmlFor="Affects Accounting"
@@ -465,7 +446,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
 
                                 <div
-                                    className="card col-sm-6"
+                                    className="card col-sm-12"
                                     style={{ padding: "0", margin: "0" }}
                                 >
                                     <div
@@ -496,22 +477,21 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                     >
                                         <span className="d-flex col-sm-12 m-0 pl-0 pr-0 mt-2">
 
-                                            <MasterInput
+                                            <MasterInput2
 
                                                 name="NoOfPrvBS "
-                                                classCategory="form-control inp seriesConf col-6"
+                                                classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="No. of Bill Sundry(s)"
                                                 ipTitle="Enter No. of Bill Sundry(s)"
                                                 handleChange={handleChange}
                                             />
+                                            <span className='col-1 m-0'></span>
 
-                                        </span>
-                                        <span className="d-flex col-sm-12 m-0 pl-0 pr-0">
 
-                                            <MasterInput
+                                            <MasterInput2
                                                 name="ConsolBSAmt"
-                                                classCategory="form-control inp seriesConf col-6"
+                                                classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="Consolidate Bill Sun. Amt."
                                                 ipTitle="Consolidate Bill Sundries Amount"
@@ -523,7 +503,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                 </div>
 
                                 <div
-                                    className="card col-sm-6 "
+                                    className="card col-sm-12 "
                                     style={{ padding: "0", margin: "0" }}
                                 >
                                     <div
@@ -554,22 +534,20 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         style={{ margin: "0", padding: "0" }}
                                     >
                                         <span className="d-flex col-sm-12 m-0 pl-0 pr-0 mt-2">
-                                            <MasterInput
+                                            <MasterInput2
 
                                                 name="FromBS"
-                                                classCategory="form-control inp seriesConf col-6"
+                                                classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="From"
                                                 ipTitle="Enter From"
                                                 handleChange={handleChange}
                                             />
+                                            <span className='col-1 m-0'></span>
 
-                                        </span>
-                                        <span className="d-flex col-sm-12 m-0 pl-0 pr-0">
-
-                                            <MasterInput
+                                            <MasterInput2
                                                 name="ToBS"
-                                                classCategory="form-control inp seriesConf col-6"
+                                                classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="To"
                                                 ipTitle="Enter To"
@@ -612,8 +590,8 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                 Amount Round Off Configuration
                             </legend>
                             <span
-                                className="d-flex justify-content-between section2 col-sm-12 ml-3"
-                           
+                                className="d-flex justify-content-between section2 col-sm-12 ml-1"
+
                             >
                                 {/* justify-content-between */}
 
@@ -649,11 +627,12 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
             </div>
 
             {/* </div> */}
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3, width: "100px" }} className="btn btn-info pl-0 pr-0">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3, width: "200px" }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 " onClick={handlePosting}>Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3, width: "100px" }} className="btn btn-danger pl-0 pr-0">Quit</button>
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
+                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={handlePosting} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
+
         </>
-        )
+    )
 }

@@ -92,6 +92,20 @@ export function MasterInput2({ name, defaultt, label, ipTitle, ipType, handleCha
 
     )
 }
+export function MasterInput3({ name, defaultt, label, ipTitle, ipType, handleChange, classCategory, ...props }: any) {
+
+    return (
+
+        /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
+
+        <>
+            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">{label}</label>
+            <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3" }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
+        </>
+        /*  </span>*/
+
+    )
+}
 export function CustomSelect({ label, name, dataArray, handleChange, classCategory, ...otherProps }: any) {
    
     return (

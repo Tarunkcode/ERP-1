@@ -1,6 +1,10 @@
 ﻿import * as React from 'react';
+import { toast } from 'react-toastify';
+import useFetch from '../Hooks/useFetch';
 
-
+interface IProps {
+    api: any;
+}
 interface ISTATE {
     defaultData: any,
     series: any[],
@@ -13,8 +17,9 @@ interface ISTATE {
     gstCat: any[],
     subCat : any[]
 }
-export default function ItemMasterWithLoad(Component : any) {
-    class ParentItemMaster extends React.Component<{}, ISTATE> {
+export default function ItemMasterWithLoad(Component: any) {
+    const api = useFetch();
+    class ParentItemMaster extends React.Component<IProps, ISTATE> {
         constructor(props: any) {
             super(props);
             this.state = {
@@ -33,6 +38,26 @@ export default function ItemMasterWithLoad(Component : any) {
         fetchMasterData = async () => {
 
         }
+        getSeries = async () => {
+            let SeriesUrl = '/api/GetSeries?TranType=6&SrType=0&Company=46&Customer=57';
+            try {
+                let { res, got } = await api(SeriesUrl, "GET", '');
+                if (res.status == 200) {
+                    let series: any = got.data.map((option: any) => ({
+                     
+                        id: option.code,
+                        value: option.name,
+
+                    }))
+                    this.setState({ series: series })
+                    console.log('1', series)
+                }
+                else toast.error(got.msg);
+            }
+            catch (err) {
+                alert(err)
+            }
+        }
         loadSubMasters = async () => {
             let header = new Headers;
             var req: Request;
@@ -43,25 +68,25 @@ export default function ItemMasterWithLoad(Component : any) {
             let loadCred = [{ 'set': "group", 'mstr': 79 }, { 'set': 'type', 'mstr': 1009 }, { 'set': 'category', 'mstr': 1010 }, { 'set': 'brand', 'mstr': 1002 }, { 'set': 'matCanter', 'mstr': 22 }, { 'set': 'uom', 'mstr': 21 }, { 'set': 'gstCat', 'mstr': 2008 }, { 'set':'subCat', 'mstr' : 1035 }]
             try {
                 for (let i = 0; i < loadCred.length; i++) {
-                    let urlStr: string = `http://103.25.128.155:12019/api/LoadMasterData?MasterType=${loadCred[i].mstr}&Company=46&Customer=57`
-            req = new Request(urlStr,
-                {
-                    method: 'GET',
-                    headers: header,
-                    mode: 'cors'
-                })
-                    let response = await fetch(req);
-                    if (response.status === 200) {
-                        let got: any = await response.json();
+                    let urlStr: string = `/api/LoadMasterData?MasterType=${loadCred[i].mstr}&Company=46&Customer=57`
+           
+                    let {res, got } = await api(urlStr,"GET",'');
+                    if (res.status === 200) {
+                        let modify_list: any = got.data.map((option: any) => ({
+
+                            id: option.code,
+                            value: option.name,
+
+                        }))
                         switch (loadCred[i].set) {
-                            case 'group': this.setState({ group : got.data })
-                            case 'type': this.setState({ type: got.data })
-                            case 'category': this.setState({ category: got.data })
-                            case 'brand': this.setState({ brand : got.data })
-                            case 'matCanter': this.setState({ matCanter : got.data })
-                            case 'uom': this.setState({ uom: got.data })
-                            case 'gstCat': this.setState({ gstCat: got.data })
-                            case 'subCat': this.setState({ subCat: got.data })
+                            case 'group': this.setState({ group: modify_list })
+                            case 'type': this.setState({ type: modify_list })
+                            case 'category': this.setState({ category: modify_list })
+                            case 'brand': this.setState({ brand: modify_list })
+                            case 'matCanter': this.setState({ matCanter: modify_list})
+                            case 'uom': this.setState({ uom: modify_list })
+                            case 'gstCat': this.setState({ gstCat: modify_list })
+                            case 'subCat': this.setState({ subCat: modify_list})
                             
                         }
                         
@@ -77,11 +102,13 @@ export default function ItemMasterWithLoad(Component : any) {
         componentDidMount() {
             this.fetchMasterData();
             this.loadSubMasters();
+            this.getSeries();
         }
 
         render() {
             return (
                 <Component
+                    api2={api }
                     default={this.state.defaultData}
                     series={this.state.series}
                     group={this.state.group}

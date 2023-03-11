@@ -3,6 +3,11 @@
 import { store2 } from '../../Redux/config/config.reducer';
 import Role_Master_Page from "../../Pages/SetUp/RoleMaster/role_master.page"
 import { toast } from 'react-toastify';
+import ProvideHookToClass from '../HOC/loadBOM';
+
+interface IProps {
+    api: any
+}
 
 interface IState {
     rawObj: object,
@@ -12,7 +17,7 @@ interface IState {
     Des3 : string,
     Des4: string
 }
-export default class Role_Master extends React.Component<{}, IState> {
+class Role_Master extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -84,31 +89,20 @@ export default class Role_Master extends React.Component<{}, IState> {
         e.preventDefault();
       if(!this.state.name) return alert('Name Cannnot be Empty')
         console.log('calling');
-        let i: any = JSON.stringify(this.state.rawObj);
+        let i: any = this.state.rawObj;
       
-        const confUrl = 'http://103.25.128.155:12019/api/RoleAdd';
+        const confUrl = '/api/RoleAdd';
         console.log('i',i)
       
-        var req1: Request;
-        let h = new Headers();
-        h.append('Accept', 'application/json');
-        h.append('Content-Type', 'application/json');
-        h.append('CompCode', 'ESERPDB');
-        h.append('FYear', '0');
-        req1 = new Request(confUrl, {
-            method: 'POST',
-            headers: h,
-            body: i,
-            mode: 'cors'
-        });
+       
         try {
-            const response = await fetch(req1);
-            const data = await response.json();
-            if (data.status == 0) {
-                toast.success(data.msg)
+            let { res, got } = await this.props.api(confUrl,"POST", i)
+           
+            if (res.status == 0) {
+                toast.success(got.msg)
 
             } else {
-                toast.error(data.msg)
+                toast.error(got.msg)
 
             }
             store2.getState().roleMaster = []
@@ -128,3 +122,6 @@ export default class Role_Master extends React.Component<{}, IState> {
 
     }
 }
+
+const role = ProvideHookToClass(Role_Master);
+export default role;

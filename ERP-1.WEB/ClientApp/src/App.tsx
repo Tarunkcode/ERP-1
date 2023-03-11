@@ -120,6 +120,7 @@ import Notify from '../src/components/Notifications/index';
 import ProductionOverHead_Page from './Pages/Sub-Master/production-overhead.page';
 import IMaster from './components/Masters/item.component';
 import GridA from './Pages/ag-grid';
+import SuccessFullyModify from './Pages/successfully_modify';
 
 
 
@@ -155,7 +156,18 @@ function App() {
     
     return (
         <>
-           <ToastContainer/>
+            <ToastContainer
+                position="top-center"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         <Switch>
                 <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales",
                     "/add-sale-order", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master",
@@ -343,10 +355,12 @@ function App() {
                     '/tran-modify',
                     '/add-Vendor-Quot-Comp',
                     '/add-TBE',
+                    '/successfully-modify',
                 
               
                 ]}>
                     <Layout>
+                        <Route exact path='/successfully-modify' component={SuccessFullyModify} />
                         {/*Dashboards*/}
                         <Route exact path='/Home' component={Home} />
                         <Route exact path='/Purchase' component={Purchase} />

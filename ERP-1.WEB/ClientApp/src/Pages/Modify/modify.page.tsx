@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import DatalistInput from 'react-datalist-input';
 import { InputList} from '../../components/custom-input/custom-input.component';
 
 //import ClipLoader from 'react-spinners/ClipLoader';
@@ -14,9 +15,21 @@ export default function Modify_Page({ selectModList, handleSelect, handleSubmit,
             </header>
             <span className="row-content card-body col-12">
               {/*  <input type="text" className="col-12 col-sm-6 form-control" placeholder="Search Term" />*/}
-                <InputList
-                    name="modify" label="" id="modify" ipType="text" ipTitle="Select to Modify" dataArray={selectModList} change={handleSelect} classCategory="col-12 col-sm-6 form-control" placeholder="Select to Modify" lablCat="" s="50vw"
-                  />
+                {/*<InputList*/}
+                {/*    name="modify" label="" id="modify" ipType="text" ipTitle="Select to Modify" dataArray={selectModList} change={handleSelect} classCategory="col-12 col-sm-6 form-control" placeholder="Select to Modify" lablCat="" s="50vw"*/}
+                {/*/>*/}
+
+
+               
+                <DatalistInput
+
+                    className="d-flex col-12 m-0 p-0"
+                    inputProps={{ className: 'col-12 col-sm-6 form-control', name: 'modify', id: "modify", style: {padding: '22px 0', fontSize:'20px'}, placeholder:'select to modify' }}
+                        listboxProps={{ className: 'text-left mt-5' }}
+                        onSelect={(item : any) => handleSelect(item.id,item.value)}
+                        items={selectModList}
+                    />
+              
             </span>
             <div className="card-footer col-12">
                 <button className="btn btn-warning col-6 col-sm-1 float-right" type="button" onClick={handleSubmit }>Modify</button>

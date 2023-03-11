@@ -1,4 +1,5 @@
 ﻿import * as React from 'react'
+import useFetch from '../Hooks/useFetch';
 interface IProps {
     location: any;
 }
@@ -6,7 +7,7 @@ interface ISTATE {
     code: any
 }
 export default function LoadProcessMaster(Component: any) {
-
+    const api = useFetch();
     class ProcessDefault extends React.Component<IProps, ISTATE> {
         constructor(props: any) {
             super(props);
@@ -29,7 +30,7 @@ export default function LoadProcessMaster(Component: any) {
         render() {
             
             return (
-                <Component state={this.routeObj} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
+                <Component api={api } state={this.routeObj} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
                 )
         }
 
