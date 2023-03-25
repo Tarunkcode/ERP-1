@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import { store2 } from '../../Redux/config/config.reducer';
 
 import useFetch from '../Hooks/useFetch';
 interface IProps {
@@ -17,6 +18,7 @@ export default function RoleMasterLoadDetails(Component : any) {
 
         }
         }
+
         routeObj = this.props.location.state;
         defInitStateObj = {}
         AlterLoadedData = (obj: object) => {
@@ -39,6 +41,7 @@ export default function RoleMasterLoadDetails(Component : any) {
             }
         }
         componentDidMount() {
+            store2.getState().roleMaster = []
             if (!this.routeObj) { }
             else {
 

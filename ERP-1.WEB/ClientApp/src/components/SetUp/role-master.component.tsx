@@ -10,8 +10,8 @@ interface IProps {
     api: any,
     defRoleMaster: any,
     AlterLoadedData: any,
-    gettingVirtualCode : any,
-    history : any,
+    gettingVirtualCode: any,
+    history: any,
 }
 
 interface IState {
@@ -41,10 +41,10 @@ class Role_Master extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-    componentDidMount() {
-        //store2.getState().roleMaster = []
-        
-    }
+    //componentDidMount() {
+    //    //store2.getState().roleMaster = []
+
+    //}
     componentDidUpdate(prevProps: any) {
         if (this.props.gettingVirtualCode !== 0) {
             if (this.props.defRoleMaster !== prevProps.defRoleMaster) {
@@ -63,61 +63,80 @@ class Role_Master extends React.Component<IProps, IState> {
 
         } else { }
     }
-    getName = ( value: string) => {
+    getName = (value: string) => {
         this.setState({ name: value })
-        this.props.defRoleMaster.roleheader[0].name = value;
-         }
+        this.props.gettingVirtualCode !== 0 ? this.props.defRoleMaster.roleheader[0].name = value : null
+    }
     getDes1 = (value: string) => {
         this.setState({ des1: value })
-        this.props.defRoleMaster.roleheader[0].des1 = value;
-       }
+        this.props.gettingVirtualCode !== 0 ? this.props.defRoleMaster.roleheader[0].des1 = value : null
+    }
     getDes2 = (value: string) => {
         this.setState({ des2: value })
-        this.props.defRoleMaster.roleheader[0].des2 = value;
-       }
+        this.props.gettingVirtualCode !== 0 ? this.props.defRoleMaster.roleheader[0].des2 = value : null
+    }
     getDes3 = (value: string) => {
         this.setState({ des3: value })
-        this.props.defRoleMaster.roleheader[0].des3 = value;
-      }
+        this.props.gettingVirtualCode !== 0 ? this.props.defRoleMaster.roleheader[0].des3 = value : null
+    }
     getDes4 = (value: string) => {
         this.setState({ des4: value })
-        this.props.defRoleMaster.roleheader[0].des4 = value;
-     }
+        this.props.gettingVirtualCode !== 0 ? this.props.defRoleMaster.roleheader[0].des4 = value : null
+    }
 
-    handleChange = (e: any) => {
-        var Code : any = e.target.name
+    handleChange = async (e: any) => {
+        var Code: any = e.target.name
         if (!e.target.checked) {
             // on unchecked
-            let index: number = store2.getState().roleMaster.findIndex((item : any) => item.code == Code )
-            store2.getState().roleMaster.splice(index, 1);
+            let index: number = await store2.getState().roleMaster.findIndex((item: any) => item.code == Code)
+            await store2.getState().roleMaster.splice(index, 1);
+            let jsonObject = store2.getState().roleMaster.map((item: any) => JSON.stringify(item));
 
 
-            console.log('on UnChecked', store2.getState().roleMaster)
+            let s: any = new Set(jsonObject);
+            s = Array.from(s).map((item: any) => JSON.parse(item));
+
+            /* let s = new Set([...store2.getState().roleMaster])*/
+         
             this.setState({
                 rawObj: {
 
-                    "roleright": store2.getState().roleMaster
+                    "roleright": s
                 }
             })
         }
         else {
-        // else on check
-        console.log('on Checked', store2.getState().roleMaster)
-        store2.dispatch({ payload: parseInt(Code), key: "code", type: "changeConfig", label: "roleMaster" });
+            // else on check
+            await store2.dispatch({ payload: parseInt(Code), key: "code", type: "changeConfig", label: "roleMaster" });
+       
+
+
+            let jsonObject = store2.getState().roleMaster.map((item: any) => JSON.stringify(item));
+
+
+
+            let s2: any = new Set(jsonObject);
+            s2 = Array.from(s2).map((item: any) => JSON.parse(item));
+
+       
+
+
+
+            //let s2 = new Set([...store2.getState().roleMaster])
+            this.setState({
+                rawObj: {
+
+                    "roleright": s2
+                }
+            })
 
         }
-       
-        this.setState({
-            rawObj: {
-           
-                "roleright": [...store2.getState().roleMaster]
-            }
-        })
+
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
-      
-    /*  if(!this.state.name) return alert('Name Cannnot be Empty')*/
+
+        /*  if(!this.state.name) return alert('Name Cannnot be Empty')*/
         console.log('calling', this.state.rawObj.roleright);
         let i: any = {
             "roleheader": this.props.gettingVirtualCode !== 0 ? [...this.props.defRoleMaster.roleheader]
@@ -134,14 +153,14 @@ class Role_Master extends React.Component<IProps, IState> {
                 }],
             "roleright": [...this.state.rawObj.roleright]
         };
-      
-        console.log('i',i)
-      
-       
+
+        console.log('i', i)
+
+
         const confUrl = '/api/RoleAdd';
         try {
-            let { res, got } = await this.props.api(confUrl,"POST", i)
-           
+            let { res, got } = await this.props.api(confUrl, "POST", i)
+
             if (res.status == 200) {
                 toast.success(got.msg);
                 //let ref = document.getElementById("form") as HTMLFormElement

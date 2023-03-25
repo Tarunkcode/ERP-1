@@ -21,7 +21,7 @@ export default function Tree2({ treeData, handleChange, defaultRights, virtual }
 //child
 function TreeNode2({ node, handleChange, defChkList, vcc}: any) {
     const { children, label, key, type } = node;
-   console.log('value code ',vcc)
+
     var [showChildren, setShowChildren]: any = useState(false);
     var statusCheck = false;
     if (vcc !== 0) statusCheck = defChkList ? defChkList.find((item: any) => item.code == key) : {}
