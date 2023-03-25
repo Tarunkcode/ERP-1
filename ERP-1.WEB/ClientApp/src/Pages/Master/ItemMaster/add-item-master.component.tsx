@@ -16,6 +16,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
     matCanter,
     uom,
     gstCat,
+    clearance,
     subCat, ...props }: any) {
 
     let seriesList = series.map((option: any) => ({
@@ -68,6 +69,14 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
         value: option.value,
         name: "subcategory"
     }))
+
+    let clearanceList = clearance.map((option: any) => ({
+        id: option.id,
+        value: option.value,
+        name: "clearance"
+    }))
+
+
     const natureList = [{ id: 1, value: 'Item', name: 'c1' }, { id: 2, value: 'Service', name: 'c1' }, { id: 3, value: 'Asset',name:'c1'}]
 
     return (
@@ -96,7 +105,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'series', id: "series", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select series' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'series', id: "series", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={seriesList}
@@ -114,12 +123,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     <span className="col-1 m-0"></span>
 
                                     <MasterInput2 name="printname" label="Print Name" ipTitle="Enter Print Name" ipType="text" handleChange={handleChangeField} classCategory="form-control col-4 inp" />
-                                    {/*<MasterInput2 name="sizedepyn" label="Size Dependent" ipTitle="Enter Size Dependent" ipType="text" handleChange={handleChangeField} classCategory="form-control inp int" />*/}
-
-                                    {/**/}
-
-                                    {/*<InputList label="MatCenter" name=" itemmatcenter" id="itemmatcenter" dataArray={matCanter} placeholder="" s="20%" classCategory="form-control inp" />*/}
-
+                                   
 
                                 </span>
 
@@ -137,7 +141,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemgrp', id: "itemgrp", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select series' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemgrp', id: "itemgrp", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={groupList}
@@ -153,7 +157,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'type', id: "itemtype", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select series' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'type', id: "itemtype", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={typeList}
@@ -174,7 +178,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemcategory', id: "itemcategory", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select series' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemcategory', id: "itemcategory", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={categoryList}
@@ -191,7 +195,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'subcategory', id: "subcategory", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select series' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'subcategory', id: "subcategory", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={subCatList}
@@ -216,7 +220,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'itembrand', id: "itembrand", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select Brand' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'itembrand', id: "itembrand", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Brand' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={brandList}
@@ -238,7 +242,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'c1', id: "c1", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select Narure' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'c1', id: "c1", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Narure' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={natureList}
@@ -254,7 +258,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemuom', id: "itemuom", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemuom', id: "itemuom", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={uomList}
@@ -275,7 +279,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemaltuom', id: "itemaltuom", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select itemaltuom' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemaltuom', id: "itemaltuom", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select itemaltuom' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={uomAltList}
@@ -291,7 +295,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemmatcenter', id: "itemmatcenter", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'itemmatcenter', id: "itemmatcenter", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={matCanterList}
@@ -305,24 +309,88 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                 <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="itemconvfact" label="Conv. Fact" ipTitle="Enter Conv Fact" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp decimal" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="sizedependent" label="Size Dependent" ipTitle="Enter " ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp int" />
-                                    {/*<CustomeSwitch lablClass="custom-control-label col-4" label="Coupon" id="c7" name="c7" classCat="form-control custom-control-input col-4 subMaster switch" handleChange={handleChangeField} />*/}
+                                  
+                                    <>
+                                        <label htmlFor="sizedependent" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Size Dependent</label>
+                                    </>
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'sizedependent', id: "sizedependent", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Size Dependent Center' }}
+
+                                            listboxProps={{ className: 'text-left mt-5' }}
+                                            onSelect={(item: any) => handleList(item)}
+                                            items={[{ id: 0, value: "N", name: 'sizedependent' }, { id: 1, value: "Y", name: 'sizedependent' }]}
+                                        />
+                                        <span className="col-1 m-0"></span>
+                                        <span className="col-4 m-0"></span>
+
+                                    </span>
+                                   
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="convtype" label="Conv. Type" ipTitle="Enter Conv Type" ipType="text" handleChange={handleChangeField} classCategory="form-control col-4 inp str" />
+
+                                    <MasterInput2 name="ldays" label="Lead Days" ipTitle="Enter Lead Days" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp int" />
+
                                     <span className="col-1 m-0"></span>
+
+                                 
+
+                                    <>
+                                        <label htmlFor="convtype" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Conv. Type</label>
+                                    </>
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'convtype', id: "convtype", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Conv Type' }}
+                                            listboxProps={{ className: 'text-left mt-5' }}
+                                            onSelect={(item: any) => handleList(item)}
+                                            items={[{ id: "Division", value: "Division", name: 'convtype' }, { id: "Multiplication", value: "Multiplication", name: 'convtype' }]}
+                                        />
+                                  
+
+                                    </span>
+
+                                </span>
+                                <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="evaltype" label="Eval. Type" ipTitle="Enter Eval. Type" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp int" />
-                                </span>
-                                <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="itemwt" label="Net Wt." ipTitle="Enter Net Weight" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="grosswt" label="Gross Weight" ipTitle="Enter Gross Weight" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
+                                    <MasterInput2 name="itemwt" label="Net Wt." ipTitle="Enter Net Weight" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="valtype" label="Val. Type" ipTitle="Enter Val. Type" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
+                                    <MasterInput2 name="grosswt" label="Gross Weight" ipTitle="Enter Gross Weight" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
                                     <span className="col-1 m-0"></span>
+                                 
+                                    <MasterInput2 name="opening" label="Opn. Stock" ipTitle="Enter Opn. Stock" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
+                                </span>
+                                <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="hsnno" label="HSN/ SA No." ipTitle="Enter HSN" ipType="text" handleChange={handleChangeField} classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                  
+                                    <>
+                                        <label htmlFor="valtype" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Val. Type</label>
+                                    </>
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'valtype', id: "valtype", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+
+                                            listboxProps={{ className: 'text-left mt-5' }}
+                                            onSelect={(item: any) => handleList(item)}
+                                            items={[{ id: 1, value: 'FIFO', name: 'valtype' }, { id: 2, value: 'LIFO', name: 'valtype' }, { id: 3, value: 'Average', name: 'valtype' }, { id: 4, value: 'Wt. Average', name: 'valtype' }]}
+                                        />
+                                        <span className="col-1 m-0"></span>
+                                        <span className="col-4 m-0"></span>
+
+                                    </span>
+
+
+
+
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
                                     <>
@@ -332,18 +400,17 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                         <DatalistInput
 
                                             className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control col-12 inp', name: 'gstcategory', id: "gstcategory", style: { padding: '22px 0', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'gstcategory', id: "gstcategory", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+                                   
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
                                             items={gstCatList}
                                         />
+                                    <span className="col-1 m-0"></span>
+                                    <span className="col-4 m-0"></span>
 
                                     </span>
-
-                                    <span className="col-1 m-0"></span>
-
                                 </span>
-
                             </div>
                         </fieldset>
                     </form>
@@ -383,38 +450,70 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                 <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="minqty" label="Min. Supply Qty." ipTitle="Enter Min. Supply Qty." ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 decimal inp" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="reorderpoint" label="Reorder Point" ipTitle="Enter Reorder Point" ipType="text" handleChange={handleChangeField} classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="reorderpoint" label="Reorder Point" ipTitle="Enter Reorder Point" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp" />
 
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="altitem" label="Alternate Item" ipTitle="Enter Alternate Item" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp int" />
+                                    <>
+                                        <label htmlFor="clearance" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Clearance</label>
+                                    </>
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'clearance', id: "clearance", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+
+                                            listboxProps={{ className: 'text-left mt-5' }}
+                                            onSelect={(item: any) => handleList(item)}
+                                            items={clearanceList}
+                                        />
+                                      
+                                    </span>
+
+                              
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="clearance" label="Clerance" ipTitle="Enter Clerance" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 int inp" />
-
-                                </span>
-                                <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="itemused" label="Item Used" ipTitle="Enter Item Used" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
-                                    <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="itemlife" label="Item Life(month)" ipTitle="Enter Item Life" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 int inp" />
 
                                 </span>
-
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="consumestock" label="Con. Stock Level" ipTitle="Enter Consume Stock Level" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 inp double" />
+                                    <MasterInput2 name="itemlife" label="Item Life(month)" ipTitle="Enter Item Life" ipType="number" handleChange={handleChangeField} classCategory="form-control col-4 int inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <>
+                                        <label htmlFor="costsheetgrp" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Cost Sheet Group</label>
+                                    </>
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control col-12 inp', name: 'costsheetgrp', id: "costsheetgrp", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
+
+                                            listboxProps={{ className: 'text-left mt-5' }}
+                                            onSelect={(item: any) => console.log(item)}
+                                            items={[{}]}
+                                        />
+                                    </span>
 
                                 </span>
 
-                                <div className="card addSalecard col-sm-12">
+                                
+                                <div className="card addSalecard col-sm-12 p-4 mt-4">
                                     <div className="card-body" style={{ margin: '0', padding: '0', minHeight: '36vh' }}>
                                         <form className="form col-sm-12 row-content card-body pt-0 pb-0 px-2">
                                             <span className="d-flex flex-column section2 col-sm-12" style={{ marginLeft: '36px' }}>
-                                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Parameterized" id="c1" name="c1" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+                                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Parameterized" id="c8" name="c8" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
                                                 <CustomeSwitch lablClass="custom-control-label col-9" label="Bil Sun" id="c2" name="c2" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
                                                 <CustomeSwitch lablClass="custom-control-label col-9" label="QC Applicable" id="c3" name="c3" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
                                                 <CustomeSwitch lablClass="custom-control-label col-9" label="Quotation" id="c4" name="c4" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
-                                                <CustomeSwitch lablClass="custom-control-label col-9" label="is blocked" id="c5" name="c5" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+                                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Blocked" id="c5" name="c5" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
                                                 <CustomeSwitch lablClass="custom-control-label col-9" label="Batch Managed" id="c6" name="c6" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
                                                 <CustomeSwitch lablClass="custom-control-label col-9" label="Coupon" id="c7" name="c7" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+
+                                                <CustomeSwitch lablClass="custom-control-label col-9" label="SV Effected" id="stockeffect" name="stockeffect" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+                                                <CustomeSwitch lablClass="custom-control-label col-9" label="Con. Stock Level" id="consumestock" name="consumestock" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+                                                <CustomeSwitch lablClass="custom-control-label col-9" label="Enter Alternate Item" id="altitem" name="altitem" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+                                                <CustomeSwitch lablClass="custom-control-label col-9" label="Sr. No. On Sale Invoice" id="srnosale" name="srnosale" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
+                                                
+                                            
                                             </span>
 
                                         </form>

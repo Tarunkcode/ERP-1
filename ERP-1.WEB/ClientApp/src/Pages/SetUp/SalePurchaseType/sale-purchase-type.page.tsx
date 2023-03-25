@@ -1,9 +1,15 @@
 ﻿
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import CustomInput, { CustomSelect } from '../../../components/custom-input/custom-input.component';
-import {CustomeSwitch2} from '../../../components/CustomSwitch/custom-switch.component';
-export default function SalePurchaseType_Page({ handleChange, handlePosting, pageTitle, getMasterType, configType, ...otherProps }: any) {
+import CustomInput, { CustomSelect, MasterInput3 } from '../../../components/custom-input/custom-input.component';
+import { CustomeSwitch2 } from '../../../components/CustomSwitch/custom-switch.component';
+
+import DatalistInput from 'react-datalist-input';
+import WriteGrid from '../../../components/Grid Component/grid.component';
+import LoadGrid from '../../../components/Grid Component/load-grid.component';
+import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
+export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, ...otherProps }: any) {
+  
     useEffect(() => {
         if (configType == '/add-sale-type') {
             getMasterType(13)
@@ -12,10 +18,44 @@ export default function SalePurchaseType_Page({ handleChange, handlePosting, pag
             getMasterType(14)
         }
     }, [configType])
-  
+ 
     // -------------------------------------------------------------------------------------------------------------------------
+    var ColDef: any[] = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1' },
+    {
+        field: 'bscode', headerName: 'Bill Sundry Description', maxWidth: 600, minWidth: 600, cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
+        cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return billSundry }, [billSundry]),
+            placeholder: "Select a Process"
+        }, onCellValueChanged: (params: any) => {
+            if (params.oldValue !== params.newValue) {
 
+                params.data.bstype = params.newValue.type;
+                params.data.nature = params.newValue.nature;
+                params.data.bsval = params.newValue.value;
+
+                params.api.refreshCells({ columns: ['nature', "bstype", "bsval"] });
+            }
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+
+    },
+    { field: 'nature', headerName: 'Nature', minWidth: 200 },
+    { field: 'bstype', headerName: 'Type', minWidth: 200 },
+    { field: 'bsval', headerName: 'Value', minWidth: 200, editable: true },
+
+    ]
+
+    let data: any[] = vccode == 0 ? [{ bscode: null, nature: null, bstype: null, bsval: null }] : defaultLoad.sptypedetail;
+   
     return (
         <>
             <div className="main card firstDiv">
@@ -26,189 +66,133 @@ export default function SalePurchaseType_Page({ handleChange, handlePosting, pag
                     <span className="row-header p-0 m-0">{pageTitle}</span>
                 </div>
                 <form className="row-content form col-sm-12 pt-0">
-                 
-         
-                           
-                                <span className="d-flex section2 col-sm-12">
-                                    <>
-                                     <CustomInput
-                                         change={handleChange}
-                                            name="Name"
-                                            classCategory="form-control inp col-4  seriesConf"
-                                            ipType="text"
-                                            label="Name"
-                                            ipTitle="Enter Name"
-                                            dataArray={[]}
-                                        />
-                                    </>
+
+
+
+                    <span className="d-flex section2 col-sm-12">
+
+                        <MasterInput3
+                            defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].name: '' }
+                            handleChange={handleChange}
+                            name="name"
+                            classCategory="form-control inp col-4  seriesConf"
+                            ipType="text"
+                            label="Name"
+                            ipTitle="Enter Name"
+
+                        />
+                        <span className="col-1 m-0"></span>
+
+                        <CustomeSwitch2
+                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].taxinc : ''}
+                            lablClass="custom-control-label col-8" label="Tax Inclusive" id="taxinc" name="taxinc" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
+                    </span>
+                    <span className="d-flex section2 col-sm-12">
+
+
+
+                        <label htmlFor="gsttype" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Type</label>
+
+                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                            <DatalistInput
+                                value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttype == 1 ? "Enter State" : defaultLoad.sptypeheader[0].gsttype == 2 ? "Local" : defaultLoad.sptypeheader[0].gsttype == 3 ? "Export" :'' : ''}
+                                className="d-flex col-12 m-0 p-0"
+                                inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gsttype' }}
+                                listboxProps={{ className: 'text-left mt-5' }}
+
+                                onSelect={(item: any) => SelectList(item)}
+                                items={[{ id: 1, value: 'Enter State', name: "gsttype" }, { id: 2, value: 'Local', name: 'gsttype' }, { id: 3, value: 'Export', name: 'gsttype' }]}
+                            />
+
+                        </span>
+
+                        <span className="col-1 m-0"></span>
+
+                        <CustomeSwitch2
+                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].taxexem : ''}
+                            lablClass="custom-control-label col-8" label="GST Exempted" id="taxexem" name="taxexem" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
+
 
                     </span>
-                                <span className="d-flex section2 col-sm-12 mt-2 mb-2">
+                    <span className="d-flex section2 col-sm-12">
 
-                        <>
-                            <CustomeSwitch2 lablClass="custom-control-label col-9" label="Tax Inclusive" id="TaxInc" name="TaxInc" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
-                        </>
-                        <>
-                            <CustomeSwitch2 lablClass="custom-control-label col-9" label="Tax Exempted" id="TaxExem" name="TaxExem" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
-                        </>
-                        <>
-                            <CustomeSwitch2 lablClass="custom-control-label col-9" label="Primary Group" id="GSTEnable" name="GSTEnable" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
-                        </>
+
+                        <label htmlFor="gstcat" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Category</label>
+
+                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                            <DatalistInput
+                                value={defGstCatName}
+                                className="d-flex col-12 m-0 p-0"
+                                inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gstcat' }}
+                                listboxProps={{ className: 'text-left mt-5' }}
+
+                                onSelect={(item: any) => SelectList(item)}
+                                items={gstCat}
+                            />
+
+                        </span>
+
+                        <span className="col-1 m-0"></span>
+                        <CustomeSwitch2
+                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gstenable : ''}
+                            lablClass="custom-control-label col-8" label="GST Enable" id="gstenable" name="gstenable" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
+
+
 
                     </span>
-                                <span className="d-flex section2 mt-1 col-sm-12">
-                                    <>
-                            <CustomSelect label="GST Category" name="GSTCat" dataArray={[{ code: 1, name: "cat-1" }, { code: 2, name: 'cat-2' }, { code: 3, name:'cat-3'}]} handleChange={handleChange} classCategory="form-control col-4 seriesConf select" />
-                                          
-                                    </>
-                       
-                                </span>
-                           <span className="d-flex section2 mt-1 col-sm-12">
-                              <>
-                                     <CustomSelect label="GST Type" name="GSTType" dataArray={[{ code: 1, name: 'Enter State' }, { code: 2, name: 'Local' }, { code: 3, name:'Export'}]} handleChange={handleChange} classCategory="form-control col-4 seriesConf select" />
-                                     
-                              </>
-                           </span>
-                   
+                    <span className="d-flex section2 col-sm-12">
+
+                        <label htmlFor="usefor" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">Use For</label>
+
+                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                            <DatalistInput
+                                value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].usefor == 1 ? "Company" : defaultLoad.sptypeheader[0].usefor == 2 ? "Branch":"" : ''}
+                                className="d-flex col-12 m-0 p-0"
+                                inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'usefor' }}
+                                listboxProps={{ className: 'text-left mt-5' }}
+
+                                onSelect={(item: any) => SelectList(item)}
+                                items={[{ id: 1, value: 'Company', name: 'usefor' }, { id: 2, value: 'Branch', name: 'usefor' }]}
+                            />
+
+                        </span>
+
+                        <span className="col-1 m-0"></span>
+                        <CustomeSwitch2
+                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].itemwisetax : ''}
+                            lablClass="custom-control-label col-8" label="Enable Item Wise Tax" id="itemwisetax" name="itemwisetax" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
+
+                    </span>
+                    <span className="d-flex section2 col-sm-12">
+                        <MasterInput3
+                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].branchcode : ''}
+                            handleChange={handleChange}
+                            name="branchcode"
+                            classCategory="form-control inp col-4  seriesConf select"
+                            ipType="text"
+                            label="Branch Code"
+                            ipTitle="Enter Branch Code"
+
+                        />
+                        <span className="col-1 m-0"></span>
+                        <span className="col-4 m-0"></span>
+                    </span>
+
                 </form>
 
-                <hr style={{ margin: "0", padding: "0" }} />
-                <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                    <div
-                        className="card-body col-sm-12 addCustomer container container-fluid container-lg"
-                        style={{ overflowX: "auto", overflowY: "auto" }}
-                    >
-                        {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0', width: '100%' }}>
-                <span className="card-title" style={{ fontSize: '15px', margin: '0', padding: '0' }}>Bank Details</span>
-            </div> */}
-
-
-                        <table
-                            id="dtHorizontalExample"
-                            className="table table-responsive table-striped table-bordered table-sm"
-                            style={{
-                                width: "100%",
-                            }}
-                        >
-                            <thead>
-                                <tr>
-                                    <th
-                                        className="text-center"
-                                        style={{
-                                            fontWeight: 400,
-                                            backgroundColor: "grey",
-                                            color: "white",
-                                        }}
-                                    >
-                                        S.No
-                                    </th>
-                                    <th
-                                        className="text-center"
-                                        style={{
-                                            fontWeight: 400,
-                                            backgroundColor: "grey",
-                                            color: "white",
-                                        }}
-                                    >
-                                        Bill Sundry
-                                    </th>
-                                    <th
-                                        className="text-center"
-                                        style={{
-                                            fontWeight: 400,
-                                            backgroundColor: "grey",
-                                            color: "white",
-                                        }}
-                                    >
-                                        Nature
-                                    </th>
-                                    <th
-                                        className="text-center"
-                                        style={{
-                                            fontWeight: 400,
-                                            backgroundColor: "grey",
-                                            color: "white",
-                                        }}
-                                    >
-                                        Type
-                                    </th>
-                                    <th
-                                        className="text-center"
-                                        style={{
-                                            fontWeight: 400,
-                                            backgroundColor: "grey",
-                                            color: "white",
-                                        }}
-                                    >
-                                        Value
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody >
-                             
-                                    <tr>
-                                        <th style={{ width: "100px" }}>1</th>
-
-                                    <td>
-                                        <input
-                                            onChange={handleChange}
-                                            name="BSSRNo"
-                                            className="form-control inp roleMaster"
-                                            type="number"
-                                            title=""
-                                            style={{ width: "340px" }}
-                                        />
-                                        </td>
-                                        <td style={{ width: "340px" }}>
-                                            {" "}
-                                            <input
-                                            onChange={handleChange}
-                                                name="BSCode"
-                                                className="form-control inp roleMaster"
-                                                type="number"
-                                                title=""
-                                                style={{ width: "340px" }}
-                                            />
-                                        </td>
-                                        <td style={{ width: "340px" }}>
-                                            {" "}
-                                            <input
-                                            onChange={handleChange}
-                                                name="BSVal"
-                                                className="form-control inp roleMaster"
-                                                type="number"
-                                                title=""
-                                                style={{ width: "340px" }}
-                                            />
-                                        </td>
-                                        <td style={{ width: "340px" }}>
-                                            {" "}
-                                        <input
-                                            onChange={handleChange}
-                                                name="BSType"
-                                                className="form-control inp roleMaster"
-                                                type="number"
-                                                title=""
-                                                style={{ width: "340px" }}
-                                            />
-                                        </td>
-                                    </tr>
-                               
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-
-                <hr style={{ margin: "0", padding: "0" }} />
             </div>
+            <hr />
+            {
+                vccode == '0' ? <WriteGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} collect={getTableData} srProps="bssrno" />
+                    : <LoadGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} collect={getTableData} srProps="bssrno" />
+            }
+            <hr />
 
             <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 " onClick={ handlePosting}>Save & Submit</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 " onClick={handlePosting}>Save & Submit</button>
                 <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
             </div>
         </>
     );
 }
-

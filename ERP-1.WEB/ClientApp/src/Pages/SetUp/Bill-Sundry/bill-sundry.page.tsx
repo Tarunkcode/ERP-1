@@ -6,7 +6,7 @@ import CustomInput, { CustomSelect, MasterInput, MasterInput2 } from '../../../c
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
 import RadioButton from '../../../components/RadioButton/radio-button.component';
 
-export default function BillSundry_Page({ handleChange, handlePosting, ...otherProps }: any) {
+export default function BillSundry_Page({ handleChange, handleRadio, handleList, handlePosting, ...otherProps }: any) {
     const [showhide, setshowhide] = useState("Sale");
     const [value, setValue] = useState(false);
     const handelshowhide = (event: any) => {
@@ -34,18 +34,8 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <span className="d-flex section2 col-sm-12">
 
                                 <MasterInput2
-                                    handleChange={handleChange}
-                                    name="Code"
-                                    classCategory="form-control inp col-4 seriesConf"
-                                    ipType="text"
-                                    label="Code"
-                                    ipTitle="Enter Alias"
 
-                                />
-                                <span className='col-1 m-0'></span>
-                                <MasterInput2
-
-                                    name="Name"
+                                    name="name"
                                     handleChange={handleChange}
                                     classCategory="form-control inp col-4 seriesConf"
                                     ipType="text"
@@ -53,6 +43,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                     ipTitle="Enter Name"
 
                                 />
+                               
+                                <span className='col-1 m-0'></span>
+                                <span className='col-4 m-0'></span>
 
                             </span>
 
@@ -61,7 +54,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
                                 <MasterInput2
                                     handleChange={handleChange}
-                                    name="PName"
+                                    name="pname"
                                     classCategory="form-control inp col-4 seriesConf"
                                     ipType="text"
                                     label="Print Name"
@@ -71,35 +64,35 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                 <span className='col-1 m-0'></span>
 
                                 <>
-                                    <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Bill Sundry Type</label>
+                                    <label htmlFor="bstype" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Bill Sundry Type</label>
                                 </>
                                 <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                     <DatalistInput
 
                                         className="d-flex col-12 m-0 p-0"
-                                        inputProps={{ className: 'form-control inp col-12 datalist int', name: 'BSType' }}
+                                        inputProps={{ className: 'form-control inp col-12 datalist int', name: 'bstype' }}
                                         listboxProps={{ className: 'text-left mt-5' }}
 
-                                        onSelect={handleChange}
-                                        items={[{ id: 1, value: 'Additive' }, { id: 2, value: 'Subtractive' }]}
+                                        onSelect={(item : any) => handleList(item.id, item.name)}
+                                        items={[{ id: 1, value: 'Additive', name: 'bstype' }, { id: 2, value: 'Subtractive', name: 'bstype' }]}
                                     />
 
                                 </span>
                             </span>
                             <span className="d-flex section2 col-sm-12">
                                 <>
-                                    <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2"> Bill Sundry Nature</label>
+                                    <label htmlFor="bsnature" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2"> Bill Sundry Nature</label>
                                 </>
                                 <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                     <DatalistInput
 
                                         className="d-flex col-12 m-0 p-0"
-                                        inputProps={{ className: 'form-control inp col-12 datalist int', name: 'BSNature' }}
+                                        inputProps={{ className: 'form-control inp col-12 datalist int', name: 'bsnature' }}
                                         listboxProps={{ className: 'text-left mt-5' }}
 
-                                        onSelect={handleChange}
-                                        items={[{ id: 1, value: 'Other' }, { id: 2, value: 'CGST' }, { id: 3, value: 'SGST' }, { id: 4, value: 'IGST' }, { id: 5, value: 'Cess On GST' },
-                                        { id: 6, value: 'Add. Cess on GST' }, { id: 7, value: 'TCS' }, { id: 8, value: 'TDS' }, , { id: 9, value: 'Round Off' }]}
+                                        onSelect={(item: any) => handleList(item.id, item.name)}
+                                        items={[{ id: 1, value: 'Other', name: 'bsnature' }, { id: 2, value: 'CGST', name: 'bsnature' }, { id: 3, value: 'SGST', name: 'bsnature' }, { id: 4, value: 'IGST', name: 'bsnature' }, { id: 5, value: 'Cess On GST', name: 'bsnature'},
+                                            { id: 6, value: 'Add. Cess on GST', name: 'bsnature' }, { id: 7, value: 'TCS', name: 'bsnature' }, { id: 8, value: 'TDS', name: 'bsnature' }, , { id: 9, value: 'Round Off', name: 'bsnature' }]}
                                     />
 
                                 </span>
@@ -109,7 +102,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                 <>
                                     <MasterInput2
 
-                                        name="Value"
+                                        name="value"
                                         classCategory="form-control inp mb-2 col-4 seriesConf"
                                         handleChange={handleChange}
                                         ipType="number"
@@ -142,17 +135,17 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             </legend>
                             <div className="collapse d-flex flex-row" >
                                 <span className="col-3">
-                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Purchase" id="EffCostPur" name="EffCostPur" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Purchase" id="effcostpur" name="effcostpur" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                 </span>
                                 <span className="col-3">
-                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Sale" id="EffCostSale" name="EffCostSale" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Sale" id="effcostsale" name="effcostsale" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                 </span>
                                 <span className="col-3">
-                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Material Issue" id="EffCostMatIssue" name="EffCostMatIssue" classCat="form-control custom-control-input col-2 seriesConf" handleChange={handleChange} />
+                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Material Issue" id="effcostmatissue" name="effcostmatissue" classCat="form-control custom-control-input col-2 seriesConf" handleChange={handleChange} />
                                 </span>
                                 <span className="col-3">
                                     {/* <CustomeSwitch label="Material Reciept" id="EPO" name="EPO" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />*/}
-                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Stock Transfer" id="EffCostST" name="EffCostST" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                    <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Stock Transfer" id="effcostst" name="effcostst" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                 </span>
 
                             </div>
@@ -241,17 +234,17 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         <>
 
                                             <span className="col-3">
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Affects Accounting" id="EffAccSale" name="EffAccSale" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Affects Accounting" id="effaccsale" name="effaccsale" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                             </span>
                                             <span className="col-3">
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Sale Amount" id="AdjSaleAmt" name="AdjSaleAmt" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Sale Amount" id="adjsaleamt" name="adjsaleamt" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                             </span>
                                             <span className="col-3">
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Party Amount" id="AdjPartyAmtSale" name="AdjPartyAmtSale" classCat="form-control custom-control-input col-2 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Party Amount" id="adjpartyamtsale" name="adjpartyamtsale" classCat="form-control custom-control-input col-2 seriesConf" handleChange={handleChange} />
                                             </span>
                                             <span className="col-3">
 
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Post Over and Above" id="PostOverAboveSale" name="PostOverAboveSale" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Post Over and Above" id="postoverabovesale" name="postoverabovesale" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                             </span>
 
 
@@ -262,17 +255,17 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                     {showhide === "Purchase" ? (
                                         <>
                                             <span className="col-3">
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Affects Accounting" id="AffAccPurch" name="AffAccPurch" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Affects Accounting" id="affaccpurch" name="affaccpurch" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                             </span>
                                             <span className="col-3">
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Purchase Amount" id="AdjInPurchAmt" name="AdjInPurchAmt" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Purchase Amount" id="adjinpurchamt" name="adjinpurchamt" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                             </span>
                                             <span className="col-3">
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Party Amount" id="AdjPartyAmtPurch" name="AdjPartyAmtPurch" classCat="form-control custom-control-input col-2 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Adjust in Party Amount" id="adjpartyamtpurch" name="adjpartyamtpurch" classCat="form-control custom-control-input col-2 seriesConf" handleChange={handleChange} />
                                             </span>
                                             <span className="col-3">
 
-                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Post Over and Above" id="PostOverAbocePurch" name="PostOverAbocePurch" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Post Over and Above" id="postoverabocepurch" name="postoverabocepurch" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                                             </span>
                                         </>
                                     ) : null}
@@ -303,21 +296,21 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <span className="col-2">
                                 <RadioButton
                                     id="1"
-                                    name="AmtBSFed"
+                                    name="amtbsfed"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
 
                                     label="Absolute Amount"
-                                    calssCat="seriesConf"
+                                    classCat="seriesConf"
 
                                 />
                             </span>
                             <span className="col-2">
                                 <RadioButton
                                     id="2"
-                                    name="AmtBSFed"
+                                    name="amtbsfed"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
 
                                     label="Per Main Qty."
                                     classCat="seriesConf"
@@ -327,9 +320,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <span className="col-2">
                                 <RadioButton
                                     id="3"
-                                    name="AmtBSFed"
+                                    name="amtbsfed"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
 
                                     label="Per Alt. Qty."
                                     classCat="seriesConf"
@@ -339,9 +332,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <span className="col-2">
                                 <RadioButton
                                     id="4"
-                                    name="AmtBSFed"
+                                    name="amtbsfed"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
 
                                     label="Per Packaging Qty."
                                     classCat="seriesConf"
@@ -351,9 +344,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             <span className="col-2">
                                 <RadioButton
                                     id="5"
-                                    name="AmtBSFed"
+                                    name="amtbsfed"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
 
                                     label="Percentage"
                                     classCat="seriesConf"
@@ -403,9 +396,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         <>
                                             <RadioButton
                                                 id="1"
-                                                name="PerOfOn"
+                                                name="perofon"
                                                 lablClass=""
-                                                handleChange={handleChange}
+                                                handleChange={handleRadio}
                                                 label="Net Bill Amount"
                                                 classCat="seriesConf"
                                             />
@@ -413,9 +406,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         <>
                                             <RadioButton
                                                 id="2"
-                                                name="PerOfOn"
+                                                name="perofon"
                                                 lablClass=""
-                                                handleChange={handleChange}
+                                                handleChange={handleRadio}
                                                 label="Item Basic Amount"
                                                 classCat="seriesConf"
                                             />
@@ -423,9 +416,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         <>
                                             <RadioButton
                                                 id="3"
-                                                name="PerOfOn"
+                                                name="perofon"
                                                 lablClass=""
-                                                handleChange={handleChange}
+                                                handleChange={handleRadio}
                                                 label="Previous Bill Sundry(s) Amount"
                                                 classCat="seriesConf"
                                             />
@@ -433,9 +426,9 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         <>
                                             <RadioButton
                                                 id="4"
-                                                name="PerOfOn"
+                                                name="perofon"
                                                 lablClass=""
-                                                handleChange={handleChange}
+                                                handleChange={handleRadio}
                                                 label="Sum Of From To Bill Sundry(s) Amount"
                                                 classCat="seriesConf"
                                             />
@@ -479,7 +472,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
                                             <MasterInput2
 
-                                                name="NoOfPrvBS "
+                                                name="noofprvbs"
                                                 classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="No. of Bill Sundry(s)"
@@ -490,7 +483,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
 
                                             <MasterInput2
-                                                name="ConsolBSAmt"
+                                                name="consolbsamt"
                                                 classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="Consolidate Bill Sun. Amt."
@@ -536,7 +529,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                         <span className="d-flex col-sm-12 m-0 pl-0 pr-0 mt-2">
                                             <MasterInput2
 
-                                                name="FromBS"
+                                                name="frombs"
                                                 classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="From"
@@ -546,7 +539,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                                             <span className='col-1 m-0'></span>
 
                                             <MasterInput2
-                                                name="ToBS"
+                                                name="tobs"
                                                 classCategory="form-control inp seriesConf col-4"
                                                 ipType="number"
                                                 label="To"
@@ -575,7 +568,7 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
                             </legend>
 
                             <span className="d-flex section2 col-sm-12">
-                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Round off Bill Sundry Amount" id="BSRnd" name="BSRnd" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
+                                <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Round off Bill Sundry Amount" id="bsrnd" name="bsrnd" classCat="form-control custom-control-input col-3 seriesConf" handleChange={handleChange} />
                             </span>
                         </fieldset>
                         <fieldset className="form-group border col-6 p-0">
@@ -597,25 +590,25 @@ export default function BillSundry_Page({ handleChange, handlePosting, ...otherP
 
                                 <RadioButton
                                     id="1"
-                                    name="BSRndType"
+                                    name="bsrndtype"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
                                     label="Always Upper"
                                     classCat="seriesConf"
                                 />
                                 <RadioButton
                                     id="2"
-                                    name="BSRndType"
+                                    name="bsrndtype"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
                                     label="Always Lower"
                                     classCat="seriesConf"
                                 />
                                 <RadioButton
                                     id="3"
-                                    name="BSRndType"
+                                    name="bsrndtype"
                                     lablClass=""
-                                    handleChange={handleChange}
+                                    handleChange={handleRadio}
                                     label="Automatic"
                                     classCat="seriesConf"
                                 />

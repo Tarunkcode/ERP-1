@@ -43,9 +43,12 @@
     <None Remove="ClientApp\src\components\custom-pagination\main-pagination.component.js" />
     <None Remove="ClientApp\src\components\custom-pagination\usePagination.custom-component.js" />
     <None Remove="ClientApp\src\components\Grid Component\grid.component.tsx" />
+    <None Remove="ClientApp\src\components\Grid Component\load-grid.component.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchDefaultConfigurationSettings.tsx" />
     <None Remove="ClientApp\src\components\HOC\fetchDefaultSubMaster.hoc.tsx" />
+    <None Remove="ClientApp\src\components\HOC\load-role-master.config.tsx" />
+    <None Remove="ClientApp\src\components\HOC\load-user-master.tsx" />
     <None Remove="ClientApp\src\components\HOC\loadBOM.tsx" />
     <None Remove="ClientApp\src\components\List\list.component.tsx" />
     <None Remove="ClientApp\src\components\Masters\bom_routing.component.tsx" />
@@ -118,9 +121,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\%40types\alltypes.d.ts" />
     <TypeScriptCompile Include="ClientApp\src\components\Grid Component\grid.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Grid Component\load-grid.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchDefaultConfigurationSettings.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchDefaultSubMaster.hoc.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\HOC\load-user-master.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\HOC\load-role-master.config.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\loadBOM.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\List\list.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Masters\bom_routing.component.tsx" />

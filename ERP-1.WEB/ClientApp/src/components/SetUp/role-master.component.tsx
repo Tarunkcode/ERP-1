@@ -3,30 +3,37 @@
 import { store2 } from '../../Redux/config/config.reducer';
 import Role_Master_Page from "../../Pages/SetUp/RoleMaster/role_master.page"
 import { toast } from 'react-toastify';
-import ProvideHookToClass from '../HOC/loadBOM';
+import RoleMasterLoadDetails from '../HOC/load-role-master.config';
+import { clear_form } from '../../Pages/Helper Functions/table';
 
 interface IProps {
-    api: any
+    api: any,
+    defRoleMaster: any,
+    AlterLoadedData: any,
+    gettingVirtualCode : any,
+    history : any,
 }
 
 interface IState {
-    rawObj: object,
+    rawObj: any,
     name: string,
-    Des1 : string,
-    Des2 : string,
-    Des3 : string,
-    Des4: string
+    des1: string,
+    des2: string,
+    des3: string,
+    des4: string
 }
 class Role_Master extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            rawObj: {},
-            name: '',
-            Des1: '',
-            Des2: '',
-            Des3: '',
-            Des4: ''
+            rawObj: {
+                "roleright": [{}]
+            },
+            name: "",
+            des1: "",
+            des2: "",
+            des3: "",
+            des4: ""
         }
         this.handleChange = this.handleChange.bind(this)
         this.handlePosting = this.handlePosting.bind(this)
@@ -34,72 +41,112 @@ class Role_Master extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
+    componentDidMount() {
+        //store2.getState().roleMaster = []
+        
+    }
+    componentDidUpdate(prevProps: any) {
+        if (this.props.gettingVirtualCode !== 0) {
+            if (this.props.defRoleMaster !== prevProps.defRoleMaster) {
 
+                this.props.defRoleMaster.roleright.map((option: any) => {
+                    let Code = option.code;
+                    store2.dispatch({ payload: parseInt(Code), key: "code", type: "changeConfig", label: "roleMaster" });
+                })
+                this.setState({
+                    rawObj: {
 
+                        "roleright": [...store2.getState().roleMaster]
+                    }
+                })
+            } else { }
+
+        } else { }
+    }
     getName = ( value: string) => {
         this.setState({ name: value })
-        console.log('name', this.state.name)
-    }
+        this.props.defRoleMaster.roleheader[0].name = value;
+         }
     getDes1 = (value: string) => {
-        this.setState({ Des1: value })
-        console.log('Des1', this.state.Des1)
-    }
+        this.setState({ des1: value })
+        this.props.defRoleMaster.roleheader[0].des1 = value;
+       }
     getDes2 = (value: string) => {
-        this.setState({ Des2: value })
-        console.log('Des2', this.state.Des2)
-    }
+        this.setState({ des2: value })
+        this.props.defRoleMaster.roleheader[0].des2 = value;
+       }
     getDes3 = (value: string) => {
-        this.setState({ Des3: value })
-        console.log('Des3', this.state.Des3)
-    }
+        this.setState({ des3: value })
+        this.props.defRoleMaster.roleheader[0].des3 = value;
+      }
     getDes4 = (value: string) => {
-        this.setState({ Des4: value })
-        console.log('Des4', this.state.Des4)
-    }
+        this.setState({ des4: value })
+        this.props.defRoleMaster.roleheader[0].des4 = value;
+     }
 
     handleChange = (e: any) => {
-      if (!e.target.checked) return;
-    
-        e.preventDefault();
-        var value: any;
-        var Code: any;
-        var label: string = '';
-        Code = e.target.name
-      
-        store2.dispatch({ payload: parseInt(Code), key: "Code", type: "changeConfig", label: "roleMaster" });
+        var Code : any = e.target.name
+        if (!e.target.checked) {
+            // on unchecked
+            let index: number = store2.getState().roleMaster.findIndex((item : any) => item.code == Code )
+            store2.getState().roleMaster.splice(index, 1);
 
+
+            console.log('on UnChecked', store2.getState().roleMaster)
+            this.setState({
+                rawObj: {
+
+                    "roleright": store2.getState().roleMaster
+                }
+            })
+        }
+        else {
+        // else on check
+        console.log('on Checked', store2.getState().roleMaster)
+        store2.dispatch({ payload: parseInt(Code), key: "code", type: "changeConfig", label: "roleMaster" });
+
+        }
+       
         this.setState({
             rawObj: {
-                "RoleHeader": [{
-                    'Code': 0,
-                    'Customer': parseInt(this.customer),
-                    'Company': parseInt(this.compCode),
-                    'Name': this.state.name,
-                    'Des1': this.state.Des1,
-                    'Des2': this.state.Des2,
-                    'Des3': this.state.Des3,
-                    "Des4": this.state.Des4,
-                    "UserName": this.username
-                }],
-                "RoleRight": [...store2.getState().roleMaster]
+           
+                "roleright": [...store2.getState().roleMaster]
             }
         })
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
-      if(!this.state.name) return alert('Name Cannnot be Empty')
-        console.log('calling');
-        let i: any = this.state.rawObj;
       
-        const confUrl = '/api/RoleAdd';
+    /*  if(!this.state.name) return alert('Name Cannnot be Empty')*/
+        console.log('calling', this.state.rawObj.roleright);
+        let i: any = {
+            "roleheader": this.props.gettingVirtualCode !== 0 ? [...this.props.defRoleMaster.roleheader]
+                : [{
+                    'code': this.props.gettingVirtualCode,
+                    'customer': parseInt(this.customer),
+                    'company': parseInt(this.compCode),
+                    "username": this.username,
+                    "name": this.state.name,
+                    "des1": this.state.des1,
+                    "des2": this.state.des2,
+                    "des3": this.state.des3,
+                    "des4": this.state.des4
+                }],
+            "roleright": [...this.state.rawObj.roleright]
+        };
+      
         console.log('i',i)
       
        
+        const confUrl = '/api/RoleAdd';
         try {
             let { res, got } = await this.props.api(confUrl,"POST", i)
            
-            if (res.status == 0) {
-                toast.success(got.msg)
+            if (res.status == 200) {
+                toast.success(got.msg);
+                //let ref = document.getElementById("form") as HTMLFormElement
+                //clear_form(ref);
+                this.props.history.push('/successfully-modify');
 
             } else {
                 toast.error(got.msg)
@@ -114,8 +161,8 @@ class Role_Master extends React.Component<IProps, IState> {
     render() {
         return (
             <>
-             
-                < Role_Master_Page getName={this.getName} getDes1={this.getDes1} getDes2={this.getDes2} getDes3={this.getDes3} getDes4={this.getDes4} handleChange={this.handleChange} handlePosting={this.handlePosting} />
+
+                < Role_Master_Page getName={this.getName} defRoleMaster={this.props.defRoleMaster} getDes1={this.getDes1} getDes2={this.getDes2} getDes3={this.getDes3} getDes4={this.getDes4} handleChange={this.handleChange} handlePosting={this.handlePosting} vccode={this.props.gettingVirtualCode} />
 
             </>
         )
@@ -123,5 +170,7 @@ class Role_Master extends React.Component<IProps, IState> {
     }
 }
 
-const role = ProvideHookToClass(Role_Master);
+const role = RoleMasterLoadDetails(Role_Master);
 export default role;
+
+

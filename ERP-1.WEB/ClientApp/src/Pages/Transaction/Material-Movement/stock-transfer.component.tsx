@@ -1,149 +1,107 @@
 ﻿import * as React from 'react';
+import DatalistInput from 'react-datalist-input';
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
+import WriteGrid from '../../../components/Grid Component/grid.component';
 
 const StockTransfer = () => {
+
+    let data: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
+
+    var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+    { field: 'ic', headerName: 'Item Code', minWidth: 200 },
+    { field: 'in', headerName: 'Item Name', minWidth: 200 },
+        { field: 'sq', headerName: 'Stock Qty', minWidth: 200, editable: true },
+        { field: 'sv', headerName: 'Stock Value', minWidth: 200 },
+        { field: 'ap', headerName: 'Avg.Price', minWidth: 200, editable: true },
+    { field: 'qty', headerName: 'Qty.', minWidth: 200, editable: true },
+        { field: 'pq', headerName: 'Pend. Qty', minWidth: 200, editable: true },
+    { field: 'uom', headerName: 'UOM', minWidth: 200, editable: true },
+    { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
+    { field: 'remark', headerName: 'Remark', minWidth: 200, editable: true }
+   
+    ]
     return (
         <>
             <div className="main card firstDiv">
 
-                <div className="text-center card-title col-12" style={{ textAlign: 'start', backgroundColor: '#8389d4' }}>
-                    <span className="row-header p-0 m-0" >Stock Transfer</span>
-                </div>
-                <div className="card-body row col-sm-12 m-0 p-0" >
-                    <form className="row-content form col-sm-12 pt-0">
-                        <fieldset className="form-group border p-0" >
-                            <legend className="px-2" data-toggle="collapse" data-target="#genDetails" aria-expanded="true" aria-controls="genDetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Stock Transfer Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+               <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
 
-                            <div className="collapse show" id="genDetails">
-                                <span className="d-flex section2 col-sm-10">
+                    <span className="card-title" style={{
+                        fontSize: '15px', color: 'white', padding: '0',
+                        margin: '0'
+                    }}>Stock Transfer</span>
+                </div>
+                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
+
+                    <div className="card-body row col-sm-12 m-0 p-0" >
+                        <form className="row-content form col-sm-12 pt-0">
+                            <fieldset className="form-group border p-0" >
+                                <legend className="px-2" style={{ fontSize: '1.1rem' }}>Material Receipt Details</legend>
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="series" label="Series" ipTitle="Enter Series" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+
+                                    <MasterInput2 name="vchno" label="Vch. NO." ipTitle="Enter Vch NO." ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="date" label="Date" ipTitle="Enter Date" ipType="date" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+
+                                    <MasterInput2 name="fmc" label="From Mat. Center" ipTitle="Enter From Material Center" ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="tmc" label="To Mat. Center" ipTitle="Enter Date" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
                                     <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Series</label>
-                                        <input type="text" name="series" className="form-control inp" />
+                                        <label htmlFor="actionper" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 mt-2 labl2">Action Performed</label>
                                     </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">From Mat. Cen.</label>
-                                        <input type="text" name="majProd" className="form-control inp" />
-                                    </>
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+                                            placeholder={'Select Action Performed'}
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control inp col-12 datalist int', name: 'actionper' }}
+                                            listboxProps={{ className: 'text-left mt-5' }}
+
+                                            onSelect={(item: any) => { console.log('id', item.id); }}
+                                            items={[]}
+                                        />
+
+                                    </span>
+                                </span>
+                                <span className="d-flex flex-column section2 mb-2 col-sm-12" style={{ marginLeft: '30px' }}>
+                                    <CustomeSwitch lablClass="custom-control-label col-9" label="Is Return" id="c1" name="c1" classCat="form-control custom-control-input col-2 subMaster switch mt-2" />
+
                                 </span>
 
                                 
-
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Date</label>
-                                        <input type="date" name="custName" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label unit labl labl2">Vch No.</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">To Department</label>
-                                        <input type="text" name="payTerm" className="form-control inp" />
-                                    </>
-                                </span>
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2 ">Action Performed</label>
-                                        <input type="text" name="custGrp" className="form-control inp" />
-                                    </>
-                                   
-                                </span>
-
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Is Return</label>
-                                        <input type="checkbox" name="printName" className="form-control col-1" />
-                                    </>
-
-                                </span>
-
-                            </div>
                         </fieldset>
                     </form>
-                    <hr style={{ margin: '0', padding: '0' }} />
-                    <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                        <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
-
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0', width: '100%' }}>
-                                <span className="card-title" style={{ fontSize: '15px', margin: '0', padding: '0' }}>Transfer Item Details</span>
-                            </div>
-                            <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
-                                width: "100%"
-                            }}>
-                                <thead>
-                                    <tr>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>S.No</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Code</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Name</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Stock Qty</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Stock Value</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Avg.Price</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Qty</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Pend. Qty</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UoM</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Value</th>
-                                        <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Remark</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th>3</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-
+                
                     <hr style={{ margin: '0', padding: '0' }} />
+
+                    <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
+                    <WriteGrid title="Transfer Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} />
+                        </div>
+
                
                 </div>
                 <hr style={{ margin: '0', padding: '0' }} />
+            <span className="d-flex section2 col-sm-12 mb-2 mt-2">
+                <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
+                <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
+            </span>
             </div>
-            <div className="d-flex flex-row justify-content-start mt-3 mb-3">
-                 <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2 ">Remarks</label>
-                <input type="text" name="custGrp" className="form-control inp col-4" />
-            </div>
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </>
     )

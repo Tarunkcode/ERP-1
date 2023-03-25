@@ -16,9 +16,9 @@ function SeriesConfig_Page({ handleChange, handlePosting, getCode, getCtype,pare
             let { res, got } = await api(urlStr, "GET", '');
            if(res.status == 200){
                
-               var jsonStr: string = got.data;
-               console.log('json', jsonStr)
-               setTree(JSON.parse(jsonStr))
+               var json: any[] = got;
+               
+               setTree(json);
             }
            else throw new Error('Bad Fetch 1')
                 

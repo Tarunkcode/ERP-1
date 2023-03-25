@@ -4,7 +4,7 @@ const RadioButton = ({label, id, lablClass, handleChange, name, classCat, ...oth
     return (
         <>
             <label htmlFor={id} style={{ fontSize: '0.8em' }} className={lablClass}>
-                <input id={id} className={classCat} onChange={handleChange} name={name} type="radio" />
+                <input id={id} className={classCat} onBlur={handleChange} name={name} type="radio" />
                 {label}
             </label>
         </>

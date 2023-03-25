@@ -14,7 +14,7 @@ import { Redirect } from 'react-router';
 
 
 interface IState {
-    rawPosting: object,
+    rawPosting: any,
     configType: string,
     loadedList1: any,
     redirect: boolean,
@@ -29,7 +29,7 @@ class Feature_Option extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            rawPosting: {},
+            rawPosting: null,
             configType: '',
             loadedList1: [],
             redirect : false
@@ -75,8 +75,16 @@ class Feature_Option extends React.Component<IProps, IState> {
     handlePosting = async (e: any) => {
         e.preventDefault();
         console.log('calling');
-        let i: any = this.state.rawPosting;
-        console.log('i:', i);
+        let i: any = {};
+        if (this.state.rawPosting === null) {
+
+            i = { "ConfigType": parseInt(this.state.configType), "Customer": parseInt(this.customer), "Company": parseInt(this.compCode), "InventoryDet": [this.props.defFeatureOptionMaster] };
+        }
+        else {
+            i = this.state.rawPosting;
+        
+        }
+        console.log('isssssss', i);
         //console.log('calling')
         const confUrl = '/api/SaveConfig';
 
@@ -130,9 +138,7 @@ class Feature_Option extends React.Component<IProps, IState> {
             else if (e.currentTarget.classList.contains('switch')) {
                 e.target.checked === true ? value = 1 : value = 0
             }
-            else if (e.currentTarget.classList.contains('select')) {
-                value = parseInt(e.target.value)
-            }
+            
             else value = e.target.value;
         }
 

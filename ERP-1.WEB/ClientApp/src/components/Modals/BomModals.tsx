@@ -3,6 +3,7 @@
 import BOMModals_layer2 from '../Modals/BOM_Modals(II layer)';
 import Modal from 'react-modal';
 import WriteGrid from '../Grid Component/grid.component';
+import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
 
 const customStyles = {
     content: {
@@ -27,33 +28,62 @@ const customStyles2 = {
     },
 };
 
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-/*Modal.setAppElement('#button');*/
 
-export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostDet, setIsCopy, setItemCostDet, setIsOtherItem, setIsBomAltItem, handleAlt, handleOther, handleConsume, ...props }: any) {
+
+export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostDet, setIsCopy, setItemCostDet, setIsOtherItem, setIsBomAltItem, handleAlt, handleOther, handleConsume, itemList, ...props }: any) {
     let subtitle: any;
-    
-    let ColDef1: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 100 }, { field: "itc", headerName: 'Item Code', minWidth: 200 }, { field: "itn", headerName: 'Item Name', minWidth: 400 }, { field: "rate", headerName: 'Rate', minWidth: 200 }, { field: "consQty", headerName: 'Consume Qty', minWidth: 200 }, { field: "uom1", headerName: 'UOM', minWidth: 200 }, { field: "prdQty", headerName: 'Produce Qty', minWidth: 200 }, { field: "uom2", headerName: 'UOM', minWidth: 200 }, { field: "cst", headerName: 'Cost', minWidth: 200 }, { field: "altItm", headerName: 'Alt Item', minWidth: 200 }]
+
+    let ColDef1: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 100, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } }, {
+        field: "bomitem", headerName: 'Item Code', minWidth: 200,
+        cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required:true,
+            selectData: React.useMemo(() => {return itemList },[itemList]),
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+    }, { field: "itn", headerName: 'Item Name', minWidth: 400 }, { field: "rate", headerName: 'Rate', minWidth: 200 }, { field: "consqty", headerName: 'Consume Qty', minWidth: 200 }, { field: "consuom", headerName: 'UOM', minWidth: 200 }, { field: "prodavgqty", headerName: 'Produce Qty', minWidth: 200 }, { field: "prodavguom", headerName: 'UOM', minWidth: 200 }, { field: "cost", headerName: 'Cost', minWidth: 200 }, { field: "altitem", headerName: 'Alt Item', minWidth: 200 }]
 
 
 
-    const rawData1: any[] = [{ srno: null }, { itc: null }, { itn: null }, { rate: null }, { consQty: null }, { uom1: null }, { prdQty: null }, { uom2: null }, { cst: null }, { altItm: null}];
+    const rawData1: any[] = [{ bomitem: null }, { itn: null }, { rate: null }, { consqty: null }, { consuom: null }, { prodavgqty: null }, { prodavguom: null }, { cost: null }, { altitem: null }];
 
 
 
-    let ColDef2: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 100 }, { field: "itc", headerName: 'Item Code', minWidth: 200 }, { field: "itn", headerName: 'Item Name', minWidth: 400 }, { field: "qty", headerName: 'Quantity', minWidth: 200 }, { field: "uom", headerName: 'UOM', minWidth: 200 }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
+    let ColDef2: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 100, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } }, {
+        field: "itemcode", headerName: 'Item Code', minWidth: 200,
+        cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return itemList }, [itemList]),
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "qty", headerName: 'Quantity', minWidth: 200, editable: true }, { field: "uom", headerName: 'UOM', minWidth: 200 }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
 
 
-    const rawData2: any[] = [{ srno: null }, { itc: null }, { itn: null }, { qty: null }, { uom: null }, { rate : null}]
-  
+    const rawData2: any[] = [{ itemcode: null }, { itemname: null }, { qty: null }, { uom: null }, { rate: null }]
+
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
         subtitle.style.color = '#f00';
     }
 
 
-     function closeBOMCopy() {
-         setIsCopy(false);
+    function closeBOMCopy() {
+        setIsCopy(false);
     }
 
     function closeAltItem() {
@@ -68,13 +98,22 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
         setItemCostDet(false);
     }
 
-    var [isItemCost, setIsItemCost] : any = React.useState(false)
+    var [isItemCost, setIsItemCost]: any = React.useState(false)
+
     const OpenItemCost = (e: any) => {
-        if(e.key === 'Enter') setIsItemCost(true)
+        if (e.colDef.field === "bomitem") {
+            if (e.data.bomitem && e.event.keyCode === 13) {
+
+                setIsItemCost(true);
+
+            }
+
+        }
+
     }
     return (
         <>
-           
+
             <Modal
                 isOpen={isCopy}
                 onAfterOpen={afterOpenModal}
@@ -101,7 +140,7 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                     >
                         <thead>
                             <tr>
-                              
+
                                 <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Name</span></th>
                                 <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Source Item Details</span></th>
                                 <th scope="col" className="text-center" style={{ backgroundColor: 'lightslategray' }} ><span style={{ fontWeight: 400, fontSize: '1.1rem', color: 'white' }}>Copy From Routing</span></th>
@@ -109,38 +148,38 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                         </thead>
                         <tbody>
                             <tr>
-                            
+
                                 <td>Item</td>
-                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border:'none' }} /></td>
+                                <td className="p-0"><input readOnly className="m-0 form-control" style={{ padding: '22px 5px', border: 'none' }} /></td>
                                 <td className="p-0"><input className="m-0 form-control" style={{ padding: '22px 5px' }} /></td>
                             </tr>
                             <tr>
-                               
+
                                 <td>Color</td>
                                 <td></td>
                                 <td className="p-0"><input className="m-0 form-control" style={{ padding: '22px 5px' }} /></td>
                             </tr>
                             <tr>
-                               
+
                                 <td>Model</td>
                                 <td></td>
-                                <td className="p-0"><input disabled className="m-0" style={{padding:'22px 5px'}} /></td>
+                                <td className="p-0"><input disabled className="m-0" style={{ padding: '22px 5px' }} /></td>
                             </tr>
                             <tr>
-                               
+
                                 <td>Param3</td>
                                 <td></td>
-                                <td className="p-0"><input disabled className="m-0" style={{ padding: '22px 5px' }}  /></td>
+                                <td className="p-0"><input disabled className="m-0" style={{ padding: '22px 5px' }} /></td>
                             </tr>
                             <tr>
-                          
-                                <td colSpan={2 }></td>
+
+                                <td colSpan={2}></td>
                                 <td><button type="submit" className="btn btn-primary m-o pr-2 pl-2 pt-1 pb-1" >Copy</button></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    </div>
+                </div>
             </Modal>
 
             <Modal
@@ -157,74 +196,63 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                 <hr />
                 {
                     isItemCost ? (
-                        <BOMModals_layer2 isItemCostDet={isItemCost} setItemCostDet={setIsItemCost} handleChange={handleConsume } />
+                        <BOMModals_layer2 isItemCostDet={isItemCost} setItemCostDet={setIsItemCost} handleChange={handleConsume} />
 
-                    ): null
+                    ) : null
                 }
-                <div className="card col-12 p-3 pt-0" style={{ overflow: 'auto', maxHeight:'80vh' }}>
+                <div className="card col-12 p-3 pt-0" style={{ overflow: 'auto', maxHeight: '80vh' }}>
 
                     <div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>
                         <span className="row-header p-0 m-0" >BOM Process Item Details</span>
                     </div>
 
-                   
-                                <div className="collapse show m-1" id="genDetails">
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Code</label>
-                                <input type="text" name="series" className="form-control inp" onKeyUp={OpenItemCost} />
-                                        </>
-                                        <>
-                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Name</label>
-                                            <input type="text" name="payTerm" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Rate</label>
-                                            <input type="date" name="payTerm" className="form-control inp" />
-                                        </>
-                                    </span>
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Consumed Qty</label>
-                                            <input type="text" name="custCode" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">UOM</label>
-                                            <input type="text" name="custName" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Qty</label>
-                                            <input type="date" name="payTerm" className="form-control inp" />
-                                        </>
+                    <div className="collapse show m-1" id="genDetails">
+                        <span className="d-flex section2 col-sm-12">
+                            <>
+                                <label htmlFor="itemcode" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Code</label>
+                                <input type="text" name="itemcode" className="form-control inp" onKeyUp={OpenItemCost} />
+                            </>
+                            <>
+                                <label htmlFor="itemName" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Name</label>
+                                <input type="text" name="itemName" className="form-control inp" />
+                            </>
+                            <>
+                                <label htmlFor="process" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
+                                <input type="process" name="payTerm" className="form-control inp" />
+                            </>
+                        </span>
 
-                                    </span>
+                        <span className="d-flex section2 col-sm-12">
+                            <>
+                                <label htmlFor="stage" style={{ fontSize: '1rem' }} className="form-label labl labl2">Stage</label>
+                                <input type="text" name="stage" className="form-control inp" />
+                            </>
+                            <>
+                                <label htmlFor="srno" style={{ fontSize: '1rem' }} className="form-label labl labl2">Sr. No.</label>
+                                <input type="text" name="srno" className="form-control inp" />
+                            </>
+                            <>
+                                <label htmlFor="bomitem" style={{ fontSize: '1rem' }} className="form-label labl labl2">Bom Item</label>
+                                <input type="text" name="bomitem" className="form-control inp" />
+                            </>
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">UOM</label>
-                                            <input type="text" name="custName" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Cost</label>
-                                            <input type="text" name="custName" className="form-control inp" />
-                                        </>
-                                        <span className="col-4"></span>
-
-                                    </span>
+                        </span>
 
 
 
-
-                                </div>
-                            
-
-                <hr />
-                    <WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef1} data={rawData1} />
+                    </div>
 
 
-            
-              </div>
+                    <hr />
+                    <WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={rawData1} />
+
+                </div>
+                <div className="d-flex flex-row justify-content-start">
+                    <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
+                    <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeAltItem}>Quit</button>
+
+                </div>
             </Modal>
 
             <Modal
@@ -240,58 +268,62 @@ export default function BOMModals({ isCopy, isBomAltItem, isOtherItem, itemCostD
                 </span>
                 <hr />
 
-                <div className="card col-12 p-3 pt-0" style={{ overflowY: 'auto', overflowX: 'hidden', maxHeight: '85%' }}>
+                <div className="card col-12 p-3 pt-0" style={{ overflow: 'auto', maxHeight: '80vh' }}>
 
                     <div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>
                         <span className="row-header p-0 m-0" >BOM Process Item Details</span>
                     </div>
 
-                           
 
-                                <div className="collapse show m-1" id="genDetails">
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process Sr. No.</label>
-                                            <input type="text" name="series" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
-                                            <input type="text" name="payTerm" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Sr.No.</label>
-                                            <input type="date" name="payTerm" className="form-control inp" />
-                                        </>
-                                    </span>
 
-                                    <span className="d-flex section2 col-sm-12">
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Qty</label>
-                                            <input type="text" name="custCode" className="form-control inp" />
-                                        </>
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl labl2">Quantity</label>
-                                            <input type="text" name="custName" className="form-control inp" />
-                                        </>
-                                       
-                                        <span className="col-4"></span>
+                    <div className="collapse show m-1" id="genDetails">
+                        <span className="d-flex section2 col-sm-12">
+                            <>
+                                <label htmlFor="psrno" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process Sr. No.</label>
+                                <input type="text" name="psrno" className="form-control inp" />
+                            </>
+                            <>
+                                <label htmlFor="process" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
+                                <input type="text" name="process" className="form-control inp" />
+                            </>
+                            <>
+                                <label htmlFor="prodSrNo" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Sr.No.</label>
+                                <input type="text" name="prodSrNo" className="form-control inp" />
+                            </>
+                        </span>
 
-                                    </span>
+                        <span className="d-flex section2 col-sm-12">
+                            <>
+                                <label htmlFor="pItem" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Item</label>
+                                <input type="text" name="pItem" className="form-control inp" />
+                            </>
+                            <>
+                                <label htmlFor="qty" style={{ fontSize: '1rem' }} className="form-label labl labl2">Quantity</label>
+                                <input type="text" name="qty" className="form-control inp" />
+                            </>
 
-                                   
+                            <span className="col-4"></span>
+
+                        </span>
+
+
                     </div>
                     <hr />
                     <WriteGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={rawData2} />
 
                 </div>
-                  
-             
+                <div className="d-flex flex-row justify-content-start">
+                    <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
+                    <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeProduceItem}>Quit</button>
+
+                </div>
+
             </Modal>
 
 
-           
- 
-      </>
+
+
+        </>
     )
 
 

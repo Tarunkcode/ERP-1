@@ -17,11 +17,12 @@ export default function Sidebar({ state }: any) {
 
             let path = `/api/LoadUserManuTree?RC=34`
             let { res, got } = await api(path, 'GET', '')
-           console.log('res', res)
+           console.log('res', got.data)
             if (res.status === 200) {
-                var r: string = got.data[0].strResult;
+                var r: any[] = got;
                 
-                setSource(JSON.parse(r));
+                setSource(r);
+               
             }
             else throw new Error('Bad Fetch 1')
         } catch (err) { alert(err) }
@@ -38,9 +39,9 @@ export default function Sidebar({ state }: any) {
 
 
                 <img src={'./assets/erpLogo.png'} style={{ width: "56vw", borderRadius: "6%", margin: "0" }} className="img-fluid erp-logo" alt="LOGO" />
+                    <p className="text-center text-white" style={{ margin: '0', padding: '0', backgroundColor: "#6778BF" }}><span style={{ fontWeight: "bolder", color: "black", margin: '0' }}>FY :</span> {state.Fy}</p>
             </div>
 
-            <p className="text-center text-white" style={{ margin: '0', padding: '0' }}><span style={{ fontWeight: "bolder", color: "black", margin: '0' }}>FY :</span> {state.Fy}</p>
             {
                 source.length !== 0 ? (<NavTree treeData={source} />) : null
             }

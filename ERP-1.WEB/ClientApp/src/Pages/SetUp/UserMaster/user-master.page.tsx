@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import DatalistInput from 'react-datalist-input';
+import DatalistInput, { useComboboxControls } from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 import { useHistory, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
@@ -7,46 +7,52 @@ import { CustomSelect, InputList, MasterInput, MasterInput2 } from '../../../com
 import useFetch from '../../../components/Hooks/useFetch';
 import { store2 } from '../../../Redux/config/config.reducer';
 import { clear_form } from '../../Helper Functions/table';
+import UserLoadDetails from '../../../components/HOC/load-user-master';
+function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettingVirtualCode, roleList, customer, compCode, username }: any) {
 
-function UserMaster_Page() {
-    var [currRoleData, setCurrRoleData]: any = React.useState([]);
     var [rawObj, setRawObj]: any = React.useState({});
+    var [defaultRole, setDefaultRole]: any = React.useState('');
+    var [defCodeNames, setDefCodeNames]: any = React.useState({});
     const api = useFetch();
     var obj: object = {};
 
-    const compCode = window.localStorage.getItem('compCode') || ""
-    const customer = window.localStorage.getItem('customer') || ""
-    const username = window.sessionStorage.getItem('username') || ""
+    const setDefaultState = async () => {
+        if (gettingVirtualCode !== 0) {
+            store2.getState().seriesConf = loadUserDetails;
+            //let role: any = await roleList.find((item: any) =>
+            //    loadUserDetails.role == item.id
+            //);
 
-    const history: any = useHistory();
-    var loc = useLocation();
-    const state: any = loc.state;
+            await setDefCodeNames({
+                ...loadUserDetails,
+                super: loadUserDetails.su == 0 ? 'N' : 'Y',
+                block: loadUserDetails.block == 0 ? 'N' : 'Y',
 
+            })
 
-    const loadUserRoles = async () => {
-        const url = `/api/LoadUserRoles?Customer=${customer}&Company=${compCode}`
-
-        try {
-            let { res, got } = await api(url, "GET", '');
-            if (res.status == 200) {
-                let modify_list: any = got.data.map((option: any) => ({
-
-                    id: option.code,
-                    value: option.name,
-                    name: "Role"
-                }))
-                setCurrRoleData(modify_list)
-            } else toast.error(got.msg)
-
-        } catch (err) {
-            alert(err);
+        } else {
+            store2.getState().seriesConf = {}
         }
     }
-    React.useEffect(() => {
-        loadUserRoles();
 
-    }, [])
-    const handleList = (item : any) => {
+    React.useEffect(() => {setDefaultState()}, [loadUserDetails])
+    React.useEffect(() => {
+        roleList.map((option: any) => {
+            if (option.id === loadUserDetails.role) {
+                setDefaultRole(option.value)
+                console.log('role value to set', option.value)
+
+            }
+        })
+    }, [loadUserDetails, roleList])
+
+    const history: any = useHistory();
+    //var loc = useLocation();
+    //const state: any = loc.state;
+   
+
+  
+    const handleList = (item: any) => {
         let value = parseInt(item.id)
         let name = (item.name)
         let label = "seriesConf";
@@ -54,11 +60,11 @@ function UserMaster_Page() {
 
 
         obj = {
-            "Code": 0,
-            "Active": 1,
-            'UserName': "U1",
-            'Customer': parseInt(customer),
-            'Company': parseInt(compCode),
+            "code": gettingVirtualCode,
+            "active": 1,
+            'username': username,
+            'customer': parseInt(customer),
+            'company': parseInt(compCode),
             ...store2.getState().seriesConf
         }
         setRawObj(obj);
@@ -71,49 +77,51 @@ function UserMaster_Page() {
         if (e.currentTarget.classList.contains('seriesConf')) label = "seriesConf";
         else alert("category Label are not set for one or multiple inputs 1")
 
-        if (name === 'UName' || name === 'PWD' || name === 'UserName') value = value;
+        if (name === 'uname' || name === 'pwd' || name === 'UserName') value = value;
         else value = parseInt(value);
 
         store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
 
 
         obj = {
-            "Code": 0,
-            "Active": 1,
-            'UserName': "U1",
-            'Customer': parseInt(customer),
-            'Company': parseInt(compCode),
+            "code": gettingVirtualCode,
+            "active": 1,
+            'username': username,
+            'customer': parseInt(customer),
+            'company': parseInt(compCode),
             ...store2.getState().seriesConf
         }
         setRawObj(obj);
     }
+
     const handlePosting = async (e: any) => {
         e.preventDefault();
-        
-        'Block' in rawObj ? null : rawObj['Block'] = 0
-        'SU' in rawObj ? null : rawObj['SU'] = 0
 
-        let i: any = rawObj;
+        'block' in rawObj ? null : rawObj['block'] = 0
+        'su' in rawObj ? null : rawObj['su'] = 0
+
+        let i: any = { ...loadUserDetails, ...rawObj };
         console.log('i:', i);
         //console.log('calling')
         const confUrl = '/api/UserSave';
 
 
-        
+
         try {
             let { res, got } = await api(confUrl, "POST", i);
             if (res.status == 200) {
                 toast.success(got.msg);
                 let formObj = document.getElementById("form");
-                clear_form(formObj);
-                state === null || !state ? null : history.push('/successfully-modify')
+
+                gettingVirtualCode === 0 ? clear_form(formObj) : history.push('/successfully-modify')
             }
             else toast.error(got.msg);
-            
+
         } catch (err) {
             alert(err)
         }
     }
+
     return (
         <div className="main card firstDiv">
             <div className="card-title mb-2 col-12 text-center" style={{ margin: '0 auto' }}>
@@ -124,9 +132,9 @@ function UserMaster_Page() {
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 name="UName" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
+                        <MasterInput2 defaultt={defCodeNames.uname} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 name="PWD" label="Password" ipTitle="Enter Password" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
+                        <MasterInput2 defaultt={defCodeNames.pwd} name="pwd" label="Password" ipTitle="Enter Password" ipType="password" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
                     </span>
 
                     <span className="d-flex section2 col-sm-12">
@@ -135,32 +143,32 @@ function UserMaster_Page() {
 
 
                             <>
-                                <label htmlFor="SU" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Super User</label>
+                                <label htmlFor="su" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Super User</label>
                             </>
                             <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                 <DatalistInput
-
+                                    value={defCodeNames.super}
                                     className="d-flex col-12 m-0 p-0"
-                                    inputProps={{ className: 'form-control col-12 inp seriesConf', name : "SU" , style: { padding: '22px 0', fontSize: '20px' } }}
+                                    inputProps={{ className: 'form-control col-12 inp seriesConf', name: "su", style: { padding: '22px 0px 22px 10px', fontSize: '20px' } }}
                                     listboxProps={{ className: 'text-left mt-5' }}
                                     onSelect={(item: any) => handleList(item)}
-                                    items={[{ 'id': 0, value: 'N', name: 'SU' }, { 'id': 1, value: 'Y', name: 'SU' }]}
+                                    items={[{ 'id': 0, value: 'N', name: 'su' }, { 'id': 1, value: 'Y', name: 'su' }]}
                                 />
 
                             </span>
 
                             <span className="col-1 m-0"></span>
                             <>
-                                <label htmlFor="Block" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">is Block</label>
+                                <label htmlFor="block" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">is Block</label>
                             </>
                             <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                 <DatalistInput
-
+                                    value={defCodeNames.block}
                                     className="d-flex col-12 m-0 p-0"
-                                    inputProps={{ className: 'form-control col-12 inp seriesConf', name: "Block", id: "type", style: { padding: '22px 0', fontSize: '20px' } }}
+                                    inputProps={{ className: 'form-control col-12 inp seriesConf', name: "block", id: "type", style: { padding: '22px 0px 22px 10px', fontSize: '20px' } }}
                                     listboxProps={{ className: 'text-left mt-5' }}
                                     onSelect={(item: any) => handleList(item)}
-                                    items={[{ 'id': 0, value: 'N', name: "Block" }, { 'id': 1, value: 'Y', name: "Block" }]}
+                                    items={[{ 'id': 0, value: 'N', name: "block" }, { 'id': 1, value: 'Y', name: "block" }]}
                                 />
 
                             </span>
@@ -175,20 +183,20 @@ function UserMaster_Page() {
                     {/*</span>*/}
                     <span className="d-flex section2 col-sm-12">
                         <>
-                            <label htmlFor="Role" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Role</label>
+                            <label htmlFor="role" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Role</label>
                         </>
                         <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                             <DatalistInput
-
+                                value={defaultRole}
                                 className="d-flex col-12 m-0 p-0"
-                                inputProps={{ className: 'form-control inp col-12 seriesConf int', name: 'Role' }}
+                                inputProps={{ className: 'form-control inp col-12 seriesConf int', name: 'role', style: { padding: '22px 0px 22px 10px', fontSize: '20px' } }}
                                 listboxProps={{ className: 'text-left mt-5' }}
                                 onSelect={(item: any) => handleList(item)}
-                                items={currRoleData}
+                                items={roleList}
                             />
 
                         </span>
-                      
+
                         <span className="col-1 m-0"></span>
                         <><label htmlFor="" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2"></label></>
                         <span className="col-4 m-0 p-0"></span>
@@ -199,7 +207,7 @@ function UserMaster_Page() {
                 </form>
                 <div className="btn-group col-2 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'left' }}>
 
-                    <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={handlePosting} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Done</button>
+                    <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={handlePosting} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save</button>
 
                 </div>
 
@@ -211,4 +219,5 @@ function UserMaster_Page() {
         </div>
     )
 }
-export default UserMaster_Page;
+let UserMaster = UserLoadDetails(UserMaster_Page);
+export default UserMaster;

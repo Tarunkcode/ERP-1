@@ -68,7 +68,7 @@ export function MasterInput({ name,defaultt, label, ipTitle, ipType, handleChang
         /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
            
         <>
-            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl labl2">{label}</label>
+            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl labl2 mt-2">{label}</label>
             {
                 props.read === true ? (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required readOnly />): (<input type = { ipType } defaultValue = { defaultt } name = { name } className = { classCategory } onBlur = { handleChange } title = { ipTitle } autoComplete = "off" list = { name } required />)
             }
@@ -85,8 +85,8 @@ export function MasterInput2({ name, defaultt, label, ipTitle, ipType, handleCha
         /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
 
         <>
-            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">{label}</label>
-            <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3" }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
+            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 ml-2 mr-2 labl2">{label}</label>
+            <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding:'22px 0 22px 10px' }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
         </>
         /*  </span>*/
 
@@ -99,7 +99,7 @@ export function MasterInput3({ name, defaultt, label, ipTitle, ipType, handleCha
         /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
 
         <>
-            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">{label}</label>
+            <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2  mt-2 mr-2 labl2">{label}</label>
             <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3" }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
         </>
         /*  </span>*/

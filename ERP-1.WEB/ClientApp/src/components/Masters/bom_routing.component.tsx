@@ -6,12 +6,15 @@ import { toast } from 'react-toastify';
 import { BOM_STORE } from '../../Redux/BOM/bom.reducer';
 
 interface IProps {
-   api : any
+    api: any
 }
 interface IState {
     series: any[],
+  
+    routingCode: string,
     process: any[],
-    Item_Code$Name: any[],
+    Item_Code$Name12: any[],
+    Item_Code$Name23: any[],
     bomCurrentState: object
 
 }
@@ -20,37 +23,64 @@ class BOM_Routing extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             series: [],
+            routingCode: '',
             process: [],
-            Item_Code$Name: [],
+            Item_Code$Name12: [],
+            Item_Code$Name23: [],
             bomCurrentState: {
                 code: 0,
                 customer: parseInt("57"),
                 company: parseInt("46"),
             }
-            
+
         }
     }
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-  
+
+
+
+
+
+    getRoutingCode = async (seriesCode: any, prefix: string) => {
+        seriesCode = parseInt(seriesCode);
+        let vchUrl = `/api/GetVchNo?TranType=12&SrCode=${seriesCode}&BSave=0`;
+        try {
+            let { got, res } = await this.props.api(vchUrl, "GET", '');
+            if (res.status == 200) {
+                let data: string = got.data;
+                let routingCode: string = prefix + data;
+                this.setState({ routingCode: routingCode });
+            }
+            else toast.error(res.msg);
+
+        }
+        catch (err) {
+            alert(err)
+        }
+    }
+
+   
     getList = async () => {
         let SeriesUrl = `/api/GetSeries?TranType=12&SrType=0&Company=${this.compCode}&Customer=${this.customer}`;
-       try {
-        let { res, got } = await this.props.api(SeriesUrl, "GET", '');
-           if (res.status == 200) {
-               let series: any = got.data.map((option: any) => ({
-                   numbertype: option.numbertype,
-                   id: option.code,
-                   value: option.name,
-                   name: "series"
-               }))
-               this.setState({ series: series })
-           }
-       else toast.error(res.msg);       }
-       catch (err) {
-           alert(err)
-       }
+        try {
+            let { res, got } = await this.props.api(SeriesUrl, "GET", '');
+            if (res.status == 200) {
+                let series: any = got.data.map((option: any) => ({
+                    numbertype: option.numbertype,
+                    id: option.code,
+                    prefix: option.prefix,
+                    value: option.name,
+                    name: "series"
+                }))
+                this.setState({ series: series })
+            }
+            else toast.error(res.msg);
+        }
+        catch (err) {
+            alert(err)
+        }
     }
     getProcess = async () => {
         let processUrl = '/api/LoadMasterData?MasterType=11&Company=46&Customer=57';
@@ -59,7 +89,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
             if (res.status == 200) {
 
                 const itm2: any = got.data.map((opn: any) => ({ label: opn.name, value: opn.code }));
-/*                console.log('items................',itm2)*/
+                /*                console.log('items................',itm2)*/
                 this.setState({ process: itm2 })
             }
             else toast.error(res.msg);
@@ -67,7 +97,46 @@ class BOM_Routing extends React.Component<IProps, IState> {
             alert(err)
         }
     }
-    getItemCode$Name = async () => {
+    getItemCode$Name12 = async () => {
+        let url = '/api/LoadIMList';
+        let body1 = {
+            "Customer": 0,
+            "Company": 0,
+            "Series": "",
+            "ItemBrand": "",
+            "ItemGroup": "",
+            "ItemType": "",
+            "ItemCat": "",
+            "ItemSubCat": "",
+            "Clearance": "",
+            "UOM": "",
+            "MC": "",
+            "QC": "",
+            "GRPType": "1,2"
+
+        }
+        try {
+            let { res, got } = await this.props.api(url, 'POST', body1);
+            if (res.status == 200) {
+
+                let cd$Nm: any = got.data.map((option: any) => ({
+                    id: option.code,
+                    value: option.codestrname,
+                    uomname: option.uomname,
+                    uom: option.uom,
+                    label: option.codestrname,
+                    name: 'item'
+
+                }))
+                console.log('code name and code................', cd$Nm)
+                this.setState({ Item_Code$Name12: cd$Nm })
+            }
+            else toast.error(res.msg);
+        } catch (err) {
+            alert(err)
+        }
+    }
+    getItemCode$Name23 = async () => {
         let url = '/api/LoadIMList';
         let body = {
             "Customer": 0,
@@ -82,14 +151,14 @@ class BOM_Routing extends React.Component<IProps, IState> {
             "UOM": "",
             "MC": "",
             "QC": "",
-            "GRPType": ""
+            "GRPType": "2,3"
 
         }
         try {
             let { res, got } = await this.props.api(url, 'POST', body);
             if (res.status == 200) {
 
-                let cd$Nm: any = got.data.map((option: any)=> ({
+                let cd$Nm: any = got.data.map((option: any) => ({
                     id: option.code,
                     value: option.codestrname,
                     uomname: option.uomname,
@@ -98,8 +167,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
                     name: 'item'
 
                 }))
-                console.log('code name and code................',cd$Nm)
-                this.setState({ Item_Code$Name: cd$Nm })
+                console.log('code name and code................', cd$Nm)
+                this.setState({ Item_Code$Name23: cd$Nm })
             }
             else toast.error(res.msg);
         } catch (err) {
@@ -121,12 +190,12 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 
     //___________________________________________________________Process__________________________________________________________________
- 
+
     //onSelectionChanged(event: SelectionChangedEvent) {
     //    const selectedData = this.gridApi.getSelectedRows();
     //    console.log('Selection updated');
     //}
-    handle_BOM_Header_List = (item : any) => {
+    handle_BOM_Header_List = (item: any) => {
         let value = parseInt(item.id);
         let name = item.value;
         BOM_STORE.dispatch({ payload: value, key: name, type: "bom_struct", label: 'BOMHeader' });
@@ -146,7 +215,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                BOMHeader: [{...BOM_STORE.getState().BOMHeader}]
+                BOMHeader: [{ ...BOM_STORE.getState().BOMHeader }]
             }
         })
 
@@ -158,16 +227,16 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
 
 
-    handle_BomDetails_Change = (val: any,key : any, row : any) => {
-      
+    handle_BomDetails_Change = (val: any, key: any, row: any) => {
+
         let value = this.afterValueConvert(val);
-        let mainObj = {srno : parseInt(row) + 1, [key]: value}
+        let mainObj = { srno: parseInt(row) + 1, [key]: value }
         BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BomDetails' });
 
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                BomDetails: [...BOM_STORE.getState().BomDetails ]
+                BomDetails: [...BOM_STORE.getState().BomDetails]
             }
         })
 
@@ -217,7 +286,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
         })
 
     }
-    //__________________________________________________________Job Work___________________________________________________________________
+    //__________________________________________________________Job Work________________________________________________________________________________
     handle_BOMAltItem_Change = (val: any, key: any, row: any) => {
 
         let value = this.afterValueConvert(val);
@@ -324,7 +393,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
     }
 
-   
+
     handle_ROUTINGOPRATIONDETAILS_Change = (val: any, key: any, row: any) => {
 
         let value = this.afterValueConvert(val);
@@ -369,12 +438,13 @@ class BOM_Routing extends React.Component<IProps, IState> {
         })
 
     }
-   
+
 
     componentDidMount() {
         this.getList();
         this.getProcess();
-        this.getItemCode$Name();
+        this.getItemCode$Name12();
+        this.getItemCode$Name23();
     }
 
 
@@ -390,7 +460,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 alert('success');
             }
             else toast.error(res.msg);
-        
+
         } catch (err) {
             alert(err);
         }
@@ -401,10 +471,13 @@ class BOM_Routing extends React.Component<IProps, IState> {
             <BomRoutingConfig_Page
                 seriesLoad={this.state.series}
                 processLoad={this.state.process}
-                codeNameLoad={this.state.Item_Code$Name}
-                handle_BOM_Header_List={this.handle_BOM_Header_List.bind(this) }
+                routingCode={this.state.routingCode }
+                setRoutingCode={this.getRoutingCode.bind(this) }
+                codeNameLoad12={this.state.Item_Code$Name12}
+                codeNameLoad23={this.state.Item_Code$Name23}
+                handle_BOM_Header_List={this.handle_BOM_Header_List.bind(this)}
                 handleBOMAltItem={this.handle_BOMAltItem_Change.bind(this)}
-                handleBomCutComponenet ={this.handle_BomCutComponenet_Change.bind(this)}
+                handleBomCutComponenet={this.handle_BomCutComponenet_Change.bind(this)}
                 handleBomDetails={this.handle_BomDetails_Change.bind(this)}
                 handleBOMHeader={this.handle_BOMHeader_Change.bind(this)}
                 handleBOMItemLocation={this.handle_BOMItemLocation_Change.bind(this)}
@@ -418,9 +491,9 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 handleRoutingMachineDetails={this.handle_RoutingMachineDetails_Change.bind(this)}
                 handleROUTINGOPRATIONDETAILS={this.handle_ROUTINGOPRATIONDETAILS_Change.bind(this)}
                 handleRoutingOtherHead={this.handle_RoutingOtherHead_Change.bind(this)}
-                SaveRoutingMaster={this.SaveRoutingMaster.bind(this) }
+                SaveRoutingMaster={this.SaveRoutingMaster.bind(this)}
             />
-            )
+        )
     }
 }
 

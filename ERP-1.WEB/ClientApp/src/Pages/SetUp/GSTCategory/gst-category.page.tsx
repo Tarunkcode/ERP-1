@@ -120,20 +120,25 @@ export default function GSTCategory_Page() {
             <div className="card-body" style={{ margin: '0', padding: '0', minHeight: '80vh' }}>
                 <form className="form" id="form">
                     
-                        <span className="d-flex flex-column section2 col-sm-12">
+                        <span className="d-flex section2 col-sm-12">
                          
-                        <MasterInput2 label="Name" defaultt={def.name } name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
-                        <MasterInput2 label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
-                        
-                        <MasterInput2 label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
-                        <MasterInput2 label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-4 subMaster" />
+                        <MasterInput2 label="Name" defaultt={def.name} name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                    </span>
+                    <span className="d-flex section2 col-sm-12">
+                        <MasterInput2 label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                    </span>
+                    <span className="d-flex section2 col-sm-12">
+                        <MasterInput2 label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                    </span>
+                    <span className="d-flex section2 col-sm-12">
+                        <MasterInput2 label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
                         </span>
                    
                 </form>
              
-
-                <button className="btn btn-success p-2 m-3" onClick={handlePosting}>Save</button>
-        
+                <div className="d-flex justify-content-center">
+                <button className="btn btn-success col-md-1 p-1 m-3" onClick={handlePosting}>Save</button>
+               </div>
              
             </div>
         </div>

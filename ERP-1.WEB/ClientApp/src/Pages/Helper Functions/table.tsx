@@ -40,3 +40,11 @@ export const getCurrentRowNo = (val: number) => {
 export const clear_form = (formObj : any) => {
     formObj.reset();
 }
+
+export const GetNameFromCode = (code: number, dataArray: any[]) => {
+    var foundObj = dataArray.find((obj: any) =>
+        obj.id == code
+    );
+    console.log(foundObj);
+    return foundObj;
+}

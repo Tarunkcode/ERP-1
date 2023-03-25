@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import WriteGrid from '../../../components/Grid Component/grid.component';
 //import UnderConstruction from '../../under-construction';
 const Projection = () => {
     var getSoSeries = window.sessionStorage.getItem('so-series');
@@ -45,13 +47,31 @@ const Projection = () => {
     var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
     var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    let data: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
+
+    var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+    { field: 'itemcode', headerName: 'Item Code', minWidth: 200 },
+        { field: 'itemname', headerName: 'Item Name', minWidth: 200 },
+        { field: 'Qty', headerName: 'Quantity', minWidth: 200, editable: true },
+    { field: 'uom', headerName: 'UOM', minWidth: 200 },
+        { field: 'dd', headerName: 'Delivery Date', minWidth: 200, editable: true },
+        { field: 'price', headerName: 'Price', minWidth: 200, editable: true },
+        { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
+
+
+
+    ]
+
+
+
     return (
     
             <div className="firstDiv" >
 
 
                 <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                    <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '10px 0 0 0', padding: '0' }}>
+                    <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
 
                         <span className="card-title" style={{
                             fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
@@ -60,157 +80,190 @@ const Projection = () => {
 
                     </div>
                     <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                    <div className="card addSalecard">
-                        <div className="card-body" style={{ margin: '0', padding: '0', minHeight:'28vh' }}>
+                   
+                        <div className="card-body">
                                 <form className="form">
 
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="series" label="Series" ipTitle="Enter So No." ipType="text" classCategory="form-control col-4 inp" value={getSoSeries} readOnly />
+                                    <span className="col-1 m-0"></span>
+                                    {/*<label style={{ margin: '0 30px 0 12px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="series">Series</label>*/}
+                                    {/*<span style={{ color: 'red', fontWeight: 'bold', fontSize: '15px', margin: '0', padding: '0' }}>{getSoSeries}</span>*/}
+                                    <MasterInput2 name="vch-no" label="Vch. No." ipTitle="Enter Vch. No." ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
 
-                                    <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '10px 2px' }}>
-                                        <label style={{ margin: '0 30px 0 12px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="series">Series</label>
-                                        <span style={{ color: 'red', fontWeight: 'bold', fontSize: '15px', margin: '0', padding: '0' }}>{getSoSeries}</span>
-                                    </span>
+                                    {/*<span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '10px 2px' }}>*/}
+                                    {/*    <label style={{ margin: '0 30px 0 12px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="series">Series</label>*/}
+                                    {/*    <span style={{ color: 'red', fontWeight: 'bold', fontSize: '15px', margin: '0', padding: '0' }}>{getSoSeries}</span>*/}
+                                    {/*</span>*/}
 
-                                    <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row' , margin: '0', padding: '10px 0' }}>
-                                    <> <label style={{ margin: '0 30px 0 10px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-date">Vch. No.</label>
-                                            <input className="form-control col-sm-6" type="text" name="so-date" /></>
+                                    {/*<span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row' , margin: '0', padding: '10px 0' }}>*/}
+                                    {/*<> <label style={{ margin: '0 30px 0 10px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-date">Vch. No.</label>*/}
+                                    {/*        <input className="form-control col-sm-6" type="text" name="so-date" /></>*/}
 
-                                        {/*<> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-no">So No.</label>*/}
-                                        {/*    <input className="form-control col-sm-3" type="text" name="so-no" /></>*/}
-                                    </span>
+                                    {/*    */}{/*<> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-no">So No.</label>*/}
+                                    {/*    */}{/*    <input className="form-control col-sm-3" type="text" name="so-no" /></>*/}
+                                    {/*</span>*/}
 
-                                    
+                            <span className="d-flex section2 col-sm-12">
+                                <MasterInput2 name="cname" label="Customer Name" ipTitle="Enter Customer Name" ipType="text" classCategory="form-control col-4 inp" />
+                                <span className="col-1 m-0"></span>
+                               
+                                <MasterInput2 name="address" label="Address" ipTitle="Enter Address" ipType="text"  classCategory="form-control col-4 inp" readOnly/>
+                            </span>
 
-                                    <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>
-                                        <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="sold-to">Date</label>
-                                            <input className="form-control col-sm-3" type="date" name="sold-to" />
-                                        </>
-                                        <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="address">Due Date</label>
-                                            <input className="form-control col-sm-3" type="date" name="address"  />
-                                        </>
-                                    </span>
-                                 <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>
-                                        <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="sold-to">Ref No.</label>
-                                            <input className="form-control col-sm-3" type="text" name="sold-to" value={getAccName!} />
-                                        </>
-                                        <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="address">Dispatch No.</label>
-                                            <input className="form-control col-sm-3" type="text" name="address" value={masterDetails.ADDRESSNAME} />
-                                        </>
-                                    </span>
+                            <span className="d-flex section2 col-sm-12">
+                                <MasterInput2 name="date" label="Date" ipTitle="Enter Date" ipType="date" classCategory="form-control col-4 inp" />
+                                <span className="col-1 m-0"></span>
+
+                                <MasterInput2 name="date" label="Due Date" ipTitle="Enter Address" ipType="date" classCategory="form-control col-4 inp" />
+                            </span>
+
+                                    {/*<span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>*/}
+                                    {/*    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="sold-to">Date</label>*/}
+                                    {/*        <input className="form-control col-sm-3" type="date" name="sold-to" />*/}
+                                    {/*    </>*/}
+                                    {/*    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="address">Due Date</label>*/}
+                                    {/*        <input className="form-control col-sm-3" type="date" name="address"  />*/}
+                                    {/*    </>*/}
+                            {/*</span>*/}
+
+                            <span className="d-flex section2 col-sm-12">
+                                <MasterInput2 name="sold-to" label="Ref No." ipTitle="Enter Ref No." ipType="text" value={getAccName!} classCategory="form-control col-4 inp" readOnly/>
+                                <span className="col-1 m-0"></span>
+
+                                <MasterInput2 name="address" label="Dispatch No." ipTitle="Enter Dispatch No." ipType="text" value={masterDetails.ADDRESSNAME} classCategory="form-control col-4 inp" readOnly />
+                            </span>
+                                 {/*<span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>*/}
+                                 {/*       <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="sold-to">Ref No.</label>*/}
+                                 {/*           <input className="form-control col-sm-3" type="text" name="sold-to" value={getAccName!} />*/}
+                                 {/*       </>*/}
+                                 {/*       <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="address">Dispatch No.</label>*/}
+                                 {/*           <input className="form-control col-sm-3" type="text" name="address" value={masterDetails.ADDRESSNAME} />*/}
+                                 {/*       </>*/}
+                            {/*   </span>*/}
+                            <span className="d-flex section2 col-sm-12 mt-2">
+                                <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
+                                <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
+                            </span>
 
                                 </form>
                             </div>
 
-                        </div>
+                     
 
-                        <div className="card addSalecard">
+                
 
-                        <div className="card-body" style={{ margin: '0', padding: '0', minHeight:'28vh' }}>
-                                <form className="form">
+                        {/*<div className="card-body" >*/}
+                        {/*        <form className="form">*/}
 
 
-                                    <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', margin: '0', padding: '10px 0' }}>
+                        {/*            <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', margin: '0', padding: '10px 0' }}>*/}
 
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="delievery-terms">Customer <i style={{color:'red', marginLeft:'5px'}}>*</i></label>
-                                        <input className="form-control col-sm-6" type="text" name="delievery-terms" value={masterDetails.DELTERM} /></>
+                        {/*            <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="delievery-terms">Customer <i style={{color:'red', marginLeft:'5px'}}>*</i></label>*/}
+                        {/*                <input className="form-control col-sm-6" type="text" name="delievery-terms" value={masterDetails.DELTERM} /></>*/}
                                     
 
-                                        {/*<> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="open-po">Open P.O</label>*/}
-                                        {/*    <input className="form-control col-sm-3" type="text" name="open-po" /></>*/}
-                                    </span>
+                        {/*                */}{/*<> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="open-po">Open P.O</label>*/}
+                        {/*                */}{/*    <input className="form-control col-sm-3" type="text" name="open-po" /></>*/}
+                        {/*            </span>*/}
 
 
-                                    <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>
-                                    <><label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="payment-terms">Address</label>
-                                        <textarea className="form-control"  name="payment-terms" value={masterDetails.PAYTERM} /></>
+                        {/*            <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>*/}
+                        {/*            <><label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="payment-terms">Address</label>*/}
+                        {/*                <textarea className="form-control"  name="payment-terms" value={masterDetails.PAYTERM} /></>*/}
 
-                                        {/*<> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="upload-po">Upload P.O</label>*/}
-                                        {/*    <input className="form-control col-sm-3" type="text" name="upload-po" /></>*/}
-                                    </span>
+                        {/*                */}{/*<> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="upload-po">Upload P.O</label>*/}
+                        {/*                */}{/*    <input className="form-control col-sm-3" type="text" name="upload-po" /></>*/}
+                        {/*            </span>*/}
 
 
 
-                                </form>
-                            </div>
+                        {/*        </form>*/}
+                        
 
-                        </div>
+                        {/*</div>*/}
                     </div>
 
                 </div>
                
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
             <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>
-
-
-                    <span className="card-title" style={{
-                        fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
-                        margin: '0'
-                    }}>Projection Item Details</span>
-
-                    <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{
-                        width: "100%"
-                    }}>
-                        <thead>
-                            <tr>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item COde</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Name</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Quantity 1</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UOM 2</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Del Date 3</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Source</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Price</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Cons. Qty</th>
-                                <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Values</th>
-                              
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>1</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              
-                            </tr>
-                            <tr>
-                                <th>3</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              
-                            </tr>
-
-                        </tbody>
-                    </table>
+                <WriteGrid title="Projection Item Details" w='100vw' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} />
                 </div>
-            </div>
+            {/*<div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">*/}
+            {/*    <div className="card-body col-sm-12 addCustomer container container-fluid container-lg" style={{ overflowX: 'auto', overflowY: 'auto' }}>*/}
 
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+
+            {/*        <span className="card-title" style={{*/}
+            {/*            fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',*/}
+            {/*            margin: '0'*/}
+            {/*        }}>Projection Item Details</span>*/}
+
+            {/*        <table id="dtHorizontalExample" className="table table-striped table-bordered table-sm" style={{*/}
+            {/*            width: "100%"*/}
+            {/*        }}>*/}
+            {/*            <thead>*/}
+            {/*                <tr>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item COde</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Item Name</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Quantity 1</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>UOM 2</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Del Date 3</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Source</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Price</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Cons. Qty</th>*/}
+            {/*                    <th className="text-center" style={{ fontWeight: 400, backgroundColor: 'grey', color: 'white' }}>Values</th>*/}
+                              
+            {/*                </tr>*/}
+            {/*            </thead>*/}
+            {/*            <tbody>*/}
+            {/*                <tr>*/}
+            {/*                    <th>1</th>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+                              
+            {/*                </tr>*/}
+            {/*                <tr>*/}
+            {/*                    <th>2</th>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+                              
+            {/*                </tr>*/}
+            {/*                <tr>*/}
+            {/*                    <th>3</th>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+            {/*                    <td></td>*/}
+                              
+            {/*                </tr>*/}
+
+            {/*            </tbody>*/}
+            {/*        </table>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </div>
     )

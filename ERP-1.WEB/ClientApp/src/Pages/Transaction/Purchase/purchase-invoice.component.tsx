@@ -1,7 +1,12 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
-import UnderConstruction from '../../../components/under-construction';
-const PurcahseInvoice = () => {
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import RadioButton from '../../../components/RadioButton/radio-button.component';
+import WriteGrid from '../../../components/Grid Component/grid.component';
+import DatalistInput from 'react-datalist-input';
+const Direct_Purchase = () => {
     var getSoSeries = window.sessionStorage.getItem('so-series');
     var getAccName = window.sessionStorage.getItem('acc-name');
     const getState = window.localStorage.getItem('state');
@@ -43,168 +48,279 @@ const PurcahseInvoice = () => {
     var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
     var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    let data: any[] = [{ ic: null, in: null, qty: null, uom: null, price: null, value: null, tax: null, mc: null, mct: null, pono: null, hsn: null }]
+
+    var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+    { field: 'ic', headerName: 'Item Code', minWidth: 200 },
+    { field: 'in', headerName: 'Item Name', minWidth: 200 },
+        { field: 'qty', headerName: 'Quantity', minWidth: 200, editable: true },
+    { field: 'uom', headerName: 'UOM', minWidth: 200 },
+    { field: 'price', headerName: 'Price', minWidth: 200, editable: true },
+        { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
+    { field: 'tax', headerName: 'Tax%', minWidth: 200, editable: true },
+    { field: 'mc', headerName: 'Material Center', minWidth: 200, editable: true },
+    { field: 'pono', headerName: 'P.O No.', minWidth: 200, editable: true },
+    { field: 'hsn', headerName: 'HSN No.', minWidth: 200, editable: true },
+
+
+    ]
+  
+
+
+ 
+
+    /*------------------------------------------ BillSundry-Table-----------------------------------------------------*/
+
+    let dataBill: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
+
+    var ColDefBill: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+    { field: 'bill', headerName: 'Bill Sundary', minWidth: 200 },
+    { field: 'narration', headerName: 'Narration', minWidth: 200 },
+    { field: 'rate', headerName: '@', minWidth: 200 },
+    { field: 'rs', headerName: '', minWidth: 200 },
+    { field: 'amount', headerName: 'Amount(Rs.)', minWidth: 200 }
+
+
+
+    ]
+
     return (
         <div className="firstDiv" >
 
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '10px 0 0 0', padding: '0' }}>
+                <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
 
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
                         margin: '0'
-                    }}>Pending MRN for Purchase</span>
+                    }}>Purchase Invoice</span>
 
                 </div>
-                <div className="row row-content card col-sm-12 addSaleForm container container-fluid container-lg">
-                    
-                    <div className="card-body" style={{ margin: '0', padding: '0', minHeight: '28vh', width:'100%' }}>
-                        <form className="form col-7 ml-1">
+                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
+
+                    <div className="card-body row col-sm-12 m-0 p-0" >
+                        <form className="row-content form col-sm-12 pt-0">
+                            <fieldset className="form-group border p-0" >
+                                <legend className="px-2" style={{ fontSize: '1.1rem' }}>Purchase Invoice Details</legend>
 
 
-                                <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '10px 2px' }}>
-                                    <label style={{ margin: '0 30px 0 12px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="series">MRN Series</label>
-                                    <span style={{ color: 'red', fontWeight: 'bold', fontSize: '15px', margin: '0', padding: '0' }}>{getSoSeries}</span>
-                                </span>
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0 10px', padding: '10px 0' }}>
-                                    <> <label style={{ margin: '0 28px 0 0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-date">Supplier</label>
-                                        <input className="form-control col-sm-5" type="text" name="so-date" /></>
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="series" label="Series" ipTitle="Enter Series" ipType="text" value={getSoSeries} classCategory="form-control col-4 inp" readOnly />
+                                    <span className="col-1 m-0"></span>
 
-                                </span>
-
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="sold-to">MRN No. From</label>
-                                        <input className="form-control col-sm-3" type="text" name="sold-to" value={getAccName!} />
-                                    </>
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="address">MRN No. To</label>
-                                        <input className="form-control col-sm-3" type="text" name="address" value={masterDetails.ADDRESSNAME} />
-                                    </>
+                                    <MasterInput2 name="vch" label="Vch. No." ipTitle="Enter Vch. No." ipType="text" classCategory="form-control col-4 inp" />
                                 </span>
 
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="sold-to">Reciept Date From</label>
-                                        <input className="form-control col-sm-3" type="text" name="sold-to" value={getAccName!} />
-                                    </>
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="address">Reciept Date To</label>
-                                        <input className="form-control col-sm-3" type="text" name="address" value={masterDetails.ADDRESSNAME} />
-                                    </>
-                                </span>
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0 10px', padding: '10px 0' }}>
-                                    <> <label style={{ margin: '0 28px 0 0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-date">Item Code</label>
-                                        <input className="form-control col-sm-5" type="text" name="so-date" /></>
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="date" label="Date" ipTitle="Enter date" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
 
+                                    <MasterInput2 name="supplier" label="Supplier" ipTitle="Enter Supplier" ipType="text" classCategory="form-control col-4 inp" />
                                 </span>
 
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0 10px', padding: '10px 0' }}>
-                                    <> <label style={{ margin: '0 28px 0 0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-date">Customer Bill No.</label>
-                                        <input className="form-control col-sm-5" type="text" name="so-date" /></>
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="add" label="" ipTitle="" ipType="text" classCategory="form-control col-4 inp" readOnly />
+                                    <span className="col-1 m-0"></span>
 
+                                    <MasterInput2 name="state" label="State" ipTitle="Enter State" ipType="text" classCategory="form-control col-4 inp" />
                                 </span>
-                                <div className="col-12"></div>
-                                <button type="submit" className="btn btn-primary m-2 col-2 d-flex flex-start">Load Data</button>
 
-                            </form>
-                       
+                                <span className="d-flex section2 col-sm-12">
+                                  
+
+                                    <MasterInput2 name="statecode" label="State Code" ipTitle="Enter State Code" ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+                            </fieldset>
+
+                        </form>
+
 
                     </div>
+                    {/*---------------------------------------Purchase Order Payment Details----------------------------*/}
 
-               
+                    <form className="row-content form col-sm-12 pt-0">
+                        <fieldset className="form-group border p-0" >
+                            <legend className="px-2" data-toggle="collapse" data-target="#porderpdetails" aria-expanded="false" aria-controls="porderpdetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Purchase Order Payment Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                            <div className="collapse" id="porderpdetails">
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="dterm" label="Delivery Term" ipTitle="Enter Delivery Term" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="exch" label="Exch Rate" ipTitle="Enter Exch Rate" ipType="text" classCategory="form-control col-4 inp" />
+
+                                   
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="pterm" label="Payment Term" ipTitle="Enter Payment Term" ipType="text" classCategory="form-control col-4 inp" />
+
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="purchase" label="Purchase Type" ipTitle="Enter Purchase Type" ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                  
+                                    <MasterInput2 name="pcurr" label="Purchase Currency" ipTitle="Enter Purchase Currency" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="curr" label="Currency" ipTitle="Enter Currency" ipType="number" min='0' classCategory="form-control col-4 inp" />
+                                </span>
+
+                               
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+                    {/*//--------------------------------------------------GR/Bill Details---------------------------------------------------------------//*/}
+
+                    <form className="row-content form col-sm-12 pt-0">
+                        <fieldset className="form-group border p-0" >
+                            <legend className="px-2" data-toggle="collapse" data-target="#grbilldetails" aria-expanded="false" aria-controls="grbilldetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>GR/Bill Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                            <div className="collapse" id="grbilldetails">
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="grno" label="GR NO" ipTitle="Enter GR NO" ipType="number" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="billno" label="Bill No" ipTitle="Enter Bill No" ipType="text" classCategory="form-control col-4 inp" />
+
+
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="grdate" label="GR Date" ipTitle="Enter GR Date" ipType="date" classCategory="form-control col-4 inp" />
+
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="billdate" label="Bill Date" ipTitle="Enter Bill Date" ipType="date" classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="grqty" label="GR Qty" ipTitle="Enter GR Qty" ipType="number" min='0' classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="bqty" label="Bill Qty" ipTitle="Enter Bill Qty" ipType="number" min='0' classCategory="form-control col-4 inp" />
+                                </span>
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="gramt" label="GR Amt" ipTitle="Enter GR Amt" ipType="number" min='0' classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="bamt" label="Bill Amt" ipTitle="Enter Bill Amt" ipType="number" min='0' classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+                    {/*------------------------------------------------------------Transport Details--------------------------------------------------------------*/}
+
+                    <form className="row-content form col-sm-12 pt-0">
+                        <fieldset className="form-group border p-0" >
+                            <legend className="px-2" data-toggle="collapse" data-target="#tdetails" aria-expanded="false" aria-controls="tdetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Transport Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                            <div className="collapse" id="tdetails">
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="transporter" label="Transporter" ipTitle="Enter Transporter" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="vehicleno" label="Vehicle No." ipTitle="Enter Vehicle No." ipType="text" classCategory="form-control col-4 inp" />
+
+
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="vtype" label="Vehicle Type" ipTitle="Enter Vehicle Type" ipType="text" classCategory="form-control col-4 inp" />
+
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="ewaybillno" label="E-Way Bill No." ipTitle="Enter Bill Date" ipType="date" classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="dname" label="Driver Name" ipTitle="Enter Driver Name" ipType="text"  classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="billty" label="Billty No." ipTitle="Enter Billty No" ipType="text"  classCategory="form-control col-4 inp" />
+                                </span>
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+                    <span className="d-flex section2 col-sm-12 ml-3 mb-2">
+
+                        <MasterInput2 name="pacc" label="Purc. Acc." ipTitle="Enter Purc. Acc." ipType="text" classCategory="form-control col-10 inp" />
+                        
+                    </span>
                 </div>
 
             </div>
-          
+            <hr style={{ margin: '0', padding: '0' }} />
+            <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
+
+            <WriteGrid title="Purchase Invoice Line Item Details"  titleClr="blue" total='himanshu' OpenSubLayer={() => { }} colDef={ColDef} data={data} />
+                </div>
+
+            <hr style={{ margin: '0', padding: '0' }} className='mt-3' />
+
+
+         
+            <fieldset className="form-group border p-0" >
+                <legend className="px-2" data-toggle="collapse" data-target="#billsundry" aria-expanded="false" aria-controls="billsundry" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Bill Sundry Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                <div className="show" id="billsundry">
+                    <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
+                    <WriteGrid title="Bill Sundry Details" w='100vw' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefBill} data={dataBill} />
+                  </div>
+                </div>
+            </fieldset>
+
+            <span className="d-flex section2 col-sm-12 mb-2 mt-2">
+                <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
+                <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
+            </span>
 
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
-        
-         
-
-            <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card">
-
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Pending Mrn For Purchase Details</span>
-                    </div>
-
-                    <div className="table-responsive" style={{ padding: '0' }}>
-
-                        <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                            <thead className="thead-light table-secondary text-center">
-                                <tr>
-                                    <th scope="col">S.No.</th>
-                                    
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRN.No</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRN Date</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Purchase Ord</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Supplier Name</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Bill No.</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Bill Date</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Item Code</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Description</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Model No.</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRN Qty</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >UoM</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Processed Qty</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Balance Qty</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Mat.Center</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Process</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >GRSRNO</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Batch No.</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Color</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Size</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >P3</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    wholeLineItem.map((obj: any, i: any) => {
-                                        return (
-                                            <tr>
-
-                                                <th scope="row" className="text-center">{i + 1}</th>
-                                                
-
-                                                <td>{kinda.current}</td>
-
-                                                <td><input type="text" className="form-control" required /></td>
-                                                <td>{obj.UOMNAME}</td>
-                                                <td>{obj.MRP}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{obj.CGST}</td>
-                                                <td>{obj.SGST}</td>
-                                                <td>{obj.SALEPRICE}</td>
-                                                <td>{obj.IGST}</td>
-                                                <td>{obj.GSTCAT}</td>
-                                                {
-                                                    i == wholeLineItem.length - 2 ? (<button type="button" value={i} ><i><svg style={{ width: '21px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M576 384C576 419.3 547.3 448 512 448H205.3C188.3 448 172 441.3 160 429.3L9.372 278.6C3.371 272.6 0 264.5 0 256C0 247.5 3.372 239.4 9.372 233.4L160 82.75C172 70.74 188.3 64 205.3 64H512C547.3 64 576 92.65 576 128V384zM271 208.1L318.1 256L271 303C261.7 312.4 261.7 327.6 271 336.1C280.4 346.3 295.6 346.3 304.1 336.1L352 289.9L399 336.1C408.4 346.3 423.6 346.3 432.1 336.1C442.3 327.6 442.3 312.4 432.1 303L385.9 256L432.1 208.1C442.3 199.6 442.3 184.4 432.1 175C423.6 165.7 408.4 165.7 399 175L352 222.1L304.1 175C295.6 165.7 280.4 165.7 271 175C261.7 184.4 261.7 199.6 271 208.1V208.1z" /></svg></i></button>) : null
-                                                }
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
 
 
-                                            </tr>
-                                        )
-                                    })
 
-                                }
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
+                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
-
-
         </div>
     )
 }
 
-export default PurcahseInvoice;
+export default Direct_Purchase;

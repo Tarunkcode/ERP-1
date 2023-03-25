@@ -35,7 +35,8 @@ interface IProps {
     default : any,
     series: any[],
     group: any[],
-    type: any[] ,
+    type: any[],
+    clearance : any[],
     category: any[] ,
     brand: any[],
     matCanter : any[] ,
@@ -141,6 +142,7 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
                     series={this.props.series}
                     group={this.props.group}
                     type={this.props.type}
+                    clearance={this.props.clearance}
                     category={this.props.category}
                     brand={this.props.brand}
                     matCanter={this.props.matCanter}

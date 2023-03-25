@@ -166,7 +166,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
 
                                 </span>
-                                <div className="card col-sm-12">
+                                <div className="card col-sm-12 p-4 mt-4">
                                 <span className="form col-sm-12 row-content card-body pt-0 pb-0 px-2">
                                     <span className="d-flex flex-column section2 col-sm-12" style={{ marginLeft: '23px' }}>
                                         <CustomeSwitch lablClass="custom-control-label col-9" label="Is Block" id="c1" name="c1" classCat="form-control custom-control-input col-3 subMaster switch" handleChange={handleChangeField} />
@@ -220,10 +220,10 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                             </div>
                         </fieldset>
                     </form>
-                    <div className="row card-footer col-12 " style={{ margin: '1em 0%' }}>
+                    <div className="row card-footer col-12" style={{ margin: '1em 0%' }}>
                         <span className="d-flex align-items-center m-0 p-0">
                             <>
-                                <label htmlFor="addresstype" style={{ fontSize: '0.8em', width: '100%', marginLeft: '2em' }} className="form-label">Address. Options</label>
+                                <label htmlFor="addresstype" style={{ fontSize: '1em', width: '100%', marginLeft: '2em' }} className="form-label">Address. Options</label>
                                 <select name="addresstype" className="form-control str AddressDetail" onBlur={handleAddressOptions} >
 
                                     <option style={{ fontFamily: "trebuc" }} value={1} selected >Corporate</option>
@@ -243,7 +243,7 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                     <div style={{ margin: '0', width: '100%', padding: '0' }} id="addres">
                         <form className="form col-sm-12 row-content card-body pt-0">
 
-                            <fieldset className="form-group border p-0">
+                            <fieldset className="form-group border p-0 pb-4">
                                 <legend className="px-2" data-toggle="collapse" data-target="#contAdd" aria-expanded="false" aria-controls="personalDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>{opn}<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
                                 {
@@ -418,30 +418,30 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
                                     <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
                                         <thead className="thead-light table-secondary text-center">
                                             <tr>
-                                                <th>S. No</th>
-                                                <th>Year</th>
-                                                <th>TurnOver(Lacks)</th>
+                                                    <th style={{fontSize:'1rem'}}>S. No</th>
+                                                    <th style={{ fontSize: '1rem' }}>Year</th>
+                                                    <th style={{ fontSize: '1rem' }}>TurnOver(Lacks)</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <th scope="row">1</th>
-                                                <td> <input name="Year1" className="form-control inp str AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '70px', margin: 'auto' }} /></td>
-                                                <td> <input name="TurnOver1" className="form-control inp float AccountMaster" type="text" title="Enter Turnover 1" onBlur={handleChangeField} style={{ width: '120px', margin: 'auto' }} /></td>
+                                                <td> <input name="Year1" className="form-control inp str AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '99%', margin: 'auto' }} /></td>
+                                                <td> <input name="TurnOver1" className="form-control inp float AccountMaster" type="text" title="Enter Turnover 1" onBlur={handleChangeField} style={{ width: '99%', margin: 'auto' }} /></td>
 
                                             </tr>
                                             <tr>
                                                 <th scope="row">2</th>
-                                                <td><input name="Year2" className="form-control inp str AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '70px', margin: 'auto' }} /></td>
-                                                    <td><input name="TurnOver2" className="form-control inp float AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '120px', margin: 'auto' }} /></td>
+                                                <td><input name="Year2" className="form-control inp str AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '99%', margin: 'auto' }} /></td>
+                                                    <td><input name="TurnOver2" className="form-control inp float AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '99%', margin: 'auto' }} /></td>
 
 
                                             </tr>
                                             <tr>
                                                 <th scope="row">3</th>
-                                                <td><input name="Year3" className="form-control inp str AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '70px', margin: 'auto' }} /></td>
-                                                    <td><input name="TurnOver3" className="form-control inp float AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '120px', margin: 'auto' }} /></td>
+                                                <td><input name="Year3" className="form-control inp str AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '99%', margin: 'auto' }} /></td>
+                                                    <td><input name="TurnOver3" className="form-control inp float AccountMaster" type="text" title="Enter Year No." onBlur={handleChangeField} style={{ width: '99%', margin: 'auto' }} /></td>
 
 
                                             </tr>
@@ -462,12 +462,12 @@ export function CusSupMaster({ handleChangeField, bank, branch, currency, master
 
                                 <span className="d-flex col-sm-12 m-0 pl-0 pr-0">
                                     <>
-                                        <label htmlFor="empName" style={{ fontSize: '0.8em' }} className="form-label col-3 labl2 labl">Data Collected By</label>
-                                        <input type="text" name="empName" className="form-control str AccountMaster inp" />
+                                        <label htmlFor="empName" style={{ fontSize: '1rem' }} className="form-label col-2 labl2 labl">Data Collected By</label>
+                                        <input type="text" name="empName" className="form-control str AccountMaster inp col-4" />
                                     </>
                                     <>
-                                        <label htmlFor="date" style={{ fontSize: '0.8em' }} className="form-label labl2 labl">Date</label>
-                                        <input type="date" style={{ fontSize: '0.8em' }} name="date" className="form-control inp" />
+                                        <label htmlFor="date" style={{ fontSize: '1rem' }} className="form-label labl2 col-2 labl pt-2">Date</label>
+                                        <input type="date" style={{ fontSize: '1em' }} name="date" className="form-control inp col-3" />
                                     </>
 
                                 </span>

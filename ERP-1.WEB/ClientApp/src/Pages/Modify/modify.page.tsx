@@ -24,15 +24,16 @@ export default function Modify_Page({ selectModList, handleSelect, handleSubmit,
                 <DatalistInput
 
                     className="d-flex col-12 m-0 p-0"
-                    inputProps={{ className: 'col-12 col-sm-6 form-control', name: 'modify', id: "modify", style: {padding: '22px 0', fontSize:'20px'}, placeholder:'select to modify' }}
-                        listboxProps={{ className: 'text-left mt-5' }}
+                    inputProps={{ className: 'col-sm-10 form-control', name: 'modify', id: "modify", style: { padding: '22px 10px', fontSize: '20px', margin:'0 8%' } }}
+                    placeholder={"Select to Modify"}
+                    listboxProps={{ className: 'text-left mt-5 col-sm-10', style: { padding: '22px 10px', fontSize: '20px', margin: '0 8%' } }}
                         onSelect={(item : any) => handleSelect(item.id,item.value)}
                         items={selectModList}
                     />
               
             </span>
             <div className="card-footer col-12">
-                <button className="btn btn-warning col-6 col-sm-1 float-right" type="button" onClick={handleSubmit }>Modify</button>
+                <button className="btn btn-warning col-sm-1" style={{margin:'0 46%'}} type="button" onClick={handleSubmit }>Modify</button>
 
             </div>
         </div>

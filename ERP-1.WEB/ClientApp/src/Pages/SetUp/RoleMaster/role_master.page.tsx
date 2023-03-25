@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import Tree2 from "../../../components/custom-tree/tree2.component"
 import useFetch from '../../../components/Hooks/useFetch';
-export default function Role_Master_Page({ handleChange, handlePosting, getName, getDes1, getDes2, getDes3, getDes4,...props}: any) {
+export default function Role_Master_Page({ defRoleMaster, handleChange, handlePosting, getName, getDes1, getDes2, getDes3, getDes4,vccode, ...props}: any) {
     var [tree, setTree]: any = React.useState([])
     let api = useFetch();
        const renderTreeData = async () => {
@@ -11,9 +11,9 @@ export default function Role_Master_Page({ handleChange, handlePosting, getName,
                 let path = `/api/LoadRoleManuTree`
                 let { res, got } = await api(path, 'GET', '')
                 console.log('res', res)
-                if (res.status === 200) {
-                    var jsonStr: string = got.data;
-                    setTree(JSON.parse(jsonStr))
+                if (res.status === 200) {   
+                    var json: any[] = got;
+                    setTree(json)
                 }
                 else throw new Error('Bad Fetch 1')
             } catch (err) { alert(err) }
@@ -22,6 +22,11 @@ export default function Role_Master_Page({ handleChange, handlePosting, getName,
 
         renderTreeData()
     }, [])
+    React.useEffect(() => {
+
+        console.log('else  ', defRoleMaster )
+    }, [defRoleMaster])
+    
     const findName = (e: any) => {getName(e.target.value)}
     const findDes1 = (e: any) => {getDes1(e.target.value) }
     const findDes2 = (e: any) => { getDes2(e.target.value)}
@@ -38,33 +43,33 @@ export default function Role_Master_Page({ handleChange, handlePosting, getName,
                         <div className=" d-md-flex flex-md-row">
                             <div className="left-window p-3" style={{ border: '1px solid black', width: '60vw', minHeight: '100vh', margin: 'auto' }}>
                              
-                                <div className="col-8 p-3 m-0">
+                                <form className="col-8 p-3 m-0" id="form">
                                     <span className="m-0 mb-2 p-0 col-12 d-flex">
-                                    <label htmlFor="Name" className="form-label p-0 m-0 mt-2 col-2">Name</label>
-                                        <input name="Name" type="text" title="" className="form form-control col-10 mt-2" required onChange={findName}/>
+                                        <label htmlFor="name" className="form-label p-0 m-0 mt-2 col-2">Name</label>
+                                        <input name="name" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].name : ''} type="text" title="" className="form form-control inp col-10 mt-2" required onChange={findName} autoComplete="off" />
                                     </span>
                                        <span className="m-0 mb-2 p-0 col-12 d-flex">
-                                    <label htmlFor="Name" className="form-label col-2"></label>
-                                    <input className="form form-control col-10 mt-2" placeholder="Enter Description 1" onBlur={findDes1} required />
+                                        <label htmlFor="des1" className="form-label col-2"></label>
+                                        <input name="des1" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des1 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 1" onBlur={findDes1} required />
                                      </span>
                                        <span className="m-0 mb-2 p-0 col-12 d-flex">
-                                    <label htmlFor="Name" className="form-label col-2"></label>
-                                    <input onBlur={findDes2} className="form form-control col-10 mt-2" placeholder="Enter Description 2" required />
+                                        <label htmlFor="des2" className="form-label col-2"></label>
+                                        <input name="des2" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des2 : ''} onBlur={findDes2} className="form form-control inp col-10 mt-2" placeholder="Enter Description 2" required />
                                      </span>
                                        <span className="m-0 p-0 mb-2 col-12 d-flex">
-                                    <label htmlFor="Name" className="form-label col-2"></label>
-                                    <input onBlur={findDes3} className="form form-control col-10 mt-2" placeholder="Enter Description 3" required />
+                                        <label htmlFor="des3" className="form-label col-2"></label>
+                                        <input name="des3" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des3 : ''} onBlur={findDes3} className="form form-control inp col-10 mt-2" placeholder="Enter Description 3" required />
                                      </span>
                                        <span className="m-0 mb-2 p-0 col-12 d-flex">
-                                    <label htmlFor="Name" className="form-label col-2"></label>
-                                    <input className="form form-control col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4 } required />
+                                        <label htmlFor="des4" className="form-label col-2"></label>
+                                        <input name="des4" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des4 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4 } required />
                                      </span>
                                     <button className="btn btn-success col-4 m-3" onClick={handlePosting }>Save</button>
-                                </div>
+                                </form>
 
                             </div>
                             <div className="right-panel p-3" style={{ border: '1px solid black', width: '35vw', maxHeight: '100vh', backgroundColor: '#fff', overflow: 'scroll' }}>
-                                <Tree2 handleChange={ handleChange} treeData={tree} />
+                                <Tree2 handleChange={handleChange} treeData={tree} defaultRights={defRoleMaster.roleright} virtual={vccode } />
                             </div>
 
 

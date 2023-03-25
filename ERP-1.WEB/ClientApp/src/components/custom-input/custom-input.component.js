@@ -51,7 +51,7 @@ function MasterInput(_a) {
     return (
     /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
     React.createElement(React.Fragment, null,
-        React.createElement("label", { htmlFor: name, style: { fontSize: '1rem' }, className: "form-label labl labl2" }, label),
+        React.createElement("label", { htmlFor: name, style: { fontSize: '1rem' }, className: "form-label labl labl2 mt-2" }, label),
         props.read === true ? (React.createElement("input", { type: ipType, defaultValue: defaultt, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true, readOnly: true })) : (React.createElement("input", { type: ipType, defaultValue: defaultt, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true })))
     /*  </span>*/
     );
@@ -62,8 +62,8 @@ function MasterInput2(_a) {
     return (
     /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
     React.createElement(React.Fragment, null,
-        React.createElement("label", { htmlFor: name, style: { fontSize: '1rem' }, className: "form-label labl ml-2 mr-2 labl2" }, label),
-        React.createElement("input", { type: ipType, defaultValue: defaultt, style: { borderColor: "#86a4c3" }, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true }))
+        React.createElement("label", { htmlFor: name, style: { fontSize: '1rem' }, className: "form-label labl  mt-2 ml-2 mr-2 labl2" }, label),
+        React.createElement("input", { type: ipType, defaultValue: defaultt, style: { borderColor: "#86a4c3", padding: '22px 0 22px 10px' }, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true }))
     /*  </span>*/
     );
 }
@@ -73,7 +73,7 @@ function MasterInput3(_a) {
     return (
     /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
     React.createElement(React.Fragment, null,
-        React.createElement("label", { htmlFor: name, style: { fontSize: '1rem' }, className: "form-label labl col-2 ml-2 mr-2 labl2" }, label),
+        React.createElement("label", { htmlFor: name, style: { fontSize: '1rem' }, className: "form-label labl col-2 ml-2  mt-2 mr-2 labl2" }, label),
         React.createElement("input", { type: ipType, defaultValue: defaultt, style: { borderColor: "#86a4c3" }, name: name, className: classCategory, onBlur: handleChange, title: ipTitle, autoComplete: "off", list: name, required: true }))
     /*  </span>*/
     );

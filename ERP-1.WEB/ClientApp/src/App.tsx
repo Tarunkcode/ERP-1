@@ -24,12 +24,12 @@ import ProductionPlanning from './Pages/DashBoards/production-planning/productio
 import HouseKeeping from './Pages/SetUp/House-Keeping/house-keeping.component';
 import Approval from './Pages/SetUp/approval/approval.component';
 import Inventory from "./components/SetUp/inventory.component"
-import SPType from "./components/SetUp/saleType-purchaseType.component"
+import saletype$purtype from "./components/SetUp/saleType-purchaseType.component"
 import GSTCategory_Page from "./Pages/SetUp/GSTCategory/gst-category.page";
 import Series_Conf from './components/SetUp/series_config.component';
 import BillSundry from './components/SetUp/bill-sundry.component';
-import Role_Master from './components/SetUp/role-master.component';
-import UserMaster_Page from './Pages/SetUp/UserMaster/user-master.page';
+import role from './components/SetUp/role-master.component';
+import UserMaster from './Pages/SetUp/UserMaster/user-master.page';
 import SalePurchaseType_Page from './Pages/SetUp/SalePurchaseType/sale-purchase-type.page';
 import GSTConf_Page from './Pages/SetUp/Featutes-Option/gst-conf.page';
 
@@ -121,6 +121,19 @@ import ProductionOverHead_Page from './Pages/Sub-Master/production-overhead.page
 import IMaster from './components/Masters/item.component';
 import GridA from './Pages/ag-grid';
 import SuccessFullyModify from './Pages/successfully_modify';
+import State_Page from './Pages/Sub-Master/state-page';
+import City_Page from './Pages/Sub-Master/city-page';
+import Zone_Page from './Pages/Sub-Master/zone-page';
+import Direct_Purchase from './Pages/Transaction/Purchase/direct-purchase-invoice.component';
+import PurcahseInvoice from './Pages/Transaction/Purchase/purchase-invoice.component';
+import Stock_Transfer_Order from './Pages/Transaction/Material-Movement/stock-transfer-order.component';
+import From_Prodiction_Indent from './Pages/Transaction/Planning/production-plan.component';
+import Sampling from './Pages/Transaction/Planning/sample_production.component';
+import Vendor_Quotation_Entry from './Pages/Transaction/Purchase/vendor-quotation-entry.component';
+import Vendor_Quotation_Approval from './Pages/Transaction/Purchase/vendor-quotation-approval.component';
+import Dr_Note from './Pages/Transaction/Purchase/dr-note.component';
+import Cash_Issue_Receipt from './Pages/Transaction/Purchase/cash-Issue-receipt.component';
+
 
 
 
@@ -189,6 +202,7 @@ function App() {
                     "/mrn",
                     "/pr-indent",
                     "/purchase-invoice",
+                    "/add-purchase-order",
                     "/purchase-order",
                     "/purchase-quotation",
                     "/purchase-schedules",
@@ -203,7 +217,7 @@ function App() {
                     "/sale-quotation",
                     "/purchase-requisation",
                     "/modify/:master",
-                    '/list',
+                    '/list/:master',
                     "/material-movement",
                     "/feature-option/gst",
                     "/feature-option/inventory/1",
@@ -370,7 +384,7 @@ function App() {
 
 
                         <Route exact path='/modify/:master' component={Modify} />
-                        <Route exact path='/list' component={List} />
+                        <Route exact path='/list/:master' component={List} />
 
 
                         {/*Configuration*/}
@@ -384,16 +398,16 @@ function App() {
 
                         <Route exact path="/add-series-configuration" component={Series_Conf} />
 
-                        <Route exact path="/add-role-master-configuration" component={Role_Master} />
+                        <Route exact path="/add-role-master-configuration" component={role} />
                         <Route exact path="/add-gst-category" component={GSTCategory_Page} />
 
-                        <Route exact path='/add-user-master' component={UserMaster_Page} />
+                        <Route exact path='/add-user-master' component={UserMaster} />
                         {/*/add-sale-type*/} {/*/add-purchase-type*/}
                         <Route exact path="/bill-sundry" component={BillSundry} />
                         <Route exact path='/house-keeping' component={HouseKeeping} />
                         <Route exact path='/approval' component={Approval} />
-                        <Route exact path='/add-sale-type' component={SPType} />
-                        <Route exact path='/add-purchase-type' component={SPType} />
+                        <Route exact path='/add-sale-type' component={saletype$purtype} />
+                        <Route exact path='/add-purchase-type' component={saletype$purtype} />
 
 
                         {/*SubMaster*/}
@@ -418,9 +432,9 @@ function App() {
                         <Route exact path='/add-unit/17' component={SubMaster} />
                         <Route exact path='/add-currency/18' component={SubMaster} />
                         <Route exact path='/add-process/19' component={Process} />
-                        <Route exact path='/add-state/20' component={YetNotStarted} />
-                        <Route exact path='/add-city/21' component={YetNotStarted} />
-                        <Route exact path='/add-zone/22' component={YetNotStarted} />
+                        <Route exact path='/add-state/20' component={State_Page} />
+                        <Route exact path='/add-city/21' component={City_Page} />
+                        <Route exact path='/add-zone/22' component={Zone_Page} />
                         <Route exact path='/add-discount-type/23' component={YetNotStarted} />
                         <Route exact path='/add-qc-type/24' component={SubMaster} />
                         <Route exact path='/add-cost-center/25' component={YetNotStarted} />
@@ -479,38 +493,41 @@ function App() {
                       
                      
 
-                        {/*Transaction */}
                         <Route exact path='/tran-list' component={YetNotStarted} />
                         <Route exact path='/tran-modify' component={YetNotStarted} />
                         <Route exact path='/add-sale-order' component={AddSaleOrder} />
                         <Route exact path="/add-projection-details" component={Projection} />
                         <Route exact path="/add-PR" component={PurchaseRequisation} />
-                        <Route exact path="/add-sample" component={YetNotStarted} />
+                        <Route exact path="/add-sample" component={Sampling} />
+                        <Route exact path="/add-purchase-order" component={PurchaseOrder} />
 
                         <Route exact path="/add-Quotation" component={PurchaseQuotation} />
-                        <Route exact path="/add-Vendor-Quot-Entry" component={YetNotStarted} />
-                        <Route exact path="/add-Po-PR" component={YetNotStarted} />
-                        <Route exact path="/add-Po-QT" component={YetNotStarted} />
+                        <Route exact path="/add-Vendor-Quot-Entry" component={Vendor_Quotation_Entry} />
+                        <Route exact path="/add-Po-PR" component={PurchaseOrder} />
+                        <Route exact path="/add-Po-QT" component={PurchaseOrder} />
+                        {/*// ------by me------*/}
                         <Route exact path="/add-Po" component={PurchaseOrder} />
+                        {/*<Route exact path="/add-Fq" component={PurchaseOrder} />*/}
+                        {/*------------------------------------------------/*/}
                         <Route exact path="/add-PS" component={PurchaseSchedules} />
                         <Route exact path="/add-GE" component={GateEntry} />
                         <Route exact path="/add-MRN" component={MRN} />
-                        <Route exact path="/add-Dr-Note" component={YetNotStarted} />
-                        <Route exact path="/add-Purchase" component={YetNotStarted} />
-                        <Route exact path='/add-Dir-Purchase' component={YetNotStarted} />
-                        <Route exact path='/add-Cash-Issue' component={YetNotStarted} />
-                        <Route exact path="/add-Cash-Receipt" component={YetNotStarted} />
+                        <Route exact path="/add-Dr-Note" component={Dr_Note} />
+                        <Route exact path="/add-Purchase" component={PurcahseInvoice} />
+                        <Route exact path='/add-Dir-Purchase' component={Direct_Purchase} />
+                        <Route exact path='/add-Cash-Issue' component={Cash_Issue_Receipt} />
+                        <Route exact path="/add-Cash-Receipt" component={Cash_Issue_Receipt} />
                         <Route exact path="/add-Qc-Inc" component={YetNotStarted} />
                         <Route exact path="/add-Qc-Out" component={OQC} />
                         <Route exact path="/add-JW" component={YetNotStarted} />
                         <Route exact path="/add-Rework" component={YetNotStarted} />
                         <Route exact path="/add-SmpProd" component={YetNotStarted} />
                         <Route exact path="/add-TBE" component={YetNotStarted} />
-                       
+
                         <Route exact path="/add-SJ" component={StockJournal} />
                         <Route exact path="/add-ST" component={StockTransfer} />
-                        <Route exact path="/add-STO" component={YetNotStarted} />
-                        <Route exact path="/add-PPI" component={YetNotStarted} />
+                        <Route exact path="/add-STO" component={Stock_Transfer_Order} />
+                        <Route exact path="/add-PPI" component={From_Prodiction_Indent} />
                         <Route exact path="/add-PDC" component={YetNotStarted} />
                         <Route exact path="/add-DWP" component={DayWisePlanning} />
                         <Route exact path="/add-DWPP" component={YetNotStarted} />
@@ -518,7 +535,7 @@ function App() {
                         <Route exact path="/add-MatReq" component={YetNotStarted} />
 
                         <Route exact path='/add-MatIssue' component={MaterialIssue} />
-                        <Route exact path='/add-Vendor-Quot-Comp' component={YetNotStarted} />
+                        <Route exact path='/add-Vendor-Quot-Comp' component={Vendor_Quotation_Approval} />
 
                         <Route exact path="/add-BDE" component={YetNotStarted} />
                         <Route exact path="/add-Chitp" component={YetNotStarted} />
@@ -535,7 +552,7 @@ function App() {
                         <Route exact path="/add-ReWork" component={YetNotStarted} />
                         <Route exact path="/add-STP" component={YetNotStarted} />
                         <Route exact path="/add-DA" component={DispatchPlan} />
-                        <Route exact path="/add-PI" component={PurchaseInvoice} />
+                        <Route exact path="/add-PI" component={YetNotStarted} />
                         <Route exact path='/add-SI' component={SaleInvoice} />
                         <Route exact path='/add-MMP' component={YetNotStarted} />
                         <Route exact path='/add-SR' component={SaleReturn} />
@@ -546,8 +563,10 @@ function App() {
                         <Route exact path="/add-pack-to-loose" component={PackToLoose} />
                         <Route exact path="/add-material-movement" component={MaterialMovement} />
                         <Route exact path='/add-material-dispatch' component={MarerialDispatch} />
-                    
-            
+
+
+
+
                      
 
               

@@ -11,6 +11,7 @@ interface ISTATE {
     group: any[],
     type: any[],
     category: any[],
+    clearance : any[],
     brand: any[],
     matCanter: any[],
     uom: any[],
@@ -28,6 +29,7 @@ export default function ItemMasterWithLoad(Component: any) {
                 type: [],
                 category: [],
                 brand: [],
+                clearance:[],
                 matCanter: [],
                 uom: [],
                 gstCat: [],
@@ -65,7 +67,7 @@ export default function ItemMasterWithLoad(Component: any) {
             header.append('Content-Type', 'application/json');
             header.append('CompCode', 'ESERPDB');
             header.append('FYear', '0');
-            let loadCred = [{ 'set': "group", 'mstr': 79 }, { 'set': 'type', 'mstr': 1009 }, { 'set': 'category', 'mstr': 1010 }, { 'set': 'brand', 'mstr': 1002 }, { 'set': 'matCanter', 'mstr': 22 }, { 'set': 'uom', 'mstr': 21 }, { 'set': 'gstCat', 'mstr': 2008 }, { 'set':'subCat', 'mstr' : 1035 }]
+            let loadCred = [{ 'set': "group", 'mstr': 79 }, { 'set': 'type', 'mstr': 1009 }, { 'set': 'category', 'mstr': 1010 }, { 'set': 'brand', 'mstr': 1002 }, { 'set': 'matCanter', 'mstr': 22 }, { 'set': 'uom', 'mstr': 21 }, { 'set': 'gstCat', 'mstr': 2008 }, { 'set': 'subCat', 'mstr': 1035 }, { 'set': 'clear', 'mstr': 1032 }]
             try {
                 for (let i = 0; i < loadCred.length; i++) {
                     let urlStr: string = `/api/LoadMasterData?MasterType=${loadCred[i].mstr}&Company=46&Customer=57`
@@ -86,7 +88,8 @@ export default function ItemMasterWithLoad(Component: any) {
                             case 'matCanter': this.setState({ matCanter: modify_list})
                             case 'uom': this.setState({ uom: modify_list })
                             case 'gstCat': this.setState({ gstCat: modify_list })
-                            case 'subCat': this.setState({ subCat: modify_list})
+                            case 'subCat': this.setState({ subCat: modify_list })
+                            case 'clear': this.setState({ clearance: modify_list })
                             
                         }
                         
@@ -116,6 +119,7 @@ export default function ItemMasterWithLoad(Component: any) {
                     category={this.state.category}
                     brand={this.state.brand}
                     matCanter={this.state.matCanter}
+                    clearance={this.state.clearance}
                     uom={this.state.uom}
                     gstCat={this.state.gstCat}
                     subCat={this.state.subCat}

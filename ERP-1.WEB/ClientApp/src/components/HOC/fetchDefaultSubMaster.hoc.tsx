@@ -38,7 +38,7 @@ export default function DefaultSubMaster(Component: any) {
                         this.setState({ defSubMaster: got.data[0] });
                         this.defInitStateObj = { ...this.state.defSubMaster }
                     }
-                      
+                    else {}
                
                 } catch (err) {
                     alert(err)

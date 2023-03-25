@@ -119,6 +119,9 @@ table.dataTable thead .sorting_desc_disabled:before {
 }
 
 
+.datalist {
+    border-color: #86a4c3;
+}
 /*.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
     width: 457px;
    
@@ -129,3 +132,8 @@ table.dataTable thead .sorting_desc_disabled:before {
     height: 44px;
     border-color: #86a4c3;
 }*/
+
+.uploaddoc {
+    padding-bottom: 35px;
+    margin-top: 5px;
+}
