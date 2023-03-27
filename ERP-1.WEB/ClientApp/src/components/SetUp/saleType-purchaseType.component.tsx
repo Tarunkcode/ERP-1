@@ -3,10 +3,11 @@ import SalePurchaseType_Page from '../../Pages/SetUp/SalePurchaseType/sale-purch
 import { store2 } from '../../Redux/config/config.reducer';
 import { toast } from 'react-toastify';
 import SalePurchaseTypeLoadDetails from '../HOC/load-sale-purchase-type';
+
 interface IState {
     configType: string,
     rawObj: object,
-    defGstCatName : string,
+    defGstCatName: string,
     gridApi: any,
 
     masterType: number,
@@ -23,7 +24,7 @@ class SPType extends React.Component<IProps, IState> {
         this.state = {
             masterType: 0,
             rawObj: {},
-            defGstCatName :'',
+            defGstCatName: '',
             gridApi: null,
             payType: 0,
             configType: ''
@@ -45,10 +46,10 @@ class SPType extends React.Component<IProps, IState> {
 
 
                 this.props.gstCategory.map((option: any) => {
-                    if (option.id == this.props.loadSPTypeMaster.sptypeheader[0].gstcat) 
-                        this.setState({ defGstCatName: option.value})
-                        })
-             
+                    if (option.id == this.props.loadSPTypeMaster.sptypeheader[0].gstcat)
+                        this.setState({ defGstCatName: option.value })
+                })
+
 
             } else { }
 
@@ -95,24 +96,44 @@ class SPType extends React.Component<IProps, IState> {
     collectTableData = async () => {
 
         let dataSet: any[] = await this.getAllRows();
+        /*  this.props.gettingVirtualCode == 0 ? (*/
         dataSet.map((item: any) => {
-            this.props.billSundryList.map((option: any) => {
-                if (option.label == item.bscode) {
-                    item.bscode = option.id;
-                    item.bstype = this.getBSTypeCode(item.bstype);
-                    item.nature === 'Additive' ? item.nature = 1 : item.nature = 2;
+            item.bscode.label ? (
+                this.props.billSundryList.map((option: any) => {
+                    if (option.label == item.bscode.label) {
+                        item.bscode = option.id;
+                        item.bstype = this.getBSTypeCode(item.bstype);
+                        item.nature === 'Additive' ? item.nature = 1 : item.nature = 2;
 
 
-                    item.bsval = parseInt(item.bsval);
-                    item.code = this.props.gettingVirtualCode;
+                        item.bsval = parseInt(item.bsval);
+                        item.code = this.props.gettingVirtualCode;
 
-                } else { }
+                    } else { }
 
 
-            })
+                })
+            ) : (
+                this.props.billSundryList.map((option: any) => {
+                    if (option.label == item.bscode) {
+                        item.bscode = option.id;
+                        item.bstype = this.getBSTypeCode(item.bstype);
+                        item.nature === 'Additive' ? item.nature = 1 : item.nature = 2;
+
+
+                        item.bsval = parseInt(item.bsval);
+                        item.code = this.props.gettingVirtualCode;
+
+                    } else { }
+
+
+                })
+            )
         })
 
-       await this.setState({
+
+
+        await this.setState({
             rawObj: dataSet
         })
     }
@@ -122,21 +143,7 @@ class SPType extends React.Component<IProps, IState> {
         let label = "seriesConf";
 
         store2.dispatch({ payload: value, key: name, type: "changeConfig", label: label });
-        /*let newObj = { ...this.props.loadSPTypeMaster.sptypeheader, ...store2.getState().seriesConf }*/
-        //this.setState({
-        //    rawObj: {
-        //        sptypeheader: [{
-        //            ...newObj,
-        //            code: this.props.gettingVirtualCode,
-        //            customer: this.props.customer,
-        //            company: this.props.compCode,
-        //            mastertype: this.state.masterType,
-        //            username: this.props.username
-        //        }],
-        //        sptypedetail: []
-        //    }
-        //})
-
+       
     }
     handleChange = (e: any) => {
 
@@ -158,12 +165,7 @@ class SPType extends React.Component<IProps, IState> {
         }
         store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
 
-        //this.setState({
-        //    rawObj: {
-
-        //        sptypedetail: []
-        //    }
-        //})
+      
     }
 
 
@@ -233,7 +235,7 @@ class SPType extends React.Component<IProps, IState> {
                     gstCat={this.props.gstCategory}
                     vccode={this.props.gettingVirtualCode}
                     getMasterType={this.getMasterType}
-                    defGstCatName={this.state.defGstCatName }
+                    defGstCatName={this.state.defGstCatName}
                     defaultLoad={this.props.loadSPTypeMaster}
                     getTableData={this.getTableData.bind(this)}
                     pageTitle="Sale Type" billSundry={this.props.billSundryList} handleChange={this.handleChange} handlePosting={this.handlePosting} configType={this.state.configType} />) : null}

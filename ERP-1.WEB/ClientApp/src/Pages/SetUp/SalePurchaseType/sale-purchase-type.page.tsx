@@ -36,7 +36,7 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
                 params.data.nature = params.newValue.nature;
                 params.data.bsval = params.newValue.value;
 
-                params.api.refreshCells({ columns: ['nature', "bstype", "bsval"] });
+                params.api.refreshCells({force : true });
             }
         },
         valueFormatter: (params: any) => {

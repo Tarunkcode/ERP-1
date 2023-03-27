@@ -1,9 +1,12 @@
 ﻿import * as React from 'react';
 import Tree2 from "../../../components/custom-tree/tree2.component"
 import useFetch from '../../../components/Hooks/useFetch';
-export default function Role_Master_Page({ defRoleMaster, handleChange, handlePosting, getName, getDes1, getDes2, getDes3, getDes4,vccode, ...props}: any) {
+export default function Role_Master_Page({ defRoleMaster, handleChange, handlePosting, getName, getDes1, getDes2, getDes3, getDes4, vccode, getAllStatus, suDefArr, ...props}: any) {
     var [tree, setTree]: any = React.useState([])
+    var [suStatus, setSuStatus]: any = React.useState(false)
+
     let api = useFetch();
+    
        const renderTreeData = async () => {
 
             try {
@@ -19,8 +22,8 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
             } catch (err) { alert(err) }
         }
     React.useEffect(() => {
-
         renderTreeData()
+   
     }, [])
     React.useEffect(() => {
 
@@ -31,7 +34,13 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
     const findDes1 = (e: any) => {getDes1(e.target.value) }
     const findDes2 = (e: any) => { getDes2(e.target.value)}
     const findDes3 = (e: any) => {getDes3(e.target.value)}
-    const findDes4 = (e: any) => {getDes4(e.target.value)}
+    const findDes4 = (e: any) => { getDes4(e.target.value) }
+
+    const CallSuperUserRoleRights = (e: any) => {
+        e.target.checked ? setSuStatus(true) : setSuStatus(false);
+        getAllStatus(e.target.checked);
+    }
+
     return (
         <div className="main card firstDiv">
             <div className="main card firstDiv">
@@ -69,7 +78,18 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
 
                             </div>
                             <div className="right-panel p-3" style={{ border: '1px solid black', width: '35vw', maxHeight: '100vh', backgroundColor: '#fff', overflow: 'scroll' }}>
-                                <Tree2 handleChange={handleChange} treeData={tree} defaultRights={defRoleMaster.roleright} virtual={vccode } />
+                                <ul style={{ marginBottom: "10px", borderLeft: "1px solid black", }}>
+                                    <li className="ram" id="topnode" style={{ fontSize: '1.4rem' }}>
+                                        <span>
+                                            <a className="m-1 p-2 Snode" style={{ border: '1px solid black', cursor: 'pointer', backgroundColor: 'navy', color: 'white' }} >All</a>
+                                        </span>
+
+                                        <input type="checkbox" id="super" name="super" onChange={CallSuperUserRoleRights} className="col-1 m-0 p-0" />
+
+                                    </li>
+                                </ul>
+
+                                <Tree2 handleChange={handleChange} treeData={tree} suStatus={suStatus} suArr={suDefArr} defaultRights={defRoleMaster.roleright} virtual={vccode} />
                             </div>
 
 

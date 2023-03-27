@@ -17,7 +17,9 @@ interface IProps {
 interface IState {
     rawObj: any,
     name: string,
+    isAllStatus : boolean,
     des1: string,
+    wholeRolePerssionActive: any[],
     des2: string,
     des3: string,
     des4: string
@@ -31,6 +33,8 @@ class Role_Master extends React.Component<IProps, IState> {
             },
             name: "",
             des1: "",
+            wholeRolePerssionActive : [],
+            isAllStatus : false,
             des2: "",
             des3: "",
             des4: ""
@@ -41,10 +45,10 @@ class Role_Master extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-    //componentDidMount() {
-    //    //store2.getState().roleMaster = []
+    componentDidMount() {
+        this.SuperUserDefaultRole()
 
-    //}
+    }
     componentDidUpdate(prevProps: any) {
         if (this.props.gettingVirtualCode !== 0) {
             if (this.props.defRoleMaster !== prevProps.defRoleMaster) {
@@ -62,6 +66,9 @@ class Role_Master extends React.Component<IProps, IState> {
             } else { }
 
         } else { }
+    }
+    GetAllStatus = (status: boolean) => {
+        this.setState({ isAllStatus: status })
     }
     getName = (value: string) => {
         this.setState({ name: value })
@@ -83,7 +90,20 @@ class Role_Master extends React.Component<IProps, IState> {
         this.setState({ des4: value })
         this.props.gettingVirtualCode !== 0 ? this.props.defRoleMaster.roleheader[0].des4 = value : null
     }
+    SuperUserDefaultRole = async () => {
 
+        try {
+
+            let path = `/api/DefaultRoleList`
+            let { res, got } = await this.props.api(path, 'GET', '')
+            console.log('res', res)
+            if (res.status === 200) {
+                var json: any[] = got.data;
+                this.setState({ wholeRolePerssionActive: json });
+            }
+            else throw new Error('Bad Fetch 1')
+        } catch (err) { alert(err) }
+    }
     handleChange = async (e: any) => {
         var Code: any = e.target.name
         if (!e.target.checked) {
@@ -135,7 +155,7 @@ class Role_Master extends React.Component<IProps, IState> {
     }
     handlePosting = async (e: any) => {
         e.preventDefault();
-
+        
         /*  if(!this.state.name) return alert('Name Cannnot be Empty')*/
         console.log('calling', this.state.rawObj.roleright);
         let i: any = {
@@ -151,7 +171,7 @@ class Role_Master extends React.Component<IProps, IState> {
                     "des3": this.state.des3,
                     "des4": this.state.des4
                 }],
-            "roleright": [...this.state.rawObj.roleright]
+            "roleright": this.state.isAllStatus ? [...this.state.wholeRolePerssionActive] : [...this.state.rawObj.roleright]
         };
 
         console.log('i', i)
@@ -181,7 +201,7 @@ class Role_Master extends React.Component<IProps, IState> {
         return (
             <>
 
-                < Role_Master_Page getName={this.getName} defRoleMaster={this.props.defRoleMaster} getDes1={this.getDes1} getDes2={this.getDes2} getDes3={this.getDes3} getDes4={this.getDes4} handleChange={this.handleChange} handlePosting={this.handlePosting} vccode={this.props.gettingVirtualCode} />
+                < Role_Master_Page getName={this.getName} defRoleMaster={this.props.defRoleMaster} suDefArr={this.state.wholeRolePerssionActive} getAllStatus={this.GetAllStatus} getDes1={this.getDes1} getDes2={this.getDes2} getDes3={this.getDes3} getDes4={this.getDes4} handleChange={this.handleChange} handlePosting={this.handlePosting} vccode={this.props.gettingVirtualCode} />
 
             </>
         )

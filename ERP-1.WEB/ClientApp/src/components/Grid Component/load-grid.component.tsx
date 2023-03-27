@@ -20,7 +20,7 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
     //const [rowData, setRowData]: any = useState(null);
     const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const gridStyle = useMemo(() => ({ width: '100vw', height: 500 }), []);
-        //let firstRow = data[0];
+    //let firstRow = data[0];
 
 
     const defaultColDef = useMemo(() => {
@@ -35,13 +35,13 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
 
     //const frameworkComponents = {}
     //const init100Rows = () => {
-        
+
     //    let collection = [];
     //    for (let i = 0; i < 100; i++) collection.push({ ...firstRow, [srProps]: 1 + i});
     //    setRowData(collection);
     //}
     //const initailsRowCount = () => {
-        
+
     //    let collection = [];
     //    for (let i = 0; i < 10; i++) collection.push({ ...firstRow, [srProps]: 1 + i});
     //    setRowData(collection);
@@ -69,24 +69,24 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
         columnDefs: colDef,
         defaultColDef: defaultColDef,
         onCellKeyDown: OpenSubLayer,
-        
+
     };
 
-    //const onAddRow = () => {
-        
-    //    let lastrow = gridApi.getDisplayedRowAtIndex(gridApi.getLastDisplayedRow());
-    //    let lastIndex = lastrow.rowIndex;
-    //    console.log('length++', lastrow.rowIndex);
-    //    let emptyRow = { [srProps]: lastIndex + 2 };
-    //    gridApi.updateRowData({ add: [emptyRow] });
-    
+    const onAddRow = () => {
 
-    //}
-  /*  <button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>*/
-   
+        let lastrow = gridApi.getDisplayedRowAtIndex(gridApi.getLastDisplayedRow());
+        let lastIndex = lastrow.rowIndex;
+        console.log('length++', lastrow.rowIndex);
+        let emptyRow = { [srProps]: lastIndex + 2 };
+        gridApi.updateRowData({ add: [emptyRow] });
+
+
+    }
+
     return (
         <>
 
+            <button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>
             <div
                 className="text-center col-12 m-0 card-title"
                 style={titleClr ? { textAlign: "start" } : { textAlign: "start" }}
@@ -107,7 +107,7 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
                     onGridReady={onGridReady}
                     alwaysShowHorizontalScroll={true}
                     alwaysShowVerticalScroll={true}
-                   
+
                 ></AgGridReact>
             </div>
 
