@@ -17,7 +17,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
     const rowBuffer = 0;
     const [rowData, setRowData]: any = useState(null);
     const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
-    const gridStyle = useMemo(() => ({ width: '100vw', height: 500 }), []);
+    const gridStyle = useMemo(() => ({ width: '98vw', height: 500 }), []);
         let firstRow = data[0];
 
 

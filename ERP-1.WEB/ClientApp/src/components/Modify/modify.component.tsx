@@ -99,6 +99,90 @@ class Modify_Child extends React.Component<IProps, IState> {
 
 
     }
+    FetchAccMasterList = async (mt : any) => {
+
+        const urlLoadModify = `/api/LoadAccMList`;
+        let body = {
+            "Customer": parseInt(this.customer),
+            "Company": parseInt(this.compCode),
+            "AccType" :parseInt(mt),
+            "Series" : 0,
+            "Group" : 0
+        }
+        try {
+          
+            let { res, got } = await this.props.api(urlLoadModify, "POST", body);
+
+            if (res.status == 200) {
+                if (got.data.length === 0) {
+                    toast.info('No data Found')
+                }
+
+
+                else {
+                    let modify_list: any = got.data.map((option: any) => ({
+
+                        id: option.code,
+                        value: option.name,
+
+                    }))
+                    this.setState({ selectModList: modify_list });
+                }
+            } else toast.error(got.msg)
+            this.setState({ Loader: false })
+
+        } catch (err) {
+            alert(err)
+        }
+
+
+    }
+FetchItemMasterList = async () => {
+
+        const urlLoadModify = `/api/LoadIMList`;
+        let body = {
+            "Customer": parseInt(this.customer),
+            "Company": parseInt(this.compCode),
+            "Series": "",
+            "ItemBrand": "",
+            "ItemGroup": "",
+            "ItemType": "",
+            "ItemCat": "",
+            "ItemSubCat": "",
+            "Clearance": "",
+            "UOM": "",
+            "MC": "",
+            "QC": "",
+            "GRPType": ""
+        }
+        try {
+          
+            let { res, got } = await this.props.api(urlLoadModify, "POST", body);
+
+            if (res.status == 200) {
+                if (got.data.length === 0) {
+                    toast.info('No data Found')
+                }
+
+
+                else {
+                    let modify_list: any = got.data.map((option: any) => ({
+
+                        id: option.code,
+                        value: option.name,
+
+                    }))
+                    this.setState({ selectModList: modify_list });
+                }
+            } else toast.error(got.msg)
+            this.setState({ Loader: false })
+
+        } catch (err) {
+            alert(err)
+        }
+
+
+    }
 
 
     componentDidMount() {
@@ -110,6 +194,8 @@ class Modify_Child extends React.Component<IProps, IState> {
         if (!this.props.location.state) { } else {
             switch (mAdd) {
                 case '/add-user-master': this.FetchNewUserList(); break;
+                case '/add-item-master': this.FetchItemMasterList(); break;
+                case '/add-customer-master' || '/add-supplier-master': this.FetchAccMasterList(master); break;
                 default: this.FetchLoadingSubMasterList(master); break;
             }
             

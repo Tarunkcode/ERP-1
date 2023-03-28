@@ -9,7 +9,7 @@ interface IState {
     rawObj: object,
     defGstCatName: string,
     gridApi: any,
-
+    showBranchCode : boolean,
     masterType: number,
     payType: number
 }
@@ -25,6 +25,7 @@ class SPType extends React.Component<IProps, IState> {
             masterType: 0,
             rawObj: {},
             defGstCatName: '',
+            showBranchCode : false,
             gridApi: null,
             payType: 0,
             configType: ''
@@ -43,7 +44,7 @@ class SPType extends React.Component<IProps, IState> {
     componentDidUpdate(prevProps: any) {
         if (this.props.gettingVirtualCode !== 0) {
             if (this.props.loadSPTypeMaster !== prevProps.loadSPTypeMaster) {
-
+                if (this.props.loadSPTypeMaster.sptypeheader[0].usefor == 2) this.setState({ showBranchCode: true })
 
                 this.props.gstCategory.map((option: any) => {
                     if (option.id == this.props.loadSPTypeMaster.sptypeheader[0].gstcat)
@@ -143,7 +144,7 @@ class SPType extends React.Component<IProps, IState> {
         let label = "seriesConf";
 
         store2.dispatch({ payload: value, key: name, type: "changeConfig", label: label });
-       
+        name == 'usefor' && value == 2 ? this.setState({ showBranchCode: true }) : this.setState({ showBranchCode: false })
     }
     handleChange = (e: any) => {
 
@@ -233,7 +234,9 @@ class SPType extends React.Component<IProps, IState> {
                 {this.state.configType === '/add-sale-type' ? (<SalePurchaseType_Page
                     SelectList={this.SelectList.bind(this)}
                     gstCat={this.props.gstCategory}
+                    pagecode={13 }
                     vccode={this.props.gettingVirtualCode}
+                    showBranchCode={this.state.showBranchCode}
                     getMasterType={this.getMasterType}
                     defGstCatName={this.state.defGstCatName}
                     defaultLoad={this.props.loadSPTypeMaster}
@@ -245,8 +248,10 @@ class SPType extends React.Component<IProps, IState> {
                 {this.state.configType === '/add-purchase-type' ? (<SalePurchaseType_Page
                     SelectList={this.SelectList.bind(this)}
                     gstCat={this.props.gstCategory}
+                    pagecode={14}
                     getMasterType={this.getMasterType}
                     defGstCatName={this.state.defGstCatName}
+                    showBranchCode={this.state.showBranchCode}
                     vccode={this.props.gettingVirtualCode}
                     defaultLoad={this.props.loadSPTypeMaster}
                     getTableData={this.getTableData.bind(this)}

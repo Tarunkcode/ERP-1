@@ -24,8 +24,16 @@ function TreeNode2({ node, handleChange, defChkList, vcc, suStatus, suArr, ...re
 
     var [showChildren, setShowChildren]: any = useState(false);
     var statusCheck = false;
-    if (vcc !== 0) statusCheck = defChkList ? defChkList.find((item: any) => item.code == key) : {}
-   
+    if (vcc !== 0) statusCheck = defChkList ? defChkList.find((item: any) => item.code == key) : false
+    if (suStatus === true) {
+
+        let eleMArr: any = document.getElementsByClassName('rolebox');
+        for (let i = 0; i < eleMArr.length; i++) {
+            eleMArr[i].checked = true;
+        }
+        statusCheck = true;
+    }
+    
     const handleClick = (e: any) => {
         var check: any = document.getElementById(label) as HTMLInputElement;
 
@@ -55,7 +63,7 @@ function TreeNode2({ node, handleChange, defChkList, vcc, suStatus, suArr, ...re
                         <a className="m-1 p-2 Snode" onClick={handleClick} key={type} id={key} style={{ border: '1px solid black', cursor: 'pointer', backgroundColor: 'navy', color: 'white' }} >{label}</a>
                     </span>
 
-                    <input type="checkbox" id={label} name={key} defaultChecked={statusCheck ? true : false} onChange={handleChange} className="col-1 m-0 p-0" />
+                    <input type="checkbox" id={label} name={key} defaultChecked={statusCheck ? true : false} onChange={handleChange} className="col-1 rolebox m-0 p-0" />
 
                 </li>
             </ul>

@@ -8,8 +8,9 @@ import DatalistInput from 'react-datalist-input';
 import WriteGrid from '../../../components/Grid Component/grid.component';
 import LoadGrid from '../../../components/Grid Component/load-grid.component';
 import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
-export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, ...otherProps }: any) {
-  
+import { store2 } from '../../../Redux/config/config.reducer';
+export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, pagecode, ...otherProps }: any) {
+
     useEffect(() => {
         if (configType == '/add-sale-type') {
             getMasterType(13)
@@ -18,7 +19,7 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
             getMasterType(14)
         }
     }, [configType])
- 
+
     // -------------------------------------------------------------------------------------------------------------------------
     var ColDef: any[] = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1' },
     {
@@ -36,7 +37,7 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
                 params.data.nature = params.newValue.nature;
                 params.data.bsval = params.newValue.value;
 
-                params.api.refreshCells({force : true });
+                params.api.refreshCells({ force: true });
             }
         },
         valueFormatter: (params: any) => {
@@ -55,7 +56,7 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
     ]
 
     let data: any[] = vccode == 0 ? [{ bscode: null, nature: null, bstype: null, bsval: null }] : defaultLoad.sptypedetail;
-   
+
     return (
         <>
             <div className="main card firstDiv">
@@ -72,7 +73,7 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
                     <span className="d-flex section2 col-sm-12">
 
                         <MasterInput3
-                            defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].name: '' }
+                            defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].name : ''}
                             handleChange={handleChange}
                             name="name"
                             classCategory="form-control inp col-4  seriesConf"
@@ -89,24 +90,39 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
                     </span>
                     <span className="d-flex section2 col-sm-12">
 
+                        {
+                            pagecode == 13 ? (
+                                <>
+                                    <label htmlFor="gsttype" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Type</label>
 
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+                                            value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttype == 1 ? "Enter State" : defaultLoad.sptypeheader[0].gsttype == 2 ? "Local" : defaultLoad.sptypeheader[0].gsttype == 3 ? "Export" : '' : ''}
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gsttype' }}
+                                            listboxProps={{ className: 'text-left mt-5' }}
 
-                        <label htmlFor="gsttype" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Type</label>
+                                            onSelect={(item: any) => SelectList(item)}
+                                            items={[{ id: 1, value: 'Enter State', name: "gsttype" }, { id: 2, value: 'Local', name: 'gsttype' }, { id: 3, value: 'Export', name: 'gsttype' }]}
+                                        />
 
-                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                            <DatalistInput
-                                value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttype == 1 ? "Enter State" : defaultLoad.sptypeheader[0].gsttype == 2 ? "Local" : defaultLoad.sptypeheader[0].gsttype == 3 ? "Export" :'' : ''}
-                                className="d-flex col-12 m-0 p-0"
-                                inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gsttype' }}
-                                listboxProps={{ className: 'text-left mt-5' }}
+                                    </span>
+                                </>
+                            ) : (<MasterInput3
+                                    defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].defaultvalue : ''}
+                                handleChange={handleChange}
+                                name="defaultvalue"
+                                classCategory="form-control inp col-4  seriesConf select"
+                                ipType="number"
+                                label="Default Value"
+                                ipTitle="Enter Default Value (%)"
 
-                                onSelect={(item: any) => SelectList(item)}
-                                items={[{ id: 1, value: 'Enter State', name: "gsttype" }, { id: 2, value: 'Local', name: 'gsttype' }, { id: 3, value: 'Export', name: 'gsttype' }]}
-                            />
+                            />)
+                        }
 
-                        </span>
 
                         <span className="col-1 m-0"></span>
+
 
                         <CustomeSwitch2
                             default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].taxexem : ''}
@@ -116,37 +132,11 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
                     </span>
                     <span className="d-flex section2 col-sm-12">
 
-
-                        <label htmlFor="gstcat" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Category</label>
-
-                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                            <DatalistInput
-                                value={defGstCatName}
-                                className="d-flex col-12 m-0 p-0"
-                                inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gstcat' }}
-                                listboxProps={{ className: 'text-left mt-5' }}
-
-                                onSelect={(item: any) => SelectList(item)}
-                                items={gstCat}
-                            />
-
-                        </span>
-
-                        <span className="col-1 m-0"></span>
-                        <CustomeSwitch2
-                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gstenable : ''}
-                            lablClass="custom-control-label col-8" label="GST Enable" id="gstenable" name="gstenable" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
-
-
-
-                    </span>
-                    <span className="d-flex section2 col-sm-12">
-
                         <label htmlFor="usefor" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">Use For</label>
 
                         <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                             <DatalistInput
-                                value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].usefor == 1 ? "Company" : defaultLoad.sptypeheader[0].usefor == 2 ? "Branch":"" : ''}
+                                value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].usefor == 1 ? "Company" : defaultLoad.sptypeheader[0].usefor == 2 ? "Branch" : "" : ''}
                                 className="d-flex col-12 m-0 p-0"
                                 inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'usefor' }}
                                 listboxProps={{ className: 'text-left mt-5' }}
@@ -158,25 +148,86 @@ export default function SalePurchaseType_Page({ defGstCatName ,vccode, defaultLo
                         </span>
 
                         <span className="col-1 m-0"></span>
-                        <CustomeSwitch2
-                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].itemwisetax : ''}
-                            lablClass="custom-control-label col-8" label="Enable Item Wise Tax" id="itemwisetax" name="itemwisetax" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />
+                        {
+                            pagecode == 13 ? (<CustomeSwitch2
+                                default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].itemwisetax : ''}
+                                lablClass="custom-control-label col-8" label="Item Wise Tax" id="itemwisetax" name="itemwisetax" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />)
+
+                                : (<CustomeSwitch2
+                                    default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].importpurchase : ''}
+                                    lablClass="custom-control-label col-8" label="Import Purchase" id="importpurchase" name="importpurchase" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />)
+                        }
+
 
                     </span>
+                    {
+                        showBranchCode ? (
+                            <span className="d-flex section2 col-sm-12">
+                                <MasterInput3
+                                    defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].branchcode : ''}
+                                    handleChange={handleChange}
+                                    name="branchcode"
+                                    classCategory="form-control inp col-4  seriesConf select"
+                                    ipType="text"
+                                    label="Branch Code"
+                                    ipTitle="Enter Branch Code"
+
+                                />
+                                <span className="col-1 m-0"></span>
+                                <span className="col-4 m-0"></span>
+                            </span>
+                        ) : null
+                    }
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput3
-                            default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].branchcode : ''}
-                            handleChange={handleChange}
-                            name="branchcode"
-                            classCategory="form-control inp col-4  seriesConf select"
-                            ipType="text"
-                            label="Branch Code"
-                            ipTitle="Enter Branch Code"
+                        {
+                            pagecode == 13 ? (
+                                <>
 
-                        />
+                                    <label htmlFor="gstcat" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Category</label>
+
+                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
+                                        <DatalistInput
+                                            value={defGstCatName}
+                                            className="d-flex col-12 m-0 p-0"
+                                            inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gstcat' }}
+                                            listboxProps={{ className: 'text-left mt-5' }}
+
+                                            onSelect={(item: any) => SelectList(item)}
+                                            items={gstCat}
+                                        />
+
+                                    </span>
+                                </>
+                            ) : (<MasterInput3
+
+                                handleChange={() => { }}
+                                name=""
+
+                                    classCategory="form-control inp col-4  seriesConf select invisible"
+                                ipType="text"
+                                label=""
+                                ipTitle=""
+
+                            />)
+                        }
+
                         <span className="col-1 m-0"></span>
-                        <span className="col-4 m-0"></span>
+                        {
+                            pagecode == 13 ? (<CustomeSwitch2
+                                default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gstenable : ''}
+                                lablClass="custom-control-label col-8" label="GST" id="gstenable" name="gstenable" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />)
+                                : (
+                                    <CustomeSwitch2
+                                        default={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].perlineitem : ''}
+                                        lablClass="custom-control-label col-8" label="Per Line Item" id="perlineitem" name="perlineitem" classCat="form-control custom-control-input col-3 seriesConf switch" handleChange={handleChange} />)
+                        }
+
+
+
+
                     </span>
+                   
+
 
                 </form>
 
