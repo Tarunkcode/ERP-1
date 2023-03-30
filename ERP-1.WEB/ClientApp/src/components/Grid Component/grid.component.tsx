@@ -9,6 +9,7 @@ import { v4 } from "uuid";
 import 'ag-grid-autocomplete-editor/dist/main.css';
 import './styles.css';
 import { GridOptions } from 'ag-grid-community';
+import { toast } from 'react-toastify';
 
 export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, ...rest }: any) {
     const [gridApi, setGridApi]: any = useState(null);
@@ -18,7 +19,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
     const [rowData, setRowData]: any = useState(null);
     const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const gridStyle = useMemo(() => ({ width: '98vw', height: 500 }), []);
-        let firstRow = data[0];
+    let firstRow = data[0];
 
 
     const defaultColDef = useMemo(() => {
@@ -31,17 +32,39 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
         };
     }, []);
 
-    const frameworkComponents = {}
+    const CustomFunctionalities = (e: any) => {
+        if (e.event.key === 'Enter') {
+            gridApi.navigateToNextHeader();
+        }
+        else if (e.event.key === 'F9') {
+            // get index
+            let inDex = e.rowIndex;
+            // copy rowData
+            let copy: any[] = [...rowData];
+            // remove row
+            copy.splice(inDex, 1);
+            //rearrange s.r
+            let lastInd = copy.length;
+            copy.map((item: any, ind: number) => {
+                item[srProps] = ind + 1
+            })
+            copy.push({ ...firstRow, [srProps]: lastInd  + 1 })
+            // SET New values to grid
+            setRowData([...copy])
+        }
+        //refresh columns 
+        gridApi.refreshCells({ force: true });
+    }
     const init100Rows = () => {
-        
+
         let collection = [];
-        for (let i = 0; i < 100; i++) collection.push({ ...firstRow, [srProps]: 1 + i});
+        for (let i = 0; i < 100; i++) collection.push({ ...firstRow, [srProps]: 1 + i });
         setRowData(collection);
     }
     const initailsRowCount = () => {
-        
+
         let collection = [];
-        for (let i = 0; i < 10; i++) collection.push({ ...firstRow, [srProps]: 1 + i});
+        for (let i = 0; i < 10; i++) collection.push({ ...firstRow, [srProps]: 1 + i });
         setRowData(collection);
 
     }
@@ -60,22 +83,42 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
         params.api.sizeColumnsToFit();
     }
-    const gridOptions = {
+    const onCellClicked = (e: any) => {
+        //let keyArr: any[] = Object.keys(rowData[0]);
+
+        let clickedOn = parseInt(e.rowIndex);
+        let checkOnIndex = clickedOn - 1;
+        let copiedObj = rowData[checkOnIndex];
+
+        if (checkOnIndex !== -1) {
+            let isremove: boolean = delete copiedObj[srProps];
+
+            if (isremove === true && JSON.stringify(copiedObj) === JSON.stringify(firstRow)) {
+                alert('Please Fill Previous Row First');
+                gridApi.stopEditing();
+            }
+            else {
+                gridApi.startEditingCell(e);
+
+            }
+        }
+    }
+    var gridOptions: any = {
         rowData: rowData,
         columnDefs: colDef,
         defaultColDef: defaultColDef,
         onCellKeyDown: OpenSubLayer,
-        
+
     };
 
     const onAddRow = () => {
-        
+
         let lastrow = gridApi.getDisplayedRowAtIndex(gridApi.getLastDisplayedRow());
         let lastIndex = lastrow.rowIndex;
         console.log('length++', lastrow.rowIndex);
         let emptyRow = { [srProps]: lastIndex + 2 };
         gridApi.updateRowData({ add: [emptyRow] });
-    
+
 
     }
     //const getTableData = () => {
@@ -86,10 +129,12 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
     //    });
     //    return items;
     //}
+    // setup the grid after the page has finished loading
+
 
     return (
         <>
-    <button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>
+            <button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>
 
             <div
                 className="text-center col-12 m-0 card-title"
@@ -100,18 +145,21 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
 
 
-            <div style={gridStyle} className="ag-theme-alpine">
+            <div id="myGrid" style={gridStyle} className="ag-theme-alpine">
                 <AgGridReact
+                    onCellKeyPress={onCellClicked}
                     rowData={rowData}
                     columnDefs={colDef}
                     defaultColDef={defaultColDef}
                     scrollbarWidth={8}
                     getRowNodeId={(data: any) => data.id}
+                    onCellKeyDown={CustomFunctionalities}
+                    enableCellEditingOnBackspace={true}
                     gridOptions={gridOptions}
                     onGridReady={onGridReady}
                     alwaysShowHorizontalScroll={true}
                     alwaysShowVerticalScroll={true}
-                   
+
                 ></AgGridReact>
             </div>
 

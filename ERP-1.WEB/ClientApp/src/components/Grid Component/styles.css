@@ -170,3 +170,14 @@
 .datalist{
     border-color:#86a4c3;
 }
+
+.ag-cell-editor-autocomplete {
+    background-color: #f5f6fa;
+    border: 1px solid rgba(50,50,50,.6);
+    box-sizing: border-box;
+    max-height: 25% !important;
+    max-width: 100% !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1000;
+}

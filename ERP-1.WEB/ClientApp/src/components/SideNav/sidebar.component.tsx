@@ -7,15 +7,15 @@ import NavTree from '../SideNav/nav-tree.component'
 
 export default function Sidebar({ state }: any) {
     var [source, setSource]: any = useState([])
-    //const roleStr : any = window.sessionStorage.getItem('roleCode')
-    //const roleCode: number = parseInt(roleStr);
+    const roleStr: any = window.sessionStorage.getItem('rolecode')
+    const roleCode: number = parseInt(roleStr);
 
     const { theme } = React.useContext(ThemeContext);
     let api = useFetch();
     const renderNavTree = async () => {
         try {
 
-            let path = `/api/LoadUserManuTree?RC=34`
+            let path = `/api/LoadUserManuTree?RC=${roleCode}`
             let { res, got } = await api(path, 'GET', '')
            console.log('res', got.data)
             if (res.status === 200) {

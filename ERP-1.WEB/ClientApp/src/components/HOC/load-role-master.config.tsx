@@ -6,17 +6,17 @@ interface IProps {
     location: any;
 }
 interface IState {
-    defRoleMaster :any
+    defRoleMaster: any
 }
-export default function RoleMasterLoadDetails(Component : any) {
+export default function RoleMasterLoadDetails(Component: any) {
     let api = useFetch();
     class RoleDefault extends React.Component<IProps, IState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            defRoleMaster: {},
+        constructor(props: any) {
+            super(props);
+            this.state = {
+                defRoleMaster: {},
 
-        }
+            }
         }
 
         routeObj = this.props.location.state;
@@ -52,7 +52,7 @@ export default function RoleMasterLoadDetails(Component : any) {
         render() {
             return (
                 <Component api={api} defRoleMaster={this.state.defRoleMaster} AlterLoadedData={this.AlterLoadedData.bind(this)} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
-                )
+            )
         }
     }
     return RoleDefault;

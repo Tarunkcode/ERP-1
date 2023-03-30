@@ -105,6 +105,7 @@ class ChildLog extends React.Component<IProps, IState>{
                 window.sessionStorage.setItem('state', JSON.stringify({ 'domain': ip, 'port': port, 'Fy': fy }))
                 //window.sessionStorage.setItem('roleCode', result.data[0].role.toString())
                 window.sessionStorage.setItem('username', username)
+                window.sessionStorage.setItem('rolecode', data.id.toString())
                 setCurrentUser({user: data.token})
                /* setAuthTokens(data.token)*/
                /* setUser(data.name)*/

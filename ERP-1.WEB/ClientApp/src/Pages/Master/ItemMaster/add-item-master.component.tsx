@@ -7,7 +7,7 @@ import { StockMasterModal } from '../../../components/Modals/master.modals';
 import '../masterStyle.css';
 
 
-function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title, accountType, default: any,
+function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title, defItemDetails, accountType, default: any,
     series,
     group,
     type,
@@ -18,7 +18,22 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
     gstCat,
     clearance,
     subCat, ...props }: any) {
-
+    const natureList = [{ id: 1, value: 'Item', name: 'c1' }, { id: 2, value: 'Service', name: 'c1' }, { id: 3, value: 'Asset',name:'c1'}]
+    const valueTypeList = [{ id: 1, value: 'FIFO', name: 'valtype' }, { id: 2, value: 'LIFO', name: 'valtype' }, { id: 3, value: 'Average', name: 'valtype' }, { id: 4, value: 'Wt. Average', name: 'valtype' }]
+    var [defSeries ,setDefSeries] : any = React.useState('')
+    var [defGroup, setDefGroup] : any = React.useState('')
+    var [defType, setDefType] : any = React.useState('')
+    var [defCat, setDefCat] : any = React.useState('')
+    var [defSubCat, setDefSubCat] : any = React.useState('')
+    var [defBrand, setDefBrand] : any = React.useState('')
+    var [defNature, setDefNature] : any = React.useState('')
+    var [defUom, setDefUom] : any = React.useState('')
+    var [defAltUom, setDefAltUom] : any = React.useState('')
+    var [defMatCenter, setDefMatCenter] : any = React.useState('')
+    var [defClearance, setDefClearance] : any = React.useState('')
+    var [defValType, setDefValType] : any = React.useState('')
+    var [defGstCat, setDefGSTCat] : any = React.useState('')
+   
     let seriesList = series.map((option: any) => ({
         id: option.id,
         value : option.value,
@@ -76,8 +91,88 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
         name: "clearance"
     }))
 
+    React.useEffect(() => {
+        seriesList.map((option: any) => {
+            if (option.id == defItemDetails.series) setDefSeries(option.value);
+        })
+    }, [defItemDetails, seriesList])
+    React.useEffect(() => {
+        groupList.map((option: any) => {
+            if (option.id == defItemDetails.itemgrp) setDefGroup(option.value);
+        })
+    }, [defItemDetails, groupList])
 
-    const natureList = [{ id: 1, value: 'Item', name: 'c1' }, { id: 2, value: 'Service', name: 'c1' }, { id: 3, value: 'Asset',name:'c1'}]
+    React.useEffect(() => {
+        typeList.map((option: any) => {
+            if (option.id == defItemDetails.itemtype) setDefType(option.value);
+        })
+    }, [defItemDetails, typeList])
+
+    React.useEffect(() => {
+        categoryList.map((option: any) => {
+            if (option.id == defItemDetails.itemcategory) setDefCat(option.value);
+        })
+    }, [defItemDetails, categoryList])
+
+    React.useEffect(() => {
+        subCatList.map((option: any) => {
+            if (option.id == defItemDetails.subcategory) setDefSubCat(option.value);
+        })
+    }, [defItemDetails, subCatList])
+     React.useEffect(() => {
+         brandList.map((option: any) => {
+             if (option.id == defItemDetails.itembrand) setDefBrand(option.value);
+        })
+     }, [defItemDetails, brandList])
+
+    React.useEffect(() => {
+        natureList.map((option: any) => {
+             if (option.id == defItemDetails.c1) setDefNature(option.value);
+        })
+    }, [defItemDetails, natureList])
+
+    React.useEffect(() => {
+        uomList.map((option: any) => {
+            if (option.id == defItemDetails.itemuom) setDefUom(option.value);
+        })
+    }, [defItemDetails, uomList])
+
+    React.useEffect(() => {
+        uomAltList.map((option: any) => {
+            if (option.id == defItemDetails.itemaltuom) setDefAltUom(option.value);
+        })
+    }, [defItemDetails, uomAltList])
+
+    React.useEffect(() => {
+        matCanterList.map((option: any) => {
+            if (option.id == defItemDetails.itemmatcenter) setDefMatCenter(option.value);
+        })
+    }, [defItemDetails, matCanterList])
+
+    React.useEffect(() => {
+        clearanceList.map((option: any) => {
+            if (option.id == defItemDetails.clearance) setDefClearance(option.value);
+        })
+    }, [defItemDetails, clearanceList])
+
+
+    React.useEffect(() => {
+        valueTypeList.map((option: any) => {
+            if (option.id == defItemDetails.valtype) setDefValType(option.value);
+        })
+    }, [defItemDetails, valueTypeList])
+
+    React.useEffect(() => {
+        gstCatList.map((option: any) => {
+            if (option.id == defItemDetails.gstcategory) setDefGSTCat(option.value);
+        })
+    }, [defItemDetails, gstCatList])
+
+
+
+
+
+
 
     return (
         <>
@@ -103,7 +198,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defSeries}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'series', id: "series", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -139,7 +234,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defGroup }
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'itemgrp', id: "itemgrp", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -155,7 +250,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defType}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'type', id: "itemtype", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -176,7 +271,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defCat}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'itemcategory', id: "itemcategory", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -193,7 +288,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defSubCat}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'subcategory', id: "subcategory", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select series' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -218,7 +313,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defBrand}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'itembrand', id: "itembrand", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Brand' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -240,7 +335,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defNature}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'c1', id: "c1", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Narure' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -256,7 +351,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defUom}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'itemuom', id: "itemuom", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -277,7 +372,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defAltUom}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'itemaltuom', id: "itemaltuom", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select itemaltuom' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -293,7 +388,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defMatCenter}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'itemmatcenter', id: "itemmatcenter", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -315,7 +410,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defItemDetails ? defItemDetails.sizedependent == 1 ? 'Y' : 'N' : '' }
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'sizedependent', id: "sizedependent", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Size Dependent Center' }}
 
@@ -342,7 +437,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defItemDetails ? defItemDetails.convtype : ''}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'convtype', id: "convtype", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Conv Type' }}
                                             listboxProps={{ className: 'text-left mt-5' }}
@@ -375,13 +470,13 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defValType}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'valtype', id: "valtype", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
 
                                             listboxProps={{ className: 'text-left mt-5' }}
                                             onSelect={(item: any) => handleList(item)}
-                                            items={[{ id: 1, value: 'FIFO', name: 'valtype' }, { id: 2, value: 'LIFO', name: 'valtype' }, { id: 3, value: 'Average', name: 'valtype' }, { id: 4, value: 'Wt. Average', name: 'valtype' }]}
+                                            items={valueTypeList}
                                         />
                                         <span className="col-1 m-0"></span>
                                         <span className="col-4 m-0"></span>
@@ -398,7 +493,7 @@ function AddItemMaster({ handleChangeField, handleList, handleSave$Submit, title
                                     </>
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
                                         <DatalistInput
-
+                                            value={defGstCat}
                                             className="d-flex col-12 m-0 p-0"
                                             inputProps={{ className: 'form-control col-12 inp', name: 'gstcategory', id: "gstcategory", style: {padding: '22px 0 22px 10px', fontSize: '20px' }, placeholder: 'Select Material Center' }}
                                    

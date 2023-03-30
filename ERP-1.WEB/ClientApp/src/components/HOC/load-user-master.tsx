@@ -76,7 +76,7 @@ export default function UserLoadDetails(Component: any) {
                 let { res, got } = await api(url, "GET", '');
                 if (res.status == 200) {
                     let data: any = await got.data[0]
-                    console.log('found matched', data);
+            
                 
                     this.setState({ defUserMaster: data });
                     this.defInitStateObj = { ...this.state.defUserMaster }

@@ -21,7 +21,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
     }, [configType])
 
     // -------------------------------------------------------------------------------------------------------------------------
-    var ColDef: any[] = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1' },
+    var ColDef: any[] = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1', cellStyle: {paddingLeft:'20px    '} },
     {
         field: 'bscode', headerName: 'Bill Sundry Description', maxWidth: 600, minWidth: 600, cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
@@ -29,8 +29,17 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
         cellEditorParams: {
             required: true,
             selectData: React.useMemo(() => { return billSundry }, [billSundry]),
-            placeholder: "Select a Process"
-        }, onCellValueChanged: (params: any) => {
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                }
+            }
+        },
+        onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
 
                 params.data.bstype = params.newValue.type;

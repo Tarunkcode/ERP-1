@@ -42,7 +42,9 @@ interface IProps {
     matCanter : any[] ,
     uom: any[],
     gstCat : any[],
-    subCat: any[]
+    subCat: any[],
+    defItemMaster: object,
+    gettingVirtualCode : number
 }
 
 class ItemMasterChild extends React.PureComponent<IProps, IState> {
@@ -145,6 +147,7 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
                     clearance={this.props.clearance}
                     category={this.props.category}
                     brand={this.props.brand}
+                    defItemDetails={this.props.defItemMaster}
                     matCanter={this.props.matCanter}
                     uom={this.props.uom}
                     gstCat={this.props.gstCat}

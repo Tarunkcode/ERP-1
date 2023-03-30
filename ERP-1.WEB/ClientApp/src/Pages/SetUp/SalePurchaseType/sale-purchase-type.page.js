@@ -30,15 +30,25 @@ function SalePurchaseType_Page(_a) {
         }
     }, [configType]);
     // -------------------------------------------------------------------------------------------------------------------------
-    var ColDef = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1' },
+    var ColDef = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '20px    ' } },
         {
             field: 'bscode', headerName: 'Bill Sundry Description', maxWidth: 600, minWidth: 600, cellStyle: { paddingLeft: '0', paddingRight: '0' },
             cellEditor: ag_grid_autocomplete_editor_1.default,
             cellEditorParams: {
                 required: true,
                 selectData: React.useMemo(function () { return billSundry; }, [billSundry]),
-                placeholder: "Select a Process"
-            }, onCellValueChanged: function (params) {
+                autocomplete: {
+                    customize: function (_a) {
+                        var input = _a.input, inputRect = _a.inputRect, container = _a.container, maxHeight = _a.maxHeight;
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    }
+                }
+            },
+            onCellValueChanged: function (params) {
                 if (params.oldValue !== params.newValue) {
                     params.data.bstype = params.newValue.type;
                     params.data.nature = params.newValue.nature;
