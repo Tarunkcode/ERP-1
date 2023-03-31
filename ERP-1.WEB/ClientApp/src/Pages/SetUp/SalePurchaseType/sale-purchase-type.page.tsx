@@ -6,6 +6,7 @@ import { CustomeSwitch2 } from '../../../components/CustomSwitch/custom-switch.c
 
 import DatalistInput from 'react-datalist-input';
 import WriteGrid from '../../../components/Grid Component/grid.component';
+import { NumericEditor }  from '../../../components/Grid Component/EnterOnlyNumbers';
 import LoadGrid from '../../../components/Grid Component/load-grid.component';
 import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
 import { store2 } from '../../../Redux/config/config.reducer';
@@ -36,7 +37,9 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                         container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
                         container.style.maxHeight = '200px';
                     }
-                }
+                },
+                showOnFocus: true
+               
             }
         },
         onCellValueChanged: (params: any) => {
@@ -49,6 +52,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                 params.api.refreshCells({ force: true });
             }
         },
+      
         valueFormatter: (params: any) => {
             if (params.value) {
                 return params.value.label || params.value.value || params.value;
@@ -60,7 +64,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
     },
     { field: 'nature', headerName: 'Nature', minWidth: 200 },
     { field: 'bstype', headerName: 'Type', minWidth: 200 },
-    { field: 'bsval', headerName: 'Value', minWidth: 200, editable: true },
+        { field: 'bsval', headerName: 'Value', minWidth: 200, editable: true, cellEditor: NumericEditor, },
 
     ]
 

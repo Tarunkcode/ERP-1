@@ -202,7 +202,7 @@ FetchItemMasterList = async () => {
         }
 
     }
-  
+
     handleSelect = (code: string, name: string) => {
 
         console.log(name + ':' + code)

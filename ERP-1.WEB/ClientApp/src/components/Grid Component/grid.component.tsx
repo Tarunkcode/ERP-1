@@ -4,23 +4,20 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useState } from 'react'
-import { v4 } from "uuid";
+
 
 import 'ag-grid-autocomplete-editor/dist/main.css';
 import './styles.css';
-import { GridOptions } from 'ag-grid-community';
+//import { GridOptions } from 'ag-grid-community';
 import { toast } from 'react-toastify';
 
-export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, ...rest }: any) {
+export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, dupS, collect, srProps, ...rest }: any) {
+
     const [gridApi, setGridApi]: any = useState(null);
     const [columnApi, setColumnApi]: any = useState(null);
-    var gridRef = React.useRef(null);
-    const rowBuffer = 0;
     const [rowData, setRowData]: any = useState(null);
-    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const gridStyle = useMemo(() => ({ width: '98vw', height: 500 }), []);
     let firstRow = data[0];
-
 
     const defaultColDef = useMemo(() => {
         return {
@@ -32,9 +29,28 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
         };
     }, []);
 
+    var gridOptions: any = {
+        rowData: rowData,
+        columnDefs: colDef,
+        defaultColDef: defaultColDef
+
+    };
+    // custom navigation
+
+    //--------------------------------------------------------------------------------
     const CustomFunctionalities = (e: any) => {
         if (e.event.key === 'Enter') {
-            gridApi.navigateToNextHeader();
+            if (rowData[e.rowIndex][e.colDef.field] !== null) {
+            
+
+                gridApi.tabToNextCell();
+
+            }
+
+
+            else {
+                OpenSubLayer(e);
+            }
         }
         else if (e.event.key === 'F9') {
             // get index
@@ -48,12 +64,12 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
             copy.map((item: any, ind: number) => {
                 item[srProps] = ind + 1
             })
-            copy.push({ ...firstRow, [srProps]: lastInd  + 1 })
+            copy.push({ ...firstRow, [srProps]: lastInd + 1 })
             // SET New values to grid
             setRowData([...copy])
-        }
+            gridApi.refreshCells({ force: true });
+        } else { }
         //refresh columns 
-        gridApi.refreshCells({ force: true });
     }
     const init100Rows = () => {
 
@@ -76,12 +92,42 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
         }
         setGridApi(params.api);
+
         collect(params.api);
         setColumnApi(params.columnApi);
         params.api.sizeColumnsToFit();
 
 
         params.api.sizeColumnsToFit();
+    }
+    const checkDuplicacy = (e: any) => {
+        console.log(e);
+        if (e.value.label) {
+            for (let i = 0; i < rowData.length; i++) {
+                if (i !== e.rowIndex && rowData[i][e.colDef.field] !== null && e.value.label === rowData[i][e.colDef.field].label) {
+                    //------------------------------------------------------------------
+                    // restore current row
+                    let copy = [...rowData];
+                    let restoreItem = { ...firstRow, [srProps]: e.rowIndex + 1 }
+
+                    copy.splice(e.rowIndex, 1, restoreItem);
+                    setRowData([...copy]);
+                    gridApi.refreshCells({ force: true });
+                    //----------------------------------------------------------------------
+                    toast.info('Hey! You cannot Select Same Item More than One Time');
+                    gridApi.stopEditing();
+                    break;
+                }
+                else {
+                    gridApi.startEditingCell(e);
+
+                }
+
+            }
+
+        } else {
+
+        }
     }
     const onCellClicked = (e: any) => {
         //let keyArr: any[] = Object.keys(rowData[0]);
@@ -94,7 +140,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
             let isremove: boolean = delete copiedObj[srProps];
 
             if (isremove === true && JSON.stringify(copiedObj) === JSON.stringify(firstRow)) {
-                alert('Please Fill Previous Row First');
+                toast.info('Please Fill Previous Row First');
                 gridApi.stopEditing();
             }
             else {
@@ -103,13 +149,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
             }
         }
     }
-    var gridOptions: any = {
-        rowData: rowData,
-        columnDefs: colDef,
-        defaultColDef: defaultColDef,
-        onCellKeyDown: OpenSubLayer,
 
-    };
 
     const onAddRow = () => {
 
@@ -121,15 +161,6 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
 
     }
-    //const getTableData = () => {
-    //    let items: any[] = [];
-
-    //    this.gridapi.foreachnode(function (node) {
-    //        items.push(node.data);
-    //    });
-    //    return items;
-    //}
-    // setup the grid after the page has finished loading
 
 
     return (
@@ -147,9 +178,10 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
             <div id="myGrid" style={gridStyle} className="ag-theme-alpine">
                 <AgGridReact
-                    onCellKeyPress={onCellClicked}
                     rowData={rowData}
                     columnDefs={colDef}
+                    onCellEditingStarted={onCellClicked}
+                    onCellEditingStopped={checkDuplicacy}
                     defaultColDef={defaultColDef}
                     scrollbarWidth={8}
                     getRowNodeId={(data: any) => data.id}
@@ -168,4 +200,5 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
         </>
     );
+    /*    onCellKeyPress={onCellClicked}*/
 }
