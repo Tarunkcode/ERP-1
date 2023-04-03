@@ -120,6 +120,7 @@
 
 .ag-input-field-input{
     padding:19px 10px;
+    border:none;
 }
 .ag-header-cell-text{
     font-weight:600;
@@ -143,9 +144,10 @@
 }
 
 .ag-root-wrapper.ag-layout-normal {
-    height: 100%;
+    height: 93%;
     width: auto;
-    scroll-behavior:smooth;
+    scroll-behavior: smooth;
+    border-radius: 0.25rem;
 }
 .ag-center-cols-viewport {
     height: calc(100% + 8px);
@@ -176,8 +178,9 @@
     border: 1px solid rgba(50,50,50,.6);
     box-sizing: border-box;
     max-height: 25% !important;
-    max-width: 100% !important;
+    max-width: 27% !important;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 1000;
 }
+

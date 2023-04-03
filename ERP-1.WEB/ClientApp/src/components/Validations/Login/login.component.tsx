@@ -12,7 +12,7 @@ import { setCurrentUser } from '../../../Redux/user/user.actions';
 import { toast } from 'react-toastify';
 //import "./spinner.styles.css";
 import AuthContext from '../../../AppContext/AuthContext';
-import ClipLoader from 'react-spinners/ClipLoader';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 
 //import Spinner from '../../Spinner/spinner.component';
@@ -205,14 +205,24 @@ class ChildLog extends React.Component<IProps, IState>{
             //}
         return (<>
             <div className="outer-container mt-1">
+                {
+                    this.state.isLoader === true ? (
+                        <div className="col-12" style={{ minHeight: '100vh', maxHeight: '100vh', minWidth: '100vw', maxWidth: '100vw', zIndex: 10, backgroundColor: 'rgba(0,0,0, 0.1)', position: 'absolute', top: '13%', right: '0', bottom: '0', left: '0' }}>
+                            <span className="card" style={{ border: 'none', background: 'none', height: 'auto', minHeight: '110px', position: 'absolute', top: '40%', right: '50%', zIndex: 1000 }}>
 
-                <span className="card" style={{ border: 'none', background:'none', height: 'auto', minHeight: '110px' }}>
-                    {
-                        this.state.isLoader === true ? (<ClipLoader color="#52bfd9" size={100} loading={this.state.isLoader} />) : null
-                    }
+                                <ScaleLoader color="#52bfd9" loading={this.state.isLoader} />
 
 
-                </span>
+                            </span>
+
+                        </div>
+
+                    ): null
+
+                }
+             
+
+                <span className="card" style={{ border: 'none', background: 'none', height: 'auto', minHeight: '110px'}}></span>
                 <div className="card" style={{ width: "83%" }}>
                     <span className="page_Header">SIGN IN</span>
                   

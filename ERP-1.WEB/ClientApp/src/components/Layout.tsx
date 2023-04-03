@@ -8,8 +8,9 @@ import { LogOut } from './logout/logout.component';
 import Sidebar from './SideNav/sidebar.component';
 import registerServiceWorker from '../components/Notifications/registerServiceWorker';
 import { ThemeContext } from '../AppContext/ThemeContext';
+import { LoaderContext } from '../AppContext/loaderContext';
 /*import Notify from '../components/Notifications/index';*/
-
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 export default (props: any) => {
     const getUserName = window.sessionStorage.getItem('username');
@@ -18,6 +19,7 @@ export default (props: any) => {
     const getCompCode = window.localStorage.getItem('compCode');
     var [Open, setState]: any = React.useState(false);
     var { theme, changeTheme } = React.useContext(ThemeContext);
+    var { isLoader } = React.useContext(LoaderContext);
 
     React.useEffect(() => {
         console.log('currentTheme', theme)
@@ -47,6 +49,21 @@ export default (props: any) => {
    
     return (
         <div className="cc" data-theme={theme}  >
+            {
+               isLoader === true ? (
+            <div className="col-12" style={{ minHeight: '107vh', maxHeight: '107vh', minWidth: '121vw', maxWidth: '121vw', zIndex: 10, backgroundColor: 'rgba(0,0,0, 0.2)', position: 'absolute', top: '9%', right: '0', bottom: '0', left: '0' }}>
+                <span className="card" style={{ border: 'none', background: 'none', height: 'auto', minHeight: '110px', position: 'absolute', top: '40%', right: '50%', zIndex: 1000 }}>
+
+                    <ScaleLoader color="#52bfd9" loading={true} />
+
+
+                </span>
+
+            </div>
+
+                ) : null
+
+            }
             <React.Fragment>
                 <div className="wrapper ">
 

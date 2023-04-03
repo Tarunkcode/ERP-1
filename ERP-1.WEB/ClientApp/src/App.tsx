@@ -134,39 +134,39 @@ import Vendor_Quotation_Approval from './Pages/Transaction/Purchase/vendor-quota
 import Dr_Note from './Pages/Transaction/Purchase/dr-note.component';
 import Cash_Issue_Receipt from './Pages/Transaction/Purchase/cash-Issue-receipt.component';
 
+import Test from './components/test';
 
 
 
-  
 function App() {
-  
+
     //const setDefault : any = React.useRef(0);
 
     //var [domain, setDomain]: any = React.useState('');
-   
+
     //const currentDomain = window.location.hostname;
 
     //console.log('current domain',currentDomain)
 
 
     useEffect(() => {
-      document.body.style.zoom = "82%"; 
+        document.body.style.zoom = "82%";
         //var w = window.innerWidth; 
         //console.log('w', w)
         //if (w > 0 && w <= 1268) document.body.style.zoom = "72%";
-      //if (w > 1218 && w <= 1268) document.body.style.zoom = "82%";
-      //  else if (w > 1268 && w <= 1318) document.body.style.zoom = "82%"; 
-      //  else if (w > 1318 && w <= 1368) document.body.style.zoom = "87%";
-      //  else if (w > 1368 && w <= 1418) document.body.style.zoom = "92%";
-      //  else if (w > 1418 && w <= 1468) document.body.style.zoom = "97%";
-      //  else if (w > 1468 && w <= 1518) document.body.style.zoom = "105%";
-      //  else document.body.style.zoom = "120%";
-        
+        //if (w > 1218 && w <= 1268) document.body.style.zoom = "82%";
+        //  else if (w > 1268 && w <= 1318) document.body.style.zoom = "82%"; 
+        //  else if (w > 1318 && w <= 1368) document.body.style.zoom = "87%";
+        //  else if (w > 1368 && w <= 1418) document.body.style.zoom = "92%";
+        //  else if (w > 1418 && w <= 1468) document.body.style.zoom = "97%";
+        //  else if (w > 1468 && w <= 1518) document.body.style.zoom = "105%";
+        //  else document.body.style.zoom = "120%";
+
 
     }, [window.innerWidth])
 
 
-    
+
     return (
         <>
             <ToastContainer
@@ -181,7 +181,7 @@ function App() {
                 pauseOnHover
                 theme="light"
             />
-        <Switch>
+            <Switch>
                 <Route path={["/Home", "/Purchase", "/production-and-planning", "/sales",
                     "/add-sale-order", "/material-dispatch", "/sale-order-details", "/pending-sale-order", "/sale-invoice-details", "/sale-register", "/pending-performa", "/add-customer-master", "/add-supplier-master", "/add-item-master", "/cost-sheet-details", "/bom-routing-configuration", "/add-qc-plan", "/add-assortment-master", "/add-branch-master",
                     "/add-MatIssue",
@@ -370,8 +370,8 @@ function App() {
                     '/add-Vendor-Quot-Comp',
                     '/add-TBE',
                     '/successfully-modify',
-                
-              
+
+
                 ]}>
                     <Layout>
                         <Route exact path='/successfully-modify' component={SuccessFullyModify} />
@@ -470,16 +470,16 @@ function App() {
                         <Route exact path='/add-component-deviation/55' component={YetNotStarted} />
                         <Route exact path='/add-scan-format/56' component={YetNotStarted} />
                         <Route exact path='/add-digital-signature/57' component={YetNotStarted} />
-                       
-                    
-                       
+
+
+
                         {/*Master*/}
                         <Route exact path='/add-customer-master' component={CusSupMaster} />
                         <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
                         <Route exact path='/add-item-master' component={IMaster} />
                         <Route exact path='/add-cost-sheet-details' component={CostSheetDetails} />
                         <Route exact path="/add-bom-routing-configuration-master" component={BOM} />
-                        
+
                         <Route exact path='/add-branch-master' component={BranchMaster} />
                         <Route exact path='/add-Qc-Plan' component={AddQcPlan} />
                         <Route exact path='/Import-Customer' component={YetNotStarted} />
@@ -489,9 +489,9 @@ function App() {
                         <Route exact path='/Item-Opening-Stock' component={YetNotStarted} />
 
 
-                       {/* <Route exact path='/add-assortment-master' component={AssortmentMaster} />*/}
-                      
-                     
+                        {/* <Route exact path='/add-assortment-master' component={AssortmentMaster} />*/}
+
+
 
                         <Route exact path='/tran-list' component={YetNotStarted} />
                         <Route exact path='/tran-modify' component={YetNotStarted} />
@@ -567,34 +567,34 @@ function App() {
 
 
 
-                     
 
-              
-               
-                        
-                       
-                       
-                  
-                
-                    
-                
-                    
-                       
-                     
-                     
-                   
-                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         {/*<Route exact path="/line" component={Line} />*/}
                         {/*<Route exact path="/purchase-quotation" component={PurchaseQuotation} />*/}
                         {/*<Route exact path="/sale-quotation" component={SaleQuotaton} />*/}
-         
+
 
 
 
 
                         {/*REPORT*/}
                         <Route exact path='/Rpt-Search' component={YetNotStarted} />
-                  
+
 
 
                         {/*<Route exact path='/balance-only' component={BalanceOnlyReport} />*/}
@@ -611,44 +611,45 @@ function App() {
                         {/*<Route exact path='/sale-register' component={SaleRegister} />*/}
                         {/*<Route exact path='/pending-performa' component={PendingPerforma} />*/}
                     </Layout>
-            </Route>
+                </Route>
 
-                <Route path={["/Login",'/sign-in', "/notify", "/route-details"]}>
-                <LayoutLog>
-                     
-                        <Route exact path='/notify' component={Notify}/>
+                <Route path={["/Login", '/sign-in', "/notify", "/route-details"]}>
+                    <LayoutLog>
+
+                        <Route exact path='/notify' component={Notify} />
                         <Route exact path='/Login' component={LogIn} />
                         <Route exact path='/sign-in' component={LogIn} />
                         {/*<Route exact path="/Login" render={(props) => <LogIn {...props} />} />*/}
-                </LayoutLog>
-            </Route>
+                    </LayoutLog>
+                </Route>
 
 
-                <Route path={["/register", "/", '/GridA']}>
-                <RegisterLayout>
-                   <Route exact path="/" component={CustomerVaildate} />
+                <Route path={["/register", "/", '/GridA','"/test']}>
+                    <RegisterLayout>
+                        <Route exact path="/" component={CustomerVaildate} />
                         <Route exact path='/register' component={RegisterDomain} />
                         <Route exact path='/GridA' component={GridA} />
+                        <Route exact path="/test" component={Test} />
 
-                </RegisterLayout>
-            </Route>
-            {/*<Route path={["/route-details"]}>*/}
-            {/*    <Secret_LayOut>*/}
-            {/*            <Route exact path='/route-details' component={RouteDetails} />*/}
-                  
-            {/*    </Secret_LayOut>*/}
-            {/*</Route>*/}
+                    </RegisterLayout>
+                </Route>
+                {/*<Route path={["/route-details"]}>*/}
+                {/*    <Secret_LayOut>*/}
+                {/*            <Route exact path='/route-details' component={RouteDetails} />*/}
+
+                {/*    </Secret_LayOut>*/}
+                {/*</Route>*/}
 
 
                 {/*{defaultState == 1 ?*/}
                 {/*    (<Route exact path="/" render={(props) => <LogIn {...props} />} />) : (<Route exact path="/" component={Nothing} />)}*/}
                 {/*{defaultState == 2 ? (<Route exact path="/" component={RegisterDomain} />) : (<Route exact path="/" component={Nothing} />)}*/}
-              {/*  <Route exact path="/" component={defaultState == 2 ? RegisterDomain : Nothing} />*/}
-            
+                {/*  <Route exact path="/" component={defaultState == 2 ? RegisterDomain : Nothing} />*/}
 
-                  
-        </Switch>
-</>
+
+
+            </Switch>
+        </>
     );
 
 }

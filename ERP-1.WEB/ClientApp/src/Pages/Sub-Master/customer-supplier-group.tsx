@@ -29,9 +29,9 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 name="codeStr" label="Code" ipTitle="Enter Item Code" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp" />
+                        <MasterInput2 name="codestr" label="Code" ipTitle="Enter Item Code" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp" />
+                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
                     </span>
 
 
@@ -49,7 +49,7 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
                                                 <DatalistInput
 
                                                     className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control inp col-12 datalist int', name: 'parentGrp' }}
+                                            inputProps={{ className: 'form-control inp col-12 datalist int subMaster', name: 'parentGrp' }}
                                                     listboxProps={{ className: 'text-left mt-5' }}
 
                                                     onSelect={(item: any) => { console.log('id', item.id); }}

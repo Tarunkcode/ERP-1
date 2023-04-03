@@ -1,20 +1,22 @@
 ﻿
+ 
 function useFetch() {
 
-
     let baseURL: string = `http://${window.localStorage.getItem('url')}:${window.localStorage.getItem('port')}`;
-   
+  
     const ServerRequest = async (req: any) => {
         //url = `${baseURL}${url}`
        
         let response = await fetch(req)
         let data = await response.json()
         //console.log('REQUESTING:', data)
+
         return { response, data }
     }
 
+   
+    let callFetch = async (url: string, label: string, body: any) => {
 
-    let callFetch = async (url: string, label : string, body: any) => {
     const token: any = window.sessionStorage.getItem('token1');
         const urlStr = baseURL + url
         var req: Request;

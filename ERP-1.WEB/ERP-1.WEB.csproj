@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\alltypes.d.ts" />
+    <None Remove="ClientApp\src\AppContext\loaderContext.tsx" />
     <None Remove="ClientApp\src\components\Charts\charts.component.tsx" />
     <None Remove="ClientApp\src\components\custom-pagination\main-pagination.component.js" />
     <None Remove="ClientApp\src\components\custom-pagination\usePagination.custom-component.js" />
@@ -51,10 +52,12 @@
     <None Remove="ClientApp\src\components\HOC\load-user-master.tsx" />
     <None Remove="ClientApp\src\components\HOC\loadBOM.tsx" />
     <None Remove="ClientApp\src\components\List\list.component.tsx" />
+    <None Remove="ClientApp\src\components\Loader\loader.component.tsx" />
     <None Remove="ClientApp\src\components\Masters\bom_routing.component.tsx" />
     <None Remove="ClientApp\src\components\Modify\modify.component.tsx" />
     <None Remove="ClientApp\src\components\sidebar.component.tsx" />
     <None Remove="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
+    <None Remove="ClientApp\src\components\test.tsx" />
     <None Remove="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
     <None Remove="ClientApp\src\Pages\Helper Functions\table.tsx" />
     <None Remove="ClientApp\src\Pages\Master\add-customer-master.component.tsx" />
@@ -120,6 +123,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\%40types\alltypes.d.ts" />
+    <TypeScriptCompile Include="ClientApp\src\AppContext\loaderContext.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Grid Component\grid.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Grid Component\load-grid.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\fetchApi.hoc.tsx" />
@@ -129,9 +133,11 @@
     <TypeScriptCompile Include="ClientApp\src\components\HOC\load-role-master.config.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\loadBOM.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\List\list.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\Loader\loader.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Masters\bom_routing.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Modify\modify.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\components\test.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Helper Functions\table.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Modify\modify.page.tsx" />
@@ -194,7 +200,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\components\custom-input\" />
     <Folder Include="ClientApp\src\components\Date Component\" />
   </ItemGroup>
 

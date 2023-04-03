@@ -39,12 +39,13 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
     //--------------------------------------------------------------------------------
     const CustomFunctionalities = (e: any) => {
+     
         if (e.event.key === 'Enter') {
             if (rowData[e.rowIndex][e.colDef.field] !== null) {
             
 
                 gridApi.tabToNextCell();
-
+               
             }
 
 
@@ -52,6 +53,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
                 OpenSubLayer(e);
             }
         }
+        
         else if (e.event.key === 'F9') {
             // get index
             let inDex = e.rowIndex;
@@ -68,7 +70,15 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
             // SET New values to grid
             setRowData([...copy])
             gridApi.refreshCells({ force: true });
-        } else { }
+        } else if (e.event.code == "Space") {
+            var currentCell = gridApi.getFocusedCell();
+            gridApi.startEditingCell({
+                rowIndex: currentCell.rowIndex,
+                colKey: currentCell.column.colId
+            });
+        }
+
+        else { }
         //refresh columns 
     }
     const init100Rows = () => {

@@ -10,6 +10,7 @@ import { Label } from 'reactstrap';
 import useFetch from './Hooks/useFetch';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+
 const AxisLabel = ({ axisType, x, y, width, height, stroke, children }: any) => {
     const isVert = axisType === 'yAxis';
     const cx = isVert ? x : x + (width / 2);
@@ -224,6 +225,8 @@ let [posData, setposData] = useState({});
    
     return (
         <div>
+        
+
             <div className='first'>
                {/* <div className="row card home-cards">*/}
                     <div style={{ width: '100%', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: '0' }}>

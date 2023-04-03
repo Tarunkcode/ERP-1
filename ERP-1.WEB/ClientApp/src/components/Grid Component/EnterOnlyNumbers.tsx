@@ -46,7 +46,7 @@ export class NumericEditor {
     }
 
     isKeyPressedNavigation(event: any) {
-        return event.key === 'ArrowLeft' || event.key === 'ArrowRight';
+        return event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'Enter';
     }
 
     // gets called once when grid ready to insert the element

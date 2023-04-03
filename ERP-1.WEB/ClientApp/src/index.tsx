@@ -5,6 +5,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import ThemeProvider from './AppContext/ThemeContext';
+import LoaderProvider from './AppContext/loaderContext';
 import { createBrowserHistory } from 'history';
 import './Fonts/trebuc.ttf';
 
@@ -27,10 +28,12 @@ const store = configureStore()
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-         
-               <ThemeProvider>
-                   <App />
-               </ThemeProvider>
+
+            <ThemeProvider>
+                <LoaderProvider>
+                    <App />
+                </LoaderProvider>
+            </ThemeProvider>
 
         </ConnectedRouter>
     </Provider>,
