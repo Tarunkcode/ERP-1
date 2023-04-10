@@ -210,19 +210,28 @@ const GateEntry = () => {
                 </div>
 
             </div>
-            <div className="card-footer row row-content col-sm-12 justify-content-between form-group" style={{ margin: '0', padding: '0' }}>
-                <label style={{ margin: '0' }} className='col-sm-1 label-control'>Transporter</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.CUSTTYPE} readOnly />
+                <div className="card-footer row row-content col-sm-12 form-group" style={{ margin: '0', padding: '0' }}>
+                    <span className='col-sm-2'>
+                    <label style={{ margin: '0' }} className='label-control'>Transporter</label>
+                    <input style={{ margin: '0',width:'100%' }} type="text" className='form-control' value={masterDetails.CUSTTYPE} readOnly />
+                    </span>
+                    <span className='col-sm-2'>
+                        <label style={{ margin: '0' }} className=' label-control'>Vehicle Type</label>
+                        <input style={{ margin: '0', width: '100%' }} type="text" className='form-control' value={masterDetails.STATENAME} readOnly />
+                   </span>
+                    <span className='col-sm-2'>
+                        <label style={{ margin: '0', }} className='label-control'>Number</label>
+                        <input style={{ margin: '0', width: '100%' }} type="text" className='form-control' value={masterDetails.SCHEME} readOnly />
+                    </span>
 
-
-                <label style={{ margin: '0' }} className=' label-control'>Vehicle Type</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.STATENAME} readOnly />
-
-                <label style={{ margin: '0' }} className='label-control'>Number</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.SCHEME} readOnly />
-
-                <label style={{ margin: '0' }} className='label-control'>Driver Name</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' value={masterDetails.PAYTO} readOnly />
-
-
-                <label style={{ margin: '0' }} className=' label-control'>Bilty No.</label><input style={{ margin: '0' }} type="text" className='form-control col-sm-1' />
-
+                    <span className='col-sm-2'>
+                        <label style={{ margin: '0' }} className='label-control'>Driver Name</label>
+                        <input style={{ margin: '0', width: '100%' }} type="text" className='form-control' value={masterDetails.PAYTO} readOnly />
+                    </span>
+                    <span className='col-sm-2'>
+                        <label style={{ margin: '0' }} className=' label-control'>Bilty No.</label>
+                        <input style={{ margin: '0',width:'100%' }} type="text" className='form-control' />
+                     </span>
             </div>
 
            

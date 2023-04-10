@@ -1,5 +1,4 @@
-﻿////import * as React from 'react';
-////import Autocomplete from 'react-autocomplete';
+﻿
 import * as React from 'react';
 import { useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
@@ -14,44 +13,14 @@ import 'ag-grid-autocomplete-editor/dist/main.css';
 
 
 
-export default function AutoComp() {
+export default function AutoComp({ list, name, collect, saveData, vccode, data, ...rest }: any) {
 
-    const [gridApi, setGridApi]: any = useState(null);
+
+    const [listApi, setListApi]: any = useState(null);
+    //const [makerList, setMakerList]: any = useState([]);
     const [columnApi, setColumnApi]: any = useState(null);
-    const [rowData, setRowData]: any = useState(null);
 
-    const col: any[] = [{
-        field: 'droplist', cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
-        cellEditor: AutocompleteSelectCellEditor,
-        cellEditorParams: {
-            required: true,
-            selectData:
-                [{ label: 'apple', value: '1' },
-                { label: 'banana', value: '2' },
-                { label: 'pineapple', value: '3' }],
-            autocomplete: {
-                customize: function ({ input, inputRect, container, maxHeight }: any) {
-                    if (maxHeight < 100) {
-                        container.style.top = '';
-                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
-                        container.style.maxHeight = '200px';
-                    }
-                },
-                showOnFocus: true
-
-            }
-        },
-
-        valueFormatter: (params: any) => {
-            if (params.value) {
-                return params.value.label || params.value.value || params.value;
-            }
-            return params.label;
-        },
-        editable: true
-
-    }]
     const defaultColDef = useMemo(() => {
         return {
             //resizable: true,
@@ -67,23 +36,32 @@ export default function AutoComp() {
         defaultColDef: defaultColDef
 
     };
+
+    //const addCellBlurListener = (e: any) => {
+    //    const target: any = document.activeElement;
+    //    if (target) {
+    //        target.addEventListener('blur', onCellBlur);
+    //    }
+    //}
+    //const onCellBlur = () => {
+ 
+    //};
     // custom navigation
 
     //--------------------------------------------------------------------------------
     const CustomFunctionalities = (e: any) => {
+        //if (e.event.key === 'Enter') {
+        //    if (data[e.rowIndex][e.colDef.field] !== null) {
 
-        if (e.event.key === 'Enter') {
-            if (rowData[e.rowIndex][e.colDef.field] !== null) {
 
+        //        listApi.tabToNextCell();
 
-                gridApi.tabToNextCell();
+        //    }
+        //}
 
-            }
-        }
-
-        else if (e.event.code == "Space") {
-            var currentCell = gridApi.getFocusedCell();
-            gridApi.startEditingCell({
+        if (e.event.code == "Space") {
+            var currentCell = listApi.getFocusedCell();
+            listApi.startEditingCell({
                 rowIndex: currentCell.rowIndex,
                 colKey: currentCell.column.colId
             });
@@ -94,10 +72,11 @@ export default function AutoComp() {
     }
     function onGridReady(params: any) {
 
-        setGridApi(params.api);
-
+        setListApi(params.api);
+              collect(params.api);
         setColumnApi(params.columnApi);
         params.api.sizeColumnsToFit();
+                
 
 
         params.api.sizeColumnsToFit();
@@ -107,27 +86,61 @@ export default function AutoComp() {
 
     return (
 
-    
-            <div style={{ width: '100%', height: '50px', margin: '0', border: 'none' }} className="ag-theme-alpine m-0 p-0 col-4">
-                <AgGridReact
-                    rowData={[{ droplist: null }]}
-                    columnDefs={col}
-                    headerHeight={0}
-                    onCellKeyDown={CustomFunctionalities}
-                    suppressHorizontalScroll={true}
-                    suppressVerticalScroll={true}
-                    enableCellEditingOnBackspace={true}
-                    gridOptions={gridOptions}
-                    onGridReady={onGridReady}
 
-                ></AgGridReact>
-            </div >
+        <div key={list.length} style={{ width: '100%', height: '50px', margin: '0', border: 'none' }} className="ag-theme-alpine m-0 p-0 col-12 mt-1">
+            <AgGridReact
+                rowData={data}
+                columnDefs={[{
+                    field: name, cellStyle: { paddingLeft: '0', paddingRight: '0' },
+
+                    cellEditor: AutocompleteSelectCellEditor,
+                    cellEditorParams: {
+                        required: true,
+                        selectData: React.useMemo(() => { return list }, [list]),
+                        autocomplete: {
+                            customize: function ({ input, inputRect, container, maxHeight }: any) {
+                                if (maxHeight < 100) {
+                                    container.style.top = '';
+                                    container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                                    container.style.maxHeight = '200px';
+                                }
+                            },
+                            showOnFocus: true
+
+                        }
+                    },
+                    onCellValueChanged: (params: any) => {
+                        if (params.oldValue !== params.newValue) {
+                            params.api.refreshCells({ force: true });
+                        }
+                    },
+                    valueFormatter: (params: any) => {
+                        if (params.value) {
+                            saveData( name, params.value.value);
+                            return params.value.label || params.value.value || params.value;
+                        }
+                        return params.label;
+                    },
+                    editable: true
+
+                }]}
+                headerHeight={0}
+                onCellKeyDown={CustomFunctionalities}
+                suppressHorizontalScroll={true}
+                suppressVerticalScroll={true}
+                enableCellEditingOnBackspace={true}
+                gridOptions={gridOptions}
+                onGridReady={onGridReady}
+
+            ></AgGridReact>
+        </div >
 
 
- 
+
     );
     /*    onCellKeyPress={onCellClicked}*/
+          {/*      onCellEditingStoped={onCellBlur}*/}
+                {/*onCellFocused={addCellBlurListener}*/}
 }
-
 
 

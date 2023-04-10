@@ -11,6 +11,7 @@ import Sale_Page from '../../Pages/SetUp/Featutes-Option/sale.page';
 import { store2 } from '../../Redux/config/config.reducer';
 import DefaultConfigConf from '../HOC/fetchDefaultConfigurationSettings';
 import { Redirect } from 'react-router';
+import { LoaderContext } from '../../AppContext/loaderContext';
 
 
 interface IState {
@@ -26,6 +27,7 @@ interface IProps {
     AlterLoadedData: any
 }
 class Feature_Option extends React.Component<IProps, IState> {
+    static contextType = LoaderContext;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -40,18 +42,21 @@ class Feature_Option extends React.Component<IProps, IState> {
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
     FetchLoadedList = async (mType: any) => {
-
+        const loader = this.context;
         const urlUGList = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
 
        
         try {
+            loader.setLoader(true);
             let { res, got } = await this.props.api(urlUGList, "GET",'')
             if(res.status) {
                 this.setState({ loadedList1: got.data })
+                loader.setLoader(false);
             }
 
 
         } catch (err) {
+            loader.setLoader(false);
             alert(err)
         }
 
@@ -73,6 +78,8 @@ class Feature_Option extends React.Component<IProps, IState> {
         this.FetchLoadedList(2008);
     }
     handlePosting = async (e: any) => {
+        const loader = this.context;
+        loader.setLoader(true);
         e.preventDefault();
         console.log('calling');
         let i: any = {};
@@ -94,18 +101,20 @@ class Feature_Option extends React.Component<IProps, IState> {
             let { res, got } = await this.props.api(confUrl,'POST' ,i)
         
             if (res.status == 200) {
+                    loader.setLoader(false);
                 toast.success(got.msg)
                 setTimeout(() => {
                 this.setState({ redirect: true });
-
                 }, 2000)
 
             } else {
+                loader.setLoader(false);
                 toast.error(got.msg)
 
             }
             store2.getState().InventoryDet = [{}]
         } catch (err) {
+            loader.setLoader(false);
             alert(err)
         }
     }

@@ -2,8 +2,8 @@
 import Modify_Page from '../../Pages/Modify/modify.page';
 import { toast } from 'react-toastify'
 import { withRouter } from "react-router-dom";
-
 import ProvideHookToClass from '../HOC/loadBOM';
+import { LoaderContext } from '../../AppContext/loaderContext';
 
 interface IState {
     selectModList: any[],
@@ -20,6 +20,7 @@ interface IProps {
     loader: any;
 }
 class Modify_Child extends React.Component<IProps, IState> {
+    static contextType = LoaderContext;
     constructor(props: IProps) {
         super(props);
         this.state = {
@@ -36,16 +37,18 @@ class Modify_Child extends React.Component<IProps, IState> {
     username = window.sessionStorage.getItem('username') || ""
 
     FetchLoadingSubMasterList = async (mType: any) => {
-
+        const loader = this.context;
         const urlLoadModify = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
 
         try {
+            loader.setLoader(true);
             this.props.loader(true)
             /* fetch(req).then((res: any) =>  res.json() ).then((res: any) => { if (res.data.length !== 0) { const dataArr = res.data; this.setState({ selectModList: dataArr }); console.log('list to load', dataArr) } else { toast.info('No data Found') } });*/
             let { res, got } = await this.props.api(urlLoadModify, "GET", '');
 
             if (res.status == 200) {
                 if (got.data.length === 0) {
+                    loader.setLoader(false)
                     this.props.loader(false)
                     toast.info('No data Found')
                 }
@@ -54,19 +57,22 @@ class Modify_Child extends React.Component<IProps, IState> {
                 else {
                     let modify_list: any = got.data.map((option: any) => ({
 
-                        id: option.code,
-                        value: option.name,
+                        id: option.value,
+                        value: option.label,
 
                     }))
                     this.setState({ selectModList: modify_list });
+                    loader.setLoader(false)
                     this.props.loader(false)
                 }
             } else {
+                loader.setLoader(false)
                 this.props.loader(false)
                 toast.error(got.msg)
             }
 
         } catch (err) {
+            loader.setLoader(false)
             this.props.loader(false)
             alert(err)
         }
@@ -76,15 +82,18 @@ class Modify_Child extends React.Component<IProps, IState> {
 
     FetchNewUserList = async () => {
 
+        const loader = this.context;
         const urlLoadModify = `/api/LoadUsersList?Company=${this.compCode}&Customer=${this.customer}`;
 
         try {
+            loader.setLoader(true);
             this.props.loader(true)
             /* fetch(req).then((res: any) =>  res.json() ).then((res: any) => { if (res.data.length !== 0) { const dataArr = res.data; this.setState({ selectModList: dataArr }); console.log('list to load', dataArr) } else { toast.info('No data Found') } });*/
             let { res, got } = await this.props.api(urlLoadModify, "GET", '');
 
             if (res.status == 200) {
                 if (got.data.length === 0) {
+                    loader.setLoader(false)
                     this.props.loader(false)
                     toast.info('No data Found')
                 }
@@ -98,14 +107,17 @@ class Modify_Child extends React.Component<IProps, IState> {
 
                     }))
                     this.setState({ selectModList: modify_list });
+                    loader.setLoader(false)
                     this.props.loader(false)
                 }
             } else {
+                loader.setLoader(false)
                 this.props.loader(false)
                 toast.error(got.msg)
             }
 
         } catch (err) {
+            loader.setLoader(false);
             this.props.loader(false)
             alert(err)
         }
@@ -114,6 +126,7 @@ class Modify_Child extends React.Component<IProps, IState> {
     }
     FetchAccMasterList = async (mt: any) => {
 
+        const loader = this.context;
         const urlLoadModify = `/api/LoadAccMList`;
         let body = {
             "Customer": parseInt(this.customer),
@@ -123,11 +136,13 @@ class Modify_Child extends React.Component<IProps, IState> {
             "Group": 0
         }
         try {
+            loader.setLoader(true)
             this.props.loader(true)
             let { res, got } = await this.props.api(urlLoadModify, "POST", body);
 
             if (res.status == 200) {
                 if (got.data.length === 0) {
+                    loader.setLoader(false)
                     this.props.loader(false)
                     toast.info('No data Found')
                 }
@@ -136,19 +151,22 @@ class Modify_Child extends React.Component<IProps, IState> {
                 else {
                     let modify_list: any = got.data.map((option: any) => ({
 
-                        id: option.code,
-                        value: option.name,
+                        id: option.value,
+                        value: option.label,
 
                     }))
                     this.setState({ selectModList: modify_list });
+                    loader.setLoader(false)
                     this.props.loader(false)
                 }
             } else {
+                loader.setLoader(false)
                 this.props.loader(false)
                 toast.error(got.msg)
             }
 
         } catch (err) {
+            loader.setLoader(false)
             this.props.loader(false)
             alert(err)
         }
@@ -157,6 +175,7 @@ class Modify_Child extends React.Component<IProps, IState> {
     }
     FetchItemMasterList = async () => {
 
+        const loader = this.context;
         const urlLoadModify = `/api/LoadIMList`;
         let body = {
             "Customer": parseInt(this.customer),
@@ -174,12 +193,14 @@ class Modify_Child extends React.Component<IProps, IState> {
             "GRPType": ""
         }
         try {
+            loader.setLoader(true)
             this.props.loader(true)
             let { res, got } = await this.props.api(urlLoadModify, "POST", body);
 
             if (res.status == 200) {
                 if (got.data.length === 0) {
                     this.props.loader(false)
+                    loader.setLoader(false)
                     toast.info('No data Found')
                 }
 
@@ -187,19 +208,22 @@ class Modify_Child extends React.Component<IProps, IState> {
                 else {
                     let modify_list: any = got.data.map((option: any) => ({
 
-                        id: option.code,
-                        value: option.name,
+                        id: option.value,
+                        value: option.label,
 
                     }))
                     this.setState({ selectModList: modify_list });
+                    loader.setLoader(false)
                     this.props.loader(false)
                 }
             } else {
+                loader.setLoader(false)
                 this.props.loader(false)
                 toast.error(got.msg)
             }
 
         } catch (err) {
+            loader.setLoader(false)
             this.props.loader(false)
             alert(err)
         }
@@ -233,7 +257,7 @@ class Modify_Child extends React.Component<IProps, IState> {
         this.setState({ fetchCode: code })
     }
     handleSubmit = () => {
-
+      
         if (!this.state.fetchCode) { toast.info('Please Select one Term to Modify') }
         else this.props.history.push({ pathname: this.state.address, state: { code: this.state.fetchCode } })
         //<Redirect to={{ pathname: this.state.address, state: { code: this.state.fetchCode } }} />

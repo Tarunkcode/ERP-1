@@ -183,9 +183,9 @@ class Role_Master extends React.Component<IProps, IState> {
 
             if (res.status == 200) {
                 toast.success(got.msg);
-                //let ref = document.getElementById("form") as HTMLFormElement
-                //clear_form(ref);
-                this.props.history.push('/successfully-modify');
+                let formObj = document.getElementById("form");
+                this.props.gettingVirtualCode === 0 ? clear_form(formObj) : this.props.history.push('/successfully-modify');
+                
 
             } else {
                 toast.error(got.msg)

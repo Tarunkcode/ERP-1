@@ -6,11 +6,13 @@ import { CustomeSwitch2 } from '../../../components/CustomSwitch/custom-switch.c
 
 import DatalistInput from 'react-datalist-input';
 import WriteGrid from '../../../components/Grid Component/grid.component';
-import { NumericEditor }  from '../../../components/Grid Component/EnterOnlyNumbers';
+import { NumericEditor } from '../../../components/Grid Component/EnterOnlyNumbers';
 import LoadGrid from '../../../components/Grid Component/load-grid.component';
 import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
 import { store2 } from '../../../Redux/config/config.reducer';
-export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, pagecode, ...otherProps }: any) {
+import AutoComp from '../../../components/custom-input/droplist/droplist.component';
+export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, pagecode, handleList, collectListData, ...otherProps }: any) {
+
 
     useEffect(() => {
         if (configType == '/add-sale-type') {
@@ -19,10 +21,12 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
         else if (configType == '/add-purchase-type') {
             getMasterType(14)
         }
-    }, [configType])
 
+        
+    }, [configType])
+    
     // -------------------------------------------------------------------------------------------------------------------------
-    var ColDef: any[] = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1', cellStyle: {paddingLeft:'20px    '} },
+    var ColDef: any[] = [{ maxWidth: 150, field: 'bssrno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '20px    ' } },
     {
         field: 'bscode', headerName: 'Bill Sundry Description', maxWidth: 600, minWidth: 600, cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
@@ -39,20 +43,20 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                     }
                 },
                 showOnFocus: true
-               
+
             }
         },
         onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
 
-                params.data.bstype = params.newValue.type;
+                params.data.bstype = params.newValue.bstype;
                 params.data.nature = params.newValue.nature;
-                params.data.bsval = params.newValue.value;
+                params.data.bsval = params.newValue.bsval;
 
                 params.api.refreshCells({ force: true });
             }
         },
-      
+
         valueFormatter: (params: any) => {
             if (params.value) {
                 return params.value.label || params.value.value || params.value;
@@ -64,11 +68,11 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
     },
     { field: 'nature', headerName: 'Nature', minWidth: 200 },
     { field: 'bstype', headerName: 'Type', minWidth: 200 },
-        { field: 'bsval', headerName: 'Value', minWidth: 200, editable: true, cellEditor: NumericEditor, },
+    { field: 'bsval', headerName: 'Value', minWidth: 200, editable: true, cellEditor: NumericEditor, },
 
     ]
 
-    let data: any[] = vccode == 0 ? [{ bscode: null, nature: null, bstype: null, bsval: null }] : defaultLoad.sptypedetail;
+    let data: any[] = vccode == 0 ? [{ bscode: null, nature: null, bstype: null, bsval: null }] : defaultLoad.sptypedetail
 
     return (
         <>
@@ -86,9 +90,9 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                     <span className="d-flex section2 col-sm-12">
 
                         <MasterInput3
-                            defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].name : ''}
+                            defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].label : ''}
                             handleChange={handleChange}
-                            name="name"
+                            name="label"
                             classCategory="form-control inp col-4  seriesConf"
                             ipType="text"
                             label="Name"
@@ -109,20 +113,19 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                                     <label htmlFor="gsttype" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Type</label>
 
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                                        <DatalistInput
-                                            value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttype == 1 ? "Enter State" : defaultLoad.sptypeheader[0].gsttype == 2 ? "Local" : defaultLoad.sptypeheader[0].gsttype == 3 ? "Export" : '' : ''}
-                                            className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gsttype' }}
-                                            listboxProps={{ className: 'text-left mt-5' }}
 
-                                            onSelect={(item: any) => SelectList(item)}
-                                            items={[{ id: 1, value: 'Enter State', name: "gsttype" }, { id: 2, value: 'Local', name: 'gsttype' }, { id: 3, value: 'Export', name: 'gsttype' }]}
+                                        <AutoComp
+                                            collect={collectListData}
+                                            list={[{ value: 1, label: 'Enter State' }, { value: 2, label: 'Local' }, { value: 3, label: 'Export' }]}
+                                            name="gsttype"
+                                            saveData={handleList}
+                                            vccode={vccode}
+                                            data={vccode !== 0 ? defaultLoad.sptypeheader ? [{ gsttype: { label: defaultLoad.sptypeheader[0].gsttypename, value: defaultLoad.sptypeheader[0].gsttype } }] : [{ gsttype: null }] : [{ gsttype: null }]}
                                         />
-
                                     </span>
                                 </>
                             ) : (<MasterInput3
-                                    defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].defaultvalue : ''}
+                                defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].defaultvalue : ''}
                                 handleChange={handleChange}
                                 name="defaultvalue"
                                 classCategory="form-control inp col-4  seriesConf select"
@@ -148,16 +151,8 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                         <label htmlFor="usefor" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">Use For</label>
 
                         <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                            <DatalistInput
-                                value={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].usefor == 1 ? "Company" : defaultLoad.sptypeheader[0].usefor == 2 ? "Branch" : "" : ''}
-                                className="d-flex col-12 m-0 p-0"
-                                inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'usefor' }}
-                                listboxProps={{ className: 'text-left mt-5' }}
 
-                                onSelect={(item: any) => SelectList(item)}
-                                items={[{ id: 1, value: 'Company', name: 'usefor' }, { id: 2, value: 'Branch', name: 'usefor' }]}
-                            />
-
+                            <AutoComp collect={collectListData} list={[{ value: 1, label: 'Company' }, { value: 2, label: 'Branch' }]} name="usefor" saveData={handleList} vccode={vccode} data={vccode !== 0 ? defaultLoad.sptypeheader ? [{ usefor: { label: defaultLoad.sptypeheader[0].useforname, value: defaultLoad.sptypeheader[0].usefor } }] : [{ usefor: null }] : [{ usefor: null }]} />
                         </span>
 
                         <span className="col-1 m-0"></span>
@@ -199,16 +194,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                                     <label htmlFor="gstcat" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Category</label>
 
                                     <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                                        <DatalistInput
-                                            value={defGstCatName}
-                                            className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control inp  datalist col-12  seriesConf', name: 'gstcat' }}
-                                            listboxProps={{ className: 'text-left mt-5' }}
-
-                                            onSelect={(item: any) => SelectList(item)}
-                                            items={gstCat}
-                                        />
-
+                                        <AutoComp collect={collectListData} list={gstCat} name="gstcat" saveData={handleList} vccode={vccode} data={vccode !== 0 ? defaultLoad.sptypeheader ? [{ gstcat: { label: defaultLoad.sptypeheader[0].gstcatname, value: defaultLoad.sptypeheader[0].gstcat } }] : [{ gstcat: null }] : [{ gstcat: null }]} />
                                     </span>
                                 </>
                             ) : (<MasterInput3
@@ -216,7 +202,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                                 handleChange={() => { }}
                                 name=""
 
-                                    classCategory="form-control inp col-4  seriesConf select invisible"
+                                classCategory="form-control inp col-4  seriesConf select invisible"
                                 ipType="text"
                                 label=""
                                 ipTitle=""
@@ -239,7 +225,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
 
 
                     </span>
-                   
+
 
 
                 </form>

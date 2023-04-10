@@ -1,13 +1,38 @@
-﻿import * as React from 'react';
+﻿import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
+import * as React from 'react';
 import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
 import WriteGrid from '../../../components/Grid Component/grid.component';
 import QcIncomingModals from '../../../components/Modals/Qc_Incoming_Modal';
 
-const OQC = () => {
+const Qc_Jobwork = () => {
+
+    let data: any[] = [{
+        grn: null, grndate: null, cn: null, uom: null, chn: null, cd: null, bd: null, ic: null, in: null, mno: null, jobqty: null,
+        pqty: null, balqty: null, mat: null, process: null
+    }]
+
+    var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+
+    { field: 'grn', headerName: 'GRN No.', minWidth: 200 },
+    { field: 'grndate', headerName: 'GRN Date', minWidth: 200 },
+
+    { field: 'cn', headerName: 'Customer Name', minWidth: 200 },
+    { field: 'chn', headerName: 'Challan No.', minWidth: 200 },
+    { field: 'cd', headerName: 'Challan Date', minWidth: 200 },
+
+    { field: 'ic ', headerName: 'Item Code', minWidth: 200 },
+    { field: 'in ', headerName: 'Item Name', minWidth: 200 },
+    { field: 'mno ', headerName: 'Model No.', minWidth: 200 },
+    { field: 'jobqty ', headerName: 'JOB QTY', minWidth: 200 },
+    { field: 'uom ', headerName: 'UOM', minWidth: 200 },
+    { field: 'pqty ', headerName: 'Processed Qty', minWidth: 200 },
+    { field: 'balqty ', headerName: 'Balance Qty', minWidth: 200 },
+    { field: 'mat ', headerName: 'Mat. Center', minWidth: 200, editable: true },
+    { field: 'process', headerName: 'Process', minWidth: 200, editable: true },
+
+    ]
 
     let [isItemBox, setIsItemBox]: any = React.useState(false);
-    const [config, setConfig]: any = React.useState('');
-
     const OpenQcIncomingMat = (e: any) => {
         console.log('process value', e)
 
@@ -19,46 +44,7 @@ const OQC = () => {
 
     }
 
-
-    React.useEffect(() => {
-
-        let id: string = window.location.pathname;
-        console.log('id', id)
-        let splits: any = id.split('/');
-        console.log('s', splits)
-        setConfig({
-            configType: splits[splits.length - 1]
-        })
-
-
-    }, [])
-    console.log('iddddddddd', config.configType)
-
-    let data: any[] = [{
-        pd: null, cn: null, in: null, ic: null, mn: null, pqty: null, pq: null, bq: null, uom: null, mc: null,
-        balqty: null, mat: null, process: null
-    }]
-
-    var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
-
-    { field: 'pd', headerName: 'Prod. Date', minWidth: 200 },
-    { field: 'cn', headerName: 'Customer Name', minWidth: 200 },
-
-    { field: 'ic', headerName: 'Item Code', minWidth: 200 },
-    { field: 'in', headerName: 'Item Name', minWidth: 200 },
-    { field: 'mn', headerName: 'Model No.', minWidth: 200 },
-    { field: 'pqty', headerName: 'Prod. Qty', minWidth: 200 },
-    { field: 'pq ', headerName: 'Processed Qty', minWidth: 200 },
-    { field: 'bq ', headerName: 'Balance Qty.', minWidth: 200 },
-    { field: 'uom ', headerName: 'UOM', minWidth: 200 },
-    { field: 'mc ', headerName: 'Mat. Center', minWidth: 200 },
-    { field: 'process', headerName: 'Process', minWidth: 200, editable: true },
-    { field: 'planno', headerName: 'PlanNo', minWidth: 200, editable: true },
-
-    ]
-
     return (
-
         <>
             <QcIncomingModals isItemBox={isItemBox} setIsItemBox={setIsItemBox} />
 
@@ -69,7 +55,7 @@ const OQC = () => {
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
                         margin: '0'
-                    }} >{`${config.configType === 'add-Qc-Out' ? 'QC Incoming Material From Production Confirmation' : config.configType === 'add-SmpProd' ? 'Qc Sample Production' : config.configType === 'add-ReWork' ? 'QC ReWork' : '' }`}</span>
+                    }} >QC Incoming Material From Job Work</span>
                 </div>
 
                 <div className="card-body row col-sm-12 m-0 p-0" >
@@ -79,31 +65,36 @@ const OQC = () => {
                             <div className="card-body" style={{ margin: '0', padding: '0' }}>
                                 <form className="form">
                                     <span className="d-flex section2 col-sm-12">
-                                        <MasterInput2 name="proseries" label="Production Series" ipTitle="Enter Production Series" ipType="text" classCategory="form-control col-4 inp" />
+                                        <MasterInput2 name="jobseries" label="JOB Series" ipTitle="Enter Job Series" ipType="text" classCategory="form-control col-4 inp" />
 
                                         <span className="col-1 m-0"></span>
-                                        <MasterInput2 name="pnf" label="Prod. No From" ipTitle="Enter Production No From" ipType="text" classCategory="form-control col-4 inp" />
+                                        
+                                        <MasterInput2 name="jobfrom" label="JOB Number From" ipTitle="Enter Job Number From" ipType="text" classCategory="form-control col-4 inp" />
 
 
                                     </span>
-                                    
+                                   
                                     <span className="d-flex section2 col-sm-12">
 
-                                        <MasterInput2 name="pnt" label="Prod. No To" ipTitle="Enter Production No To" ipType="text" classCategory="form-control col-4 inp" />
+                                        <MasterInput2 name="job-to" label="JOB Number To" ipTitle="Enter JOB Number To" ipType="text" classCategory="form-control col-4 inp" />
                                         <span className="col-1 m-0"></span>
-                                        <MasterInput2 name="to" label="Prod. Date From" ipTitle="Enter Production Date From" ipType="date" classCategory="form-control col-4 inp" />
+                                        <MasterInput2 name="rdate" label="Receipt Date From" ipTitle="Enter Receipt Date From" ipType="date" classCategory="form-control col-4 inp" />
                                     </span>
 
-                                  
+                                   
                                     <span className="d-flex section2 col-sm-12">
 
-                                        <MasterInput2 name="pdto" label="Prod. Date To" ipTitle="Enter Production Date To" ipType="date" classCategory="form-control col-4 inp" />
+                                        <MasterInput2 name="rto" label="Receipt Date To" ipTitle="Enter Receipt Date To" ipType="date" classCategory="form-control col-4 inp" />
                                         <span className="col-1 m-0"></span>
                                         <MasterInput2 name="icode" label="Item Code" ipTitle="Enter Item Code" ipType="text" classCategory="form-control col-4 inp" />
-                                      
                                     </span>
 
-                                  
+                                    <span className="d-flex section2 col-sm-12">
+
+                                        <MasterInput2 name="ccn" label="Customer Challan No" ipTitle="Enter Customer Challan No" ipType="text" classCategory="form-control col-4 inp" />
+                                        <span className="col-1 m-0"></span>
+
+                                    </span>
 
                                     <span className="d-flex section2 col-sm-12 mt-2">
 
@@ -135,7 +126,8 @@ const OQC = () => {
                 <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </>
+
     )
 }
 
-export default OQC;
+export default Qc_Jobwork;

@@ -1,140 +1,110 @@
 ﻿import * as React from 'react';
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
 
 
 const MaterialIssue = () => {
-    var getSoSeries = window.sessionStorage.getItem('so-series');
-    var getAccName = window.sessionStorage.getItem('acc-name');
+   
     const getState = window.localStorage.getItem('state');
-    const state = JSON.parse(getState!)
-    const getCompCode = window.sessionStorage.getItem('compCode');
-
-    var [itemCodeArr, setItemCodeArr]: any = React.useState([]);
-    var kinda = React.useRef('');
-    var [masterDetails, setMasterDetails]: any = React.useState([]);
-    var [changeItemCode, setChangeItemCode]: any = React.useState('');
-    var [changeItemName, setChangeItemName]: any = React.useState('');
-    var [wholeLineItem, setWholeLineItem]: any = React.useState([{ UOMNAME: '', MRP: '', SGST: '', CGST: '', IGST: '', GSTCAT: '', SALEPRICE: '' }]);
-
-
+   
     return (
         <>
-            <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-
+            <div className="main card firstDiv">
+           
+                <div className="card-title mb-2 col-12 text-center" style={{ margin: '0 auto' }}>
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', padding: '0',
                         margin: '0'
                     }}>Dilevery Challan Issue To Party</span>
+                    </div>
+                <div className="card-body" style={{ margin: '0', padding: '0'}}>
 
-                </div>
-                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card col-sm-6" style={{ padding: '0', margin: '0' , minHeight:'37vh'}}>
+              
 
                    
-                    <div className="card addSalecard" style={{ width: '100%' }}>
-                        <div className="card-body" style={{ margin: '0', padding: '20 0' }}>
-                            <form className="form">
+                   
+                    <form className="form">
 
+                        <span className="d-flex section2 col-sm-12">
 
-                                <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0px' }}>
-                                  
-                                        <><label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-qty">Series</label>
-                                            <input className="form-control col-3" type="text" name="bill-qty" /></>
-                                    <> <label style={{ padding: '0', fontSize: '14px', marginLeft: '50px' }} className="form-label col-sm-2" htmlFor="bill-date">Date</label>
-                                        <input className="form-control" type="date" name="bill-date" /> </>
-                                </span>
+                            <MasterInput2 defaultt={[]} label="Series" name="series" ipType="text" ipTitle="Enter Code" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="Date" name="date" ipType="date" ipTitle="Enter Date" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                        </span>
 
-                                    <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                        <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="upload-bill">Party</label>
-                                            <input className="form-control col-7" type="text" name="upload-bill" /> </>
+                        <span className="d-flex section2 col-sm-12">
 
-                                    </span>
+                            <MasterInput2 defaultt={[]} label="Party" name="party" ipType="text" ipTitle="Enter Code" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="Challan Type" name="challan" ipType="text" ipTitle="Enter Challan Type" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                        </span>
 
-                                    <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0px' }}>
-                                  
-                                        <><label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-qty">Challan Type</label>
-                                            <input className="form-control" type="text" name="bill-qty" /></>
-                                    <> <label style={{ padding: '0', fontSize: '14px', marginLeft: '50px' }} className="form-label col-sm-2" htmlFor="bill-date">Department</label>
-                                        <input className="form-control" type="text" name="bill-date" /> </>
-                                </span>
+                        <span className="d-flex section2 col-sm-12">
 
-                                    <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0px' }}>
-                                  
-                                        <><label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-qty">State</label>
-                                            <input className="form-control" type="text" name="bill-qty" /></>
-                                    <> <label style={{ padding: '0', fontSize: '14px', marginLeft: '50px' }} className="form-label col-sm-2" htmlFor="bill-date">Code</label>
-                                        <input className="form-control" type="text" name="bill-date" /> </>
-                                </span>
+                            <MasterInput2 defaultt={[]} label="Department" name="Department" ipType="text" ipTitle="Enter Department" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="State" name="state" ipType="text" ipTitle="Enter state" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                        </span>
 
+                        <span className="d-flex section2 col-sm-12">
 
+                            <MasterInput2 defaultt={[]} label="Code" name="code" ipType="text" ipTitle="Enter Code" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="Transporter" name="transporter" ipType="text" ipTitle="Enter Transporter" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
 
-                              
+                        </span>
 
+                        <span className="d-flex section2 col-sm-12">
 
-                                
-                              
+                            <MasterInput2 defaultt={[]} label="E-Way Bill" name="ewb" ipType="text" ipTitle="Enter E-Way Bill" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="Driver" name="driver" ipType="text" ipTitle="Enter Driver" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2 defaultt={[]} label="Bill No." name="bn" ipType="text" ipTitle="Enter Bill No." handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="Vehicle No." name="vchno" ipType="text" ipTitle="Enter Vehicle No." handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2 defaultt={[]} label="Ref No." name="refno" ipType="text" ipTitle="Enter Ref No." handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="Seal No." name="seal" ipType="text" ipTitle="Enter Seal No." handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2 defaultt={[]} label="Picking List" name="plist" ipType="text" ipTitle="Enter Picking List" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="E-way Bill" name="ewaybill" ipType="text" ipTitle="Enter E-way Bill" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2 defaultt={[]} label="Place o Supply" name="pos" ipType="text" ipTitle="Enter Place o Supply" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                            <MasterInput2 defaultt={[]} label="PinCode" name="pincode" ipType="text" ipTitle="Enter PinCode" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+
+                        </span>
+
+                        <span className="d-flex section2 col-sm-12">
+
+                            <MasterInput2 defaultt={[]} label="Distance" name="distance" ipType="text" ipTitle="Enter Distance" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                            <span className="col-1 m-0"></span>
+                           
+
+                        </span>
+
                             </form>
-                        </div>
-
-                    </div>
+                   
                 </div>
-                <div className="card col-sm-6" style={{ padding: '0', marginRight: '0' }}>
-                  
-                    <div className="transporter-details col-sm-12" style={{ margin: '3px 0', padding: '10px' }}>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                            <><label htmlFor="transporter" className="form-label col-3">Transporter</label>
-                                    <input name="transporter" className="form-control col-3" type="text" /></>
-
-                                <><label htmlFor="transporter" className="form-label col-3">E-Way Bill</label>
-                                    <input name="transporter" className="form-control col-3" type="text" /></>
-                        </span>
-
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                            <><label htmlFor="vehicalNo" className="form-label col-3">Driver</label>
-                                    <input name="vehicalNo" className="form-control col-3" type="text" /></>
-                                <><label htmlFor="vehicalNo" className="form-label col-3">Bilty No.</label>
-                                    <input name="vehicalNo" className="form-control col-3" type="text" /></>
-                        </span>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                           <> <label htmlFor="driver" className="form-label col-3">Vehicle No.</label>
-                                    <input name="driver" className="form-control col-3" type="text" /></>
-
-                                <> <label htmlFor="driver" className="form-label col-3">Ref No.</label>
-                                    <input name="driver" className="form-control col-3" type="text" /></>
-                        </span>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                           <> <label htmlFor="mobNo" className="form-label col-3">Seal No.</label>
-                                    <input name="mobNo" className="form-control col-3" type="text" /> </>
-
-                                <> <label htmlFor="mobNo" className="form-label col-3">Picking List</label>
-                                    <input name="mobNo" className="form-control col-3" type="text" /> </>
-                        </span>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                          <>  <label htmlFor="billNo" className="form-label col-3">E-way Bill</label>
-                                    <input name="billNo" type="checkbox" /></>
-
-                                <>  <label htmlFor="billNo" className="form-label col-3">Place o Supply</label>
-                                    <input name="billNo" className="form-control col-3" type="text" /></>
-                        </span>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                           <> <label htmlFor="billty" className="form-label col-3">PinCode</label>
-                                    <input name="billty" className="form-control col-3" type="text" /></>
-
-                                <> <label htmlFor="billty" className="form-label col-3">Distance</label>
-                                    <input name="billty" className="form-control col-3" type="text" /></>
-                        </span>
-
-                    </div>
-
-
-
-                    {/*<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '50%' }}>*/}
-                    {/*    <button className="hsn-btn btn btn-sm btn-success">Save</button>*/}
-
-                    {/*</div>*/}
-                </div>
-                </div>
-                </div>
+               
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
 
 
@@ -166,38 +136,7 @@ const MaterialIssue = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    wholeLineItem.map((obj: any, i: any) => {
-                                        return (
-                                            <tr>
-
-                                                <th scope="row" className="text-center">{i + 1}</th>
-                                                
-
-                                                <td><input type="text" className="form-control" required /></td>
-                                                <td></td>
-
-                                                <td><input type="text" className="form-control" required /></td>
-                                                <td>{obj.UOMNAME}</td>
-                                                <td>{obj.MRP}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                               
-                                                <td>{obj.GSTCAT}</td>
-                                                {
-                                                    i == wholeLineItem.length - 2 ? (<button type="button"  value={i} ><i><svg style={{ width: '21px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M576 384C576 419.3 547.3 448 512 448H205.3C188.3 448 172 441.3 160 429.3L9.372 278.6C3.371 272.6 0 264.5 0 256C0 247.5 3.372 239.4 9.372 233.4L160 82.75C172 70.74 188.3 64 205.3 64H512C547.3 64 576 92.65 576 128V384zM271 208.1L318.1 256L271 303C261.7 312.4 261.7 327.6 271 336.1C280.4 346.3 295.6 346.3 304.1 336.1L352 289.9L399 336.1C408.4 346.3 423.6 346.3 432.1 336.1C442.3 327.6 442.3 312.4 432.1 303L385.9 256L432.1 208.1C442.3 199.6 442.3 184.4 432.1 175C423.6 165.7 408.4 165.7 399 175L352 222.1L304.1 175C295.6 165.7 280.4 165.7 271 175C261.7 184.4 261.7 199.6 271 208.1V208.1z" /></svg></i></button>) : null
-                                                }
-
-
-                                            </tr>
-                                        )
-                                    })
-
-                                }
-
+                               
                             </tbody>
                         </table>
                     </div>
@@ -238,7 +177,8 @@ const MaterialIssue = () => {
                     </div>
                 </div>
                
-            </div>
+                </div>
+                </div>
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
             <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0 ml-2">Save</button>

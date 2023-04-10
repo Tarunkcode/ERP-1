@@ -60,7 +60,7 @@ function TreeNode({ node }: any) {
                    
                     {
                         type === '3' ? (
-                            address === '/modify' ? ((<NavLink className="p-1 m-0 abascus" to={{ pathname: address + `/${mt}`, state: { mAdd: `${maddress}`, mT: `${mt}` } }}><span className=" ml-5 nav-span">{label}</span></NavLink>)) : address === '/list' ?
+                            address === '/modify' || address == '/Tran-modify' ? ((<NavLink className="p-1 m-0 abascus" to={{ pathname: address + `/${mt}`, state: { mAdd: `${maddress}`, mT: `${mt}` } }}><span className=" ml-5 nav-span">{label}</span></NavLink>)) : address === '/list' || address === '/Tran-list' ?
                                 ((<NavLink className="p-1 m-0 abascus" to={{ pathname: address + `/${mt}`, state: { mAdd: `${maddress}`, mT: `${mt}` } }}><span className=" ml-5 nav-span">{label}</span></NavLink>))
                                 : (<NavLink className="p-1 m-0 abascus" to={address}><span className=" ml-5 nav-span">{label}</span></NavLink>)
                         ) : null

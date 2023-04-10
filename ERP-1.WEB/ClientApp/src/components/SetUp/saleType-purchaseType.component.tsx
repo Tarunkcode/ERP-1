@@ -3,29 +3,32 @@ import SalePurchaseType_Page from '../../Pages/SetUp/SalePurchaseType/sale-purch
 import { store2 } from '../../Redux/config/config.reducer';
 import { toast } from 'react-toastify';
 import SalePurchaseTypeLoadDetails from '../HOC/load-sale-purchase-type';
+import { LoaderContext } from '../../AppContext/loaderContext';
 
 interface IState {
     configType: string,
     rawObj: object,
     defGstCatName: string,
     gridApi: any,
-    showBranchCode : boolean,
+    showBranchCode: boolean,
     masterType: number,
     payType: number
 }
 interface IProps {
     api: any; gstCategory: any[], loadSPTypeMaster: any;
     billSundryList: any[],
-    customer: number, compCode: number, username: string, AlterLoadedFormData: any; gettingVirtualCode: any;
+    customer: number, compCode: number, username: string, gettingVirtualCode: any;
+    collectListData: any;
 }
 class SPType extends React.Component<IProps, IState> {
+    static contextType = LoaderContext;
     constructor(props: any) {
         super(props);
         this.state = {
             masterType: 0,
             rawObj: {},
             defGstCatName: '',
-            showBranchCode : false,
+            showBranchCode: false,
             gridApi: null,
             payType: 0,
             configType: ''
@@ -45,13 +48,7 @@ class SPType extends React.Component<IProps, IState> {
         if (this.props.gettingVirtualCode !== 0) {
             if (this.props.loadSPTypeMaster !== prevProps.loadSPTypeMaster) {
                 if (this.props.loadSPTypeMaster.sptypeheader[0].usefor == 2) this.setState({ showBranchCode: true })
-
-                this.props.gstCategory.map((option: any) => {
-                    if (option.id == this.props.loadSPTypeMaster.sptypeheader[0].gstcat)
-                        this.setState({ defGstCatName: option.value })
-                })
-
-
+                else { }
             } else { }
 
         } else { }
@@ -59,17 +56,6 @@ class SPType extends React.Component<IProps, IState> {
     //-------------------------------------------------Private Methods -------------------------------------------------------------------------------------------------------
     getMasterType = (val: number) => { this.setState({ masterType: val }) }
 
-    getBSTypeCode = (name: any) => {
-        let typeCode: number = 0;
-        switch (name) {
-            case "Absolute": typeCode = 1; break;
-            case "Per Main Qty": typeCode = 2; break;
-            case "Per Alt Qty": typeCode = 3; break;
-            case "Per Packaging Qty": typeCode = 4; break;
-            case "%": typeCode = 5; break;
-        }
-        return typeCode;
-    }
 
     getTableData = (gridApi: any) => {
         this.setState({ gridApi: gridApi })
@@ -97,39 +83,21 @@ class SPType extends React.Component<IProps, IState> {
     collectTableData = async () => {
 
         let dataSet: any[] = await this.getAllRows();
-        /*  this.props.gettingVirtualCode == 0 ? (*/
+
         dataSet.map((item: any) => {
-            item.bscode.label ? (
-                this.props.billSundryList.map((option: any) => {
-                    if (option.label == item.bscode.label) {
-                        item.bscode = option.id;
-                        item.bstype = this.getBSTypeCode(item.bstype);
-                        item.nature === 'Additive' ? item.nature = 1 : item.nature = 2;
+            this.props.billSundryList.map((option: any) => {
+                if (option.value === item.bscode.value) {
+                    item.bscode = option.bscode.value;
+                    item.bstype = option.bstypecode;
+                    item.nature = option.naturecode;
 
 
-                        item.bsval = parseInt(item.bsval);
-                        item.code = this.props.gettingVirtualCode;
+                    item.bsval = parseFloat(item.bsval);
+                    item.code = this.props.gettingVirtualCode;
 
-                    } else { }
+                }
 
-
-                })
-            ) : (
-                this.props.billSundryList.map((option: any) => {
-                    if (option.label == item.bscode) {
-                        item.bscode = option.id;
-                        item.bstype = this.getBSTypeCode(item.bstype);
-                        item.nature === 'Additive' ? item.nature = 1 : item.nature = 2;
-
-
-                        item.bsval = parseInt(item.bsval);
-                        item.code = this.props.gettingVirtualCode;
-
-                    } else { }
-
-
-                })
-            )
+            })
         })
 
 
@@ -166,21 +134,26 @@ class SPType extends React.Component<IProps, IState> {
         }
         store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
 
-      
-    }
 
+    }
+    handleList = (name: string, value: any) => {
+        store2.dispatch({ payload: parseInt(value), key: name, type: "changeConfig", label: 'seriesConf' })
+        name == 'usefor' && value == 2 ? this.setState({ showBranchCode: true }) : this.setState({ showBranchCode: false })
+    }
 
     //--------------------------------------------Posting Data Method ---------------------------------------------------------------------------------------------------
 
 
     handlePosting = async (e: any) => {
+        const loader = this.context;
+        loader.setLoader(true);
         e.preventDefault();
         await this.collectTableData();
         let i: any = {};
         this.props.gettingVirtualCode !== 0 ?
             i = {
                 sptypeheader: [{
-                    code: this.props.gettingVirtualCode,
+                    value: this.props.gettingVirtualCode,
                     customer: this.props.customer,
                     company: this.props.compCode,
                     mastertype: this.state.masterType,
@@ -193,7 +166,7 @@ class SPType extends React.Component<IProps, IState> {
             } :
             i = {
                 sptypeheader: [{
-                    code: this.props.gettingVirtualCode,
+                    value: this.props.gettingVirtualCode,
                     customer: this.props.customer,
                     company: this.props.compCode,
                     mastertype: this.state.masterType,
@@ -212,15 +185,18 @@ class SPType extends React.Component<IProps, IState> {
             let { res, got } = await this.props.api(confUrl, "POST", i);
 
             if (res.status == 200) {
+                loader.setLoader(false)
                 toast.success(got.msg)
 
             } else {
+                loader.setLoader(false)
                 toast.error(got.msg)
 
             }
             //store2.getState().roleMaster = []
             //store2.getState().seriesConf = {}
         } catch (err) {
+            loader.setLoader(false)
             alert(err)
         }
 
@@ -234,11 +210,13 @@ class SPType extends React.Component<IProps, IState> {
                 {this.state.configType === '/add-sale-type' ? (<SalePurchaseType_Page
                     SelectList={this.SelectList.bind(this)}
                     gstCat={this.props.gstCategory}
-                    pagecode={13 }
+                    pagecode={13}
                     vccode={this.props.gettingVirtualCode}
                     showBranchCode={this.state.showBranchCode}
                     getMasterType={this.getMasterType}
+                    handleList={this.handleList.bind(this)}
                     defGstCatName={this.state.defGstCatName}
+                    collectListData={this.props.collectListData}
                     defaultLoad={this.props.loadSPTypeMaster}
                     getTableData={this.getTableData.bind(this)}
                     pageTitle="Sale Type" billSundry={this.props.billSundryList} handleChange={this.handleChange} handlePosting={this.handlePosting} configType={this.state.configType} />) : null}
@@ -251,7 +229,9 @@ class SPType extends React.Component<IProps, IState> {
                     pagecode={14}
                     getMasterType={this.getMasterType}
                     defGstCatName={this.state.defGstCatName}
+                    handleList={this.handleList.bind(this)}
                     showBranchCode={this.state.showBranchCode}
+                    collectListData={this.props.collectListData}
                     vccode={this.props.gettingVirtualCode}
                     defaultLoad={this.props.loadSPTypeMaster}
                     getTableData={this.getTableData.bind(this)}

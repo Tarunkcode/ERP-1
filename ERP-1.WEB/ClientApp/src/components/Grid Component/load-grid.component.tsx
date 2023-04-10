@@ -15,13 +15,14 @@ import { GridOptions } from 'ag-grid-community';
 export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, ...rest }: any) {
     const [gridApi, setGridApi]: any = useState(null);
     const [columnApi, setColumnApi]: any = useState(null);
+    //const [rowData, setRowData]: any = useState(data);
     var gridRef = React.useRef(null);
     const rowBuffer = 0;
     //const [rowData, setRowData]: any = useState(null);
     const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const gridStyle = useMemo(() => ({ width: '98vw', height: 500 }), []);
     //let firstRow = data[0];
-
+    //React.useEffect(() => {console.log('got list data', data) },[data])
 
     const defaultColDef = useMemo(() => {
         return {
@@ -47,7 +48,7 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
     //    setRowData(collection);
 
     //}
-
+    
 
     function onGridReady(params: any) {
         //if (title === 'Consumed Item Details') {
@@ -65,8 +66,7 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
         params.api.sizeColumnsToFit();
     }
     const gridOptions = {
-        rowData: data,
-        columnDefs: colDef,
+
         defaultColDef: defaultColDef,
         onCellKeyDown: OpenSubLayer,
 

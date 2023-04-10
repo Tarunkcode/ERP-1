@@ -52,13 +52,8 @@ export default function ItemMasterWithLoad(Component: any) {
             try {
                 let { res, got } = await api(SeriesUrl, "GET", '');
                 if (res.status == 200) {
-                    let series: any = await got.data.map((option: any) => ({
-
-                        id: option.code,
-                        value: option.name,
-
-                    }))
-                    await this.setState({ series: series })
+                  
+                    await this.setState({ series: got.data })
                 
                 }
                 else toast.error(got.msg);
@@ -81,22 +76,17 @@ export default function ItemMasterWithLoad(Component: any) {
 
                     let { res, got } = await api(urlStr, "GET", '');
                     if (res.status === 200) {
-                        let modify_list: any = await got.data.map((option: any) => ({
-
-                            id: option.code,
-                            value: option.name,
-
-                        }))
+                       
                         switch (loadCred[i].set) {
-                            case 'group': await this.setState({ group: modify_list })
-                            case 'type': await this.setState({ type: modify_list })
-                            case 'category': await this.setState({ category: modify_list })
-                            case 'brand': await this.setState({ brand: modify_list })
-                            case 'matCanter': await this.setState({ matCanter: modify_list })
-                            case 'uom': await this.setState({ uom: modify_list })
-                            case 'gstCat': await this.setState({ gstCat: modify_list })
-                            case 'subCat': await this.setState({ subCat: modify_list })
-                            case 'clear': await this.setState({ clearance: modify_list })
+                            case 'group': await this.setState({ group: got.data })
+                            case 'type': await this.setState({ type: got.data })
+                            case 'category': await this.setState({ category: got.data })
+                            case 'brand': await this.setState({ brand: got.data })
+                            case 'matCanter': await this.setState({ matCanter: got.data })
+                            case 'uom': await this.setState({ uom: got.data })
+                            case 'gstCat': await this.setState({ gstCat: got.data })
+                            case 'subCat': await this.setState({ subCat: got.data })
+                            case 'clear': await this.setState({ clearance: got.data })
 
                         }
 

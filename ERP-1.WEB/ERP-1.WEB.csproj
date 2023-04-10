@@ -52,7 +52,6 @@
     <None Remove="ClientApp\src\components\HOC\load-user-master.tsx" />
     <None Remove="ClientApp\src\components\HOC\loadBOM.tsx" />
     <None Remove="ClientApp\src\components\List\list.component.tsx" />
-    <None Remove="ClientApp\src\components\Loader\loader.component.tsx" />
     <None Remove="ClientApp\src\components\Masters\bom_routing.component.tsx" />
     <None Remove="ClientApp\src\components\Modify\modify.component.tsx" />
     <None Remove="ClientApp\src\components\sidebar.component.tsx" />
@@ -75,6 +74,7 @@
     <None Remove="ClientApp\src\components\RegisterYourDomain\register-your-domain.component.tsx" />
     <None Remove="ClientApp\src\components\Spinner\spinner.component.tsx" />
     <None Remove="ClientApp\src\Pages\modify.component.tsx" />
+    <None Remove="ClientApp\src\Pages\Modify\tran_modify.page.tsx" />
     <None Remove="ClientApp\src\Pages\SetUp\Featutes-Option\gst-conf.page.tsx" />
     <None Remove="ClientApp\src\Pages\SetUp\SalePurchaseType\sale-purchase-type.page.tsx" />
     <None Remove="ClientApp\src\Pages\Sub-Master\process.page.tsx" />
@@ -133,7 +133,6 @@
     <TypeScriptCompile Include="ClientApp\src\components\HOC\load-role-master.config.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\HOC\loadBOM.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\List\list.component.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\components\Loader\loader.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Masters\bom_routing.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\Modify\modify.component.tsx" />
     <TypeScriptCompile Include="ClientApp\src\components\SideNav\nav-tree.component.tsx" />
@@ -141,6 +140,7 @@
     <TypeScriptCompile Include="ClientApp\src\components\WebPush.Notification\firebase.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Helper Functions\table.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Modify\modify.page.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\Pages\Modify\tran_modify.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\Featutes-Option\gst-conf.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\SetUp\SalePurchaseType\sale-purchase-type.page.tsx" />
     <TypeScriptCompile Include="ClientApp\src\Pages\Sub-Master\process.page.tsx" />
@@ -201,6 +201,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\Date Component\" />
+    <Folder Include="ClientApp\src\Pages\List\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

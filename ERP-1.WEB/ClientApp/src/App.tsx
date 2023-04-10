@@ -63,8 +63,9 @@ import AddSupplierMaster from './components/Masters/supplier.component';
 
 //---------------------------------Transactions Imports---------------------------------------------------------------------------------------------------
 import AddSaleOrder from './Pages/Transaction/Sales/add-sale-order.component';
-
-
+import Tran_Modify from './components/Modify/tran_modify.component';
+import Tran_List from './components/List/tran_list.component';
+import Qc_Jobwork from './Pages/Transaction/Quality/qc-jobwork.component';
 import MaterialIssue from './Pages/Transaction/Job-Work/material-issue.compoenent';
 import MaterialRecieve from './Pages/Transaction/Job-Work/material-recieve.compoenent';
 import LoosePack from './Pages/Transaction/Material-Movement/loose-pack.component';
@@ -77,6 +78,7 @@ import ProductionConfiguration from './Pages/Transaction/Planning/production-con
 import ProductionIndent from './Pages/Transaction/Planning/production-indent.component';
 import GateEntry from './Pages/Transaction/Purchase/gate-entry.component';
 import MRN from './Pages/Transaction/Purchase/mrn.component';
+
 import PrIndent from './Pages/Transaction/Purchase/pr-indent.component';
 import PurchaseInvoice from './Pages/Transaction/Purchase/purchase-invoice.component';
 import PurchaseOrder from './Pages/Transaction/Purchase/purchase-order.component';
@@ -91,7 +93,8 @@ import SaleReturn from './Pages/Transaction/Sales/sale-return.component';
 import SaleQuotaton from './Pages/Transaction/Sales/sales-quotation.component';
 import PurchaseRequisation from './Pages/Transaction/Purchase/purchase-requisation.component';
 import MaterialMovement from './Pages/Transaction/Purchase/material-movement.component';
-
+import Qc_Incoming from './Pages/Transaction/Quality/qc-incoming-material.component';
+import Mrp_Production_Indent from './Pages/Transaction/Planning/mrp-production-indent.component';
 
 import MarerialDispatch from './Pages/Transaction/Material-Movement/material-dispatch.component';
 //---------------------------------Reports Imports---------------------------------------------------------------------------------------------------
@@ -300,13 +303,14 @@ function App() {
 
 
                     '/add-mrp',
+                    '/add-mrp-prod-ind',
                     '/add-sample',
                     '/Rpt-Search',
                     '/add-sale-order',
                     "/add-projection-details",
                     "/add-PR",
                     "/add-sample",
-
+                 
                     "/add-Quotation",
                     "/add-Vendor-Quot-Entry",
                     "/add-Po-PR",
@@ -357,7 +361,6 @@ function App() {
                     '/add-SI',
                     '/add-MMP',
                     '/add-SR',
-                    "/add-mrp",
                     "/material-recieve",
                     "/add-prod-ind",
                     "/add-loose-pack",
@@ -365,8 +368,8 @@ function App() {
                     "/add-material-movement",
                     '/add-material-dispatch',
                     '/add-gst-category',
-                    '/tran-list',
-                    '/tran-modify',
+                    '/tran-list/:master',
+                    '/tran-modify/:master',
                     '/add-Vendor-Quot-Comp',
                     '/add-TBE',
                     '/successfully-modify',
@@ -493,8 +496,8 @@ function App() {
 
 
 
-                        <Route exact path='/tran-list' component={YetNotStarted} />
-                        <Route exact path='/tran-modify' component={YetNotStarted} />
+                        <Route exact path='/Tran-list/:master' component={Tran_List} />
+                        <Route exact path='/Tran-modify/:master' component={Tran_Modify} />
                         <Route exact path='/add-sale-order' component={AddSaleOrder} />
                         <Route exact path="/add-projection-details" component={Projection} />
                         <Route exact path="/add-PR" component={PurchaseRequisation} />
@@ -517,11 +520,12 @@ function App() {
                         <Route exact path='/add-Dir-Purchase' component={Direct_Purchase} />
                         <Route exact path='/add-Cash-Issue' component={Cash_Issue_Receipt} />
                         <Route exact path="/add-Cash-Receipt" component={Cash_Issue_Receipt} />
-                        <Route exact path="/add-Qc-Inc" component={YetNotStarted} />
+                        <Route exact path="/add-Qc-Inc" component={Qc_Incoming} />
                         <Route exact path="/add-Qc-Out" component={OQC} />
-                        <Route exact path="/add-JW" component={YetNotStarted} />
-                        <Route exact path="/add-Rework" component={YetNotStarted} />
-                        <Route exact path="/add-SmpProd" component={YetNotStarted} />
+                        <Route exact path="/add-JW" component={Qc_Jobwork} />
+
+                        <Route exact path="/add-Rework" component={OQC} />
+                        <Route exact path="/add-SmpProd" component={OQC} />
                         <Route exact path="/add-TBE" component={YetNotStarted} />
 
                         <Route exact path="/add-SJ" component={StockJournal} />
@@ -557,13 +561,13 @@ function App() {
                         <Route exact path='/add-MMP' component={YetNotStarted} />
                         <Route exact path='/add-SR' component={SaleReturn} />
                         <Route exact path="/add-mrp" component={MRP} />
+                        <Route exact path='/add-mrp-prod-ind' component={Mrp_Production_Indent} />
                         <Route exact path="/material-recieve" component={MaterialRecieve} />
                         <Route exact path="/add-prod-ind" component={ProductionIndent} />
                         <Route exact path="/add-loose-pack" component={LoosePack} />
                         <Route exact path="/add-pack-to-loose" component={PackToLoose} />
                         <Route exact path="/add-material-movement" component={MaterialMovement} />
                         <Route exact path='/add-material-dispatch' component={MarerialDispatch} />
-
 
 
 

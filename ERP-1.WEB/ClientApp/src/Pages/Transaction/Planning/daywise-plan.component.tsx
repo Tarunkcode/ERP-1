@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
 const DayWisePlanning = () => {
 
     var getSoSeries = window.sessionStorage.getItem('so-series');
@@ -58,28 +59,57 @@ const DayWisePlanning = () => {
                         <fieldset className="form-group border p-0" >
                             <legend className="px-2" data-toggle="collapse" data-target="#branch" aria-expanded="true" aria-controls="branch" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>DayWise Production Planning<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
-                            <div className="collapse show" id="branch">
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Planning Series</label>
-                                        <input type="text" name="series" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Date</label>
-                                        <input type="date" name="custCode" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Vch No.</label>
-                                        <input type="text" name="delTerm" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="contPerson" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Processing Date</label>
-                                        <input type="date" name="contPerson" className="form-control inp" />
-                                    </>
+                    <div className="collapse show" id="branch">
+
+                        <span className="d-flex section2 col-sm-12">
+                            <MasterInput2
+                                name="series"
+                                handleChange={[]}
+                                defaultt={[]}
+                                classCategory="form-control col-4 inp subMaster"
+                                ipType="text"
+                                label="Range"
+                                ipTitle='Enter Range'
+                             />
+                        <span className='col-1 m-0'></span>
+                             <MasterInput2
+                                name="date"
+                                handleChange={[]}
+                                defaultt={[]}
+                                classCategory="form-control col-4 inp subMaster"
+                                ipType="date"
+                                label="Date"
+                                ipTitle='Enter Date'
+
+                             />
+
                                 </span>
 
-                                <span className="d-flex section2 col-sm-10">
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2
+                                        name="vch"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="text"
+                                        label="Vch No."
+                                        ipTitle='Enter Vch No.'
+
+                                    />
+                                <span className='col-1 m-0'></span>
+                                    <MasterInput2
+                                        name="date"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="date"
+                                        label="Processing Date"
+                                        ipTitle='Enter Processing Date'
+
+                                    />
+
                                 </span>
+                                   
                             </div>
                         </fieldset>
                     </form>
@@ -89,51 +119,82 @@ const DayWisePlanning = () => {
                             <legend className="px-2" data-toggle="collapse" data-target="#addDet" aria-expanded="false" aria-controls="addDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Filter<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
                             <div className="collapse" id="addDet">
 
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="contPerson" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Prod. Series</label>
-                                        <input type="date" name="contPerson" className="form-control inp" />
-                                    </>
 
-                              
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2
+                                        name="pseries"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="date"
+                                        label="Prod. Series"
+                                        ipTitle='Enter Prod. Series'
+                                    />
+                                    <span className='col-1 m-0'></span>
+                                    <MasterInput2
+                                        name="date"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="date"
+                                        label="From Date"
+                                        ipTitle='Enter Date'
+
+                                    />
+
                                 </span>
 
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="desg" style={{ fontSize: '0.8em' }} className="form-label labl labl2">From Date</label>
-                                        <input type="text" name="desg" className="form-control inp" />
-                                    </>
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2
+                                        name="date"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="date"
+                                        label="To Date"
+                                        ipTitle='Enter To date'
 
-                                    <>
-                                        <label htmlFor="mob" style={{ fontSize: '0.8em' }} className="form-label labl labl2">To Date</label>
-                                        <input type="text" name="mob" className="form-control inp" />
-                                    </>
+                                    />
+                                    <span className='col-1 m-0'></span>
+                                    <MasterInput2
+                                        name="dep"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="text"
+                                        label="Department"
+                                        ipTitle='Enter Department'
+
+                                    />
+
                                 </span>
 
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="cheifExe" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Department</label>
-                                        <input type="text" name="cheifExe" className="form-control inp" />
-                                    </>
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2
+                                        name="proc"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="text"
+                                        label="Process"
+                                        ipTitle='Enter Process'
 
-                                    <>
-                                        <label htmlFor="fax" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Process</label>
-                                        <input type="text" name="fax" className="form-control inp" />
-                                    </>
+                                    />
+                                    <span className='col-1 m-0'></span>
+                                    <MasterInput2
+                                        name="item"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="text"
+                                        label="Item"
+                                        ipTitle='Enter Item'
+
+                                    />
+
                                 </span>
-
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="cheifExeTelNo" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Item</label>
-                                        <input type="text" name="cheifExeTelNo" className="form-control inp" />
-                                    </>
-
-                                    {/*<>*/}
-                                    {/*    <label htmlFor="email" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Fax</label>*/}
-                                    {/*    <input type="text" name="email" className="form-control inp" />*/}
-                                    {/*</>*/}
-                                </span>
-                                
+       
                             </div>
                         </fieldset>
                     </form>

@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import { useState, useRef } from 'react'
 import "react-datepicker/dist/react-datepicker.css";
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
 
 const ProductionConfiguration = () => {
 
@@ -59,24 +60,20 @@ const ProductionConfiguration = () => {
                             <legend className="px-2" data-toggle="collapse" data-target="#branch" aria-expanded="true" aria-controls="branch" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Job Confirmation<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
                             <div className="collapse show" id="branch">
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Prod Series</label>
-                                        <input type="text" name="series" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Date</label>
-                                        <input type="date" name="custCode" className="form-control inp" />
-                                    </>
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Vch No.</label>
-                                        <input type="text" name="delTerm" className="form-control inp" />
-                                    </>
-                                  
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 defaultt={[]} label="Series" name="series" ipType="text" ipTitle="Enter Code" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 defaultt={[]} label="Date" name="date" ipType="date" ipTitle="Enter Date" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
                                 </span>
 
-                                <span className="d-flex section2 col-sm-10">
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 defaultt={[]} label="Vch No." name="vch" ipType="text" ipTitle="Enter Vch No." handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                                    
                                 </span>
+                               
                             </div>
                         </fieldset>
                     </form>
@@ -86,46 +83,27 @@ const ProductionConfiguration = () => {
                             <legend className="px-2" data-toggle="collapse" data-target="#addDet" aria-expanded="false" aria-controls="addDet" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Filter<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0    96v320c0  35.34 28.65 64 64  64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2    230.7 352 224   352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120   192h208c9.531  0 18.19 5.656   21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
                             <div className="collapse" id="addDet">
 
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="contPerson" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Item</label>
-                                        <input type="text" name="contPerson" className="form-control inp" />
-                                    </>
 
+                                
+                                <span className="d-flex section2 col-sm-12">
 
+                                    <MasterInput2 defaultt={[]} label="Item" name="item" ipType="text" ipTitle="Enter Item" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 defaultt={[]} label="Process" name="Process" ipType="text" ipTitle="Enter Process" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
                                 </span>
 
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="desg" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Process</label>
-                                        <input type="text" name="desg" className="form-control inp" />
-                                    </>
+                                <span className="d-flex section2 col-sm-12">
 
-                                    <>
-                                        <label htmlFor="mob" style={{ fontSize: '0.8em' }} className="form-label labl labl2">Mould</label>
-                                        <input type="text" name="mob" className="form-control inp" />
-                                    </>
+                                    <MasterInput2 defaultt={[]} label="Mould" name="mould" ipType="text" ipTitle="Enter Mould" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 defaultt={[]} label="DayWise Series" name="dayseries" ipType="text" ipTitle="Enter DayWise Series" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
                                 </span>
 
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="cheifExe" style={{ fontSize: '0.8em' }} className="form-label labl labl2">DayWise Series</label>
-                                        <input type="text" name="cheifExe" className="form-control inp" />
-                                    </>
+                                <span className="d-flex section2 col-sm-12">
 
-                                </span>
-
-                                <span className="d-flex section2 col-sm-10">
-                                    <>
-                                        <label htmlFor="cheifExeTelNo" style={{ fontSize: '0.8em' }} className="form-label labl labl2">To Date</label>
-                                        <input type="date" name="cheifExeTelNo" className="form-control inp" />
-                                    </>
-
-                                    <>
-                                        <label htmlFor="fax" style={{ fontSize: '0.8em' }} className="form-label labl labl2">From Date</label>
-                                        <input type="date" name="fax" className="form-control inp" />
-                                    </>
-                                   
+                                    <MasterInput2 defaultt={[]} label="To Date" name="to-date" ipType="date" ipTitle="Enter To Date" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 defaultt={[]} label="From Date" name="fromdate" ipType="date" ipTitle="Enter From Date" handleChange={[]} classCategory="form-control col-4 inp subMaster" />
                                 </span>
 
                             </div>

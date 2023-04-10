@@ -58,10 +58,10 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
                 </div>
                 {
                     tree.length != 0 && tree != null ? (
-                        <div className=" d-md-flex flex-md-row">
+                        <form className=" d-md-flex flex-md-row" id="form">
                             <div className="left-window p-3" style={{ border: '1px solid black', width: '60vw', minHeight: '100vh', margin: 'auto' }}>
 
-                                <form className="col-8 p-3 m-0" id="form">
+                                <form className="col-8 p-3 m-0">
                                     <span className="m-0 mb-2 p-0 col-12 d-flex">
                                         <label htmlFor="name" className="form-label p-0 m-0 mt-2 col-2">Name</label>
                                         <input name="name" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].name : ''} type="text" title="" className="form form-control inp col-10 mt-2" required onChange={findName} autoComplete="off" />
@@ -102,7 +102,7 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
                             </div>
 
 
-                        </div>
+                        </form>
                     ) : null
                 }
             </div>

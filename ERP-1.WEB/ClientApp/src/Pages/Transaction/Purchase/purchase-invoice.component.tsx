@@ -54,10 +54,10 @@ const Direct_Purchase = () => {
     var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
     { field: 'ic', headerName: 'Item Code', minWidth: 200 },
     { field: 'in', headerName: 'Item Name', minWidth: 200 },
-        { field: 'qty', headerName: 'Quantity', minWidth: 200, editable: true },
+    { field: 'qty', headerName: 'Quantity', minWidth: 200, editable: true },
     { field: 'uom', headerName: 'UOM', minWidth: 200 },
     { field: 'price', headerName: 'Price', minWidth: 200, editable: true },
-        { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
+    { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
     { field: 'tax', headerName: 'Tax%', minWidth: 200, editable: true },
     { field: 'mc', headerName: 'Material Center', minWidth: 200, editable: true },
     { field: 'pono', headerName: 'P.O No.', minWidth: 200, editable: true },
@@ -65,21 +65,21 @@ const Direct_Purchase = () => {
 
 
     ]
-  
 
 
- 
+
+
 
     /*------------------------------------------ BillSundry-Table-----------------------------------------------------*/
 
     let dataBill: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
 
     var ColDefBill: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
-    { field: 'bill', headerName: 'Bill Sundary', minWidth: 200 },
-    { field: 'narration', headerName: 'Narration', minWidth: 200 },
-    { field: 'rate', headerName: '@', minWidth: 200 },
-    { field: 'rs', headerName: '', minWidth: 200 },
-    { field: 'amount', headerName: 'Amount(Rs.)', minWidth: 200 }
+    { field: 'bill', headerName: 'Bill Sundary', minWidth: 100 },
+    { field: 'narration', headerName: 'Narration', minWidth: 100 },
+    { field: 'rate', headerName: '@', minWidth: 100 },
+    { field: 'rs', headerName: '', minWidth: 100 },
+    { field: 'amount', headerName: 'Amount(Rs.)', minWidth: 100 }
 
 
 
@@ -128,7 +128,7 @@ const Direct_Purchase = () => {
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                  
+
 
                                     <MasterInput2 name="statecode" label="State Code" ipTitle="Enter State Code" ipType="text" classCategory="form-control col-4 inp" />
                                 </span>
@@ -154,7 +154,7 @@ const Direct_Purchase = () => {
                                     <span className="col-1 m-0"></span>
                                     <MasterInput2 name="exch" label="Exch Rate" ipTitle="Enter Exch Rate" ipType="text" classCategory="form-control col-4 inp" />
 
-                                   
+
                                 </span>
 
 
@@ -169,13 +169,13 @@ const Direct_Purchase = () => {
 
 
                                 <span className="d-flex section2 col-sm-12">
-                                  
+
                                     <MasterInput2 name="pcurr" label="Purchase Currency" ipTitle="Enter Purchase Currency" ipType="text" classCategory="form-control col-4 inp" />
                                     <span className="col-1 m-0"></span>
                                     <MasterInput2 name="curr" label="Currency" ipTitle="Enter Currency" ipType="number" min='0' classCategory="form-control col-4 inp" />
                                 </span>
 
-                               
+
 
                             </div>
 
@@ -264,9 +264,9 @@ const Direct_Purchase = () => {
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="dname" label="Driver Name" ipTitle="Enter Driver Name" ipType="text"  classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="dname" label="Driver Name" ipTitle="Enter Driver Name" ipType="text" classCategory="form-control col-4 inp" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="billty" label="Billty No." ipTitle="Enter Billty No" ipType="text"  classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="billty" label="Billty No." ipTitle="Enter Billty No" ipType="text" classCategory="form-control col-4 inp" />
                                 </span>
 
                             </div>
@@ -278,7 +278,7 @@ const Direct_Purchase = () => {
                     <span className="d-flex section2 col-sm-12 ml-3 mb-2">
 
                         <MasterInput2 name="pacc" label="Purc. Acc." ipTitle="Enter Purc. Acc." ipType="text" classCategory="form-control col-10 inp" />
-                        
+
                     </span>
                 </div>
 
@@ -286,20 +286,20 @@ const Direct_Purchase = () => {
             <hr style={{ margin: '0', padding: '0' }} />
             <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
 
-            <WriteGrid title="Purchase Invoice Line Item Details"  titleClr="blue" total='himanshu' OpenSubLayer={() => { }} colDef={ColDef} data={data} />
-                </div>
+                <WriteGrid title="Purchase Invoice Line Item Details" titleClr="blue" total='himanshu' OpenSubLayer={() => { }} colDef={ColDef} data={data} />
+            </div>
 
             <hr style={{ margin: '0', padding: '0' }} className='mt-3' />
 
 
-         
+
             <fieldset className="form-group border p-0" >
                 <legend className="px-2" data-toggle="collapse" data-target="#billsundry" aria-expanded="false" aria-controls="billsundry" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Bill Sundry Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
                 <div className="show" id="billsundry">
                     <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
-                    <WriteGrid title="Bill Sundry Details" w='100vw' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefBill} data={dataBill} />
-                  </div>
+                        <WriteGrid title="Bill Sundry Details" h='200px' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefBill} data={dataBill} />
+                    </div>
                 </div>
             </fieldset>
 
@@ -309,10 +309,6 @@ const Direct_Purchase = () => {
             </span>
 
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
-
-
-
-
 
             <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>

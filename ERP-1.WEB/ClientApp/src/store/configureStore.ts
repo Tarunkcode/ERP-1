@@ -8,7 +8,7 @@ import { routerMiddleware } from 'connected-react-router'
 
 //import { ConnectedRouter } from 'connected-react-router';
 
-const middlewares = [logger];
+//const middlewares = [logger];
 
 //const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
@@ -23,7 +23,7 @@ export default function configureStore() {
             applyMiddleware(
                 routerMiddleware(history), // for dispatching history actions
                 // ... other middlewares ...
-                ...middlewares
+         /*       ...middlewares*/
             ),
         ),
     )

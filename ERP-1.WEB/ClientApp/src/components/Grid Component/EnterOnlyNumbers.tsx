@@ -17,6 +17,8 @@ export class NumericEditor {
             this.eInput.value = '';
         } else if (this.isCharNumeric(params.charPress)) {
             this.eInput.value = params.charPress!;
+        } else if (this.isCharTheFirstDecimal(params.charPress)) {
+            this.eInput.value = params.charPress!;
         } else {
             if (params.value !== undefined && params.value !== null) {
                 this.eInput.value = params.value;
@@ -87,12 +89,15 @@ export class NumericEditor {
         return false;
     }
 
-    isCharNumeric(charStr: string | null) {
-        return charStr && !!/\d/.test(charStr);
+    isCharNumeric(charStr: string) {
+        return !!/\d/.test(charStr);
+    }
+    isCharTheFirstDecimal(charStr: string) {
+        return !!/\./.test(charStr) && !/\./.test(this.eInput.value);
     }
 
     isKeyPressedNumeric(event: any) {
         const charStr = event.key;
-        return this.isCharNumeric(charStr);
+        return this.isCharNumeric(charStr) || this.isCharTheFirstDecimal(charStr);
     }
 }

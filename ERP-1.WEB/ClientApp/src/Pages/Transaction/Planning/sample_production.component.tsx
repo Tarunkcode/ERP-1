@@ -8,9 +8,9 @@ import DatalistInput from 'react-datalist-input';
 import WriteGrid from '../../../components/Grid Component/grid.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
 const Sampling = () => {
-
+   
     //------------ default date block-----------------------------------------------------------------------------------------------------------------------
-
+  
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     let data: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
@@ -25,7 +25,7 @@ const Sampling = () => {
     { field: 'puom', headerName: 'UOM', minWidth: 200, editable: true },
     { field: 'cvalue', headerName: 'Consume Value', minWidth: 200, editable: true },
     { field: 'purvalue', headerName: 'Purchase Value', minWidth: 250, editable: true },
-
+   
     ]
 
     //-----------------------------Out Side Consumed Item---------------------------------//
@@ -52,7 +52,7 @@ const Sampling = () => {
     { field: 'process', headerName: 'Process', minWidth: 200 },
     { field: 'amount', headerName: 'Amount', minWidth: 200, editable: true },
     { field: 'jw', headerName: 'Job Work(Y/N)', minWidth: 200 },
-
+ 
     ]
 
     return (
@@ -78,10 +78,10 @@ const Sampling = () => {
 
 
                                     <span className="d-flex section2 col-sm-12">
-                                        <MasterInput2 name="code" label="Code" ipTitle="Enter Code" ipType="text" classCategory="form-control col-4 inp" />
+                                        <MasterInput2 name="code" label="Code" ipTitle="Enter Code" ipType="text"  classCategory="form-control col-4 inp"/>
                                         <span className="col-1 m-0"></span>
 
-                                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" classCategory="form-control col-4 inp" />
+                                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text"  classCategory="form-control col-4 inp" />
                                     </span>
 
                                     <span className="d-flex section2 col-sm-12">
@@ -111,7 +111,7 @@ const Sampling = () => {
                                         <MasterInput2 name="customer" label="Customer" ipTitle="Enter Customer" ipType="text" classCategory="form-control col-4 inp" />
 
                                     </span>
-
+                                  
                                 </fieldset>
 
                             </form>
@@ -119,11 +119,11 @@ const Sampling = () => {
 
                         </div>
 
-
+                  
                     </div>
 
                 </div>
-
+               
 
 
                 <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
@@ -160,16 +160,16 @@ const Sampling = () => {
                                 <MasterInput2 name="othercost" label="Other Cost" ipTitle="Enter Other Cost" ipType="text" classCategory="form-control col-4 inp" />
                                 <span className="col-1 m-0"></span>
                                 <MasterInput2 name="end-date" label="End Date" ipTitle="Enter End Date" ipType="date" classCategory="form-control col-4 inp" />
+                              
 
-
-
+                               
                             </span>
 
                             <span className="d-flex section2 col-sm-12">
-                                <MasterInput2 name="man-cost" label="Man Cost" ipTitle="Enter Man Cost" ipType="text" classCategory="form-control col-4 inp" />
+                                <MasterInput2 name="man-cost" label="Man Cost" ipTitle="Enter Man Cost" ipType="text"  classCategory="form-control col-4 inp" />
                                 <span className="col-1 m-0"></span>
 
-                                <MasterInput2 name="total-cost" label="Total Cost" ipTitle="Enter Total Cost" ipType="text" classCategory="form-control col-4 inp" />
+                                <MasterInput2 name="total-cost" label="Total Cost" ipTitle="Enter Total Cost" ipType="text"  classCategory="form-control col-4 inp" />
                             </span>
 
 
@@ -196,7 +196,7 @@ const Sampling = () => {
 
                             </span>
                             <span className="d-flex section2 col-sm-12">
-
+                              
                                 <MasterInput2 name="consum-amt" label="Consumed Amt." ipTitle="Enter Consumed Amt." ipType="text" classCategory="form-control col-4 inp" />
                                 <span className="col-1 m-0"></span>
                                 <MasterInput2 name="const-pair" label="Cost/Pair" ipTitle="Enter Cost/Pair" ipType="text" classCategory="form-control col-4 inp" />

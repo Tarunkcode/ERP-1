@@ -34,10 +34,31 @@ export const DeleteRow = (index: any, tableState: any[], func: any) => {
 }
 
 export const getCurrentRowNo = (val: number) => {
-   return { sNo: val }
+    return { sNo: val }
 }
 
-export const clear_form = (formObj : any) => {
+export const clear_form = (formObj: any) => {
+    let ag_cells = document.getElementsByClassName('ag-cell')
+    if (ag_cells.length > 0) {
+        for (let i = 0; i < ag_cells.length; i++) {
+            ag_cells[i].innerHTML = '';
+        }
+    }
+    let inputs = document.getElementsByTagName('input');
+    let select = document.getElementsByTagName('select');
+    for (let i = 0; i < inputs.length; i++) {
+        let type = inputs[i].type;
+        if (type == 'checkbox') {
+           inputs[i].checked = false;
+        
+          
+        }
+    }
+    for (let i = 0; i < select.length; i++) {
+
+        select[i].selectedIndex = 2;
+    }
+
     formObj.reset();
 }
 

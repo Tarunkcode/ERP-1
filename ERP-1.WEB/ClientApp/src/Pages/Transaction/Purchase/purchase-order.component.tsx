@@ -109,7 +109,8 @@ const PurcahseOrder = () => {
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
                         margin: '0'
-                    }}>{`${config.configType === 'add-Po'||config.configType === 'add-Po-PR' ? 'Add Purchase Order' : config.configType === 'add-Po-QT' ? 'Add Purchase With Quotation Order' : '' }`}</span>
+                    }}>{`${config.configType === 'add-Po' || config.configType === 'add-Po-PR' ? 'Add Purchase Order' : config.configType === 'add-Po-QT' ? 'Add Purchase With Quotation Order' : ''}`}
+                    </span>
 
                 </div>
                 <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">

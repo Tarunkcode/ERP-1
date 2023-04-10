@@ -7,20 +7,19 @@ import { MasterInput2 } from '../../../components/custom-input/custom-input.comp
 import RadioButton from '../../../components/RadioButton/radio-button.component';
 import CustomeSwitch, { CustomeSwitch2 } from '../../../components/CustomSwitch/custom-switch.component';
 
-const MRP = () => {
+const Check_Produce_Qty = () => {
 
     let data: any[] = [{
-        sn: null, ic: null, iname: null, qty: null, uom: null, cavity: null, mold: null
+        sn: null, ic: null, iname: null, pqty: null, prty: null, qty: null
     }]
 
     var ColDef: any[] = [
         { field: 'sn', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
         { field: 'ic', headerName: 'Item Code', minWidth: 200 },
         { field: 'iname', headerName: 'Item Name', minWidth: 200 },
+        { field: 'pqty', headerName: 'Plan Qty.', minWidth: 400 },
+        { field: 'prty', headerName: 'Prod. Qty.', minWidth: 400 },
         { field: 'qty', headerName: 'Quantity.', minWidth: 400 },
-        { field: 'uom', headerName: 'UOM', minWidth: 200 },
-        { field: 'cavity', headerName: 'Cavity', minWidth: 200 },
-        { field: 'mold', headerName: 'Mold', minWidth: 200 },
 
     ]
 
@@ -33,9 +32,18 @@ const MRP = () => {
         { field: 'ic', headerName: 'Item Code', minWidth: 200 },
         { field: 'iname', headerName: 'Item Name', minWidth: 200 },
         { field: 'qty', headerName: 'Quantity.', minWidth: 400 },
-        { field: 'uom', headerName: 'UOM', minWidth: 200 },
-        { field: 'stk', headerName: 'Stock', minWidth: 200 },
-        { field: 'reqqty', headerName: 'Req. Qty', minWidth: 200 },
+        { field: 'ic', headerName: 'Item Code', minWidth: 200 },
+        { field: 'iname', headerName: 'Item Name', minWidth: 200 },
+        { field: 'prty', headerName: 'Prod. Quantity', minWidth: 400 },
+        { field: 'aic', headerName: 'Alt. ItemCode', minWidth: 400 },
+        { field: 'ain', headerName: 'Alt. ItemName', minWidth: 400 },
+        { field: 'puq', headerName: 'Per Unit Qty', minWidth: 400 },
+        { field: 'req', headerName: 'Req Qty', minWidth: 400 },
+        { field: 'stkqty', headerName: 'Stock Qty', minWidth: 400 },
+        { field: 'rqfp', headerName: 'Req. Qty For Pending', minWidth: 400 },
+        { field: 'bs', headerName: 'Balance Stock', minWidth: 400 },
+        { field: 'uom', headerName: 'UOM', minWidth: 400 },
+
 
     ]
 
@@ -49,8 +57,7 @@ const MRP = () => {
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', padding: '0',
                         margin: '0'
-
-                    }}>Material Requerment Planing/Customer Stock Checking</span>
+                    }}>Check Produce Quantity As Per Current Quantity</span>
 
                 </div>
                 <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
@@ -61,9 +68,9 @@ const MRP = () => {
 
                                 <span className="d-flex section2 col-sm-12 mt-2">
 
-                                    <RadioButton label='Material Requerment' name='mr' id='c1' classCat='col-4 inp ml-2' lablClass='form-label col-4 labl mr-2 mt-2 labl2' />
+                                    <RadioButton label='As Per Production Indent' name='mr' id='c1' classCat='col-4 inp ml-2' lablClass='form-label col-4 labl mr-2 mt-2 labl2' />
 
-                                    <RadioButton label='Check Customer Stock' name='ccs' id='c2' classCat='col-4 inp ml-2' lablClass='form-label col-4 labl mr-2 mt-2 labl2' />
+                                    <RadioButton label='As Per Sale Order' name='ccs' id='c2' classCat='col-4 inp ml-2' lablClass='form-label col-4 labl mr-2 mt-2 labl2' />
 
                                     <span className="col-sm-4">
                                         <CustomeSwitch lablClass="custom-control-label col-10 m-0 ml-4" label="Check Stock Of All Material Center" id="Csoamc" name="Csoamc" classCat="form-control custom-control-input col-3 seriesConf" handleChange={() => { }} />
@@ -104,4 +111,4 @@ const MRP = () => {
     )
 }
 
-export default MRP;
+export default Check_Produce_Qty;

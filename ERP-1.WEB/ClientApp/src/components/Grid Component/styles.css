@@ -95,6 +95,9 @@
 .ag-ltr .ag-cell {
     border-right: 3px solid white;
     padding-left: 0px;
+    text-align: start;
+    font-family: trebuc;
+    font-size:20px;
 }
 
 .outer-div {

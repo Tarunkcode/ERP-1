@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import { useHistory } from 'react-router';
+import { LoaderContext } from '../../AppContext/loaderContext';
 import useFetch from '../Hooks/useFetch';
 interface IState {
     defaultConf: object,
@@ -14,6 +15,7 @@ export default function DefaultConfigConf(Component: any) {
     const api = useFetch();
   
     class ConfSettings extends React.Component<IProps, IState> {
+        static contextType = LoaderContext;
         constructor(props: any) {
             super(props);
             this.state = {
@@ -38,21 +40,24 @@ export default function DefaultConfigConf(Component: any) {
             return newObj;
         }
         FetchLoadingConfDetails = async () => {
+            const loader = this.context;
             let urlStr = `/api/LoadConfiguration`
             let body = {
                 "Customer": parseInt(this.customer),
                 "Company": parseInt(this.compCode)
             }
             try {
+                loader.setLoader(true);
                 let { res, got } = await api(urlStr, "POST", body);
                 if (res.status == 200) {
              
 
                     this.setState({ defaultConf: got.data[0] })
                     this.defInitConfStateObj = this.state.defaultConf;
-                    
+                    loader.setLoader(false);
                 }
             } catch (err) {
+                loader.setLoader(false);
                 alert(err)
             }
         }

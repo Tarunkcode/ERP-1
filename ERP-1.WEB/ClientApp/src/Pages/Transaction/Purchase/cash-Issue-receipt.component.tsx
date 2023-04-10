@@ -64,7 +64,7 @@ const Cash_Issue_Receipt = () => {
                     <span className="card-title" style={{
                         fontSize: '15px', color: 'white', padding: '0',
                         margin: '0'
-                    }}>{`${config.configType === 'add-Cash-Issue' ? 'Cash Issue' : config.configType === 'add-Cash-Receipt' ? 'Cash receipt': '' }`}</span>
+                    }}>{`${config.configType === 'add-Cash-Issue' ? 'Cash Issue' : config.configType === 'add-Cash-Receipt' ? 'Cash Receipt': '' }`}</span>
 
                 </div>
                 <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">

@@ -8,57 +8,51 @@ import useFetch from '../../../components/Hooks/useFetch';
 import { store2 } from '../../../Redux/config/config.reducer';
 import { clear_form } from '../../Helper Functions/table';
 import UserLoadDetails from '../../../components/HOC/load-user-master';
-function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettingVirtualCode, roleList, customer, compCode, username }: any) {
+import AutoComp from '../../../components/custom-input/droplist/droplist.component';
+import { useEffect } from 'react';
+import { LoaderContext } from '../../../AppContext/loaderContext';
 
+function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, customer, compCode, username }: any) {
+    const { setLoader } = React.useContext(LoaderContext);
     var [rawObj, setRawObj]: any = React.useState({});
-    var [defaultRole, setDefaultRole]: any = React.useState('');
-    var [defCodeNames, setDefCodeNames]: any = React.useState({});
+
+  
+    
+    var [lApi, setLApi]: any = React.useState(null);
     const api = useFetch();
     var obj: object = {};
-
+  
     const setDefaultState = async () => {
         if (gettingVirtualCode !== 0) {
             store2.getState().seriesConf = loadUserDetails;
-            //let role: any = await roleList.find((item: any) =>
-            //    loadUserDetails.role == item.id
-            //);
-
-            await setDefCodeNames({
-                ...loadUserDetails,
-                super: loadUserDetails.su == 0 ? 'N' : 'Y',
-                block: loadUserDetails.block == 0 ? 'N' : 'Y',
-
-            })
 
         } else {
             store2.getState().seriesConf = {}
         }
     }
 
-    React.useEffect(() => {setDefaultState()}, [loadUserDetails])
-    React.useEffect(() => {
-        roleList.map((option: any) => {
-            if (option.id === loadUserDetails.role) {
-                setDefaultRole(option.value)
-                console.log('role value to set', option.value)
+    React.useEffect(() => { setDefaultState() }, [loadUserDetails])
 
-            }
-        })
-    }, [loadUserDetails, roleList])
 
     const history: any = useHistory();
     //var loc = useLocation();
     //const state: any = loc.state;
    
 
-  
-    const handleList = (item: any) => {
-        let value = parseInt(item.id)
-        let name = (item.name)
-        let label = "seriesConf";
-        store2.dispatch({ payload: value, key: name, type: "changeConfig", label: label });
+    const collectListData = (data: any) => {
+     
+        setLApi(data);
+    }
 
+    const handleList = (name : string, value : any) => {
+    
+        //lApi.forEachNode(function (node: any) {
+        //    let keyArr = Object.keys(node.data);
+        //    if (!node.data.role) return;
+        //    let val = node.data.role.value;
 
+        //});
+            store2.dispatch({ payload: parseInt(value), key: name, type: "changeConfig", label: 'seriesConf' })
         obj = {
             "code": gettingVirtualCode,
             "active": 1,
@@ -81,7 +75,7 @@ function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettin
         else value = parseInt(value);
 
         store2.dispatch({ payload: value, key: e.target.name, type: "changeConfig", label: label });
-
+        
 
         obj = {
             "code": gettingVirtualCode,
@@ -96,12 +90,13 @@ function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettin
 
     const handlePosting = async (e: any) => {
         e.preventDefault();
+        setLoader(true)
 
-        'block' in rawObj ? null : rawObj['block'] = 0
-        'su' in rawObj ? null : rawObj['su'] = 0
+        //'block' in rawObj ? null : rawObj['block'] = 0
+        //'su' in rawObj ? null : rawObj['su'] = 0
 
         let i: any = { ...loadUserDetails, ...rawObj };
-        console.log('i:', i);
+/*        console.log('i:', i);*/
         //console.log('calling')
         const confUrl = '/api/UserSave';
 
@@ -111,13 +106,16 @@ function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettin
             let { res, got } = await api(confUrl, "POST", i);
             if (res.status == 200) {
                 toast.success(got.msg);
+                setLoader(false);
                 let formObj = document.getElementById("form");
-
                 gettingVirtualCode === 0 ? clear_form(formObj) : history.push('/successfully-modify')
             }
-            else toast.error(got.msg);
-
+            else {
+                setLoader(false)
+                toast.error(got.msg);
+            }
         } catch (err) {
+            setLoader(false)
             alert(err)
         }
     }
@@ -132,68 +130,30 @@ function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettin
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 defaultt={defCodeNames.uname} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
+                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.uname : ''} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={defCodeNames.pwd} name="pwd" label="Password" ipTitle="Enter Password" ipType="password" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
+                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.pwd :''} name="pwd" label="Password" ipTitle="Enter Password" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
                     </span>
 
                     <span className="d-flex section2 col-sm-12">
 
                         <span className="d-flex justify-content-space-evenly flex-row section2 col-sm-12">
 
-
-                            <>
-                                <label htmlFor="su" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Super User</label>
-                            </>
-                            <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                                <DatalistInput
-                                    value={defCodeNames.super}
-                                    className="d-flex col-12 m-0 p-0"
-                                    inputProps={{ className: 'form-control col-12 inp seriesConf', name: "su", style: { padding: '22px 0px 22px 10px', fontSize: '20px' } }}
-                                    listboxProps={{ className: 'text-left mt-5' }}
-                                    onSelect={(item: any) => handleList(item)}
-                                    items={[{ 'id': 0, value: 'N', name: 'su' }, { 'id': 1, value: 'Y', name: 'su' }]}
-                                />
-
-                            </span>
-
+                            <CustomSelect classCategory="form-control col-4 inp select seriesConf" handleChange={handleChange} name="su" label="Super User" def={loadUserDetails ?  loadUserDetails.su:''} />
                             <span className="col-1 m-0"></span>
-                            <>
-                                <label htmlFor="block" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">is Block</label>
-                            </>
-                            <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                                <DatalistInput
-                                    value={defCodeNames.block}
-                                    className="d-flex col-12 m-0 p-0"
-                                    inputProps={{ className: 'form-control col-12 inp seriesConf', name: "block", id: "type", style: { padding: '22px 0px 22px 10px', fontSize: '20px' } }}
-                                    listboxProps={{ className: 'text-left mt-5' }}
-                                    onSelect={(item: any) => handleList(item)}
-                                    items={[{ 'id': 0, value: 'N', name: "block" }, { 'id': 1, value: 'Y', name: "block" }]}
-                                />
+                            <CustomSelect classCategory="form-control col-4 inp select seriesConf" handleChange={handleChange} name="block" label="Block" def={loadUserDetails ? loadUserDetails.block :''} />
 
-                            </span>
                         </span>
 
 
 
                     </span>
-                    {/*<span className="d-flex section2 col-sm-6">*/}
-                    {/*    <CustomSelect label="SuperUser" name="SU" change={[{ 'code': 0, name: 'N' }, { 'code': 1, name: 'Y' }]} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />*/}
-                    {/*    <CustomSelect label="is Block" name="Block" change={[{ 'code': 0, name: 'N' }, { 'code': 1, name: 'Y' }]} handleChange={handleChange} classCategory="form-control col-7 seriesConf" />*/}
-                    {/*</span>*/}
+
                     <span className="d-flex section2 col-sm-12">
-                        <>
-                            <label htmlFor="role" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Role</label>
-                        </>
+
+                        <label htmlFor="role" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Role</label>
                         <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                            <DatalistInput
-                                value={defaultRole}
-                                className="d-flex col-12 m-0 p-0"
-                                inputProps={{ className: 'form-control inp col-12 seriesConf int', name: 'role', style: { padding: '22px 0px 22px 10px', fontSize: '20px' } }}
-                                listboxProps={{ className: 'text-left mt-5' }}
-                                onSelect={(item: any) => handleList(item)}
-                                items={roleList}
-                            />
+                            <AutoComp collect={collectListData} list={React.useMemo(() => { return roleList }, [roleList])} name="role" saveData={handleList} vccode={gettingVirtualCode} data={gettingVirtualCode !== 0 ? loadUserDetails ? [{ role: { label: loadUserDetails.rolename, value: loadUserDetails.role } }] : [{ role: null }] : [{ role: null }]} />
 
                         </span>
 
@@ -220,4 +180,5 @@ function UserMaster_Page({ loadUserDetails, defaultRole, AlterLoadedData, gettin
     )
 }
 let UserMaster = UserLoadDetails(UserMaster_Page);
+
 export default UserMaster;

@@ -68,7 +68,7 @@ export default function GSTConf_Page({ handleChange, LoadedList, handlePosting, 
                     </span>
                    
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput3 name="mdhsn" label="Min. Digits for HSN" defaultt={defConf.mdhsn} ipTitle="Enter Minimum Digits for HSN Code" ipType="number" classCategory="form-control col-4 inp InventoryDet select" handleChange={handleChange} />
+                        <MasterInput3 name="mdhsn" label="Min. Digits for HSN" defaultt={defConf.mdhsn || 8} ipTitle="Enter Minimum Digits for HSN Code" ipType="number" classCategory="form-control col-4 inp InventoryDet select" handleChange={handleChange} />
                           <span className="col-1 m-0"></span>
                           <CustomeSwitch lablClass="custom-control-label col-8" label="Transporter details in local" id="tdsp" name="tdsp" classCat="form-control custom-control-input col-3 InventoryDet switch" handleChange={handleChange} default={defConf.tdsp} />
                      
