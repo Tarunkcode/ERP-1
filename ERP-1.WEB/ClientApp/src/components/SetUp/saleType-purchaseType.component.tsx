@@ -18,7 +18,7 @@ interface IProps {
     api: any; gstCategory: any[], loadSPTypeMaster: any;
     billSundryList: any[],
     customer: number, compCode: number, username: string, gettingVirtualCode: any;
-    collectListData: any;
+ 
 }
 class SPType extends React.Component<IProps, IState> {
     static contextType = LoaderContext;
@@ -136,10 +136,12 @@ class SPType extends React.Component<IProps, IState> {
 
 
     }
-    handleList = (name: string, value: any) => {
+    collectListData = (value: any, name: string) => {
         store2.dispatch({ payload: parseInt(value), key: name, type: "changeConfig", label: 'seriesConf' })
         name == 'usefor' && value == 2 ? this.setState({ showBranchCode: true }) : this.setState({ showBranchCode: false })
+
     }
+
 
     //--------------------------------------------Posting Data Method ---------------------------------------------------------------------------------------------------
 
@@ -214,9 +216,9 @@ class SPType extends React.Component<IProps, IState> {
                     vccode={this.props.gettingVirtualCode}
                     showBranchCode={this.state.showBranchCode}
                     getMasterType={this.getMasterType}
-                    handleList={this.handleList.bind(this)}
+                
                     defGstCatName={this.state.defGstCatName}
-                    collectListData={this.props.collectListData}
+                    collectSelectedItem={this.collectListData}
                     defaultLoad={this.props.loadSPTypeMaster}
                     getTableData={this.getTableData.bind(this)}
                     pageTitle="Sale Type" billSundry={this.props.billSundryList} handleChange={this.handleChange} handlePosting={this.handlePosting} configType={this.state.configType} />) : null}
@@ -229,9 +231,9 @@ class SPType extends React.Component<IProps, IState> {
                     pagecode={14}
                     getMasterType={this.getMasterType}
                     defGstCatName={this.state.defGstCatName}
-                    handleList={this.handleList.bind(this)}
+       
                     showBranchCode={this.state.showBranchCode}
-                    collectListData={this.props.collectListData}
+                    collectSelectedItem={this.collectListData}
                     vccode={this.props.gettingVirtualCode}
                     defaultLoad={this.props.loadSPTypeMaster}
                     getTableData={this.getTableData.bind(this)}

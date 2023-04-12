@@ -11,7 +11,7 @@ import LoadGrid from '../../../components/Grid Component/load-grid.component';
 import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
 import { store2 } from '../../../Redux/config/config.reducer';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
-export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, pagecode, handleList, collectListData, ...otherProps }: any) {
+export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, pagecode, collectSelectedItem, ...otherProps }: any) {
 
 
     useEffect(() => {
@@ -109,21 +109,10 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
 
                         {
                             pagecode == 13 ? (
-                                <>
-                                    <label htmlFor="gsttype" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Type</label>
+                          
+                                <AutoComp name="gsttype" label="GST Type" ipTitle="Select GST Type" list={[{ value: 1, label: 'Enter State' }, { value: 2, label: 'Local' }, { value: 3, label: 'Export' }]} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttypename : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true } />
 
-                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-
-                                        <AutoComp
-                                            collect={collectListData}
-                                            list={[{ value: 1, label: 'Enter State' }, { value: 2, label: 'Local' }, { value: 3, label: 'Export' }]}
-                                            name="gsttype"
-                                            saveData={handleList}
-                                            vccode={vccode}
-                                            data={vccode !== 0 ? defaultLoad.sptypeheader ? [{ gsttype: { label: defaultLoad.sptypeheader[0].gsttypename, value: defaultLoad.sptypeheader[0].gsttype } }] : [{ gsttype: null }] : [{ gsttype: null }]}
-                                        />
-                                    </span>
-                                </>
+                                   
                             ) : (<MasterInput3
                                 defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].defaultvalue : ''}
                                 handleChange={handleChange}
@@ -147,13 +136,8 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
 
                     </span>
                     <span className="d-flex section2 col-sm-12">
-
-                        <label htmlFor="usefor" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">Use For</label>
-
-                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-
-                            <AutoComp collect={collectListData} list={[{ value: 1, label: 'Company' }, { value: 2, label: 'Branch' }]} name="usefor" saveData={handleList} vccode={vccode} data={vccode !== 0 ? defaultLoad.sptypeheader ? [{ usefor: { label: defaultLoad.sptypeheader[0].useforname, value: defaultLoad.sptypeheader[0].usefor } }] : [{ usefor: null }] : [{ usefor: null }]} />
-                        </span>
+                        <AutoComp name="usefor" label="Use For" ipTitle="Select Use For" list={[{ value: 1, label: 'Company' }, { value: 2, label: 'Branch' }]} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].usefor : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true}/>
+                   
 
                         <span className="col-1 m-0"></span>
                         {
@@ -189,14 +173,8 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                     <span className="d-flex section2 col-sm-12">
                         {
                             pagecode == 13 ? (
-                                <>
+                                <AutoComp name="gstcat" label="GST Category" ipTitle="Select GST Category" list={gstCat} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gstcat : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true} />
 
-                                    <label htmlFor="gstcat" style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2 mr-2 labl2">GST Category</label>
-
-                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                                        <AutoComp collect={collectListData} list={gstCat} name="gstcat" saveData={handleList} vccode={vccode} data={vccode !== 0 ? defaultLoad.sptypeheader ? [{ gstcat: { label: defaultLoad.sptypeheader[0].gstcatname, value: defaultLoad.sptypeheader[0].gstcat } }] : [{ gstcat: null }] : [{ gstcat: null }]} />
-                                    </span>
-                                </>
                             ) : (<MasterInput3
 
                                 handleChange={() => { }}

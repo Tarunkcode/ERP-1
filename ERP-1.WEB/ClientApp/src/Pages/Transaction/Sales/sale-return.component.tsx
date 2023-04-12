@@ -2,6 +2,8 @@
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useState } from 'react';
+import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import WriteGrid from '../../../components/Grid Component/grid.component';
 const SaleReturn = () => {
     var getSoSeries = window.sessionStorage.getItem('so-series');
     var getAccName = window.sessionStorage.getItem('acc-name');
@@ -9,445 +11,258 @@ const SaleReturn = () => {
     const state = JSON.parse(getState!)
     const getCompCode = window.sessionStorage.getItem('compCode');
 
+    let data: any[] = [{ ic: null, in: null, qty: null, uom: null, price: null, value: null, tax: null, mc: null, mct: null, pono: null, hsn: null }]
 
-    var [masterDetails, setMasterDetails]: any = React.useState([]);
+    var ColDef: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+    { field: 'ic', headerName: 'Item Code', minWidth: 200 },
+    { field: 'in', headerName: 'Item Name', minWidth: 200 },
+    { field: 'assort', headerName: 'Assortment', minWidth: 200, editable: true },
+    { field: 'rt', headerName: 'Return Type', minWidth: 200 },
+    { field: 'cz', headerName: 'Carton Size', minWidth: 200, editable: true },
+    { field: 'bsq', headerName: 'Bal SI qty.', minWidth: 200, editable: true },
+    { field: 'rq', headerName: 'Return Qty.', minWidth: 200, editable: true },
+    { field: 'uom', headerName: 'UOM', minWidth: 200, editable: true },
+    { field: 'sic', headerName: 'SI Carton', minWidth: 200, editable: true },
+    { field: 'rc', headerName: 'Return Carton', minWidth: 200, editable: true },
+    { field: 'rate', headerName: 'Rate', minWidth: 200, editable: true },
+    { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
+    { field: 'mcenter', headerName: 'Mat. Center', minWidth: 200, editable: true },
+    { field: 'gstc', headerName: 'GST Category', minWidth: 200, editable: true },
+    { field: 'cgst', headerName: 'CGST(%)', minWidth: 200, editable: true },
+    { field: 'cgstamt', headerName: 'CGST Amt.', minWidth: 200, editable: true },
+    { field: 'sgst', headerName: 'SGST(%)', minWidth: 200, editable: true },
+    { field: 'sgstamt', headerName: 'SGST Amt.', minWidth: 200, editable: true },
+    { field: 'igst', headerName: 'IGST (%)', minWidth: 200, editable: true },
+    { field: 'igstamt', headerName: 'IGST Amt.', minWidth: 200, editable: true },
+    { field: 'aqty', headerName: 'Alt Qty', minWidth: 200, editable: true },
+    { field: 'aauom', headerName: 'Alt UOM', minWidth: 200, editable: true },
 
 
-    //------------ default date block-----------------------------------------------------------------------------------------------------------------------
-    const today = new Date();
-    var format = today.toString().slice(4, 15)
-    var yearOnly = format.slice(7, 11)
-    var dateOnly = format.slice(4, 6)
-    var MonthOnly = format.slice(0, 3)
-    var monthNo = 0;
-    if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
-    else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
-    else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
-    else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
-    else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
-    else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
-    else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
-    else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
-    else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
-    else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
-    else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
-    else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+    ]
 
-    var defaultDate = `${yearOnly}-${monthNo}-${dateOnly}`
 
-    var [startDate, setStartDate]: any = useState(new Date("2022-04-01"));
-    var [endDate, setEndDate]: any = useState(new Date);
-    var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
-    var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
+
+
+
+    /*------------------------------------------ BillSundry-Table-----------------------------------------------------*/
+
+    let dataBill: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
+
+    var ColDefBill: any[] = [{ field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+    { field: 'bill', headerName: 'Bill Sundary', minWidth: 100 },
+    { field: 'narration', headerName: 'Narration', minWidth: 100 },
+    { field: 'rate', headerName: '@', minWidth: 100 },
+    { field: 'rs', headerName: '', minWidth: 100 },
+    { field: 'amount', headerName: 'Amount(Rs.)', minWidth: 100 }
+
+
+
+    ]
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
     return (
-        <div className="firstDiv">
+        <div className="firstDiv" >
 
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
                 <div className="row row-content col-sm-12" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
 
                     <span className="card-title" style={{
-                        fontSize: '15px', color: 'white', padding: '0',
+                        fontSize: '15px', color: 'white', fontWeight: 900, padding: '0',
                         margin: '0'
                     }}>Sale Return Against Sale</span>
 
                 </div>
-                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg d-flex flex-row p-0 m-0">
-                    <div style={{ width: '50%', margin: '0', padding: '0', display: 'flex', flexDirection:'column' }}>
-                    <div className="card addSalecard" style={{ width: '100%', padding: '0 20px' }}>
-                        <div className="card-body" style={{ margin: '0', padding: '0' }}>
-                            <form className="form">
+                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
+
+                    <div className="card-body row col-sm-12 m-0 p-0" >
+                        <form className="row-content form col-sm-12 pt-0">
+                            <fieldset className="form-group border p-0" >
+                                <legend className="px-2" style={{ fontSize: '1.1rem' }}>Invoice Details</legend>
 
 
-                                <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                    <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-3" htmlFor="series">Series</label>
-                                        <span className="col-sm-5" style={{ color: 'red', fontWeight: 'bold', fontSize: '15px', margin: '0', padding: '0' }}>Series</span></>
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="series" label="Series" ipTitle="Enter Series" ipType="text" value={getSoSeries} classCategory="form-control col-4 inp" readOnly />
+                                    <span className="col-1 m-0"></span>
+
+                                    <MasterInput2 name="date" label="Date" ipTitle="Enter Vch. No." ipType="date" classCategory="form-control col-4 inp" />
                                 </span>
 
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', margin: '0', padding: '10px 0' }}>
-                                    <><label style={{ margin: '0 46px 0 10px', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="del-date">Date</label>
-                                        <DatePicker
-
-                                            name="startDate"
-                                            className="startDate form-control col-sm-10 m-0"
-                                            selectsStart
-
-                                            dateFormat="MMM dd, yyyy"
-                                            closeOnScroll={true}
-                                            selected={startDate}
-
-                                            onChange={(k: Date) => {
-                                                setStartDate(k)
-                                                var format = k.toString().slice(4, 15)
-                                                var yearOnly = format.slice(7, 11)
-                                                var dateOnly = format.slice(4, 6)
-                                                var MonthOnly = format.slice(0, 3)
-                                                var monthNo = 0;
-                                                if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
-                                                else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
-                                                else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
-                                                else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
-                                                else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
-                                                else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
-                                                else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
-                                                else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
-                                                else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
-                                                else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
-                                                else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
-                                                else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
-
-                                                var fDate = `${yearOnly}-${monthNo}-${dateOnly}`
-                                                console.log(fDate)
-                                                setChangeStartDate(fDate)
-                                            }
-                                            }
-
-                                        /></>
-
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="so-no">Inv No.</label>
-                                        <input className="form-control col-sm-3" type="text" name="so-no" /></>
-                                </span>
-
-
-                             
-
-                            </form>
-                        </div>
-                        </div>
-                        <div className="card addSalecard" style={{ width: '100%', padding: '0 20px', minHeight:'31vh' }}>
-                        <div className="card-body" style={{ margin: '0', padding: '0' }}>
-                            <form className="form">
-
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                    <><label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-3" htmlFor="del-date">Sold To</label>
-                                        <input className="form-control col-sm-5" type="text" name="del-date" /></>
-
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="inv" label="Inv No." ipTitle="Enter Inv No." ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
 
                                 </span>
 
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                        <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-3" htmlFor="po-no">Address</label>
-                                            <textarea className="form-control col-sm-6"  name="po-no" /> </>
+                              
 
-                                </span>
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                    <div style={{ visibility: 'hidden' }}>
-                                        <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-3"></label>
-                                        <input className="form-control col-sm-5" type="text" /> </div>
+                            </fieldset>
 
-                                    </span>
-                                    <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                        <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-curr">Sale F.y</label>
-                                            <input className="form-control col-sm-3" type="text" name="bill-curr" /> </>
+                        </form>
 
-                                        <> <label style={{ padding: '0', fontSize: '14px', marginLeft: '50px' }} className="form-label col-sm-2" htmlFor="curr-rate">State & State Code</label>
-                                            <input className="form-control col-sm-3" type="text" name="curr-rate" /> </>
-                                    </span>
-                                      
-                            </form>
-                        </div>
-                    </div>
-                    </div>
-                    <div className="card addSalecard" style={{ width: '50%' }}>
-                        <div className="card-body" style={{ margin: '0', padding: '20 0' }}>
-                            <form className="form">
-
-                                <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', margin: '0', padding: '10px 0' }}>
-
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="delievery-terms">Del. Terms <i style={{ color: 'red', marginLeft: '5px' }}>*</i></label>
-                                        <input className="form-control col-sm-6" type="text" name="delievery-terms"  /></>
-
-                                </span>
-                                <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', margin: '0', padding: '10px 0' }}>
-
-                                    <> <label style={{ margin: '0', padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="delievery-terms">Payment Terms <i style={{ color: 'red', marginLeft: '5px' }}>*</i></label>
-                                        <input className="form-control col-sm-6" type="text" name="delievery-terms"  /></>
-
-                                </span>
-
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                    <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-curr">Bill Currency</label>
-                                        <input className="form-control col-sm-3" type="text" name="bill-curr" /> </>
-
-                                    <> <label style={{ padding: '0', fontSize: '14px', marginLeft: '50px' }} className="form-label col-sm-2" htmlFor="curr-rate">Curr. Rate</label>
-                                        <input className="form-control col-sm-3" type="text" name="curr-rate" /> </>
-                                </span>
-
-
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-                                    <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="upload-bill">Sale Type</label>
-                                        <input className="form-control col-sm-3" type="text" name="upload-bill" /> </>
-
-                                </span>
-
-
-                                <span className="form-group col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0px' }}>
-                                    <><label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="series">Bill No.</label>
-                                        <input className="form-control col-sm-3" type="text" name="number" /></>
-
-                                    <> <label style={{ padding: '0', fontSize: '14px', marginLeft: '50px' }} className="form-label col-sm-2" htmlFor="bill-date">Bill Date</label>
-                                        <input className="form-control col-sm-3" type="date" name="bill-date" /> </>
-                                </span>
-
-
-
-                                <span className='form-group col-sm-12' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '0', padding: '0' }}>
-
-                                    <> <label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-amt">Bill Amt.</label>
-                                        <input className="form-control col-sm-3" type="text" name="bill-amt" /> </>
-
-                                    {/*<><label style={{ padding: '0', fontSize: '14px' }} className="form-label col-sm-2" htmlFor="bill-qty">Bill Qty</label>*/}
-                                    {/*    <input className="form-control col-sm-3" type="text" name="bill-qty" /></>*/}
-                                </span>
-
-                            </form>
-                        </div>
 
                     </div>
+                    {/*---------------------------------------Customer  Details----------------------------*/}
+
+                    <form className="row-content form col-sm-12 pt-0">
+                        <fieldset className="form-group border p-0" >
+                            <legend className="px-2" data-toggle="collapse" data-target="#porderpdetails" aria-expanded="false" aria-controls="porderpdetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Customer Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                            <div className="collapse" id="porderpdetails">
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="soldto" label="Sold To" ipTitle="Enter Sold To" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="add" label="Address" ipTitle="Enter Address" ipType="text" classCategory="form-control col-4 inp" />
+
+
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="salefy" label="Sale F. Y" ipTitle="Enter Sale F. Y" ipType="text" classCategory="form-control col-4 inp" />
+
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="state" label="State" ipTitle="Enter State" ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="statecode" label="State Code" ipTitle="Enter State Code" ipType="text" classCategory="form-control col-4 inp" />
+                                   
+                                </span>
+
+
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+                    {/*//--------------------------------------------------Delivery/Payment Details---------------------------------------------------------------//*/}
+
+                    <form className="row-content form col-sm-12 pt-0">
+                        <fieldset className="form-group border p-0" >
+                            <legend className="px-2" data-toggle="collapse" data-target="#grbilldetails" aria-expanded="false" aria-controls="grbilldetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Delivery And Payment Terms<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                            <div className="collapse" id="grbilldetails">
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="dterm" label="Delivery Term" ipTitle="Enter Delivery Term" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="payterm" label="Payment Term" ipTitle="Enter Payment Term" ipType="text" classCategory="form-control col-4 inp" />
+
+
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="curr" label="Currency" ipTitle="Enter Currency" ipType="text" classCategory="form-control col-4 inp" />
+
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="currrate" label="Currency Rate" ipTitle="Enter Currency Rate" ipType="date" classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="stype" label="Sale Type" ipTitle="Enter Sale Type" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="bno" label="Bill No." ipTitle="Enter Bill No" ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="bdate" label="Bill Date" ipTitle="Enter Bill Date" ipType="date" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="bamt" label="Bill Amount" ipTitle="Enter Bill Amt" ipType="number" min='0' classCategory="form-control col-4 inp" />
+                                </span>
+
+
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+                    {/*------------------------------------------------------------Transport Details--------------------------------------------------------------*/}
+
+                    <form className="row-content form col-sm-12 pt-0">
+                        <fieldset className="form-group border p-0" >
+                            <legend className="px-2" data-toggle="collapse" data-target="#tdetails" aria-expanded="false" aria-controls="tdetails" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Transport Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                            <div className="collapse" id="tdetails">
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="transporter" label="Transporter" ipTitle="Enter Transporter" ipType="text" classCategory="form-control col-4 inp" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="grno" label="GR No." ipTitle="Enter GR No." ipType="text" classCategory="form-control col-4 inp" />
+
+
+                                </span>
+
+
+
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2 name="vehicleno" label="Vehicle No." ipTitle="Enter Vehicle No." ipType="text" classCategory="form-control col-4 inp" />
+
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="wayfrom" label="Way From No." ipTitle="Enter Way From No." ipType="text" classCategory="form-control col-4 inp" />
+                                </span>
+
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+                   
                 </div>
 
             </div>
+            <hr style={{ margin: '0', padding: '0' }} />
+            <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
 
+                <WriteGrid title="Purchase Invoice Line Item Details" titleClr="blue" total='himanshu' OpenSubLayer={() => { }} colDef={ColDef} data={data} />
+            </div>
+
+            <hr style={{ margin: '0', padding: '0' }} className='mt-3' />
+
+
+
+            <fieldset className="form-group border p-0" >
+                <legend className="px-2" data-toggle="collapse" data-target="#billsundry" aria-expanded="false" aria-controls="billsundry" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>Bill Sundry Details<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
+
+                <div className="show" id="billsundry">
+                    <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
+                        <WriteGrid title="Bill Sundry Details" h='200px' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefBill} data={dataBill} />
+                    </div>
+                </div>
+            </fieldset>
+
+            <span className="d-flex section2 col-sm-12 mb-2 mt-2">
+                <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
+                <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
+            </span>
 
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
 
-
-            <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card">
-
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', margin: '0', padding: '0' }}>Sale Invoice Line Item Details</span>
-                    </div>
-
-                    <div className="table-responsive" style={{ padding: '0' }}>
-
-                        <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                            <thead className="thead-light table-secondary">
-                                <tr>
-                                    <th scope="col" className="text-center col-sm-1" style={{ fontWeight: 400 }}>S.No.</th>
-                                    <th scope="col" className="col-sm-3 text-center" style={{ fontWeight: 400 }}><span>Item Code</span></th>
-
-
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Item Name</span></th>
-
-
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Assortment</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Return Type</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Carton Size</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Bal SI Qty</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Return Qty</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>UoM</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>SI Carton</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Return Carton</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Rate</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Value</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Mat.Center</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>GST Category</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>CGST(%)</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>CGST Amt</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>SGST(%)</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>SGST AMt</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>IGST(%)</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>IGST Amt</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Alt Qty</span></th>
-                                    <th scope="col" className="text-center" style={{ fontWeight: 400 }}><span>Alt.UoM</span></th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td className="item-code">
-                                        <input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control" list="itemCodeList" type="text" id="cell-ItemCode" />
-                                        {/*{*/}
-                                        {/*    itemCodeArr != null && itemCodeArr.length > 0 ?*/}
-
-                                        {/*        (*/}
-                                        {/*            <datalist className='item-code-list' id='itemCodeList'>*/}
-                                        {/*                {*/}
-                                        {/*                    itemCodeArr.map((obj: any) => {*/}
-                                        {/*                        return <option data-value={obj.ITEMCODE}>{obj.ITEMNAME}</option>*/}
-                                        {/*                    })*/}
-                                        {/*                }*/}
-
-
-                                        {/*            </datalist>*/}
-
-                                        {/*        )*/}
-
-                                        {/*        : null*/}
-
-
-                                        {/*}*/}
-
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td className="item-code">
-                                        <input style={{ margin: '0', padding: '0', width: '100%' }} className="form-control" list="itemCodeList" type="text" id="cell-ItemCode" /></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                  
-                                    {/*{*/}
-                                    {/*    itemDetails.map((item: any) => {*/}
-                                    {/*        return (*/}
-
-                                    {/*            <>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td><input type="text" className="form-control" /></td>*/}
-                                    {/*                <td>{item.UOMNAME}</td>*/}
-                                    {/*                <td>{item.MRP}</td>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td></td>*/}
-                                    {/*                <td>{item.CGST}</td>*/}
-                                    {/*                <td>{item.SGST}</td>*/}
-                                    {/*                <td>{item.SALEPRICE}</td>*/}
-                                    {/*                <td>{item.IGST}</td>*/}
-                                    {/*                <td>{item.GSTCAT}</td>*/}
-                                    {/*            </>*/}
-                                    {/*        );*/}
-                                    {/*    }*/}
-                                    {/*    )}*/}
-
-
-
-
-
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-
-            <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
-
-            <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card col-sm-6" style={{ padding: '0', margin: '0' }}>
-
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', margin: '0', padding: '0' }}>Bill Sundry Details</span>
-                    </div>
-                    <div className="card-body table-responsive" style={{ margin: '0', padding: '0' }}>
-                        <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                            <thead className="thead-light table-secondary">
-                                <tr>
-                                    <th style={{ fontWeight: 400 }}>S. No</th>
-                                    <th style={{ fontWeight: 400 }}>Bill Sundry</th>
-                                    <th style={{ fontWeight: 400 }}>Narration</th>
-
-                                    <th style={{ fontWeight: 400 }}>Amount (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td></td>
-                                    <td></td>
-
-
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div className="card col-sm-5" style={{ padding: '0', marginRight: '0' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', margin: '0', padding: '0' }}>Transporter Details</span>
-                    </div>
-
-                    {/*<div className="table-responsive card-body" style={{ margin: '0', padding: '0' }}>*/}
-                    {/*    <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>*/}
-                    {/*        <thead className="thead-light table-secondary">*/}
-                    {/*            <tr>*/}
-                    {/*                <th>S. No</th>*/}
-                    {/*                <th>Transporter</th>*/}
-                    {/*                <th>Vehical No.</th>*/}
-                    {/*                <th>Driver Name</th>*/}
-                    {/*                <th>Driver Mob. No.</th>*/}
-                    {/*                <th>Every Bill No.</th>*/}
-                    {/*                <th>Billty No.</th>*/}
-
-                    {/*            </tr>*/}
-                    {/*        </thead>*/}
-                    {/*        <tbody>*/}
-                    {/*            <tr>*/}
-                    {/*                <th scope="row">1</th>*/}
-                    {/*                <td></td>*/}
-                    {/*                <td></td>*/}
-                    {/*                <td></td>*/}
-                    {/*                <td></td>*/}
-
-                    {/*                <td></td>*/}
-                    {/*                <td></td>*/}
-
-                    {/*            </tr>*/}
-                    {/*        </tbody>*/}
-                    {/*    </table>*/}
-
-
-                    {/*</div>*/}
-
-
-                    <div className="transporter-details col-sm-12" style={{ margin: '3px 0', padding: '10px' }}>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                            <label htmlFor="transporter" className="form-label col-4">Transporter</label>
-                            <input name="transporter" className="form-control col-5" type="text" />
-                        </span>
-
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                            <label htmlFor="driver" className="form-label col-4">G.R No.</label>
-                            <input name="driver" className="form-control col-5" type="text" />
-                        </span>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                            <label htmlFor="vehicalNo" className="form-label col-4">Vehical No.</label>
-                            <input name="vehicalNo" className="form-control col-5" type="text" />
-                        </span>
-                        <span className="col-sm-12" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', textAlign: 'left', alignItems: 'space-around', width: '100%', margin: '0', padding: '0' }}>
-                            <label htmlFor="mobNo" className="form-label col-4">Way Form No.</label>
-                            <input name="mobNo" className="form-control col-5" type="text" />
-                        </span>
-                       
-                    </div>
-
-
-
-                    {/*<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '50%' }}>*/}
-                    {/*    <button className="hsn-btn btn btn-sm btn-success">Save</button>*/}
-
-                    {/*</div>*/}
-                </div>
-            </div>
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </div>
     )

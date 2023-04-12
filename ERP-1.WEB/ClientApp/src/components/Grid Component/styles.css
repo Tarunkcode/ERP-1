@@ -187,3 +187,15 @@
     z-index: 1000;
 }
 
+.autocomplete {
+    border: 1px solid darkgray;
+    background-color: white;
+    padding: 5px 4px;
+    cursor: pointer;
+}
+/*div[id^=autocomplete-lgbvyowzywbbvkloje]{
+  color:orange;
+} */
+.selected{
+    background-color:cornflowerblue;
+}

@@ -1,9 +1,6 @@
 ﻿
  
 function useFetch() {
-
-    let baseURL: string = `http://${window.localStorage.getItem('url')}:${window.localStorage.getItem('port')}`;
-  
     const ServerRequest = async (req: any) => {
         //url = `${baseURL}${url}`
        
@@ -17,6 +14,10 @@ function useFetch() {
    
     let callFetch = async (url: string, label: string, body: any) => {
 
+    let ip = window.localStorage.getItem('url');
+    let port = window.localStorage.getItem('port');
+        let baseURL: string = `http://${ip}:${port}`;
+  
     const token: any = window.sessionStorage.getItem('token1');
         const urlStr = baseURL + url
         var req: Request;

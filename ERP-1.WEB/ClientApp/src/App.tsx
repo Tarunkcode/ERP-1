@@ -78,7 +78,7 @@ import ProductionConfiguration from './Pages/Transaction/Planning/production-con
 import ProductionIndent from './Pages/Transaction/Planning/production-indent.component';
 import GateEntry from './Pages/Transaction/Purchase/gate-entry.component';
 import MRN from './Pages/Transaction/Purchase/mrn.component';
-
+import Production_Overhead from './Pages/Transaction/Planning/production-overhead.page';
 import PrIndent from './Pages/Transaction/Purchase/pr-indent.component';
 import PurchaseInvoice from './Pages/Transaction/Purchase/purchase-invoice.component';
 import PurchaseOrder from './Pages/Transaction/Purchase/purchase-order.component';
@@ -95,8 +95,15 @@ import PurchaseRequisation from './Pages/Transaction/Purchase/purchase-requisati
 import MaterialMovement from './Pages/Transaction/Purchase/material-movement.component';
 import Qc_Incoming from './Pages/Transaction/Quality/qc-incoming-material.component';
 import Mrp_Production_Indent from './Pages/Transaction/Planning/mrp-production-indent.component';
-
+import Daily_Plan_Print from './Pages/Transaction/Planning/daily-plan-print.page';
+import Plan_Date_Change from './Pages/Transaction/Planning/plan-date-change.page';
 import MarerialDispatch from './Pages/Transaction/Material-Movement/material-dispatch.component';
+import Material_Request from './Pages/Transaction/Purchase/material-request.page';
+import New_Consume_item from './Pages/Transaction/Planning/new-consume-item.page';
+import Sample_Trail_Production from './Pages/Transaction/Planning/sample-or-trail-production.page';
+import Dissemble_Page from './Pages/Transaction/Planning/dissemble.page';
+import Challan_Receipt_Party from './Pages/Transaction/Challan/challan-receipt-from-party.page';
+import Challan_Issue_Party from './Pages/Transaction/Challan/challan-issue-to-party.page';
 //---------------------------------Reports Imports---------------------------------------------------------------------------------------------------
 import BalanceOnlyReport from './Pages/Reports/Balance-Only/BalanceOnly.component';
 import Details from './Pages/Reports/Details/details.component';
@@ -532,29 +539,29 @@ function App() {
                         <Route exact path="/add-ST" component={StockTransfer} />
                         <Route exact path="/add-STO" component={Stock_Transfer_Order} />
                         <Route exact path="/add-PPI" component={From_Prodiction_Indent} />
-                        <Route exact path="/add-PDC" component={YetNotStarted} />
+                        <Route exact path="/add-PDC" component={Plan_Date_Change} />
                         <Route exact path="/add-DWP" component={DayWisePlanning} />
-                        <Route exact path="/add-DWPP" component={YetNotStarted} />
-                        <Route exact path="/add-POH" component={YetNotStarted} />
-                        <Route exact path="/add-MatReq" component={YetNotStarted} />
+                        <Route exact path="/add-DWPP" component={Daily_Plan_Print} />
+                        <Route exact path="/add-POH" component={Production_Overhead} />
+                        <Route exact path="/add-MatReq" component={Material_Request} />
 
                         <Route exact path='/add-MatIssue' component={MaterialIssue} />
                         <Route exact path='/add-Vendor-Quot-Comp' component={Vendor_Quotation_Approval} />
 
                         <Route exact path="/add-BDE" component={YetNotStarted} />
-                        <Route exact path="/add-Chitp" component={YetNotStarted} />
-                        <Route exact path="/add-Chrfp" component={YetNotStarted} />
+                        <Route exact path="/add-Chitp" component={Challan_Issue_Party} />
+                        <Route exact path="/add-Chrfp" component={Challan_Receipt_Party} />
                         <Route exact path="/add-BDR" component={YetNotStarted} />
                         <Route exact path="/add-TTE" component={YetNotStarted} />
                         <Route exact path="/addd-TBE" component={YetNotStarted} />
                         <Route exact path="/add-PC" component={ProductionConfiguration} />
-                        <Route exact path="/Tran-ANCI" component={YetNotStarted} />
-                        <Route exact path="/add-Diss" component={YetNotStarted} />
+                        <Route exact path="/Tran-ANCI" component={New_Consume_item} />
+                        <Route exact path="/add-Diss" component={Dissemble_Page} />
                         <Route exact path="/add-MDT" component={YetNotStarted} />
                         <Route exact path="/add-MMP" component={YetNotStarted} />
                         <Route exact path="/add-MMW" component={YetNotStarted} />
                         <Route exact path="/add-ReWork" component={YetNotStarted} />
-                        <Route exact path="/add-STP" component={YetNotStarted} />
+                        <Route exact path="/add-STP" component={Sample_Trail_Production} />
                         <Route exact path="/add-DA" component={DispatchPlan} />
                         <Route exact path="/add-PI" component={YetNotStarted} />
                         <Route exact path='/add-SI' component={SaleInvoice} />

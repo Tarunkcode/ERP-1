@@ -18,7 +18,7 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
 
   
     
-    var [lApi, setLApi]: any = React.useState(null);
+ 
     const api = useFetch();
     var obj: object = {};
   
@@ -39,19 +39,8 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
     //const state: any = loc.state;
    
 
-    const collectListData = (data: any) => {
+    const collectSelectedItem = (value : any, name : string) => {
      
-        setLApi(data);
-    }
-
-    const handleList = (name : string, value : any) => {
-    
-        //lApi.forEachNode(function (node: any) {
-        //    let keyArr = Object.keys(node.data);
-        //    if (!node.data.role) return;
-        //    let val = node.data.role.value;
-
-        //});
             store2.dispatch({ payload: parseInt(value), key: name, type: "changeConfig", label: 'seriesConf' })
         obj = {
             "code": gettingVirtualCode,
@@ -62,7 +51,9 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
             ...store2.getState().seriesConf
         }
         setRawObj(obj);
+       
     }
+
     function handleChange(e: any) {
         e.preventDefault();
         var value = e.target.value;
@@ -150,15 +141,11 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
                     </span>
 
                     <span className="d-flex section2 col-sm-12">
+                            <AutoComp name="role" label="Role" ipTitle="Select Role" list={roleList} defaultt={loadUserDetails ? loadUserDetails.rolename : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" />
 
-                        <label htmlFor="role" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Role</label>
-                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                            <AutoComp collect={collectListData} list={React.useMemo(() => { return roleList }, [roleList])} name="role" saveData={handleList} vccode={gettingVirtualCode} data={gettingVirtualCode !== 0 ? loadUserDetails ? [{ role: { label: loadUserDetails.rolename, value: loadUserDetails.role } }] : [{ role: null }] : [{ role: null }]} />
-
-                        </span>
 
                         <span className="col-1 m-0"></span>
-                        <><label htmlFor="" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2"></label></>
+                   
                         <span className="col-4 m-0 p-0"></span>
                         {/* <CustomSelect label="Role" name="Role" dataArray={currRoleData} change={handleChange} classCategory="form-control col-4 seriesConf" />*/}
 

@@ -3,49 +3,69 @@ import { useState, useRef } from 'react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import WriteGrid from '../../../components/Grid Component/grid.component';
+
+
 const DayWisePlanning = () => {
 
-    var getSoSeries = window.sessionStorage.getItem('so-series');
-    var getAccName = window.sessionStorage.getItem('acc-name');
-    const getState = window.localStorage.getItem('state');
-    const state = JSON.parse(getState!)
-    const getCompCode = window.sessionStorage.getItem('compCode');
+    let data: any[] = [{
+        pno: null, ic: null, in: null, process: null, qty: null, tp: null, dpq: null, shift: null, pd: null, uom: null, ddt: null, machine: null,
+        mold: null, plan: null, mpower: null, elec: null, overheads: null, remlife: null    }]
 
-    var [itemCodeArr, setItemCodeArr]: any = React.useState([]);
-    var kinda = React.useRef('');
-    var [masterDetails, setMasterDetails]: any = React.useState([]);
-    var [changeItemCode, setChangeItemCode]: any = React.useState('');
-    var [changeItemName, setChangeItemName]: any = React.useState('');
-    var [wholeLineItem, setWholeLineItem]: any = React.useState([{ UOMNAME: '', MRP: '', SGST: '', CGST: '', IGST: '', GSTCAT: '', SALEPRICE: '' }]);
+    var ColDef: any[] = [
+        { field: 'sn', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+        { field: 'pno', headerName: 'Plan No', minWidth: 200 },
+        { field: 'ic', headerName: 'Item Code', minWidth: 200 },
+        { field: 'in', headerName: 'Item Name', minWidth: 200 },
+        { field: 'process', headerName: 'Process', minWidth: 200 },
+        { field: 'qty', headerName: 'Plan Qty.', minWidth: 200 },
+        { field: 'tp', headerName: 'Toll Per.', minWidth: 200 },
+        { field: 'dpq', headerName: 'Day Prod. Qty', minWidth: 200 },
+        { field: 'shift', headerName: 'Shift', minWidth: 200 },
+        { field: 'pd', headerName: 'Process Date', minWidth: 200 },
+        { field: 'uom', headerName: 'UOM', minWidth: 200 },
+        { field: 'ddt', headerName: 'Del.Date Time', minWidth: 200 },
+        { field: 'machine', headerName: 'Machine', minWidth: 200 },
+        { field: 'mold', headerName: 'Mold', minWidth: 200 },
+        { field: 'plan', headerName: 'Plan(Hrs.)', minWidth: 200 },
+        { field: 'mpower', headerName: 'ManPower', minWidth: 200 },
+        { field: 'elec', headerName: 'Electricity', minWidth: 200 },
+        { field: 'overheads', headerName: 'OverHeads', minWidth: 200 },
+        { field: 'remlife', headerName: 'Rem Life (%)', minWidth: 200 },
 
 
-    //------------ default date block-----------------------------------------------------------------------------------------------------------------------
-    const today = new Date();
-    var format = today.toString().slice(4, 15)
-    var yearOnly = format.slice(7, 11)
-    var dateOnly = format.slice(4, 6)
-    var MonthOnly = format.slice(0, 3)
-    var monthNo = 0;
-    if (MonthOnly.toLowerCase() == "jan") monthNo = 1;
-    else if (MonthOnly.toLowerCase() == "feb") monthNo = 2;
-    else if (MonthOnly.toLowerCase() == "mar") monthNo = 3;
-    else if (MonthOnly.toLowerCase() == "apr") monthNo = 4;
-    else if (MonthOnly.toLowerCase() == "may") monthNo = 5;
-    else if (MonthOnly.toLowerCase() == "jun") monthNo = 6;
-    else if (MonthOnly.toLowerCase() == "jul") monthNo = 7;
-    else if (MonthOnly.toLowerCase() == "aug") monthNo = 8;
-    else if (MonthOnly.toLowerCase() == "sep") monthNo = 9;
-    else if (MonthOnly.toLowerCase() == "oct") monthNo = 10;
-    else if (MonthOnly.toLowerCase() == "nov") monthNo = 11;
-    else if (MonthOnly.toLowerCase() == "dec") monthNo = 12;
+    ]
 
-    var defaultDate = `${yearOnly}-${monthNo}-${dateOnly}`
+    let datad: any[] = [{ pno: null, ic: null, in: null, reqty: null, uom: null, stock: null }]
 
-    var [startDate, setStartDate]: any = useState(new Date("2022-04-01"));
-    var [endDate, setEndDate]: any = useState(new Date);
-    var [changeStartDate, setChangeStartDate]: any = useState("2022-04-01");
-    var [changeEndDate, setChangeEndDate]: any = useState(defaultDate);
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------------
+    var ColDefd: any[] = [
+        { field: 'sn', headerName: 'S.No.', minWidth: 50, maxWidth: 100, valueGetter: 'node.rowIndex + 1' },
+        { field: 'pno', headerName: 'Plan No', minWidth: 100 },
+        { field: 'ic', headerName: 'Item Code', minWidth: 100 },
+        { field: 'in', headerName: 'Item Name', minWidth: 100 },
+        { field: 'reqty', headerName: 'Req Qty', minWidth: 100 },
+        { field: 'uom', headerName: 'UOM', minWidth: 100 },
+        { field: 'stock', headerName: 'Stock Qty', minWidth: 100 },
+
+
+    ]
+
+    let dataDet: any[] = [{ pno: null, ic: null, in: null, planqty: null, reqqty: null, uom: null, stock: null, short: null }]
+
+    var ColDefDet: any[] = [
+        { field: 'sn', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+        { field: 'pno', headerName: 'Plan No', minWidth: 100 },
+        { field: 'ic', headerName: 'Item Code', minWidth: 100 },
+        { field: 'in', headerName: 'Item Name', minWidth: 100 },
+        { field: 'planqty', headerName: 'Plan Qty', minWidth: 100 },
+        { field: 'reqqty', headerName: 'Req Qty', minWidth: 100 },
+        { field: 'uom', headerName: 'UOM', minWidth: 100 },
+        { field: 'stock', headerName: 'Stock Qty', minWidth: 100 },
+        { field: 'short', headerName: 'Short Qty', minWidth: 100 },
+    ]
+
+
+
     return (
         <>
             <div className="main card firstDiv">
@@ -59,29 +79,29 @@ const DayWisePlanning = () => {
                         <fieldset className="form-group border p-0" >
                             <legend className="px-2" data-toggle="collapse" data-target="#branch" aria-expanded="true" aria-controls="branch" style={{ fontSize: '1.1rem', cursor: 'pointer' }}>DayWise Production Planning<svg className="ml-1" style={{ width: '15px' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.34 28.65 64 64 64h320c35.35 0 64-28.66 64-64V96C448 60.65 419.3 32 384 32zM345.6 232.3l-104 112C237 349.2 230.7 352 224 352s-13.03-2.781-17.59-7.656l-104-112c-6.5-7-8.219-17.19-4.407-25.94C101.8 197.7 110.5 192 120 192h208c9.531 0 18.19 5.656 21.1 14.41C353.8 215.2 352.1 225.3 345.6 232.3z" /></svg></legend>
 
-                    <div className="collapse show" id="branch">
+                            <div className="collapse show" id="branch">
 
-                        <span className="d-flex section2 col-sm-12">
-                            <MasterInput2
-                                name="series"
-                                handleChange={[]}
-                                defaultt={[]}
-                                classCategory="form-control col-4 inp subMaster"
-                                ipType="text"
-                                label="Range"
-                                ipTitle='Enter Range'
-                             />
-                        <span className='col-1 m-0'></span>
-                             <MasterInput2
-                                name="date"
-                                handleChange={[]}
-                                defaultt={[]}
-                                classCategory="form-control col-4 inp subMaster"
-                                ipType="date"
-                                label="Date"
-                                ipTitle='Enter Date'
+                                <span className="d-flex section2 col-sm-12">
+                                    <MasterInput2
+                                        name="series"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="text"
+                                        label="Plan Series"
+                                        ipTitle='Enter Range'
+                                    />
+                                    <span className='col-1 m-0'></span>
+                                    <MasterInput2
+                                        name="date"
+                                        handleChange={[]}
+                                        defaultt={[]}
+                                        classCategory="form-control col-4 inp subMaster"
+                                        ipType="date"
+                                        label="Date"
+                                        ipTitle='Enter Date'
 
-                             />
+                                    />
 
                                 </span>
 
@@ -96,7 +116,7 @@ const DayWisePlanning = () => {
                                         ipTitle='Enter Vch No.'
 
                                     />
-                                <span className='col-1 m-0'></span>
+                                    <span className='col-1 m-0'></span>
                                     <MasterInput2
                                         name="date"
                                         handleChange={[]}
@@ -109,7 +129,7 @@ const DayWisePlanning = () => {
                                     />
 
                                 </span>
-                                   
+
                             </div>
                         </fieldset>
                     </form>
@@ -194,138 +214,36 @@ const DayWisePlanning = () => {
                                     />
 
                                 </span>
-       
+
                             </div>
                         </fieldset>
                     </form>
-                        <button type="button" className="btn btn-primary col-1 m-3">Get Details</button>
+                    <button type="button" className="btn btn-primary col-1 m-3">Get Details</button>
 
-                
+
                 </div>
                 <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
 
 
                 <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                    <div className="card">
-
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                            <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Item Details</span>
-                        </div>
-
-                        <div className="table-responsive" style={{ padding: '0' }}>
-
-                            <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                                <thead className="thead-light table-secondary text-center">
-                                    <tr>
-                                        <th scope="col">S.No.</th>
-                                        <th scope="col" style={{ padding: '0 12em' }}><span>Tick </span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Plan No.</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Item COde</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Item Name</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Process</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Plan Qty.</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Toll Per.</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Day Plan Qty</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Toll Qty</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Day Prod. Qty</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Shift</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Process Date</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >UoM</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Del.Date Time</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Machine</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Mold</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Plan (Hrs.)</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >ManPower</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Electricity</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >OverHeads</span></th>
-                                        <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Rem Life(%)</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <WriteGrid title="Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} />
 
                 </div>
 
                 <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
-
-                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                    <div className="card col-sm-5" style={{ padding: '0', margin: '0', minHeight: '20vh' }}>
-
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                            <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Details</span>
-                        </div>
-                        <div className="card-body table-responsive" style={{ margin: '0', padding: '0' }}>
-                            <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                                <thead className="thead-light table-secondary text-center">
-                                    <tr>
-                                        <th>S. No</th>
-                                        <th>Plan No.</th>
-                                        <th>Item COde</th>
-                                        <th>Item Name</th>
-
-                                        <th>Req Qty</th>
-                                        <th>UOM</th>
-                                        <th>Stock Qty</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                <div className="show d-flex col-sm-12 justify-content-evenly">
+                    <div className="row card row-content col-sm-5 addSaleForm container container-fluid container-lg">
+                        <WriteGrid title="Details" h='200px' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefd} data={datad} />
                     </div>
-                    <div className="card col-sm-6" style={{ padding: '0', margin: '0', minHeight: '20vh' }}>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                            <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}> Details</span>
-                        </div>
-
-                        <div className="table-responsive card-body" style={{ margin: '0', padding: '0' }}>
-                            <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                                <thead className="thead-light table-secondary text-center">
-                                    <tr>
-                                        <th>S. No</th>
-                                        <th>Plan No.</th>
-                                        <th>Item COde</th>
-                                        <th>Item Name</th>
-                                        <th>Plan Qty</th>
-                                        <th>Item Code</th>
-                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                        </div>
-                     
+                    <span className="col-1 m-0"></span>
+                    <div className="row card row-content col-sm-6 addSaleForm container container-fluid container-lg">
+                        <WriteGrid title="Details" h='200px' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefDet} data={dataDet} />
                     </div>
                 </div>
+
 
             </div>
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
                 <button type="button" style={{ border: '2px solid gold', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0 ml-2">Export</button>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-primary pl-0 pr-0 ml-2">Check Stock</button>

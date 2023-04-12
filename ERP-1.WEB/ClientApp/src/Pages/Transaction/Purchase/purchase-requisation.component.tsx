@@ -54,12 +54,6 @@ const PurcahseRequisation = () => {
                                 </span>
 
 
-                                    <span className="d-flex section2 col-sm-12 mb-2 mt-2">
-                                        <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
-                                        <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
-                                    </span>
-
-
                             </div>
                         </fieldset>
                     </form>
@@ -146,6 +140,13 @@ const PurcahseRequisation = () => {
 
                 </div>
                 <hr style={{ margin: '0', padding: '0' }} />
+
+                <span className="d-flex section2 col-sm-12 mb-2 mt-2">
+                    <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
+                    <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
+                </span>
+
+
             </div>
             <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>

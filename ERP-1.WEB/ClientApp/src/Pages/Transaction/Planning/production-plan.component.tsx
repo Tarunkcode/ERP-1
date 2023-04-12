@@ -13,7 +13,7 @@ const From_Prodiction_Indent = () => {
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     
-    let data: any[] = [{ ic: null, in: null, fc: null, uom: null, rqty: null, stock: null, mc: null }]
+    let data: any[] = [{ inno: null, idate: null, dd: null, ic: null, in: null, iqty: null, pq: null, bqty: null, pqty: null, plan:null, noplan: null, uom:null }]
 
     var ColDef: any[] = [{ field: 'inno', headerName: 'Indent No.', minWidth: 200, },
     { field: 'idate', headerName: 'Indent date', minWidth: 200 },
@@ -32,7 +32,9 @@ const From_Prodiction_Indent = () => {
     ]
 
     //-----------------------------Plan Routing Details------------------------------------------------------------
-    let dataPlan: any[] = [{ ic: null, in: null, fc: null, uom: null, rqty: null, stock: null, mc: null }]
+    let dataPlan: any[] = [{
+        ino: null, fd: null, td: null, fgc: null, psrn: null, process: null, ic: null, in: null, pq: null, toll: null, tq: null, adjqty: null,
+        pqty: null, uom: null, mp: null, elec: null, plan: null, oha : null }]
 
     var ColDefPlan: any[] = [{ field: 'srno', headerName: 'Sr. No.', minWidth: 200, valueGetter: 'node.rowIndex + 1' },
     { field: 'ino', headerName: 'Indent No', minWidth: 200 },
@@ -59,7 +61,7 @@ const From_Prodiction_Indent = () => {
 
     //------------------------Consume Item Details------------------------------------------------------
 
-    let dataCon: any[] = [{ ic: null, in: null, fc: null, uom: null, rqty: null, stock: null, mc: null }]
+    let dataCon: any[] = [{ ino: null, fgc: null, psrno: null, process: null, itemsr: null, ic: null, in: null, rqty: null, uom: null, fp: null }]
 
     var ColDefCon: any[] = [{ field: 'psno', headerName: 'PlanSrNo', minWidth: 200, },
     { field: 'ino', headerName: 'IndentNo', minWidth: 200 },

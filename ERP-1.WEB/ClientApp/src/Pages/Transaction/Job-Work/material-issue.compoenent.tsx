@@ -1,9 +1,40 @@
 ﻿import * as React from 'react';
 import { MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import WriteGrid from '../../../components/Grid Component/grid.component';
 
 
 const MaterialIssue = () => {
-   
+
+
+    let data: any[] = [{ ic: null, in: null, mc: null, mctype: null, fprocess: null, sqty: null, qty: null, uom: null, price: null, value: null, weight: null }]
+
+    var ColDef: any[] = [
+        { field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+        { field: 'ic', headerName: 'Item Code', minWidth: 200 },
+        { field: 'in', headerName: 'Item Name', minWidth: 200 },
+        { field: 'mc', headerName: 'Material Center', minWidth: 200, editable: true },
+        { field: 'mctype', headerName: 'MC Type', minWidth: 200, editable: true },
+        { field: 'fprocess', headerName: 'Form Process', minWidth: 200, editable: true },
+        { field: 'sqty', headerName: 'Stock Qty', minWidth: 200, editable: true },
+        { field: 'qty', headerName: 'Qty', minWidth: 200, editable: true },
+        { field: 'uom', headerName: 'UOM', minWidth: 200 },
+        { field: 'price', headerName: 'Price', minWidth: 200 },
+        { field: 'value', headerName: 'Value', minWidth: 200, editable: true },
+        { field: 'weight', headerName: 'Weight(KG)', minWidth: 200, editable: true },
+
+    ]
+
+
+    let dataBill: any[] = [{ bill: null, narration: null, rate: null, amount: null }]
+
+    var ColDefBill: any[] = [
+        { field: 'srno', headerName: 'S.No.', minWidth: 100, valueGetter: 'node.rowIndex + 1' },
+        { field: 'bill', headerName: 'Bill Sundary', minWidth: 100 },
+        { field: 'narration', headerName: 'Narration', minWidth: 100 },
+        { field: 'rate', headerName: '@', minWidth: 100 },
+        { field: 'amount', headerName: 'Amount', minWidth: 100 }
+
+    ]
     const getState = window.localStorage.getItem('state');
    
     return (
@@ -108,84 +139,27 @@ const MaterialIssue = () => {
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
 
 
-            <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card">
-
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Challan Item Details</span>
-                    </div>
-
-                    <div className="table-responsive" style={{ padding: '0' }}>
-
-                        <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                            <thead className="thead-light table-secondary text-center">
-                                <tr>
-                                    <th scope="col">S.No.</th>
-                                    <th scope="col" style={{ padding: '0 12em' }}><span>ItemCode </span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >ItemName</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Material Center</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Mc Type</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >From Process</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Stock Qty</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Qty</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >UoM</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Price</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Value</span></th>
-                                    <th scope="col" style={{ padding: '0 2em' }} ><span style={{ margin: '0 10px' }}  >Weight(KG)</span></th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
-                               
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+                <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
+                    <WriteGrid title="Challan Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} />
             </div>
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
 
             <div className="row row-content col-sm-12 addSaleForm container container-fluid container-lg">
-                <div className="card col-sm-7" style={{ padding: '0', margin: '0', minHeight: '20vh' }}>
-
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottom: '1px solid grey', backgroundColor: '#8389d4', margin: '0', padding: '0' }}>
-                        <span className="card-title" style={{ fontSize: '15px', color: 'white', fontWeight: 900, margin: '0', padding: '0' }}>Bill Sundry Details</span>
-                    </div>
-                    <div className="card-body table-responsive" style={{ margin: '0', padding: '0' }}>
-                        <table className="table table-striped table-bordered table-hover table-sm" style={{ margin: '0' }}>
-                            <thead className="thead-light table-secondary text-center">
-                                <tr>
-                                    <th>S. No</th>
-                                    <th>Bill Sundary</th>
-                                    <th>Narration</th>
-                                    <th>@</th>
-
-                                    <th>Amount (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    <WriteGrid title="Bill Sundry Details" h='200px' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDefBill} data={dataBill} />
                
                 </div>
+
+                <span className="d-flex section2 col-sm-12 mb-2 mt-2">
+                    <label htmlFor="s1" style={{ fontSize: '1em' }} className="form-label mr-2 ml-2 labl labl2">Remark</label>
+                    <textarea name="s1" style={{ borderColor: '#86a4c3' }} placeholder="Enter Remark" rows={2} cols={7} className="form-control col-10 subMaster" />
+                </span>
+
                 </div>
             <hr style={{ border: '2px solid grey', opacity: '0.5' }} />
-            <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0 ml-2">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
-           
-
+            <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
+                <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </>
     )

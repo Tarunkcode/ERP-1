@@ -149,10 +149,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
         }
 
 
-        collectListData = (data: any) => {
-            this.setState({ lApi: data })
-        }
-
+ 
 
         componentDidMount() {
 
@@ -167,7 +164,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
         }
         render() {
             return (
-                <Component api={api} billSundryList={this.state.billSundry} customer={parseInt(customer)} compCode={parseInt(compCode)} username={username} gstCategory={this.state.gstCat} loadSPTypeMaster={this.state.defSPType} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} collectListData={this.collectListData.bind(this)} {...this.props} />
+                <Component api={api} billSundryList={this.state.billSundry} customer={parseInt(customer)} compCode={parseInt(compCode)} username={username} gstCategory={this.state.gstCat} loadSPTypeMaster={this.state.defSPType} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
             )
         }
     }
