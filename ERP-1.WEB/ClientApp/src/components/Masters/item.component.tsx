@@ -2,7 +2,7 @@
 import '../../Pages/Master/masterStyle.css';
 
 
-import { fetchMasters } from '../HOC/fetchApi.hoc';
+
 
 import formDataCollection, { store1 } from "../../Redux/form-collection/formCollection.reducer";
 
@@ -11,9 +11,10 @@ import useFetch from '../Hooks/useFetch';
 import ItemMasterWithLoad from '../HOC/loadItemMaster.hoc';
 import { toast } from 'react-toastify';
 import { LoaderContext } from '../../AppContext/loaderContext';
+import { clear_form } from '../../Pages/Helper Functions/table';
 
 interface IState {
-    rawData: object;
+    rawData: any;
     opn: string,
     lApi : any
 }
@@ -22,7 +23,7 @@ interface IProps {
     //fetchApi: any,
     //currentData: any,
     //setFormDataCollection: any,
-   
+   history: any,
     series: any[],
     group: any[],
     type: any[],
@@ -92,6 +93,42 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
     }
   
     handleSave$Submit = async (e: any) => {
+        //------------------------------------------------check mandatory fields---------------------------------
+
+        // Series, Code, Name, Group, UOM, Material Center, Nature
+        if (!this.state.rawData.series) {
+            toast.info('Please Fill Series !')
+            return;
+        } else if (!this.state.rawData.codestr || this.state.rawData.codestr === '') {
+            toast.info('Please Fill Code !')
+            return;
+        }
+         else if (!this.state.rawData.name || this.state.rawData.name === '') {
+            toast.info('Please Fill Name !')
+            return;
+        }
+        else if (!this.state.rawData.itemgrp) {
+            toast.info('Please Fill Group !')
+            return;
+        }
+        
+        else if (!this.state.rawData.itemuom) {
+            toast.info('Please Fill UOM !')
+            return;
+        }
+        
+        else if (!this.state.rawData.itemmatcenter) {
+            toast.info('Please Fill Material Center !')
+            return;
+        }
+        
+        else if (!this.state.rawData.c1) {
+            toast.info('Please Fill Nature !')
+            return;
+        }
+
+
+        //--------------------------------------------------------------------------------------------------------
         const { setLoader } = this.context;
         setLoader(true)
         e.preventDefault();
@@ -103,8 +140,11 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
             console.log('res', res)
             if (res.status === 200) {
                 var r: string = got.msg;
-                setLoader(false)
                 toast.success(r);
+                setLoader(false)
+                let ref = document.getElementById("form");
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
+
             }
             else {
                 setLoader(false);

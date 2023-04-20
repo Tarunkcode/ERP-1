@@ -1,11 +1,5 @@
-﻿      
-import * as React from 'react';
-
-
-import { fetchMasters } from '../HOC/fetchApi.hoc';
-
-
-
+﻿import * as React from 'react';
+import { fetchMasters } from '../HOC/AccountMaster.hoc';
 import { connect } from "react-redux";
 import { selectCurrentData } from "../../Redux/form-collection/formCollection.selectors";
 import { setFormDataCollection } from "../../Redux/form-collection/formCollection.actions";
@@ -13,164 +7,425 @@ import formDataCollection, { store1 } from "../../Redux/form-collection/formColl
 import { createStructuredSelector } from 'reselect';
 import { CusSupMaster } from '../../Pages/Master/Customer-Supplier-Master/customer-supplier-master.page';
 import { toast } from 'react-toastify';
-
-
+import { LoaderContext } from '../../AppContext/loaderContext';
+import { Validator_Engine } from '../Validation-Scripts/validations.scripts';
+import { clear_form } from '../../Pages/Helper Functions/table';
 
 interface IState {
     opn: string,
-    series: any[],
-    delT: any[],
-    payT: any[],
-    custGp: any[],
-    country: any[],
-    zone: any[],
-    state: any[],
-    city: any[],
-    bank: any[],
-    branch: any[],
-    currency: any[],
-    tryNotToReRender: any
+    opnName: string,
+
+    configType: any,
+    bankGridApi: any,
+    plantGridApi: any,
+    mastertype: any,
+    shippingGridApi: any,
+    rawData: any
 }
 interface IProps {
     api: any,
-    fetchApi: any,
-    currentData: any,
-    setFormDataCollection: any,
-
+    series: any[],
+    masters: any,
+    gettingVirtualCode: number,
+    defaultData: any,
+    history: any
 }
 
-
-
 class CustomerMaster extends React.PureComponent<IProps, IState> {
-    /*static ApiContext = MasterApiContext;*/
+    static contextType = LoaderContext;
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            opn: 'Corporate',
-            series: [],
-            delT: [],
-            payT: [],
-            custGp: [],
-            country: [],
-            zone: [],
-            state: [],
-            city: [],
-            bank: [],
-            branch: [],
-            currency: [],
-            tryNotToReRender: true
+            opn: '1',
+            opnName: 'Corporate',
+            configType: '',
+            bankGridApi: null,
+            plantGridApi: null,
+            shippingGridApi: null,
+            mastertype: null,
 
+            rawData: {}
         };
+    }
+    componentDidMount() {
+        let id: string = window.location.pathname;
+        console.log('id', id)
+        //let s: string = id.charAt(id.length - 1)
+        //console.log('s', s)
+        this.setState({
+            configType: id == "/add-supplier-master" ? 2 : 1
+        })
+        if (id == "/add-customer-master") {
+            this.setState({ mastertype: 3 })
+        } else {
+
+            this.setState({ mastertype: 22 })
+        }
+
+
 
     }
 
+    componentDidUpdate(prevProps: any) {
+        if (this.props.defaultData !== prevProps.defaultData) {
+            if (this.props.gettingVirtualCode !== 0) {
+                if (this.props.defaultData) {
+                    let opnVal = this.props.defaultData.addressdetail[0].addresstype;
+                    let opnNaam = opnVal == '1' ? 'Corporate' : opnVal == '2' ? "Plant" : opnVal == '3' ? "Shipping" : ''
+                    this.setState({ opn: opnVal, opnName: opnNaam })
 
-    HandleShippingTable = (code: string, name: string, row: any) => {
+                    
+                    store1.dispatch({ payload: this.props.defaultData.accountmaster[0].series, key: "series", type: "AddOnFormData", label: "AccountMaster" });
+                    store1.dispatch({ payload: this.props.defaultData.accountmaster[0].codestr, key: "codestr", type: "AddOnFormData", label: "AccountMaster" });
+                    store1.dispatch({ payload: this.props.defaultData.accountmaster[0].name, key: "name", type: "AddOnFormData", label: "AccountMaster" });
+                    store1.dispatch({ payload: this.props.defaultData.accountmaster[0].group, key: "group", type: "AddOnFormData", label: "AccountMaster" });
+                    store1.dispatch({ payload: this.props.defaultData.accountmaster[0].delterm, key: "delterm", type: "AddOnFormData", label: "AccountMaster" });
+                    store1.dispatch({ payload: this.props.defaultData.accountmaster[0].payterm, key: "payterm", type: "AddOnFormData", label: "AccountMaster" });
+                    if (this.props.defaultData.addressdetail[0].addresstype === 1) {
+                        store1.dispatch({ payload: this.props.defaultData.addressdetail[0].city, key: "city", type: "AddOnFormData", label: "AddressDetail" });
+                        store1.dispatch({ payload: this.props.defaultData.addressdetail[0].state, key: "state", type: "AddOnFormData", label: "AddressDetail" });
+                        store1.dispatch({ payload: this.props.defaultData.addressdetail[0].country, key: "country", type: "AddOnFormData", label: "AddressDetail" });
+                        store1.dispatch({ payload: this.props.defaultData.addressdetail[0].address1, key: "address1", type: "AddOnFormData", label: "AddressDetail" });
 
-        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
-        console.log('created', mainObj)
+                    }
 
+
+                }
+            }
+
+        }
     }
-    HandlePlantTable = (code: string, name: string, row: any) => {
 
-        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
-        console.log('created', mainObj)
-
-    }
-    HandleBankDetails = (code: string, name: string, row: any) => {
-
-        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
-        console.log('created', mainObj)
-
-    }
-
-    SetCustomerAccountType = (() => {
-        store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AccountMaster" });
-        store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AddressDetail" });
-        store1.dispatch({ payload: 3, key: "MasterType", type: "AddOnFormData", label: "BankDetail" });
-        store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AccProductCurrency" });
-        store1.dispatch({ payload: 3, key: "MasterType", type: "AddOnFormData", label: "CommercialDetail" });
-        store1.dispatch({ payload: 3, key: "AccountType", type: "AddOnFormData", label: "AccountBillByBillDetail" });
-        store1.dispatch({ payload: 3, key: "MasterType", type: "AddOnFormData", label: "AccMasterSeries" });
-    })()
-
-
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
+    username = window.sessionStorage.getItem('username') || ""
     handleAddressOptions = (event: any) => {
         event.preventDefault();
 
         this.setState({
-            opn: event.target.value
+            opn: event.target.value,
+            opnName: event.target.value == '1' ? "Corporate" : event.target.value == '2' ? "Plant" : event.target.value == '3' ? "Shipping" : ''
         })
 
     }
+    handleAddressTypeChange = (value: number) => {
 
-    formatJSONData = (name: string, label: string, event: any) => {
+        store1.dispatch({ type: "AddOnFormData", payload: value, key: 'addresstype', label: "AddressDetail" })
+    }
+
+
+    //----------------------------------------------------------- handle Tables Data-----------------------------------------------
+
+    getBankTableData = (gridApi: any) => {
+        this.setState({ bankGridApi: gridApi })
+    }
+    getShippingTableData = (gridApi: any) => {
+        this.setState({ shippingGridApi: gridApi })
+    }
+    getPlantTableData = (gridApi: any) => {
+        this.setState({ plantGridApi: gridApi })
+    }
+    getBankAllRows = () => {
+
+        let items: any[] = [];
+        if (this.state.bankGridApi) {
+            this.state.bankGridApi.forEachNode(function (node: any) {
+                if (node.data.name !== null)
+                    items.push(node.data);
+            });
+        }
+        return items;
+    }
+    getPlantAllRows = () => {
+        let items: any[] = [];
+        if (this.state.plantGridApi !== null) {
+            this.state.plantGridApi.forEachNode(function (node: any) {
+                if (node.data.address1 !== null)
+                    items.push(node.data);
+            });
+        }
+        return items;
+    }
+    getShippingAllRows = () => {
+        let items: any[] = [];
+        if (this.state.shippingGridApi !== null) {
+            this.state.shippingGridApi.forEachNode(function (node: any) {
+                if (node.data.address1 !== null)
+                    items.push(node.data);
+            });
+
+        }
+        return items;
+    }
+
+    //--------------------------------------------------- collect table data -----------------------------------------------------
+    collectBankTableData = async () => {
+
+        let dataSet: any[] = await this.getBankAllRows();
+        //alter dataSet
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = [{
+               "srno": 1, "name": null, "address": null, "acno": null, "acctype": null, "swiftcode": null,
+                "ifsccode": null, "currency": null, "country": null
+            }]
+        }
+            dataSet.map((item: any, ind: number) => {
+                item.srno = ind + 1;
+                item.name = item.name.value;
+                item.address = item.address.value;
+                item.acno = item.acno;
+                item.acctype = item.acctype.value;
+                item.swiftcode = item.swiftcode;
+                item.ifsccode = item.ifsccode;
+                item.currency = item.currency.value;
+                item.country = item.country.value;
+                item.code = this.props.gettingVirtualCode;
+                item.mastertype = this.state.mastertype;
+            })
+            // dispatch dataSet
+            store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "BankDetail" })
+        
+    }
+    collectPlantTableData = async () => {
+
+        let dataSet: any[] = await this.getPlantAllRows();
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = [{
+                "srno": 1,"pan": null, "address1": null, "address2": null, "address3": null, "address4": null, "country": null,
+                "zone": null, "state": null, "city": null, "postcode": null, "tel": null, "gstno": null, "distance": null
+            }]
+        }
+            dataSet.map(() => ({
+                ...dataSet,
+                code: this.props.gettingVirtualCode,
+                mastertype: this.state.mastertype
+            }))
+        store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "PlantAddressDetail" })
+
+
+    
+
+    }
+    collectShippingTableData = async () => {
+
+        let dataSet: any[] = await this.getShippingAllRows();
+        if (dataSet.length === 0 || dataSet === null) {
+            dataSet = [{
+                "srno": 1,"pan": null, "address1": null, "address2": null, "address3": null, "address4": null, "country": null, "zone": null, "state": null, "city": null, "postcode": null, "tel": null, "gstno": null, "distance": null
+            }]
+        }
+            dataSet.map(() => ({
+                ...dataSet,
+                code: this.props.gettingVirtualCode,
+                mastertype: this.state.mastertype
+            }))
+            store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "ShippingAddressDetail" })
+        
+
+    }
+
+    //--------------------------------------------------------------------------------- end Table Handler-----------------------------------------------------------
+
+
+    //--------------------------------------------------------------------list handler ------------------------------------------------------------------------------
+    collectAccountMasterListData = (value: any, name: string) => {
+        console.log(name, ':', value);
+
+        store1.dispatch({ payload: value, key: name, type: "AddOnFormData", label: "AccountMaster" });
+
+    }
+    collectAddressDetailListData = (value: any, name: string) => {
+        console.log(name, ':', value);
+
+
+        store1.dispatch({ payload: value, key: name, type: "AddOnFormData", label: "AddressDetail" });
+
+        console.log('Address details 1', store1.getState().AddressDetail)
+
+    }
+    //-------------------------------------------------------------------------------------------------------------------------
+    formatJSONData = (name: string, event: any) => {
         let modifyValue: any;
         if (event.currentTarget.classList.contains('str')) modifyValue = event.target.value;
         else if (event.currentTarget.classList.contains('float')) modifyValue = parseFloat(event.target.value)
+        else if (event.currentTarget.classList.contains('switch')) {
+            let value = event.target.value == 'on' ? "1" : "0";
+            modifyValue = parseInt(value);
+        }
         else if (name === 'paydate') modifyValue = new Date(event.target.value).toISOString();
         else modifyValue = parseInt(event.target.value)
         return modifyValue;
     }
 
-    handleAddressTypeChange = (value: number) => {
+    handleAddressDetailsChange = (e: any) => {
+        e.preventDefault();
+        var label: string = '';
+        var value: any;
+        if (e.currentTarget.classList.contains('AddressDetail')) label = "AddressDetail";
+        else alert("category Label are not set for one or multiple inputs 1")
+        var name: string = e.target.name
+        value = this.formatJSONData(name, e);
 
-        store1.dispatch({ type: "AddOnFormData", payload: value, key: "AddressType", label: "AddressDetail" })
+        store1.dispatch({ payload: value, key: name, type: "AddOnFormData", label: label });
+        store1.dispatch({ payload: this.state.mastertype, key: 'accounttype', type: "AddOnFormData", label: label });
+        store1.dispatch({ payload: this.props.gettingVirtualCode, key: 'code', type: "AddOnFormData", label: label });
+
     }
     handleChangeField = (e: any) => {
         e.preventDefault();
         var label: string = '';
         var value: any;
         if (e.currentTarget.classList.contains('AccountMaster')) label = "AccountMaster";
-        else if (e.currentTarget.classList.contains('AddressDetail')) label = "AddressDetail";
-        else if (e.currentTarget.classList.contains('BankDetail')) label = "BankDetail";
-        else if (e.currentTarget.classList.contains('AccProductCurrency')) label = "AccProductCurrency";
-        else if (e.currentTarget.classList.contains('CommercialDetail')) label = "CommercialDetail";
-        else if (e.currentTarget.classList.contains('AccountBillByBillDetail')) label = "AccountBillByBillDetail";
-        else if (e.currentTarget.classList.contains('AccMasterSeries')) label = "AccMasterSeries";
+
+        //else if (e.currentTarget.classList.contains('BankDetail')) label = "BankDetail";
+        //else if (e.currentTarget.classList.contains('AccProductCurrency')) label = "AccProductCurrency";
+        //else if (e.currentTarget.classList.contains('CommercialDetail')) label = "CommercialDetail";
+        //else if (e.currentTarget.classList.contains('AccountBillByBillDetail')) label = "AccountBillByBillDetail";
+        //else if (e.currentTarget.classList.contains('AccMasterSeries')) label = "AccMasterSeries";
         else alert("category Label are not set for one or multiple inputs 1")
 
 
         var name: string = e.target.name
-        value = this.formatJSONData(name, label, e);
+        value = this.formatJSONData(name, e);
 
 
 
         store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
 
-
-        /*console.log(store1.getState())*/
-        window.localStorage.removeItem('key');
     }
     handleSave$Submit = async (e: any) => {
-        let i: any = store1.getState();
+        /*  console.log('Address details 2', store1.getState().AddressDetail)*/
+        //------------------------------------------------------------validate mandatory fields----------------------------------
+
+        if (!store1.getState().AccountMaster[0].series) {
+            toast.info('Please Fill Series !')
+            return;
+        }
+        else if (!store1.getState().AccountMaster[0].codestr || store1.getState().AccountMaster[0].codestr === '') {
+            toast.info('Please Fill Code !')
+            return;
+        }
+        else if (!store1.getState().AccountMaster[0].name || store1.getState().AccountMaster[0].name === '') {
+            toast.info('Please Fill Name !')
+            return;
+        }
+        else if (!store1.getState().AccountMaster[0].group) {
+            toast.info('Please Fill Group !')
+            return;
+        }
+        else if (!store1.getState().AccountMaster[0].delterm) {
+            toast.info('Please Fill Delivery Term !')
+            return;
+        } else if (!store1.getState().AccountMaster[0].payterm) {
+            toast.info('Please Fill Pay Term !')
+            return;
+        } else { }
+        if (this.state.opn == '1') {
+
+            if (!store1.getState().AddressDetail[0].city) {
+                console.log('city', store1.getState().AddressDetail[0].city)
+                toast.info('Please Fill City !')
+                return;
+            }
+            else if (!store1.getState().AddressDetail[0].state) {
+                toast.info('Please Fill State !')
+                return;
+            } else if (!store1.getState().AddressDetail[0].country) {
+                toast.info('Please Fill Country !')
+                return;
+            }
+            else if (!store1.getState().AddressDetail[0].address1 || store1.getState().AddressDetail[0].address1 === '') {
+                toast.info('Please Fill Address !')
+                return;
+            } else { }
+        }
+        //-------------------------------------------------------------------------------------------------------------------------
+        const loader = this.context;
+        await this.collectBankTableData();
+        await this.collectPlantTableData();
+        await this.collectShippingTableData();
+        loader.setLoader(true);
+        let i: any = {
+            accountmaster: this.props.gettingVirtualCode === 0 ? [{
+                code: this.props.gettingVirtualCode,
+                company: parseInt(this.compCode),
+                customer: parseInt(this.customer),
+                accounttype: this.state.mastertype,
+                ...store1.getState().AccountMaster[0]
+            }] : [{
+                code: this.props.gettingVirtualCode,
+                company: parseInt(this.compCode),
+                customer: parseInt(this.customer),
+                accounttype: this.state.mastertype,
+                ...this.props.defaultData.accountmaster[0],
+                ...store1.getState().AccountMaster[0]
+            }],
+            addressdetail: this.props.gettingVirtualCode === 0 ? this.state.opn == '1' ? [{ ...store1.getState().AddressDetail[0] }] : store1.getState().AddressDetail[0] :  this.state.opn == '1' ? [{ ...this.props.defaultData.addressdetail[0], ...store1.getState().AddressDetail[0] }] : store1.getState().AddressDetail[0],
+            bankdetail: store1.getState().BankDetail[0],
+            accproductcurrency: [{}],
+            commercialdetail: [{}],
+            accountbillbybilldetail: [{}],
+            accmasterseries: [{}],
+
+        }
         e.preventDefault();
 
         const urlSaveMaster = '/api/SaveToAccountMaster';
 
 
         try {
-            let {res, got } = await this.props.api(urlSaveMaster, "POST",i);
+            console.log('resultant json', JSON.stringify(i));
+            let { res, got } = await this.props.api(urlSaveMaster, "POST", i);
             if (res.status == 200) {
-               toast.success(got.msg);
-            }
-           else toast.error(got.msg)
+                toast.success(got.msg);
+                let ref = document.getElementById("form");
+                loader.setLoader(false)
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
 
-            /*this.props.postApi(i)*/
+            }
+            else {
+                loader.setLoader(false)
+                toast.error(got.msg)
+            }
+          
         } catch (err) {
+            loader.setLoader(false)
             alert(err)
         }
 
     }
-    accountType = "3";
+
     render() {
 
-        const { bank, branch, currency } = this.state;
+        /* const { bank, branch, currency } = this.state;*/
         return (
             <>
-                <CusSupMaster handleChangeField={this.handleChangeField} bank={bank} branch={branch} currency={currency} masters={{ 'series': this.state.series, 'delT': this.state.delT, 'payT': this.state.payT, 'custGp': this.state.custGp, 'country': this.state.country, 'zone': this.state.zone, 'state': this.state.state, 'city': this.state.city, 'bank': this.state.bank, 'branch': this.state.branch, 'currency': this.state.currency }} handleAddressOptions={this.handleAddressOptions} opn={this.state.opn} title="Add Customer Master" handleSave$Submit={this.handleSave$Submit} handleAddressTypeChange={this.handleAddressTypeChange} accountType={this.accountType} HandleShippingTable={this.HandleShippingTable.bind(this)} HandleBankDetails={this.HandleBankDetails.bind(this)} />
+                <CusSupMaster
+                    handleChangeField={this.handleChangeField}
+                    series={this.props.series}
+                    masters={this.props.masters}
+                    collectAccSelectedItem={this.collectAccountMasterListData.bind(this)}
+                    collectAddSelectedItem={this.collectAddressDetailListData.bind(this)}
+                    getBankTableData={this.getBankTableData.bind(this)}
+                    getPlantTableData={this.getPlantTableData.bind(this)}
+                    getShippingTableData={this.getShippingTableData.bind(this)}
+                    handleAddressOptions={this.handleAddressOptions}
+                    opn={this.state.opn}
+                    handleAddressDetailsChange={this.handleAddressDetailsChange.bind(this)}
+                    vccode={this.props.gettingVirtualCode}
+                    defaultData={this.props.defaultData}
+
+                    opnName={this.state.opnName}
+                    title={this.state.configType === 1 ? "Add Customer Master" : "Add Supplier Master"}
+                    handleSave$Submit={this.handleSave$Submit}
+                    handleAddressTypeChange={this.handleAddressTypeChange}
+                    accountType={this.state.configType}
+
+                />
             </>
         )
     }

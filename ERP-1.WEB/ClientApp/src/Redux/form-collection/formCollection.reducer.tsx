@@ -22,8 +22,8 @@ interface IState {
 
 const INITIAL_STATE: IState = {
     AccountMaster: [{}],
-    AddressDetail: [{}],
-    BankDetail: [{}],
+    AddressDetail: [{ addresstype : 1}],
+    BankDetail: [],
     AccProductCurrency: [{}],
     CommercialDetail: [{}],
     AccountBillByBillDetail: [{}],
@@ -36,10 +36,11 @@ const formDataCollectionReducer = (STATE = INITIAL_STATE, action: IAction) => {
     switch (action.type) {
         case "AddOnFormData":
             if (action.label == "AccountMaster") STATE.AccountMaster[0][action.key] = action.payload;//checked
+            else if (action.label == "AddressDetail") STATE.AddressDetail[0][action.key] = action.payload; //checked
+            else if (action.label == "ShippingAddressDetail") STATE.AddressDetail.push(...STATE.AddressDetail, action.payload) ;//checked
+            else if (action.label == "PlantAddressDetail") STATE.AddressDetail.push(...STATE.AddressDetail , action.payload) ;//checked
 
-            else if (action.label == "AddressDetail") STATE.AddressDetail[0][action.key] = action.payload;//checked
-
-            else if (action.label == "BankDetail") STATE.BankDetail[0][action.key] = action.payload;// checked
+            else if (action.label == "BankDetail") STATE.BankDetail.push(...STATE.BankDetail, action.payload);// checked
 
             else if (action.label == "AccProductCurrency") STATE.AccProductCurrency[0][action.key] = action.payload;
 

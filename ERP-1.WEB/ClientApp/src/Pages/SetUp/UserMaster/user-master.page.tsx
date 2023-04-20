@@ -121,9 +121,9 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.uname : ''} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
+                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.uname : ''} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-12  seriesConf" length={60 }/>
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.pwd :''} name="pwd" label="Password" ipTitle="Enter Password" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp seriesConf" />
+                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.pwd :''} name="pwd" label="Password" ipTitle="Enter Password" ipType="password" handleChange={handleChange} classCategory="form-control col-12 seriesConf" />
                     </span>
 
                     <span className="d-flex section2 col-sm-12">

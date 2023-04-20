@@ -12,7 +12,8 @@ import { GridOptions } from 'ag-grid-community';
 
 
 
-export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, ...rest }: any) {
+export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, firstRow, ...rest }: any) {
+   
     const [gridApi, setGridApi]: any = useState(null);
     const [columnApi, setColumnApi]: any = useState(null);
     //const [rowData, setRowData]: any = useState(data);
@@ -48,7 +49,7 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
     //    setRowData(collection);
 
     //}
-    
+
 
     function onGridReady(params: any) {
         //if (title === 'Consumed Item Details') {
@@ -77,10 +78,8 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
         let lastrow = gridApi.getDisplayedRowAtIndex(gridApi.getLastDisplayedRow());
         let lastIndex = lastrow.rowIndex;
         console.log('length++', lastrow.rowIndex);
-        let emptyRow = { [srProps]: lastIndex + 2 };
+        let emptyRow = { [srProps]: lastIndex + 2, ...firstRow[0] };
         gridApi.updateRowData({ add: [emptyRow] });
-
-
     }
 
     return (

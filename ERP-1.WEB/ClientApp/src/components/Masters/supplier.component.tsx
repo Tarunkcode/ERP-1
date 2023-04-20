@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 
 
-import { fetchMasters } from '../HOC/fetchApi.hoc';
+import { fetchMasters } from '../HOC/AccountMaster.hoc';
 
 
 

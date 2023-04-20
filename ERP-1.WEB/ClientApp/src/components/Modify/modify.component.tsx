@@ -35,7 +35,8 @@ class Modify_Child extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-
+    routeObj = this.props.location.state;
+ 
     FetchLoadingSubMasterList = async (mType: any) => {
         const loader = this.context;
         const urlLoadModify = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
@@ -233,7 +234,8 @@ class Modify_Child extends React.Component<IProps, IState> {
 
 
     componentDidMount() {
-
+        const loader = this.context;
+        loader.setLoader(true);
         var { master } = this.props.match.params;
         console.log('master', master)
         var { mAdd } = this.props.location.state;
@@ -247,10 +249,32 @@ class Modify_Child extends React.Component<IProps, IState> {
                 default: this.FetchLoadingSubMasterList(master); break;
             }
             this.props.loader(false)
+            loader.setLoader(false)
         }
 
     }
+    componentDidUpdate(prevProps: any) {
+        if (this.props.match.params !== prevProps.match.params) {
+            const loader = this.context;
+            loader.setLoader(true);
+            var { master } = this.props.match.params;
+            console.log('master', master)
+            var { mAdd } = this.props.location.state;
+            this.setState({ address: mAdd })
+            if (!this.props.location.state) { } else {
+                this.props.loader(true)
+                switch (mAdd) {
+                    case '/add-user-master': this.FetchNewUserList(); break;
+                    case '/add-item-master': this.FetchItemMasterList(); break;
+                    case '/add-customer-master' || '/add-supplier-master': this.FetchAccMasterList(master); break;
+                    default: this.FetchLoadingSubMasterList(master); break;
+                }
+                this.props.loader(false)
+                loader.setLoader(false)
+            }
 
+        }
+    }
     handleSelect = (code: string, name: string) => {
 
         console.log(name + ':' + code)

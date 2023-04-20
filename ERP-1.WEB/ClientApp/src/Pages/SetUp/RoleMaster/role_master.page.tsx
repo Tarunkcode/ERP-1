@@ -46,8 +46,16 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
     const findDes4 = (e: any) => { getDes4(e.target.value) }
 
     const CallSuperUserRoleRights = (e: any) => {
+      
         e.target.checked ? setSuStatus(true) : setSuStatus(false);
         getAllStatus(e.target.checked);
+        if (!e.target.checked) {
+            let eleMArr: any = document.getElementsByClassName('rolebox');
+            for (let i = 0; i < eleMArr.length; i++) {
+                eleMArr[i].checked = false;
+            }
+
+        }
     }
 
     return (
@@ -64,23 +72,23 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
                                 <form className="col-8 p-3 m-0">
                                     <span className="m-0 mb-2 p-0 col-12 d-flex">
                                         <label htmlFor="name" className="form-label p-0 m-0 mt-2 col-2">Name</label>
-                                        <input name="name" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].name : ''} type="text" title="" className="form form-control inp col-10 mt-2" required onChange={findName} autoComplete="off" />
+                                        <input name="name" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].name : ''} type="text" title="" className="form form-control inp col-10 mt-2" required onChange={findName} autoComplete="off" maxLength={ 60} />
                                     </span>
                                     <span className="m-0 mb-2 p-0 col-12 d-flex">
                                         <label htmlFor="des1" className="form-label col-2"></label>
-                                        <input name="des1" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des1 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 1" onBlur={findDes1} required />
+                                        <input name="des1" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des1 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 1" onBlur={findDes1} required maxLength={60}/>
                                     </span>
                                     <span className="m-0 mb-2 p-0 col-12 d-flex">
                                         <label htmlFor="des2" className="form-label col-2"></label>
-                                        <input name="des2" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des2 : ''} onBlur={findDes2} className="form form-control inp col-10 mt-2" placeholder="Enter Description 2" required />
+                                        <input name="des2" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des2 : ''} onBlur={findDes2} className="form form-control inp col-10 mt-2" placeholder="Enter Description 2" required maxLength={60}/>
                                     </span>
                                     <span className="m-0 p-0 mb-2 col-12 d-flex">
                                         <label htmlFor="des3" className="form-label col-2"></label>
-                                        <input name="des3" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des3 : ''} onBlur={findDes3} className="form form-control inp col-10 mt-2" placeholder="Enter Description 3" required />
+                                        <input name="des3" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des3 : ''} onBlur={findDes3} className="form form-control inp col-10 mt-2" placeholder="Enter Description 3" required maxLength={60}/>
                                     </span>
                                     <span className="m-0 mb-2 p-0 col-12 d-flex">
                                         <label htmlFor="des4" className="form-label col-2"></label>
-                                        <input name="des4" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des4 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4} required />
+                                        <input name="des4" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des4 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4} required maxLength={60}/>
                                     </span>
                                     <button className="btn btn-success col-4 m-3" onClick={handlePosting}>Save</button>
                                 </form>

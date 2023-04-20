@@ -8,6 +8,8 @@ export default function ProductType_Page({ handleChange, getMasterType, masterTy
         else if (configType === '16') getMasterType(1002)
         else if (configType === '43') getMasterType(1035)
         else if (configType === '40') getMasterType(1032)
+        else if (configType === '28') getMasterType(1018)
+        else if (configType === '58') getMasterType(143)
         else alert('something went wrong')
 
     }, [configType])

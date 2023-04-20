@@ -72,7 +72,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
 
     ]
 
-    let data: any[] = vccode == 0 ? [{ bscode: null, nature: null, bstype: null, bsval: null }] : defaultLoad.sptypedetail
+    let data: any[] = [{ bscode: null, nature: null, bstype: null, bsval: null }];
 
     return (
         <>
@@ -97,7 +97,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"
-
+                            length={60 }
                         />
                         <span className="col-1 m-0"></span>
 
@@ -212,7 +212,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
             <hr />
             {
                 vccode == '0' ? <WriteGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} collect={getTableData} srProps="bssrno" />
-                    : <LoadGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} collect={getTableData} srProps="bssrno" />
+                    : <LoadGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={defaultLoad.sptypedetail} collect={getTableData} srProps="bssrno" firstRow={data }/>
             }
             <hr />
 

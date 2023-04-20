@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { useContext } from 'react';
 import { ThemeContext } from '../../AppContext/ThemeContext';
-
+import { Validator_Engine } from '../Validation-Scripts/validations.scripts';
 
 export default function CustomInput({ name, label, ipType, ipTitle, dataArray, change, classCategory, ...props }: any) {
     var ref = React.useRef<HTMLInputElement>(null);
@@ -70,7 +70,7 @@ export function MasterInput({ name, defaultt, label, ipTitle, ipType, handleChan
         <>
             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl labl2 mt-2">{label}</label>
             {
-                props.read === true ? (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required readOnly />) : (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />)
+                props.read === true ? (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} style={{ marginBottom: '20px' }} required readOnly />) : (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required style={{ marginBottom: '20px' }} />)
             }
 
         </>
@@ -78,21 +78,40 @@ export function MasterInput({ name, defaultt, label, ipTitle, ipType, handleChan
 
     )
 }
-export function MasterInput2({ name, defaultt, label, ipTitle, ipType, handleChange, classCategory, ...props }: any) {
+export function MasterInput2({ name, defaultt, label, ipTitle, key4validate, ipType, handleChange, classCategory,length, ...props }: any) {
+    let [error, setError]: any = React.useState({});
+    const ValidateField = (e: any) => {
+        if (!key4validate) { }
+        else {
+            let val = e.target.value;
+            if (val.length > 0) {
+                let msg = Validator_Engine(val, key4validate);
+                setError({ ...error, [name]: msg })
 
+
+
+            } else { }
+        }
+
+    }
+    
     return (
 
         /*<span className="row row-content d-flex section2 col-sm-12 m-0">*/
 
         <>
             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 ml-2 mr-2 labl2">{label}</label>
-            <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px' }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
+            <span className="col-4 p-0 m-0">
+                <input key={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} id={name} onChange={ValidateField} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required maxLength={length ? length : 80 } />
+            <div className="text-danger m-0 p-2" style={{position:'absolute',top:'53%', left:'0%', backgroundColor: 'transparent', opacity: 1.5, zIndex: .2, border: 'none', fontSize: '0.9rem' }}>{error[name]}</div>
+          </span>
+
         </>
         /*  </span>*/
 
     )
 }
-export function MasterInput3({ name, defaultt, label, ipTitle, ipType, handleChange, classCategory, ...props }: any) {
+export function MasterInput3({ name, defaultt, label, ipTitle, ipType, handleChange, classCategory,length, ...props }: any) {
 
     return (
 
@@ -100,7 +119,7 @@ export function MasterInput3({ name, defaultt, label, ipTitle, ipType, handleCha
 
         <>
             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl col-2 ml-2  mt-2 mr-2 labl2">{label}</label>
-            <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3" }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required />
+            <input type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required maxLength={length ? length : 80}  />
         </>
         /*  </span>*/
 
@@ -118,7 +137,8 @@ export function CustomSelect({ label, name, handleChange, classCategory, def, ..
                 padding: '0 3px',
                 margin: '5px 0',
                 fontSize: '18px',
-                height: '45px'
+                height: '45px',
+                marginBottom: '20px'
             }}>
                 {
                     def === 1 ? (
@@ -128,8 +148,8 @@ export function CustomSelect({ label, name, handleChange, classCategory, def, ..
                         </>
                     ) : (
                         <>
-                                <option value={1}>Y</option>
-                                <option selected value={0}>N</option>
+                            <option value={1}>Y</option>
+                            <option selected value={0}>N</option>
                         </>
                     )
                 }

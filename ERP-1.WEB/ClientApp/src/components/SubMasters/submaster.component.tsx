@@ -14,6 +14,11 @@ import MatCentre from '../../Pages/Sub-Master/matrial-center.page';
 import QcParam_SampleType from '../../Pages/Sub-Master/qc-parameter.component';
 import Measuring from '../../Pages/Sub-Master/measuring.page';
 import QcType from '../../Pages/Sub-Master/qc-type.page';
+import Branch_Page from '../../Pages/Sub-Master/branch.page';
+import Zone_Page from '../../Pages/Sub-Master/zone-page';
+import City_Page from '../../Pages/Sub-Master/city-page';
+import State_Page from '../../Pages/Sub-Master/state-page';
+import { clear_form } from '../../Pages/Helper Functions/table';
 
 interface IState {
     rawObj: object,
@@ -24,6 +29,7 @@ interface IState {
 }
 interface IProps {
     api: any,
+    history: any,
     defSubMaster: object;
     gettingVirtualCode: number;
     AlterLoadedData: any
@@ -110,10 +116,12 @@ class SubMasterChild extends React.Component<IProps, IState>{
       
         try {
             let { res, got } = await this.props.api(urlUGList, "GET", '')
-            if(res.status == 200){
+            if (res.status == 200) {
                 this.setState({ UgList: got.data })
             }
-          
+            else {
+                toast.error('Error in loading Master Data')
+            }
 
         } catch (err) {
             alert(err)
@@ -121,7 +129,35 @@ class SubMasterChild extends React.Component<IProps, IState>{
 
 
     }
+  collectSelectedItem = (value: any, name: string) => {
 
+     
+      if (this.props.gettingVirtualCode !== 0) {
+          let change = { [name]: value }
+          console.log('change', change);
+          let obj = this.props.AlterLoadedData(change)
+          console.log('after change', obj)
+          store2.dispatch({ payload: obj, key: "", type: "changeConfig", label: "modifySubMaster" });
+
+
+      } else {
+          store2.dispatch({ payload: value, key: name, type: "changeConfig", label: "subMaster" });
+      }
+
+      this.setState({
+          rawObj: {
+              'MasterType': this.state.masterType,
+              'UserName': this.username,
+              'Code': this.props.gettingVirtualCode,
+              'Customer': parseInt(this.customer),
+              'Company': parseInt(this.compCode),
+              ...store2.getState().subMaster
+          }
+      })
+
+
+
+    }
     getMasterType = (val: any) => {
         this.setState({ masterType: val })
         this.FetchUnderGroupDataList(val);
@@ -229,7 +265,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
     handlePosting = async (e: any) => {
         e.preventDefault();
         console.log('calling');
-        let i: any = this.state.rawObj
+        let i: any = this.props.gettingVirtualCode !== 0 ? { ...this.props.defSubMaster, ...this.state.rawObj } : this.state.rawObj;
         console.log('i:', i);
         //console.log('calling')
         const confUrl = '/api/SaveMasterData';
@@ -239,6 +275,9 @@ class SubMasterChild extends React.Component<IProps, IState>{
          
             if (res.status == 200) {
                 toast.success(got.msg)
+                let ref = document.getElementById("form");
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
+
 
             } else {
                 toast.error(got.msg)
@@ -276,11 +315,18 @@ class SubMasterChild extends React.Component<IProps, IState>{
              {
                     this.state.configType === '16' ? (<ProductType_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Brand" configType={this.state.configType}  handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
+                {
+                    this.state.configType === '28' ? (<ProductType_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Bank" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+
              {
                     this.state.configType === '43' ? (<ProductType_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Sub Category" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
              {
                     this.state.configType === '40' ? (<ProductType_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Clearance" configType={this.state.configType}  handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+                {
+                    this.state.configType === '58' ? (<ProductType_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Country" configType={this.state.configType}  handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
              {
                     this.state.configType === '10' ? (<PaymentTrem_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Payment Term" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
@@ -315,6 +361,26 @@ class SubMasterChild extends React.Component<IProps, IState>{
             {
                     this.state.configType === '24' ? (<QcType  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Qc Type" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
+            
+          
+                {
+                    this.state.configType === '29' ? (<Branch_Page UgList={this.state.UgList} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Branch" collectSelectedItem={this.collectSelectedItem.bind(this) } configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            
+          {
+                    this.state.configType === '22' ? (<Zone_Page UgList={this.state.UgList} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="ZONE" collectSelectedItem={this.collectSelectedItem.bind(this) } configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            
+          
+            {
+                    this.state.configType === '21' ? (<City_Page UgList={this.state.UgList} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="City" collectSelectedItem={this.collectSelectedItem.bind(this) } configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            
+          {
+                    this.state.configType === '20' ? (<State_Page UgList={this.state.UgList} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="State" collectSelectedItem={this.collectSelectedItem.bind(this) } configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                }
+            
+          
             
            
             

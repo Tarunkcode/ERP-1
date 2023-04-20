@@ -4,6 +4,8 @@ import { store2 } from '../../Redux/config/config.reducer';
 import { toast } from 'react-toastify';
 import SalePurchaseTypeLoadDetails from '../HOC/load-sale-purchase-type';
 import { LoaderContext } from '../../AppContext/loaderContext';
+import { clear_form } from '../../Pages/Helper Functions/table';
+import { withRouter } from 'react-router-dom';
 
 interface IState {
     configType: string,
@@ -18,7 +20,8 @@ interface IProps {
     api: any; gstCategory: any[], loadSPTypeMaster: any;
     billSundryList: any[],
     customer: number, compCode: number, username: string, gettingVirtualCode: any;
- 
+    history: any;
+
 }
 class SPType extends React.Component<IProps, IState> {
     static contextType = LoaderContext;
@@ -147,6 +150,48 @@ class SPType extends React.Component<IProps, IState> {
 
 
     handlePosting = async (e: any) => {
+
+        //-------------------------------------------------check for mandatory fields---------------------------------------------
+
+        if (!store2.getState().seriesConf.name || store2.getState().seriesConf.name === '') {
+            toast.info("Please Enter Name !");
+            return;
+
+        }
+        else if (this.state.masterType === 13 && !store2.getState().seriesConf.gsttype) {
+            toast.info("Please Enter Gst Type !");
+            return;
+
+        } else if (!store2.getState().seriesConf.usefor) {
+            toast.info("Please Enter Use For !");
+            return;
+
+        } else if (this.state.masterType === 13 && !store2.getState().seriesConf.gstcat) {
+            toast.info("Please Enter Gst Category !");
+            return;
+
+        } else if (this.state.masterType === 14 && !store2.getState().seriesConf.defaultvalue) {
+            toast.info("Please Enter Default value !");
+            return;
+
+        }
+        else if (this.state.showBranchCode && !store2.getState().seriesConf.branchcode) {
+            this.state.showBranchCode == true
+            toast.info("Please Enter Branch Code !");
+            return;
+
+        }
+
+
+
+
+
+
+
+
+
+
+        //----------------------------------------------------------------------------------------------
         const loader = this.context;
         loader.setLoader(true);
         e.preventDefault();
@@ -190,13 +235,14 @@ class SPType extends React.Component<IProps, IState> {
                 loader.setLoader(false)
                 toast.success(got.msg)
 
+                let ref = document.getElementById("form");
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
+
             } else {
                 loader.setLoader(false)
                 toast.error(got.msg)
 
             }
-            //store2.getState().roleMaster = []
-            //store2.getState().seriesConf = {}
         } catch (err) {
             loader.setLoader(false)
             alert(err)
@@ -216,7 +262,7 @@ class SPType extends React.Component<IProps, IState> {
                     vccode={this.props.gettingVirtualCode}
                     showBranchCode={this.state.showBranchCode}
                     getMasterType={this.getMasterType}
-                
+
                     defGstCatName={this.state.defGstCatName}
                     collectSelectedItem={this.collectListData}
                     defaultLoad={this.props.loadSPTypeMaster}
@@ -231,7 +277,7 @@ class SPType extends React.Component<IProps, IState> {
                     pagecode={14}
                     getMasterType={this.getMasterType}
                     defGstCatName={this.state.defGstCatName}
-       
+
                     showBranchCode={this.state.showBranchCode}
                     collectSelectedItem={this.collectListData}
                     vccode={this.props.gettingVirtualCode}

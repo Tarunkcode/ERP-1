@@ -1,8 +1,42 @@
 ﻿import * as React from 'react';
 import DatalistInput from 'react-datalist-input';
+import { toast } from 'react-toastify';
 import { MasterInput2 } from '../../components/custom-input/custom-input.component';
+import AutoComp from '../../components/custom-input/droplist/droplist.component';
+import useFetch from '../../components/Hooks/useFetch';
 
-const Zone_Page = () => {
+const Zone_Page = ({ UgList, defaultData, getMasterType, pageTitle, collectSelectedItem, configType, handleChange, handlePosting, ...otherProps }: any) => {
+    let compCode = window.localStorage.getItem('compCode') || ""
+    let customer = window.localStorage.getItem('customer') || ""
+    let username = window.sessionStorage.getItem('username') || ""
+    const api = useFetch();
+    var [ugList, setUgList]: any = React.useState([]);
+    React.useEffect(() => {
+
+        getMasterType(1004)
+        getUgList(143)
+    }, [])
+    const getUgList = async (mType: any) => {
+        
+            const urlUGList = `/api/LoadMasterData?MasterType=${mType}&Company=${compCode}&Customer=${customer}`;
+
+            try {
+                let { res, got } = await api(urlUGList, "GET", '')
+                if (res.status == 200) {
+                     setUgList(got.data) 
+                }
+                else {
+                    toast.error('Error in loading Master Data')
+                }
+
+            } catch (err) {
+                alert(err)
+            }
+
+        
+
+
+    }
     return (
         <>
             <div className="main card firstDiv">
@@ -17,25 +51,10 @@ const Zone_Page = () => {
                         <div className="card-body" style={{ margin: '0', padding: '0' }}>
                             <form className="form">
                                 <span className="d-flex section2 mb-2 col-sm-12">
-                                    <>
-                                        <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Country</label>
-                                    </>
-                                    <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                                        <DatalistInput
-                                            placeholder={'Select Country'}
-                                            className="d-flex col-12 m-0 p-0"
-                                            inputProps={{ className: 'form-control inp col-12 datalist int', name: 'country' }}
-                                            listboxProps={{ className: 'text-left mt-5' }}
-
-                                            onSelect={(item: any) => { console.log('id', item.id); }}
-                                            items={[{ id: 1, value: 'India' }]}
-                                        />
-                                    </span>
-
-                                  {/*  <MasterInput2 name="country" label="Country" ipTitle="Enter Country" ipType="text" classCategory="form-control col-4 inp" />*/}
+                                    <AutoComp name="c1" label="Country" defaultt={defaultData ? defaultData.c1 : ''} ipTitle="Select Role" list={ugList} classCategory="form-control col-4 inp str" collect={collectSelectedItem} />
                                     <span className="col-1 m-0"></span>
 
-                                    <MasterInput2 name="zone" label="Zone" ipTitle="Enter Zone" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="name" label="Zone" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-4 inp subMaster" handleChange={handleChange } />
                                 </span>
 
                              
@@ -48,7 +67,7 @@ const Zone_Page = () => {
             </div>
             <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
-                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
+                <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={handlePosting} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
                 <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </>

@@ -122,16 +122,16 @@ export default function GSTCategory_Page() {
                     
                         <span className="d-flex section2 col-sm-12">
                          
-                        <MasterInput2 label="Name" defaultt={def.name} name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="Name" defaultt={def.name} name="name" ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="CGST" name="d1" defaultt={def.d1} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="SGST" name="d2" defaultt={def.d2} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="IGST" name="d3" defaultt={def.d3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                         </span>
                    
                 </form>

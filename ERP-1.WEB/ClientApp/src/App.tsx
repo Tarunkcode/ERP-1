@@ -305,7 +305,7 @@ function App() {
                     '/add-component-deviation/55',
                     '/add-scan-format/56',
                     '/add-digital-signature/57',
-
+                    '/add-country/58',
 
 
 
@@ -442,16 +442,16 @@ function App() {
                         <Route exact path='/add-unit/17' component={SubMaster} />
                         <Route exact path='/add-currency/18' component={SubMaster} />
                         <Route exact path='/add-process/19' component={Process} />
-                        <Route exact path='/add-state/20' component={State_Page} />
-                        <Route exact path='/add-city/21' component={City_Page} />
-                        <Route exact path='/add-zone/22' component={Zone_Page} />
+                        <Route exact path='/add-state/20' component={SubMaster} />
+                        <Route exact path='/add-city/21' component={SubMaster} />
+                        <Route exact path='/add-zone/22' component={SubMaster} />
                         <Route exact path='/add-discount-type/23' component={YetNotStarted} />
                         <Route exact path='/add-qc-type/24' component={SubMaster} />
                         <Route exact path='/add-cost-center/25' component={YetNotStarted} />
                         <Route exact path='/add-vehical-type/26' component={YetNotStarted} />
                         <Route exact path='/add-parameter-master/27' component={YetNotStarted} />
-                        <Route exact path='/add-bank/28' component={YetNotStarted} />
-                        <Route exact path='/add-bank-branch/29' component={YetNotStarted} />
+                        <Route exact path='/add-bank/28' component={SubMaster} />
+                        <Route exact path='/add-bank-branch/29' component={SubMaster} />
                         <Route exact path='/add-option-text-field/30' component={YetNotStarted} />
                         <Route exact path='/add-measuring-methord/31' component={SubMaster} />
                         <Route exact path='/add-delivery-schedule/32' component={YetNotStarted} />
@@ -480,12 +480,13 @@ function App() {
                         <Route exact path='/add-component-deviation/55' component={YetNotStarted} />
                         <Route exact path='/add-scan-format/56' component={YetNotStarted} />
                         <Route exact path='/add-digital-signature/57' component={YetNotStarted} />
+                        <Route exact path='/add-country/58' component={SubMaster} />
 
 
 
                         {/*Master*/}
                         <Route exact path='/add-customer-master' component={CusSupMaster} />
-                        <Route exact path='/add-supplier-master' component={AddSupplierMaster} />
+                        <Route exact path='/add-supplier-master' component={CusSupMaster} />
                         <Route exact path='/add-item-master' component={IMaster} />
                         <Route exact path='/add-cost-sheet-details' component={CostSheetDetails} />
                         <Route exact path="/add-bom-routing-configuration-master" component={BOM} />
