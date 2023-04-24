@@ -38,6 +38,11 @@ export const getCurrentRowNo = (val: number) => {
 }
 
 export const clear_form = (formObj: any) => {
+    //React.useEffect(() => {
+    //    if (formObj !== null) formObj.reset();
+
+    //}, [formObj])
+    
     let ag_cells = document.getElementsByClassName('ag-cell')
     if (ag_cells.length > 0) {
         for (let i = 0; i < ag_cells.length; i++) {
@@ -56,10 +61,12 @@ export const clear_form = (formObj: any) => {
     }
     for (let i = 0; i < select.length; i++) {
 
-        select[i].selectedIndex = 2;
+        select[i].value = '0';
     }
+    for (let i = 0; i < inputs.length; i++) {
 
-    formObj.reset();
+        inputs[i].value = '';
+    }
 }
 
 export const GetNameFromCode = (code: number, dataArray: any[]) => {

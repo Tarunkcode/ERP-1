@@ -60,6 +60,25 @@ span {
     text-align: center;
     padding:10px 0;
 }
+.password-container {
+    width: 33.4%;
+    position: relative;
+}
+
+    .password-container input[type="password"],
+    .password-container input[type="text"] {
+        width: 100%;
+        padding: 12px 36px 12px 12px;
+        box-sizing: border-box;
+    }
+
+.fa-eye {
+    position: absolute;
+    top: 28%;
+    right: 4%;
+    cursor: pointer;
+    color: lightgray;
+}
 
 @media (max-width: 975px) {
     .outer-container {

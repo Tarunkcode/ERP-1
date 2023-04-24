@@ -49,8 +49,27 @@ class SPType extends React.Component<IProps, IState> {
     }
     componentDidUpdate(prevProps: any) {
         if (this.props.gettingVirtualCode !== 0) {
-            if (this.props.loadSPTypeMaster !== prevProps.loadSPTypeMaster) {
+            if (this.props.loadSPTypeMaster !== prevProps.loadSPTypeMaster && this.props.loadSPTypeMaster) {
                 if (this.props.loadSPTypeMaster.sptypeheader[0].usefor == 2) this.setState({ showBranchCode: true })
+                if (this.props.gettingVirtualCode !== 0) {
+                    store2.dispatch({ payload: this.props.loadSPTypeMaster.sptypeheader[0].label, key: 'label', type: "changeConfig", label: 'seriesConf' })
+                    store2.dispatch({ payload: this.props.loadSPTypeMaster.sptypeheader[0].usefor, key: 'usefor', type: "changeConfig", label: 'seriesConf' })
+                    store2.dispatch({ payload: this.props.loadSPTypeMaster.sptypeheader[0].branchcode, key: 'branchcode', type: "changeConfig", label: 'seriesConf' })
+
+                    if (this.state.masterType == 13) {
+
+                    store2.dispatch({ payload: this.props.loadSPTypeMaster.sptypeheader[0].gsttype, key: 'gsttype', type: "changeConfig", label: 'seriesConf' })
+
+                    store2.dispatch({ payload: this.props.loadSPTypeMaster.sptypeheader[0].gstcat, key: 'gstcat', type: "changeConfig", label: 'seriesConf' })
+                    }
+                    if (this.state.masterType == 14) {
+                    store2.dispatch({ payload: this.props.loadSPTypeMaster.sptypeheader[0].defaultvalue, key: 'defaultvalue', type: "changeConfig", label: 'seriesConf' })
+
+                    }
+
+
+
+                }
                 else { }
             } else { }
 
@@ -153,7 +172,7 @@ class SPType extends React.Component<IProps, IState> {
 
         //-------------------------------------------------check for mandatory fields---------------------------------------------
 
-        if (!store2.getState().seriesConf.name || store2.getState().seriesConf.name === '') {
+        if (store2.getState().seriesConf.name === '') {
             toast.info("Please Enter Name !");
             return;
 

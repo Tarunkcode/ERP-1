@@ -14,9 +14,10 @@ import { clear_form } from '../../Pages/Helper Functions/table';
 interface IState {
     opn: string,
     opnName: string,
-
+    errorList: any,
     configType: any,
     bankGridApi: any,
+    addressType: number,
     plantGridApi: any,
     mastertype: any,
     shippingGridApi: any,
@@ -41,11 +42,12 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
             opn: '1',
             opnName: 'Corporate',
             configType: '',
+            addressType: 1,
             bankGridApi: null,
             plantGridApi: null,
             shippingGridApi: null,
             mastertype: null,
-
+            errorList: {},
             rawData: {}
         };
     }
@@ -75,8 +77,8 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
                     let opnVal = this.props.defaultData.addressdetail[0].addresstype;
                     let opnNaam = opnVal == '1' ? 'Corporate' : opnVal == '2' ? "Plant" : opnVal == '3' ? "Shipping" : ''
                     this.setState({ opn: opnVal, opnName: opnNaam })
+                    this.setState({ addressType: this.props.defaultData.addressdetail[0].addresstype })
 
-                    
                     store1.dispatch({ payload: this.props.defaultData.accountmaster[0].series, key: "series", type: "AddOnFormData", label: "AccountMaster" });
                     store1.dispatch({ payload: this.props.defaultData.accountmaster[0].codestr, key: "codestr", type: "AddOnFormData", label: "AccountMaster" });
                     store1.dispatch({ payload: this.props.defaultData.accountmaster[0].name, key: "name", type: "AddOnFormData", label: "AccountMaster" });
@@ -106,15 +108,15 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
 
         this.setState({
             opn: event.target.value,
-            opnName: event.target.value == '1' ? "Corporate" : event.target.value == '2' ? "Plant" : event.target.value == '3' ? "Shipping" : ''
+            opnName: event.target.value == '1' ? "Corporate" : event.target.value == '2' ? "Plant" : event.target.value == '3' ? "Shipping" : '',
+            addressType : parseInt(event.target.value)
         })
 
     }
-    handleAddressTypeChange = (value: number) => {
 
-        store1.dispatch({ type: "AddOnFormData", payload: value, key: 'addresstype', label: "AddressDetail" })
+    GetErrorList = (obj: object) => {
+        this.setState({ errorList: obj })
     }
-
 
     //----------------------------------------------------------- handle Tables Data-----------------------------------------------
 
@@ -168,26 +170,28 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         if (dataSet.length === 0 || dataSet === null) {
 
             dataSet = [{
-               "srno": 1, "name": null, "address": null, "acno": null, "acctype": null, "swiftcode": null,
+                "srno": 1, "name": null, "address": null, "acno": null, "acctype": null, "swiftcode": null,
                 "ifsccode": null, "currency": null, "country": null
             }]
-        }
-            dataSet.map((item: any, ind: number) => {
-                item.srno = ind + 1;
-                item.name = item.name.value;
-                item.address = item.address.value;
-                item.acno = item.acno;
-                item.acctype = item.acctype.value;
-                item.swiftcode = item.swiftcode;
-                item.ifsccode = item.ifsccode;
-                item.currency = item.currency.value;
-                item.country = item.country.value;
-                item.code = this.props.gettingVirtualCode;
-                item.mastertype = this.state.mastertype;
-            })
-            // dispatch dataSet
             store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "BankDetail" })
-        
+            return;
+        }
+        dataSet.map((item: any, ind: number) => {
+            item.srno = ind + 1;
+            item.name = item.name.value;
+            item.address = item.address.value;
+            item.acno = item.acno;
+            item.acctype = item.acctype.value;
+            item.swiftcode = item.swiftcode;
+            item.ifsccode = item.ifsccode;
+            item.currency = item.currency.value;
+            item.country = item.country.value;
+            item.code = this.props.gettingVirtualCode;
+            item.mastertype = this.state.mastertype;
+        })
+        // dispatch dataSet
+        store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "BankDetail" })
+
     }
     collectPlantTableData = async () => {
 
@@ -195,19 +199,37 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         if (dataSet.length === 0 || dataSet === null) {
 
             dataSet = [{
-                "srno": 1,"pan": null, "address1": null, "address2": null, "address3": null, "address4": null, "country": null,
+                "srno": 1, "pan": null, "address1": null, "address2": null, "address3": null, "address4": null, "country": null,
                 "zone": null, "state": null, "city": null, "postcode": null, "tel": null, "gstno": null, "distance": null
             }]
+            store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "PlantAddressDetail" })
+            return;
         }
-            dataSet.map(() => ({
-                ...dataSet,
-                code: this.props.gettingVirtualCode,
-                mastertype: this.state.mastertype
-            }))
+        dataSet.map((item: any, ind: number) => {
+            /*...dataSet,*/
+            item.srno = ind + 1;
+            item.pan = item.pan;
+            item.addresstype = this.state.addressType;
+            item.address1 = item.address1
+            item.address2 = item.address2;
+            item.address3 = item.address3;
+            item.address4 = item.address4;
+            item.country = item.country.value;
+            item.zone = item.zone.value;
+            item.state = item.state.value;
+            item.city = item.city.value;
+            item.postcode = item.postcode;
+            item.tel = item.tel;
+            item.gstno = item.gstno;
+            item.distance = item.distance;
+
+            item.code = this.props.gettingVirtualCode;
+            item.mastertype = this.state.mastertype;
+        })
         store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "PlantAddressDetail" })
 
 
-    
+
 
     }
     collectShippingTableData = async () => {
@@ -215,16 +237,33 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         let dataSet: any[] = await this.getShippingAllRows();
         if (dataSet.length === 0 || dataSet === null) {
             dataSet = [{
-                "srno": 1,"pan": null, "address1": null, "address2": null, "address3": null, "address4": null, "country": null, "zone": null, "state": null, "city": null, "postcode": null, "tel": null, "gstno": null, "distance": null
+                "srno": 1, "pan": null, "address1": null, "address2": null, "address3": null, "address4": null, "country": null, "zone": null, "state": null, "city": null, "postcode": null, "tel": null, "gstno": null, "distance": null
             }]
-        }
-            dataSet.map(() => ({
-                ...dataSet,
-                code: this.props.gettingVirtualCode,
-                mastertype: this.state.mastertype
-            }))
             store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "ShippingAddressDetail" })
-        
+            return;
+        }
+        dataSet.map((item: any, ind: number) => {
+            /*...dataSet,*/
+            item.srno = ind + 1;
+            item.pan = item.pan;
+            item.addresstype = this.state.addressType;
+            item.address1 = item.address1
+            item.address2 = item.address2;
+            item.address3 = item.address3;
+            item.address4 = item.address4;
+            item.country = item.country.value;
+            item.zone = item.zone.value;
+            item.state = item.state.value;
+            item.city = item.city.value;
+            item.postcode = item.postcode;
+            item.tel = item.tel;
+            item.gstno = item.gstno;
+            item.distance = item.distance;
+            item.code = this.props.gettingVirtualCode;
+            item.mastertype = this.state.mastertype;
+        })
+        store1.dispatch({ payload: dataSet, key: '', type: "AddOnFormData", label: "ShippingAddressDetail" })
+
 
     }
 
@@ -234,17 +273,27 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
     //--------------------------------------------------------------------list handler ------------------------------------------------------------------------------
     collectAccountMasterListData = (value: any, name: string) => {
         console.log(name, ':', value);
-
+        if (value.length < 1 || !value) {
+            if (store1.getState().AccountMaster[0][name]) {
+                delete store1.getState().AccountMaster[0][name];
+            }
+            return;
+        }
         store1.dispatch({ payload: value, key: name, type: "AddOnFormData", label: "AccountMaster" });
 
     }
     collectAddressDetailListData = (value: any, name: string) => {
         console.log(name, ':', value);
 
-
+        if (value.length < 1 || !value) {
+            if (store1.getState().AddressDetail[0][name]) {
+                delete store1.getState().AccountMaster[0][name];
+            }
+            return;
+        }
         store1.dispatch({ payload: value, key: name, type: "AddOnFormData", label: "AddressDetail" });
 
-        console.log('Address details 1', store1.getState().AddressDetail)
+
 
     }
     //-------------------------------------------------------------------------------------------------------------------------
@@ -265,20 +314,28 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         e.preventDefault();
         var label: string = '';
         var value: any;
+
         if (e.currentTarget.classList.contains('AddressDetail')) label = "AddressDetail";
         else alert("category Label are not set for one or multiple inputs 1")
         var name: string = e.target.name
         value = this.formatJSONData(name, e);
-
+        if (value.length < 1 || !value) {
+            if (store1.getState().AddressDetail[0][e.target.name]) {
+                delete store1.getState().AccountMaster[0][e.target.name];
+            }
+            return;
+        }
         store1.dispatch({ payload: value, key: name, type: "AddOnFormData", label: label });
         store1.dispatch({ payload: this.state.mastertype, key: 'accounttype', type: "AddOnFormData", label: label });
         store1.dispatch({ payload: this.props.gettingVirtualCode, key: 'code', type: "AddOnFormData", label: label });
+        store1.dispatch({ payload: this.state.addressType, key: 'addresstype = this.state.addressType;', type: "AddOnFormData", label: label });
 
     }
     handleChangeField = (e: any) => {
         e.preventDefault();
         var label: string = '';
         var value: any;
+
         if (e.currentTarget.classList.contains('AccountMaster')) label = "AccountMaster";
 
         //else if (e.currentTarget.classList.contains('BankDetail')) label = "BankDetail";
@@ -292,12 +349,18 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
         var name: string = e.target.name
         value = this.formatJSONData(name, e);
 
-
+        if (value.length < 1 || !value) {
+            if (store1.getState().AccountMaster[0][e.target.name]) {
+                delete store1.getState().AccountMaster[0][e.target.name];
+            }
+            return;
+        }
 
         store1.dispatch({ payload: value, key: e.target.name, type: "AddOnFormData", label: label });
 
     }
     handleSave$Submit = async (e: any) => {
+        console.log('calalessls')
         /*  console.log('Address details 2', store1.getState().AddressDetail)*/
         //------------------------------------------------------------validate mandatory fields----------------------------------
 
@@ -306,6 +369,10 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
             return;
         }
         else if (!store1.getState().AccountMaster[0].codestr || store1.getState().AccountMaster[0].codestr === '') {
+            toast.info('Please Fill Code !')
+            return;
+        }
+        else if (!store1.getState().AccountMaster[0].printname || store1.getState().AccountMaster[0].printname === '') {
             toast.info('Please Fill Code !')
             return;
         }
@@ -343,11 +410,35 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
                 return;
             } else { }
         }
+
+
+        let keyArr = Object.keys(this.state.errorList);
+        if (keyArr.length > 0) {
+            let temp = 0;
+            for (let key of keyArr) {
+                if (this.state.errorList[key] !== '') {
+                    toast.info(`Please Fill Correct ${key}`);
+                    temp = 1;
+                    break;
+
+                } else { }
+            }
+            if (temp === 1) {
+                return;
+            }
+        }
+
+
         //-------------------------------------------------------------------------------------------------------------------------
         const loader = this.context;
+        if (this.state.addressType === 2) {
+            await this.collectPlantTableData();
+
+        } else if (this.state.addressType === 3) {
+            await this.collectShippingTableData();
+
+        }
         await this.collectBankTableData();
-        await this.collectPlantTableData();
-        await this.collectShippingTableData();
         loader.setLoader(true);
         let i: any = {
             accountmaster: this.props.gettingVirtualCode === 0 ? [{
@@ -364,7 +455,7 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
                 ...this.props.defaultData.accountmaster[0],
                 ...store1.getState().AccountMaster[0]
             }],
-            addressdetail: this.props.gettingVirtualCode === 0 ? this.state.opn == '1' ? [{ ...store1.getState().AddressDetail[0] }] : store1.getState().AddressDetail[0] :  this.state.opn == '1' ? [{ ...this.props.defaultData.addressdetail[0], ...store1.getState().AddressDetail[0] }] : store1.getState().AddressDetail[0],
+            addressdetail: this.props.gettingVirtualCode === 0 ? this.state.opn == '1' ? [{ ...store1.getState().AddressDetail[0] }] : store1.getState().AddressDetail : this.state.opn == '1' ? [{ ...this.props.defaultData.addressdetail[0], ...store1.getState().AddressDetail[0] }] : store1.getState().AddressDetail,
             bankdetail: store1.getState().BankDetail[0],
             accproductcurrency: [{}],
             commercialdetail: [{}],
@@ -391,7 +482,7 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
                 loader.setLoader(false)
                 toast.error(got.msg)
             }
-          
+
         } catch (err) {
             loader.setLoader(false)
             alert(err)
@@ -418,11 +509,11 @@ class CustomerMaster extends React.PureComponent<IProps, IState> {
                     handleAddressDetailsChange={this.handleAddressDetailsChange.bind(this)}
                     vccode={this.props.gettingVirtualCode}
                     defaultData={this.props.defaultData}
-
+                    FetchErrorList={this.GetErrorList.bind(this)}
                     opnName={this.state.opnName}
                     title={this.state.configType === 1 ? "Add Customer Master" : "Add Supplier Master"}
                     handleSave$Submit={this.handleSave$Submit}
-                    handleAddressTypeChange={this.handleAddressTypeChange}
+                    addressType={this.state.addressType}
                     accountType={this.state.configType}
 
                 />

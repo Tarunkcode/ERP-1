@@ -31,8 +31,8 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
     var gridOptions: any = {
         rowData: rowData,
-        columnDefs: colDef,
-        defaultColDef: defaultColDef
+        columnDefs: colDef
+     /*   defaultColDef: defaultColDef*/
 
     };
     // custom navigation
@@ -192,7 +192,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
                     columnDefs={colDef}
                     onCellEditingStarted={onCellClicked}
                     onCellEditingStopped={checkDuplicacy}
-                    defaultColDef={defaultColDef}
+                
                     scrollbarWidth={8}
                     getRowNodeId={(data: any) => data.id}
                     onCellKeyDown={CustomFunctionalities}

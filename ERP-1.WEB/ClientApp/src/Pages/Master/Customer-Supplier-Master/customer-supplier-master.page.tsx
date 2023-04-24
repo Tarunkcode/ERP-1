@@ -10,7 +10,7 @@ import WriteGrid from '../../../components/Grid Component/grid.component';
 import LoadGrid from '../../../components/Grid Component/load-grid.component';
 
 
-export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAddressOptions, handleSave$Submit, formDataCollection, accountType, series, collectAccSelectedItem, defaultData, collectAddSelectedItem, masters, getShippingTableData, getPlantTableData, getBankTableData, vccode, handleAddressDetailsChange, ...otherProps }: any) {
+export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAddressOptions, handleSave$Submit, formDataCollection, accountType, series, collectAccSelectedItem, defaultData, collectAddSelectedItem, masters, getShippingTableData, getPlantTableData, getBankTableData, vccode, handleAddressDetailsChange, FetchErrorList, addressType, ...otherProps }: any) {
 
     const bankColDef = [
         { minWidth: 150, maxWidth: 150, field: 'srno', headerName: "Sr No.", valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '20px', textAlign: 'right' } },
@@ -67,9 +67,9 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
             },
             editable: true
         },
-        { field: 'acno', header: "A/C No.", maxWidth: 400, minWidth: 400, editable: true, cellEditor: NumericEditor },
+        { field: 'acno', header: "Account Number", maxWidth: 400, minWidth: 400, editable: true, cellEditor: NumericEditor },
         {
-            field: 'acctype', header: "A/C Type", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            field: 'acctype', header: "Account Type", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
             cellEditorParams: {
                 required: true,
                 selectData: [{ label: 'Saving', value: 'Saving' }, { label: 'Current', value: "Current" }],
@@ -188,10 +188,98 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
         { field: 'address2', header: "Address-2", maxWidth: 400, minWidth: 400, editable: true },
         { field: 'address3', header: "Address-3", maxWidth: 400, minWidth: 400, editable: true },
         { field: 'address4', header: "Address-4", maxWidth: 400, minWidth: 400, editable: true },
-        { field: 'country', header: "Country", maxWidth: 200, minWidth: 200, editable: true },
-        { field: 'zone', header: "Zone", maxWidth: 200, minWidth: 200, editable: true },
-        { field: 'state', header: "State", maxWidth: 200, minWidth: 200, editable: true },
-        { field: 'city', header: "City", maxWidth: 200, minWidth: 200, editable: true },
+        {
+            field: 'country', header: "Country", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.country }, [masters.country]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true },
+        {
+            field: 'zone', header: "Zone", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.zone }, [masters.zone]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true },
+        {
+            field: 'state', header: "State", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.state }, [masters.state]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true},
+        {
+            field: 'city', header: "City", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.city }, [masters.city]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true},
         { field: 'postcode', header: "Post Code", maxWidth: 200, minWidth: 200, editable: true },
         { field: 'tel', header: "Tel No.", maxWidth: 400, minWidth: 400, editable: true },
         { field: 'gstno', header: "GST", maxWidth: 400, minWidth: 400, editable: true },
@@ -208,10 +296,98 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
         { field: 'address2', header: "Address-2", maxWidth: 400, minWidth: 400, editable: true },
         { field: 'address3', header: "Address-3", maxWidth: 400, minWidth: 400, editable: true },
         { field: 'address4', header: "Address-4", maxWidth: 400, minWidth: 400, editable: true },
-        { field: 'country', header: "Country", maxWidth: 200, minWidth: 200, editable: true },
-        { field: 'zone', header: "Zone", maxWidth: 200, minWidth: 200, editable: true },
-        { field: 'state', header: "State", maxWidth: 200, minWidth: 200, editable: true },
-        { field: 'city', header: "City", maxWidth: 200, minWidth: 200, editable: true },
+        {
+            field: 'country', header: "Country", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.country }, [masters.country]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true },
+        {
+            field: 'zone', header: "Zone", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.zone }, [masters.zone]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true },
+        {
+            field: 'state', header: "State", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.state }, [masters.state]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true },
+        {
+            field: 'city', header: "City", maxWidth: 200, minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+            cellEditorParams: {
+                required: true,
+                selectData: React.useMemo(() => { return masters.city }, [masters.city]),
+                autocomplete: {
+                    customize: function ({ input, inputRect, container, maxHeight }: any) {
+                        if (maxHeight < 100) {
+                            container.style.top = '';
+                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                            container.style.maxHeight = '200px';
+                        }
+                    },
+                    showOnFocus: true
+
+                }
+            },
+            valueFormatter: (params: any) => {
+                if (params.value) {
+                    return params.value.label || params.value.value || params.value;
+                }
+                return params.label;
+            }, editable: true },
         { field: 'postcode', header: "Post Code", maxWidth: 200, minWidth: 200, editable: true },
         { field: 'tel', header: "Tel No.", maxWidth: 400, minWidth: 400, editable: true },
         { field: 'gstno', header: "GST", maxWidth: 400, minWidth: 400, editable: true },
@@ -238,26 +414,26 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                             <div className="show" id="genDetails">
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <AutoComp name="series" label="Series" ipTitle="Select Series" list={series} ipType="text" collect={collectAccSelectedItem} classCategory="form-control col-4 AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].seriesname : null} />
+                                        <AutoComp name="series" label="Series" ipTitle="Select Series" list={series} ipType="text" collect={collectAccSelectedItem} classCategory="form-control col-4 AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].seriesname : null} isMandate={true} />
                                     <span className="col-1 m-0"></span>
 
 
-                                    <MasterInput2 name="codestr" label={accountType == 1 ? "Customer Code" : "Supplier Code"} ipTitle={accountType == 1 ? "Enter Customer Code" : "Enter Supplier Code"} ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].codestr : null} />
+                                        <MasterInput2 name="codestr" label={accountType == 1 ? "Customer Code" : "Supplier Code"} ipTitle={accountType == 1 ? "Enter Customer Code" : "Enter Supplier Code"} ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].codestr : null} isMandate={true}/>
 
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="name" label={accountType == 1 ? "Customer Name" : "Supplier Name"} ipTitle={accountType == 1 ? "Enter Customer Name" : "Enter Supplier Name"} ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].name : null} />
+                                        <MasterInput2 name="name" label={accountType == 1 ? "Customer Name" : "Supplier Name"} ipTitle={accountType == 1 ? "Enter Customer Name" : "Enter Supplier Name"} ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].name : null} isMandate={true} />
                                     <span className="col-1 m-0"></span>
 
 
-                                    <MasterInput2 name="printname" label="Print Name" ipTitle="Enter Print Name" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].printname : null} />
+                                        <MasterInput2 name="printname" label="Print Name" ipTitle="Enter Print Name" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].printname : null} isMandate={ true} />
 
 
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <AutoComp name="group" label={accountType == 1 ? "Customer Group" : "Supplier Group"} ipTitle={accountType == 1 ? "Enter Customer Group" : "Enter Supplier Group"} ipType="text" list={accountType == 1 && masters ? masters.custGp : masters.supGp} collect={collectAccSelectedItem} classCategory="form-control col-4 AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].groupname : null} />
+                                        <AutoComp name="group" label={accountType == 1 ? "Customer Group" : "Supplier Group"} ipTitle={accountType == 1 ? "Enter Customer Group" : "Enter Supplier Group"} ipType="text" list={accountType == 1 && masters ? masters.custGp : masters.supGp} collect={collectAccSelectedItem} classCategory="form-control col-4 AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].groupname : null} isMandate={true} />
                                     <span className="col-1 m-0"></span>
 
                                     <AutoComp name="ledgertype" label="Ledger Type" ipTitle="Ledger Type" ipType="text" list={[{ label: 'Ledger', value: "Ledger" }, { label: 'Sub-Ledger', value: "Sub-Ledger" }]} collect={collectAccSelectedItem} classCategory="form-control col-4 AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].ledgertype : null} />
@@ -266,11 +442,11 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <AutoComp name="delterm" label="Delivery Terms" ipTitle="Enter Delivery Terms" ipType="text" list={masters ? masters.delTerms : []} collect={collectAccSelectedItem} classCategory="form-control col-4 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].deltermname : null} />
+                                        <AutoComp name="delterm" label="Delivery Terms" ipTitle="Enter Delivery Terms" ipType="text" list={masters ? masters.delTerms : []} collect={collectAccSelectedItem} classCategory="form-control col-4 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].deltermname : null} isMandate={true} />
 
                                     <span className="col-1 m-0"></span>
 
-                                    <AutoComp name="payterm" label="Payment terms" ipTitle="Enter Payment terms" ipType="text" list={masters ? masters.PayTerms : []} collect={collectAccSelectedItem} classCategory="form-control col-4 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].paytermname : null} />
+                                        <AutoComp name="payterm" label="Payment terms" ipTitle="Enter Payment terms" ipType="text" list={masters ? masters.PayTerms : []} collect={collectAccSelectedItem} classCategory="form-control col-4 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].paytermname : null} isMandate={true}/>
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
@@ -316,7 +492,7 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
 
                                     <AutoComp name="multicurrency" label="Multi Currency" ipTitle="Enter MultiCurrency" ipType="text" list={masters ? masters.currency : []} collect={collectAccSelectedItem} classCategory="form-control col-4 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].multicurrencyname : null} />
                                     <span className="col-1 m-0"></span>
-                                    <CustomSelect classCategory="form-control col-4 AccountMaster" handleChange={handleChangeField} name="majorproduct" label="Major Pdt." def={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].majorproduct : 0} />
+                                    <CustomSelect classCategory="form-control col-4 AccountMaster" handleChange={handleChangeField} name="majorproduct" label="Major Product" def={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].majorproduct : 0} />
                                 </span>
                                 <div className="card col-sm-12 p-4 mt-4">
                                     <span className="form col-sm-12 row-content card-body pt-0 pb-0 px-2">
@@ -345,12 +521,12 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                 <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="pdperson" label="Contact Person" ipTitle="Enter Pay To" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdperson : null} />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="pdmob" label="Mobile No." ipTitle="Enter Mobile No." ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdmob : null} key4validate="mobile" />
+                                        <MasterInput2 name="pdmob" label="Mobile No." ipTitle="Enter Mobile No." ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdmob : null} key4validate="mobile" getErrorList={FetchErrorList } />
 
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="pdemail" label="Email" ipTitle="Enter Email" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdemail : null} key4validate="email" />
+                                        <MasterInput2 name="pdemail" label="Email" ipTitle="Enter Email" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdemail : null} key4validate="email" getErrorList={FetchErrorList} />
 
                                     <span className="col-1 m-0"></span>
                                     <MasterInput2 name="pddesignation" label="Designation" ipTitle="Enter Designation" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pddesignation : null} />
@@ -360,7 +536,7 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                 <span className="d-flex section2 col-sm-12">
                                     <MasterInput2 name="pdexe" label="Chief Executive" ipTitle="Enter Chief Executive" ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdexe : null} />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="pdexetel" label="Chief Exe. Mob." ipTitle="Enter Chief Exe. Mobile No." ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdexetel : null} key4validate="mobile" />
+                                        <MasterInput2 name="pdexetel" label="Chief Exe. Mob." ipTitle="Enter Chief Exe. Mobile No." ipType="text" handleChange={handleChangeField} classCategory="form-control col-12 str AccountMaster" defaultt={defaultData && defaultData.accountmaster && defaultData.accountmaster.length > 0 ? defaultData.accountmaster[0].pdexetel : null} key4validate="mobile" getErrorList={FetchErrorList}/>
 
                                 </span>
 
@@ -401,19 +577,19 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
 
                                 {
 
-                                    opn == 1 ? (
+                                    addressType == 1 ? (
                                         <div className="collapse" id="contAdd">
                                             <span className="d-flex section2 col-sm-12">
-                                                <MasterInput2 name="email" classCategory="form-control col-12 str AddressDetail" ipType="text" label="Email ID" ipTitle="Enter Email" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].email : null} key4validate="email" />
+                                                    <MasterInput2 name="email" classCategory="form-control col-12 str AddressDetail" ipType="text" label="Email ID" ipTitle="Enter Email" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].email : null} key4validate="email" getErrorList={FetchErrorList} />
 
                                                 <span className="col-1 m-0"></span>
-                                                <MasterInput2 name="tel" classCategory="form-control col-12 str AddressDetail" ipType="tel" label="Mobile No." ipTitle="Enter Mobile Number" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].tel : null} key4validate="mobile" />
+                                                    <MasterInput2 name="tel" classCategory="form-control col-12 str AddressDetail" ipType="tel" label="Mobile No." ipTitle="Enter Mobile Number" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].tel : null} key4validate="mobile" getErrorList={FetchErrorList}/>
 
 
                                             </span>
 
                                             <span className="d-flex section2 col-sm-12">
-                                                <MasterInput2 name="address1" classCategory="form-control col-12 str AddressDetail" ipType="text" label="Address" ipTitle="Enter Address" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].address1 : null} length={60} />
+                                                    <MasterInput2 name="address1" classCategory="form-control col-12 str AddressDetail" ipType="text" label="Address" ipTitle="Enter Address" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].address1 : null} length={60} isMandate={true}/>
                                                 <span className="col-1 m-0"></span>
                                                 <MasterInput2 name="address2" classCategory="form-control col-12 str AddressDetail" ipType="text" label="" ipTitle="Enter Address" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].address2 : null} length={60} />
 
@@ -435,7 +611,7 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                             <span className="d-flex section2 col-sm-12">
 
 
-                                                <AutoComp name="country" ipType="text" label="Country" ipTitle="Enter Country" list={masters ? masters.country : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].countryname : null} />
+                                                    <AutoComp name="country" ipType="text" label="Country" ipTitle="Enter Country" list={masters ? masters.country : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].countryname : null} isMandate={true} />
                                                 <span className="col-1 m-0"></span>
 
                                                 <AutoComp name="zone" ipType="text" label="Zone" ipTitle="Enter Zone" list={masters ? masters.zone : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].zonename : null} />
@@ -444,12 +620,12 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
 
                                             <span className="d-flex section2 col-sm-12">
 
-                                                <AutoComp name="state" ipType="text" label="State" ipTitle="Enter State" list={masters ? masters.state : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].statename : null} />
+                                                    <AutoComp name="state" ipType="text" label="State" ipTitle="Enter State" list={masters ? masters.state : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].statename : null} isMandate={true}/>
 
 
                                                 <span className="col-1 m-0"></span>
 
-                                                <AutoComp name="city" ipType="text" label="City" ipTitle="Enter City" list={masters ? masters.city : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].cityname : null} />
+                                                    <AutoComp name="city" ipType="text" label="City" ipTitle="Enter City" list={masters ? masters.city : []} collect={collectAddSelectedItem} classCategory="form-control col-4 AddressDetail" defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].cityname : null} isMandate={true}/>
                                             </span>
                                             <span className="d-flex section2 col-sm-12">
                                                 <MasterInput2 name="station" classCategory="form-control col-12 str AddressDetail" ipType="text" label="Station" ipTitle="Enter Station" handleChange={handleAddressDetailsChange} defaultt={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail[0].station : null} />
@@ -461,7 +637,7 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                     ) : null
                                 }
                                 {
-                                    opn == 2 ? (
+                                        addressType == 2 ? (
                                         <div className="collapse row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3" id="contAdd">
                                             {/* Address Details*/}
                                             {
@@ -474,7 +650,7 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                     ) : null
                                 }
                                 {
-                                    opn == 3 ? (
+                                        addressType == 3 ? (
                                         <div className="collapse row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3" id="contAdd">
                                             {/* Address Details*/}
                                             {

@@ -65,18 +65,45 @@ export function fetchMasters(Component: any) {
                 if (res.status == 200) {
                     let dataObj = got.data[0];
                     //alter dataObj
-                    got.data[0].bankdetail.map((item: any) => {
-                        item.name = { label: item.bankname, value: item.bank };
-                        item.address = { label: item.branchname, value: item.address }
-                        item.acno = item.acno;
-                        item.actype = item.actype;
-                        item.swiftcode = item.swiftcode;
-                        item.ifsccode = item.ifsccode;
-                        item.currency = { label: item.currencyname, value: item.currency };
-                        item.country = {label : item.countryname, value: item.country };
-                        item.accno = item.accno;
-                        item.acctype = item.acctype;
-                    })
+                    if (got.data[0].bankdetail.length > 0) {
+                        got.data[0].bankdetail.map((item: any) => {
+                            item.name = { label: item.bankname, value: item.bank };
+                            item.address = { label: item.branchname, value: item.address }
+                            item.acno = item.acno;
+                            item.actype = item.actype;
+                            item.swiftcode = item.swiftcode;
+                            item.ifsccode = item.ifsccode;
+                            item.currency = { label: item.currencyname, value: item.currency };
+                            item.country = { label: item.countryname, value: item.country };
+                            item.accno = item.accno;
+                            item.acctype = item.acctype;
+                        })
+
+                    }
+                    if (got.data[0].addressdetail.length > 0) {
+                        if (got.data[0].addressdetail[0].addresstype === 2 || got.data[0].addressdetail[0].addresstype === 3) {
+                            got.data[0].addressdetail.map((item: any) => {
+
+                                item.pan = item.pan;
+                                item.addresstype = item.addressType;
+                                item.address1 = item.address1
+                                item.address2 = item.address2;
+                                item.address3 = item.address3;
+                                item.address4 = item.address4;
+                                item.country = { label: item.countryname, value: item.country };
+                                item.zone = { label: item.zonename, value: item.zone };
+                                item.state = { label: item.statename, value: item.state };
+                                item.city = { label: item.cityname, value: item.city };
+                                item.postcode = item.postcode;
+                                item.tel = item.tel;
+                                item.gstno = item.gstno;
+                                item.distance = item.distance;
+                                item.code = item.code;
+                                item.mastertype = item.mastertype;
+
+                            })
+                        }
+                    }
                     this.setState({ default_data: got.data[0] });
                     loader.setLoader(false)
                 }

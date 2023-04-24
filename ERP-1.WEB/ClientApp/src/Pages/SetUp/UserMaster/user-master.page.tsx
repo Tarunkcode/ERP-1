@@ -3,7 +3,7 @@ import DatalistInput, { useComboboxControls } from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 import { useHistory, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
-import { CustomSelect, InputList, MasterInput, MasterInput2 } from '../../../components/custom-input/custom-input.component';
+import { CustomSelect, InputList, MasterInput, MasterInput2, PassWordField } from '../../../components/custom-input/custom-input.component';
 import useFetch from '../../../components/Hooks/useFetch';
 import { store2 } from '../../../Redux/config/config.reducer';
 import { clear_form } from '../../Helper Functions/table';
@@ -121,9 +121,9 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.uname : ''} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-12  seriesConf" length={60 }/>
+                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.uname : ''} name="uname" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-12  seriesConf" length={60} isMandate={ true}/>
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={loadUserDetails ? loadUserDetails.pwd :''} name="pwd" label="Password" ipTitle="Enter Password" ipType="password" handleChange={handleChange} classCategory="form-control col-12 seriesConf" />
+                        <PassWordField defaultt={loadUserDetails ? loadUserDetails.pwd : ''} name="pwd" label="Password" ipTitle="Enter Password" handleChange={handleChange} classCategory="form-control col-12 seriesConf" isMandate={true}/>
                     </span>
 
                     <span className="d-flex section2 col-sm-12">
@@ -141,7 +141,7 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
                     </span>
 
                     <span className="d-flex section2 col-sm-12">
-                            <AutoComp name="role" label="Role" ipTitle="Select Role" list={roleList} defaultt={loadUserDetails ? loadUserDetails.rolename : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" />
+                        <AutoComp name="role" label="Role" ipTitle="Select Role" list={roleList} defaultt={loadUserDetails ? loadUserDetails.rolename : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" isMandate={true} />
 
 
                         <span className="col-1 m-0"></span>
@@ -150,7 +150,7 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
                         {/* <CustomSelect label="Role" name="Role" dataArray={currRoleData} change={handleChange} classCategory="form-control col-4 seriesConf" />*/}
 
                     </span>
-
+                  
                 </form>
                 <div className="btn-group col-2 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'left' }}>
 

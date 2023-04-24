@@ -22,7 +22,7 @@ interface IState {
 
 const INITIAL_STATE: IState = {
     AccountMaster: [{}],
-    AddressDetail: [{ addresstype : 1}],
+    AddressDetail: [{}],
     BankDetail: [],
     AccProductCurrency: [{}],
     CommercialDetail: [{}],

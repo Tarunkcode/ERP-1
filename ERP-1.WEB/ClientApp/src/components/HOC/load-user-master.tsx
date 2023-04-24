@@ -91,7 +91,7 @@ export default function UserLoadDetails(Component: any) {
         }
         render() {
             return (
-                <Component api={api} roleList={this.state.roleList} customer={this.customer} compCode={this.compCode} username={this.username}  loadUserDetails={this.state.defUserMaster} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
+                <Component api={api} roleList={this.state.roleList} customer={this.customer} compCode={this.compCode} username={this.username} loadUserDetails={this.state.defUserMaster} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} backPath={(!this.routeObj) ? null : this.routeObj.backPath} {...this.props} />
             )
         }
     }

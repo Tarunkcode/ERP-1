@@ -14,9 +14,6 @@ interface IState {
 }
 export default function SalePurchaseTypeLoadDetails(Component: any) {
     let api = useFetch();
-    let compCode = window.localStorage.getItem('compCode') || ""
-    let customer = window.localStorage.getItem('customer') || ""
-    let username = window.sessionStorage.getItem('username') || ""
 
 
 
@@ -45,6 +42,9 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
                 lApi: undefined
             }
         }
+    compCode = window.localStorage.getItem('compCode') || ""
+    customer = window.localStorage.getItem('customer') || ""
+    username = window.sessionStorage.getItem('username') || ""
         routeObj = this.props.location.state;
 
         loadSPTypeMaster = async () => {
@@ -93,7 +93,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
 
         loadGstCat = async () => {
             const loader = this.context;
-            let urlStr: string = `/api/LoadMasterData?MasterType=${2008}&Company=${compCode}&Customer=${customer}`
+            let urlStr: string = `/api/LoadMasterData?MasterType=${2008}&Company=${this.compCode}&Customer=${this.customer}`
             try {
                 loader.setLoader(true)
                 let { res, got } = await api(urlStr, "GET", '');
@@ -116,7 +116,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
 
         getBillSundryList = async () => {
             const loader = this.context;
-            let url = `/api/BSMasterLoad?&Company=${compCode}&Customer=${customer}`;
+            let url = `/api/BSMasterLoad?&Company=${this.compCode}&Customer=${this.customer}`;
             try {
                 loader.setLoader(true)
                 let { res, got } = await api(url, "GET", '');
@@ -131,7 +131,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
                         bstype: getBSTypeName(option.bsfed),
                         nature: option.bstype == 1 ? "Additive" : "Subtractive",
                         bsval: option.bsvalue,
-                        bstypecode: option.fed,
+                        bstypecode: option.bsfed,
                         naturecode : option.bstype
                     }))
 
@@ -164,7 +164,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
         }
         render() {
             return (
-                <Component api={api} billSundryList={this.state.billSundry} customer={parseInt(customer)} compCode={parseInt(compCode)} username={username} gstCategory={this.state.gstCat} loadSPTypeMaster={this.state.defSPType} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
+                <Component api={api} billSundryList={this.state.billSundry} customer={parseInt(this.customer)} compCode={parseInt(this.compCode)} username={this.username} gstCategory={this.state.gstCat} loadSPTypeMaster={this.state.defSPType} gettingVirtualCode={(!this.routeObj) ? 0 : parseInt(this.routeObj.code)} {...this.props} />
             )
         }
     }

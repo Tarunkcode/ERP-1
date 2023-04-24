@@ -97,7 +97,8 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"
-                            length={60 }
+                            length={60}
+                            isMandate={ true}
                         />
                         <span className="col-1 m-0"></span>
 
@@ -110,18 +111,18 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                         {
                             pagecode == 13 ? (
                           
-                                <AutoComp name="gsttype" label="GST Type" ipTitle="Select GST Type" list={[{ value: 1, label: 'Enter State' }, { value: 2, label: 'Local' }, { value: 3, label: 'Export' }]} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttypename : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true } />
+                                <AutoComp name="gsttype" label="GST Type" ipTitle="Select GST Type" list={[{ value: 1, label: 'Enter State' }, { value: 2, label: 'Local' }, { value: 3, label: 'Export' }]} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gsttypename : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true} isMandate={true} />
 
                                    
                             ) : (<MasterInput3
-                                defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].defaultvalue : ''}
+                                    defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].defaultvalue : ''}
                                 handleChange={handleChange}
                                 name="defaultvalue"
                                 classCategory="form-control inp col-4  seriesConf select"
                                 ipType="number"
                                 label="Default Value"
                                 ipTitle="Enter Default Value (%)"
-
+                                    isMandate={true}
                             />)
                         }
 
@@ -136,7 +137,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
 
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <AutoComp name="usefor" label="Use For" ipTitle="Select Use For" list={[{ value: 1, label: 'Company' }, { value: 2, label: 'Branch' }]} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].usefor : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true}/>
+                        <AutoComp name="usefor" label="Use For" ipTitle="Select Use For" list={[{ value: 1, label: 'Company' }, { value: 2, label: 'Branch' }]} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].useforname : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true} isMandate={true}/>
                    
 
                         <span className="col-1 m-0"></span>
@@ -163,7 +164,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                                     ipType="text"
                                     label="Branch Code"
                                     ipTitle="Enter Branch Code"
-
+                                    isMandate={true}
                                 />
                                 <span className="col-1 m-0"></span>
                                 <span className="col-4 m-0"></span>
@@ -173,13 +174,13 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
                     <span className="d-flex section2 col-sm-12">
                         {
                             pagecode == 13 ? (
-                                <AutoComp name="gstcat" label="GST Category" ipTitle="Select GST Category" list={gstCat} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gstcat : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true} />
+                                <AutoComp name="gstcat" label="GST Category" ipTitle="Select GST Category" list={gstCat} defaultt={defaultLoad.sptypeheader ? defaultLoad.sptypeheader[0].gstcatname : ''} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" type={true} isMandate={true}/>
 
                             ) : (<MasterInput3
 
                                 handleChange={() => { }}
                                 name=""
-
+                                    isMandate={true}
                                 classCategory="form-control inp col-4  seriesConf select invisible"
                                 ipType="text"
                                 label=""

@@ -156,12 +156,15 @@ class Role_Master extends React.Component<IProps, IState> {
     handlePosting = async (e: any) => {
         e.preventDefault();
         if (this.props.gettingVirtualCode !== 0) {
-            if (this.props.defRoleMaster.roleheader.name == '') {
+            if (this.props.defRoleMaster.roleheader.name == '' && this.state.name == '') {
                 toast.info("Please Enter a Role Name");
                 return;
             }
             else if (!this.state.isAllStatus) {
-                this.state.rawObj.roleright.length === 0 ? toast.info(`Please Check Some Rights for ${this.state.name ? this.state.name :this.props.defRoleMaster.roleheader.name} Role`) : null
+                if (this.state.rawObj.roleright.length === 0 || this.state.rawObj.roleright[0] === { code: 0 }) {
+                    toast.info('Please check some role rights')
+                    return;
+                }
             }
         } else {
             if (this.state.name == '') {
@@ -169,7 +172,10 @@ class Role_Master extends React.Component<IProps, IState> {
                 return;
             }
             else if (!this.state.isAllStatus) {
-                this.state.rawObj.roleright.length === 0 ? toast.info(`Please Check Some Rights for ${this.state.name} Role`) : null
+                if ( this.state.rawObj.roleright[0] === {}) {
+                    toast.info('Please check some role rights')
+                    return;
+                }
             }
         }
         /*  if(!this.state.name) return alert('Name Cannnot be Empty')*/
