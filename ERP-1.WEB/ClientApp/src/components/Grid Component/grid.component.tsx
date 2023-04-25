@@ -161,8 +161,8 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
     }
 
 
-    const onAddRow = () => {
-
+    const onAddRow = (e : any) => {
+        e.preventDefault();
         let lastrow = gridApi.getDisplayedRowAtIndex(gridApi.getLastDisplayedRow());
         let lastIndex = lastrow.rowIndex;
         console.log('length++', lastrow.rowIndex);
@@ -190,15 +190,14 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
                 <AgGridReact
                     rowData={rowData}
                     columnDefs={colDef}
-                    onCellEditingStarted={onCellClicked}
-                    onCellEditingStopped={checkDuplicacy}
-                
                     scrollbarWidth={8}
                     getRowNodeId={(data: any) => data.id}
+                    onGridReady={onGridReady}
+                    onCellEditingStarted={onCellClicked}
+                    onCellEditingStopped={checkDuplicacy}
                     onCellKeyDown={CustomFunctionalities}
                     enableCellEditingOnBackspace={true}
                     gridOptions={gridOptions}
-                    onGridReady={onGridReady}
                     alwaysShowHorizontalScroll={true}
                     alwaysShowVerticalScroll={true}
 

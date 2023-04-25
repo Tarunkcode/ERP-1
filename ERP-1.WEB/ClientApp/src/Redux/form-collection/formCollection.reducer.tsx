@@ -37,11 +37,17 @@ const formDataCollectionReducer = (STATE = INITIAL_STATE, action: IAction) => {
         case "AddOnFormData":
             if (action.label == "AccountMaster") STATE.AccountMaster[0][action.key] = action.payload;//checked
             else if (action.label == "AddressDetail") STATE.AddressDetail[0][action.key] = action.payload; //checked
-            else if (action.label == "ShippingAddressDetail") STATE.AddressDetail.push(...STATE.AddressDetail, action.payload) ;//checked
-            else if (action.label == "PlantAddressDetail") STATE.AddressDetail.push(...STATE.AddressDetail , action.payload) ;//checked
-
-            else if (action.label == "BankDetail") STATE.BankDetail.push(...STATE.BankDetail, action.payload);// checked
-
+            else if (action.label == "ShippingAddressDetail") {
+                STATE.AddressDetail = [];
+                STATE.AddressDetail.push(action.payload);//checked
+            }
+            else if (action.label == "PlantAddressDetail") {
+                STATE.AddressDetail = [];
+                STATE.AddressDetail.push(action.payload);//checked
+            }
+            else if (action.label == "BankDetail") {
+                STATE.BankDetail.push(action.payload);// checked
+            }
             else if (action.label == "AccProductCurrency") STATE.AccProductCurrency[0][action.key] = action.payload;
 
             else if (action.label == "CommercialDetail") STATE.CommercialDetail[0][action.key] = action.payload;

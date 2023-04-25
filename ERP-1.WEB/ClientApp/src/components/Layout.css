@@ -171,11 +171,12 @@ li:hover{
     padding: 0;
 }
 .adminSvg {
-    width: 33px;
+    width: 107px;
     margin: 5px;
     padding: 0;
-    color: red;
-    font-size:0.8rem;
+    color: yellow;
+    font-weight:bolder;
+    font-size:1rem;
 }
 accSvg {
     display:contents;

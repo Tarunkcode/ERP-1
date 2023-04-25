@@ -38,7 +38,7 @@ export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list,
                 showOnFocus: true,
                 onSelect: function (item: any) {
                     ip.value = item.label;
-                    collect(item.value , name);
+                    collect(item.value , name, item);
                 }
             });
 

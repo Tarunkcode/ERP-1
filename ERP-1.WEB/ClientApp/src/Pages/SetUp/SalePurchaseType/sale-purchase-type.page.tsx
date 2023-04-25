@@ -11,8 +11,10 @@ import LoadGrid from '../../../components/Grid Component/load-grid.component';
 import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
 import { store2 } from '../../../Redux/config/config.reducer';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, vccode, defaultLoad, handleChange, handlePosting, pageTitle, getMasterType, configType, SelectList, gstCat, billSundry, getTableData, pagecode, collectSelectedItem, ...otherProps }: any) {
-
+    const history1 = useHistory();
 
     useEffect(() => {
         if (configType == '/add-sale-type') {
@@ -220,7 +222,7 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
             <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
                 <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 " onClick={handlePosting}>Save & Submit</button>
-                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+                <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} onClick={() => { history1.push('/successfully-quit'); toast.success('Quit Successfully !') }} className="btn btn-warning pl-0 pr-0">Quit</button>
             </div>
         </>
     );

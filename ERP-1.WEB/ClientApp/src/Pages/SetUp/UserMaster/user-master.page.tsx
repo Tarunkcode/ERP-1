@@ -14,6 +14,7 @@ import { LoaderContext } from '../../../AppContext/loaderContext';
 
 function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, customer, compCode, username }: any) {
     const { setLoader } = React.useContext(LoaderContext);
+    const history1 = useHistory();
     var [rawObj, setRawObj]: any = React.useState({});
 
   
@@ -99,7 +100,7 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
                 toast.success(got.msg);
                 setLoader(false);
                 let formObj = document.getElementById("form");
-                gettingVirtualCode === 0 ? clear_form(formObj) : history.push('/successfully-modify')
+                gettingVirtualCode === 0 ? clear_form(formObj) : window.history.go(-1)
             }
             else {
                 setLoader(false)
@@ -155,6 +156,8 @@ function UserMaster_Page({ loadUserDetails, gettingVirtualCode, roleList, custom
                 <div className="btn-group col-2 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'left' }}>
 
                     <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={handlePosting} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save</button>
+
+                    <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} onClick={() => { history1.push('/successfully-quit'); toast.success('Quit Successfully !') }} className="btn btn-warning pl-0 pr-0">Quit</button>
 
                 </div>
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { NavLink, Prompt, useHistory } from 'react-router-dom';
-import { InputList, MasterInput } from '../../../components/custom-input/custom-input.component';
+import { InputList, MasterInput, MasterInput2 } from '../../../components/custom-input/custom-input.component';
 import CustomeSwitch, { CustomeSwitch2 } from '../../../components/CustomSwitch/custom-switch.component';
 
 import BOMModals from '../../../components/Modals/BomModals';
@@ -23,8 +23,9 @@ import 'ag-grid-autocomplete-editor/dist/main.css';
 import WriteGrid from '../../../components/Grid Component/grid.component';
 import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
+import AutoComp from '../../../components/custom-input/droplist/droplist.component';
 
-function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, handle_BOM_Header_List, routingCode, setRoutingCode, ...otherProps }: any) {
+function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, routingCode, setRoutingCode, CollectList, seriesNumType, ...otherProps }: any) {
 
 
     let [isCopy, setIsCopy]: any = useState(false)
@@ -32,8 +33,8 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
     let [iName, setIName]: any = useState("")
     //-------------------------------------------------------------------------Routing Variable--------------------------------------------------------
     let [iUom, setIUom]: any = useState({})
-    var [seriesCode, setSeriesCode]: any = useState(0)
-    var [seriesNumType, setSeriesNumType]: any = useState(0)
+
+
 
 
 
@@ -196,93 +197,73 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
                                 <span className="d-flex section2 col-sm-12">
 
 
-                                    <span className="col-4 m-0 p-0 d-flex">
 
-                                        <>
-                                            <label htmlFor="series" style={{ fontSize: '1rem', marginRight: '35px' }} className="form-label pr-0 labl labl2 col-3">Series</label>
-                                        </>
-                                        <span className="m-0 p-0" style={{ width: '100%' }}>
-                                            <DatalistInput
+                                    <AutoComp name="series" label="Series" ipTitle="Select Series" list={seriesLoad} ipType="text" collect={CollectList} classCategory="form-control col-4 inp str" isMandate={true} />
 
-                                                className="d-flex col-12 m-0 p-0"
-                                                inputProps={{ className: 'form-control inp col-12 BOMHeader int', name: 'series' }}
-                                                listboxProps={{ className: 'text-left mt-5' }}
+                                </span>
+                                <span className="d-flex section2 col-sm-12">
 
-                                                onSelect={(item: any) => { setSeriesCode(item.id); setSeriesNumType(item.numbertype); setRoutingCode(item.id, item.prefix); handle_BOM_Header_List(item) }}
-                                                items={seriesLoad}
-                                            />
-                                        </span>
-                                    </span>
-                                    <MasterInput name="vchno" label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control inp BOMHeader text" read={seriesNumType === 1 ? true : false} />
+                                    <MasterInput2 name="vchno" label="Routing Code" ipTitle="Enter Routing Code" ipType="text" handleChange={() => { }} classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
 
 
+                                    <span className="col-1 m-0"></span>
 
-                                    <MasterInput name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control BOMHeader inp text" handleChange={() => { }} />
-
-
+                                    <MasterInput2 name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <span className="col-4 m-0 p-0 d-flex">
-                                        <>
-                                            <label htmlFor="item" style={{ fontSize: '1rem', marginRight: '35px' }} className="form-label pr-0 labl labl2 col-3">Item Code</label>
-                                        </>
-                                        <span className="m-0 p-0" style={{ width: '100%' }}>
-                                            <DatalistInput
+                                    {/*<span className="col-4 m-0 p-0 d-flex">*/}
+                                    {/*    <>*/}
+                                    {/*        <label htmlFor="item" style={{ fontSize: '1rem', marginRight: '35px' }} className="form-label pr-0 labl labl2 col-3">Item Code</label>*/}
+                                    {/*    </>*/}
+                                    {/*    <span className="m-0 p-0" style={{ width: '100%' }}>*/}
+                                    {/*        <DatalistInput*/}
 
-                                                className="d-flex col-12 m-0 p-0"
-                                                inputProps={{ className: 'form-control inp col-12 BOMHeader', name: 'item' }}
-                                                listboxProps={{ className: 'text-left mt-5' }}
-                                                value={iCode}
-                                                onSelect={(item: any) => {
-                                                    let arr = item.value.split("|")
-                                                    console.log('arr', arr)
-                                                    let iName = arr[0]
-                                                    let iCode = arr[1]
-                                                    let iUomName = item.uomname
-                                                    let uom = item.uom
-                                                    setIUom({ uom: uom, uomName: iUomName })
-                                                    setICode(iCode);
-                                                    setIName(iName);
-                                                    handle_BOM_Header_List(item)
-                                                }}
-                                                items={codeNameLoad12}
-                                            />
-                                        </span>
-                                    </span>
+                                    {/*            className="d-flex col-12 m-0 p-0"*/}
+                                    {/*            inputProps={{ className: 'form-control inp col-12 BOMHeader', name: 'item' }}*/}
+                                    {/*            listboxProps={{ className: 'text-left mt-5' }}*/}
+                                    {/*            value={iCode}*/}
+                                    {/*            onSelect={(item: any) => {*/}
+                                    {/*                let arr = item.value.split("|")*/}
+                                    {/*                console.log('arr', arr)*/}
+                                    {/*                let iName = arr[0]*/}
+                                    {/*                let iCode = arr[1]*/}
+                                    {/*                let iUomName = item.uomname*/}
+                                    {/*                let uom = item.uom*/}
+                                    {/*                setIUom({ uom: uom, uomName: iUomName })*/}
+                                    {/*                setICode(iCode);*/}
+                                    {/*                setIName(iName);*/}
+                                    {/*                handle_BOM_Header_List(item)*/}
+                                    {/*            }}*/}
+                                    {/*            items={codeNameLoad12}*/}
+                                    {/*        />*/}
+                                    {/*    </span>*/}
+                                    {/*</span>*/}
 
+
+                                    <AutoComp name="item" label="Item Code" ipTitle="Select Item Code" list={codeNameLoad12} ipType="text" collect={CollectList} classCategory="form-control col-4 inp str" isMandate={true} />
                                     {/*missed*/}
-                                    <MasterInput name="itemname" defaultt={iName} label="Item Name" ipTitle="Enter Item Name" ipType="text" classCategory="form-control BOMHeader inp text" read={true} handleChange={handleBOMHeader} />
 
+                                    <span className="col-1 m-0"></span>
 
+                                    <MasterInput2 name="itemname" defaultt={iName} label="Item Name" ipTitle="Enter Item Name" ipType="text" handleChange={() => { }} classCategory="form-control col-12  BOMHeader text" length={60} read={true} isMandate={true} />
 
-                                    <MasterInput name="unit" defaultt={iUom.uomName} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader inp text" read={true} handleChange={handleBOMHeader} />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput name="qty" label="Produce Qty" ipTitle="Enter Produce Qty" ipType="number" classCategory="form-control inp number BOMHeader" handleChange={handleBOMHeader} />
+                                    <MasterInput2 name="unit" defaultt={iUom.uomName} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader col-12 text" length={60} read={true} isMandate={true} handleChange={handleBOMHeader} />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="qty" label="Produce Qty" ipTitle="Enter Produce Qty" ipType="number" classCategory="form-control col-12 number BOMHeader" handleChange={handleBOMHeader} isMandate={true} length={60} />
 
 
-                                    <>
-                                        <label htmlFor="majProd" style={{ fontSize: '1rem' }} className="form-label labl labl2">Valid From</label>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DatePicker
-                                                inputFormat="DD/MM/YYYY"
-                                                value={value}
-                                                className="form-control inp BOMHeader"
-                                                name='validfrom'
-                                                onChange={(newValue: any) => {
-                                                    setValue(newValue);
-                                                }}
-                                                renderInput={(params: any) => <TextField {...params} />}
-                                            />
-                                        </LocalizationProvider>
-                                    </>
-                                    <span className="col-4">
-                                        <CustomeSwitch2 lablClass="custom-control-label col-10 m-0 ml-4 switch BOMHeader" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input BOMHeader col-3" handleChange={handleBOMHeader} />
-                                    </span>
                                 </span>
 
+                                    <span className="d-flex section2 col-sm-12">
+                                   
+                                    <MasterInput2 name="validfrom" label="Valid From" ipTitle="Enter Valid From Date" ipType="date" classCategory="form-control col-12 BOMHeader" handleChange={handleBOMHeader} isMandate={true} />
+                                    <span className="col-1 m-0"></span>
+                                    <CustomeSwitch2 lablClass="custom-control-label col-4" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input col-3 BOMHeader" handleChange={handleBOMHeader} />
+                                    </span>
                             </div>
                         </fieldset>
                     </form>

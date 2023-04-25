@@ -105,7 +105,14 @@ class SPType extends React.Component<IProps, IState> {
     collectTableData = async () => {
 
         let dataSet: any[] = await this.getAllRows();
+        if (dataSet.length === 0 || dataSet === null) {
 
+            dataSet = [{}]
+            await this.setState({
+                rawObj: dataSet
+            })
+            return;
+        }
         dataSet.map((item: any) => {
             this.props.billSundryList.map((option: any) => {
                 if (option.value === item.bscode.value) {
@@ -189,7 +196,7 @@ class SPType extends React.Component<IProps, IState> {
             toast.info("Please Enter Gst Category !");
             return;
 
-        } else if (this.state.masterType === 14 && !store2.getState().seriesConf.defaultvalue) {
+        } else if (this.state.masterType === 14 && !store2.getState().seriesConf.defaultvalue && store2.getState().seriesConf.defaultvalue !== 0) {
             toast.info("Please Enter Default value !");
             return;
 
@@ -255,7 +262,7 @@ class SPType extends React.Component<IProps, IState> {
                 toast.success(got.msg)
 
                 let ref = document.getElementById("form");
-                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : window.history.go(-1)
 
             } else {
                 loader.setLoader(false)

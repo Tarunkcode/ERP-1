@@ -215,7 +215,7 @@ class ItemMasterChild extends React.PureComponent<IProps, IState> {
                 toast.success(r);
                 setLoader(false)
                 let ref = document.getElementById("form");
-                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : window.history.go(-1)
 
             }
             else {

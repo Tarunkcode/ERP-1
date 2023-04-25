@@ -10,7 +10,8 @@ interface IProps {
 }
 interface IState {
     series: any[],
-  
+    
+    seriesNumType: number,
     routingCode: string,
     process: any[],
     Item_Code$Name12: any[],
@@ -23,6 +24,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             series: [],
+            seriesNumType: 0,
             routingCode: '',
             process: [],
             Item_Code$Name12: [],
@@ -43,8 +45,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
 
 
-    getRoutingCode = async (seriesCode: any, prefix: string) => {
-        seriesCode = parseInt(seriesCode);
+    getRoutingCode = async (seriesCode: number, prefix: string) => {
+       
         let vchUrl = `/api/GetVchNo?TranType=12&SrCode=${seriesCode}&BSave=0`;
         try {
             let { got, res } = await this.props.api(vchUrl, "GET", '');
@@ -67,14 +69,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
         try {
             let { res, got } = await this.props.api(SeriesUrl, "GET", '');
             if (res.status == 200) {
-                let series: any = got.data.map((option: any) => ({
-                    numbertype: option.numbertype,
-                    id: option.code,
-                    prefix: option.prefix,
-                    value: option.name,
-                    name: "series"
-                }))
-                this.setState({ series: series })
+               
+                this.setState({ series: got.data })
             }
             else toast.error(res.msg);
         }
@@ -83,14 +79,13 @@ class BOM_Routing extends React.Component<IProps, IState> {
         }
     }
     getProcess = async () => {
-        let processUrl = '/api/LoadMasterData?MasterType=11&Company=46&Customer=57';
+        let processUrl = `/api/LoadMasterData?MasterType=11&Company=${this.compCode}&Customer=${this.customer}`;
         try {
             let { res, got } = await this.props.api(processUrl, 'GET', '');
             if (res.status == 200) {
 
-                const itm2: any = got.data.map((opn: any) => ({ label: opn.name, value: opn.code }));
-                /*                console.log('items................',itm2)*/
-                this.setState({ process: itm2 })
+              
+                this.setState({ process: got.data })
             }
             else toast.error(res.msg);
         } catch (err) {
@@ -190,14 +185,11 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 
     //___________________________________________________________Process__________________________________________________________________
-
-    //onSelectionChanged(event: SelectionChangedEvent) {
-    //    const selectedData = this.gridApi.getSelectedRows();
-    //    console.log('Selection updated');
-    //}
-    handle_BOM_Header_List = (item: any) => {
-        let value = parseInt(item.id);
-        let name = item.value;
+    CollectList = (value: any, name: string, item : any) => {
+        if (name == 'series') {
+            this.setState({ seriesNumType: item.numbertype } )
+           this.getRoutingCode( item.value, item.prefix);
+        }
         BOM_STORE.dispatch({ payload: value, key: name, type: "bom_struct", label: 'BOMHeader' });
         this.setState({
             bomCurrentState: {
@@ -207,6 +199,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
         })
 
     }
+
     handle_BOMHeader_Change = (e: any) => {
         e.preventDefault();
         let value = this.afterValueConvert(e);
@@ -471,12 +464,14 @@ class BOM_Routing extends React.Component<IProps, IState> {
             <BomRoutingConfig_Page
                 seriesLoad={this.state.series}
                 processLoad={this.state.process}
-                routingCode={this.state.routingCode }
+                routingCode={this.state.routingCode}
+                seriesNumType={this.state.seriesNumType}
                 setRoutingCode={this.getRoutingCode.bind(this) }
                 codeNameLoad12={this.state.Item_Code$Name12}
                 codeNameLoad23={this.state.Item_Code$Name23}
-                handle_BOM_Header_List={this.handle_BOM_Header_List.bind(this)}
+                CollectList={this.CollectList.bind(this) }
                 handleBOMAltItem={this.handle_BOMAltItem_Change.bind(this)}
+
                 handleBomCutComponenet={this.handle_BomCutComponenet_Change.bind(this)}
                 handleBomDetails={this.handle_BomDetails_Change.bind(this)}
                 handleBOMHeader={this.handle_BOMHeader_Change.bind(this)}

@@ -102,7 +102,9 @@ export function MasterInput2({ name, defaultt, label, ipTitle, key4validate, ipT
         <>
             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 ml-2 mr-2 labl2">{isMandate && isMandate === true ? (<text>{label} <i style={{ color: 'red', fontSize: '20px' }}>*</i></text>) : label}</label>
             <span className="col-4 p-0 m-0">
-                <input key={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} id={name} onChange={ValidateField} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required maxLength={length ? length : 80} min={ipType === 'number' ? "0" : ""} />
+                {
+                    props.read === true ? (<input key={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} id={name} onChange={ValidateField} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required readOnly maxLength={length ? length : 80} min={ipType === 'number' ? "0" : ""} />) : (<input key={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} id={name} onChange={ValidateField} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required maxLength={length ? length : 80} min={ipType === 'number' ? "0" : ""} />)
+                }
                 <div className="text-danger m-0 p-2" style={{ position: 'absolute', top: '53%', left: '0%', backgroundColor: 'transparent', opacity: 1.5, zIndex: .2, border: 'none', fontSize: '0.9rem' }}>{error[name]}</div>
             </span>
 
@@ -166,10 +168,18 @@ export function CustomSelect({ label, name, handleChange, classCategory, def, ..
                 height: '45px',
                 marginBottom: '20px'
             }}>
+                {
+                    def == 1 ?
+                        (<>
+                            <option selected value={1}>Y</option>
+                            <option value={0}>N</option>
+                        </>
+                        ) : (<>
+                            <option value={1}>Y</option>
+                            <option selected value={0}>N</option></>
+                        )
+                }
 
-
-                <option value={1}>Y</option>
-                <option selected value={0}>N</option>
 
 
             </select>

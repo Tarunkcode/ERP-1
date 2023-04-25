@@ -1,5 +1,7 @@
 ﻿import * as React from 'react';
 import DatalistInput from 'react-datalist-input';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import { CustomSelect, InputList, MasterInput2 } from '../../../components/custom-input/custom-input.component';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
 import CustomeSwitch from '../../../components/CustomSwitch/custom-switch.component';
@@ -24,7 +26,7 @@ function AddItemMaster({ handleChangeField, handleSave$Submit, title, defItemDet
     subCat, ...props }: any) {
     const nature = [{ value: 1, label: 'Item' }, { value: 2, label: 'Service' }, { value: 3, label: 'Asset' }]
     const valueType = [{ value: 1, label: 'FIFO' }, { value: 2, label: 'LIFO' }, { value: 3, label: 'Average' }, { value: 4, label: 'Wt. Average' }]
-
+    const history1 = useHistory();
 
     React.useEffect(() => { console.log('default', defItemDetails) }, [defItemDetails])
     return (
@@ -268,7 +270,7 @@ function AddItemMaster({ handleChangeField, handleSave$Submit, title, defItemDet
                     <div className="btn-group col-12 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                         <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0" onClick={handleSave$Submit}>Save</button>
                         <StockMasterModal />
-                        <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger pl-0 pr-0">Quit</button>
+                        <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} onClick={() => { history1.push('/successfully-quit'); toast.success('Quit Successfully !') }} className="btn btn-warning pl-0 pr-0">Quit</button>
                     </div>
 
                 </form>

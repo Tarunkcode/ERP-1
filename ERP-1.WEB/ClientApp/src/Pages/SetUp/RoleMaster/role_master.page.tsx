@@ -1,9 +1,12 @@
 ﻿import * as React from 'react';
 import { useContext } from 'react';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import { LoaderContext } from '../../../AppContext/loaderContext';
 import Tree2 from "../../../components/custom-tree/tree2.component"
 import useFetch from '../../../components/Hooks/useFetch';
 export default function Role_Master_Page({ defRoleMaster, handleChange, handlePosting, getName, getDes1, getDes2, getDes3, getDes4, vccode, getAllStatus, suDefArr, ...props }: any) {
+    const history1 = useHistory();
     var [tree, setTree]: any = React.useState([])
     var [suStatus, setSuStatus]: any = React.useState(false)
 
@@ -90,7 +93,13 @@ export default function Role_Master_Page({ defRoleMaster, handleChange, handlePo
                                         <label htmlFor="des4" className="form-label col-2"></label>
                                         <input name="des4" defaultValue={defRoleMaster.roleheader ? defRoleMaster.roleheader[0].des4 : ''} className="form form-control inp col-10 mt-2" placeholder="Enter Description 4" onBlur={findDes4} required maxLength={60}/>
                                     </span>
-                                    <button className="btn btn-success col-4 m-3" onClick={handlePosting}>Save</button>
+                                    <div className="btn-group col-2 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'left' }}>
+
+                                        <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={handlePosting} className="btn btn-success mr-2 ml-2 p-2">Save</button>
+
+                                        <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} onClick={() => { history1.push('/successfully-quit'); toast.success('Quit Successfully !') }} className="btn btn-warning p-2">Quit</button>
+
+                                    </div>
                                 </form>
 
                             </div>

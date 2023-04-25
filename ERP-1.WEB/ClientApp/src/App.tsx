@@ -380,11 +380,12 @@ function App() {
                     '/add-Vendor-Quot-Comp',
                     '/add-TBE',
                     '/successfully-modify',
-
+                    '/successfully-quit'
 
                 ]}>
                     <Layout>
                         <Route exact path='/successfully-modify' component={SuccessFullyModify} />
+                        <Route exact path='/successfully-quit' component={SuccessFullyModify} />
                         {/*Dashboards*/}
                         <Route exact path='/Home' component={Home} />
                         <Route exact path='/Purchase' component={Purchase} />

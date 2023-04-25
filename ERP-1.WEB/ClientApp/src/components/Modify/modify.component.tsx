@@ -245,7 +245,8 @@ class Modify_Child extends React.Component<IProps, IState> {
             switch (mAdd) {
                 case '/add-user-master': this.FetchNewUserList(); break;
                 case '/add-item-master': this.FetchItemMasterList(); break;
-                case '/add-customer-master' || '/add-supplier-master': this.FetchAccMasterList(master); break;
+                case '/add-customer-master': this.FetchAccMasterList(master); break;
+                case '/add-supplier-master': this.FetchAccMasterList(master); break;
                 default: this.FetchLoadingSubMasterList(master); break;
             }
             this.props.loader(false)
@@ -266,7 +267,8 @@ class Modify_Child extends React.Component<IProps, IState> {
                 switch (mAdd) {
                     case '/add-user-master': this.FetchNewUserList(); break;
                     case '/add-item-master': this.FetchItemMasterList(); break;
-                    case '/add-customer-master' || '/add-supplier-master': this.FetchAccMasterList(master); break;
+                    case '/add-customer-master': this.FetchAccMasterList(master); break;
+                    case '/add-supplier-master': this.FetchAccMasterList(master); break;
                     default: this.FetchLoadingSubMasterList(master); break;
                 }
                 this.props.loader(false)

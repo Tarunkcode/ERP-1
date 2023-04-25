@@ -63,47 +63,73 @@ export function fetchMasters(Component: any) {
             try {
                 let { res, got } = await api(defaultUrl, "GET", '');
                 if (res.status == 200) {
-                    let dataObj = got.data[0];
+
+                  let banklength = got.data[0].bankdetail.length;
                     //alter dataObj
                     if (got.data[0].bankdetail.length > 0) {
-                        got.data[0].bankdetail.map((item: any) => {
-                            item.name = { label: item.bankname, value: item.bank };
-                            item.address = { label: item.branchname, value: item.address }
-                            item.acno = item.acno;
-                            item.actype = item.actype;
-                            item.swiftcode = item.swiftcode;
-                            item.ifsccode = item.ifsccode;
-                            item.currency = { label: item.currencyname, value: item.currency };
-                            item.country = { label: item.countryname, value: item.country };
-                            item.accno = item.accno;
-                            item.acctype = item.acctype;
-                        })
-
-                    }
-                    if (got.data[0].addressdetail.length > 0) {
-                        if (got.data[0].addressdetail[0].addresstype === 2 || got.data[0].addressdetail[0].addresstype === 3) {
-                            got.data[0].addressdetail.map((item: any) => {
-
-                                item.pan = item.pan;
-                                item.addresstype = item.addressType;
-                                item.address1 = item.address1
-                                item.address2 = item.address2;
-                                item.address3 = item.address3;
-                                item.address4 = item.address4;
+                        await got.data[0].bankdetail.map((item: any) => {
+                            if (item.name !== 0) {
+                                item.name = { label: item.bankname, value: item.name };
+                                item.address = { label: item.branchname, value: item.address };
+                                item.acno = item.acno;
+                                item.actype = item.actype;
+                                item.swiftcode = item.swiftcode;
+                                item.ifsccode = item.ifsccode;
+                                item.currency = { label: item.currencyname, value: item.currency };
                                 item.country = { label: item.countryname, value: item.country };
-                                item.zone = { label: item.zonename, value: item.zone };
-                                item.state = { label: item.statename, value: item.state };
-                                item.city = { label: item.cityname, value: item.city };
-                                item.postcode = item.postcode;
-                                item.tel = item.tel;
-                                item.gstno = item.gstno;
-                                item.distance = item.distance;
+                                item.accno = item.accno;
+                                item.acctype = item.acctype;
                                 item.code = item.code;
                                 item.mastertype = item.mastertype;
+
+                            } else {
+                                item.name = null;
+                                item.address = null;
+                                item.currency = null;
+                                item.country = null;
+                            }
+                        })
+                        for (let i = 0; i < 10 - banklength; i++) {
+                            got.data[0].bankdetail.push({
+                                name: null,
+                                address: null,
+                                currency: null,
+                                country: null,
+                                acno: null,
+                                actype: null,
+                                swiftcode: null,
+                                ifsccode: null,
+                                accno: null,
+                                acctype: null
 
                             })
                         }
                     }
+                    if (got.data[0].addressdetail[0].addresstype === 2 || got.data[0].addressdetail[0].addresstype === 3) {
+
+                        await got.data[0].addressdetail.map((item: any) => {
+
+                            item.pan = item.pan;
+                            item.addresstype = item.addressType;
+                            item.address1 = item.address1;
+                            item.address2 = item.address2;
+                            item.address3 = item.address3;
+                            item.address4 = item.address4;
+                            item.country = { label: item.countryname, value: item.country };
+                            item.zone = { label: item.zonename, value: item.zone };
+                            item.state = { label: item.statename, value: item.state };
+                            item.city = { label: item.cityname, value: item.city };
+                            item.postcode = item.postcode;
+                            item.tel = item.tel;
+                            item.gstno = item.gstno;
+                            item.distance = item.distance;
+                            item.code = item.code;
+                            item.mastertype = item.mastertype;
+
+                        })
+
+                    }
+
                     this.setState({ default_data: got.data[0] });
                     loader.setLoader(false)
                 }

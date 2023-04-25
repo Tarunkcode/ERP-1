@@ -42,9 +42,9 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
                 lApi: undefined
             }
         }
-    compCode = window.localStorage.getItem('compCode') || ""
-    customer = window.localStorage.getItem('customer') || ""
-    username = window.sessionStorage.getItem('username') || ""
+        compCode = window.localStorage.getItem('compCode') || ""
+        customer = window.localStorage.getItem('customer') || ""
+        username = window.sessionStorage.getItem('username') || ""
         routeObj = this.props.location.state;
 
         loadSPTypeMaster = async () => {
@@ -55,28 +55,46 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
                 let { res, got } = await api(url, "GET", '');
                 if (res.status == 200) {
                     // alter got obj to show in default values
-                    if (!this.routeObj) { }
-                    else {
-                      
-                        // this is linked to collectTableData function in component
+                    let sptypedetail_length = got.data[0].sptypedetail.length;
+                    if (got.data[0].sptypedetail.length > 0) {
                         await got.data[0].sptypedetail.map((item: any) => {
+                            if (item.bscode !== 0) {
+                                //item.bssrno = item.bssrno;
+                                item.bscode = { label: item.bsname, value: item.bscode };
+                                item.bsval = item.bsval;
 
-                            //item.bssrno = item.bssrno;
-                            item.bscode = { label: item.bsname, value: item.bscode };
-                            item.bsval = item.bsval;
+                                // Ensure that name of type $ nature should match from getBSTypeName() to this Api returns
+                                item.bstype = item.bstypename;
+                                item.nature = item.naturename;
 
-                            // Ensure that name of type $ nature should match from getBSTypeName() to this Api returns
-                            item.bstype =  item.bstypename;
-                            item.nature = item.naturename;
+                                // codes 
+                                item.bstypecode = item.bstype
+                                item.naturecode = item.nature
 
-                            // codes 
-                            item.bstypecode = item.bstype
-                            item.naturecode = item.nature
+                            } else {
+                                item.bscode = null;
+                                item.bsval = null;
+                                item.bstype = null;
+                                item.nature = null;
+
+                            }
                         })
 
+                        for (let i = 0; i < 10 - sptypedetail_length; i++) {
+                            console.log(';hit')
+                            got.data[0].sptypedetail.push({
+                                bscode: null,
+                                bsval: null,
+                                bstype: null,
+                                nature: null
+
+                            })
+                        }
 
 
                     }
+
+
 
                     this.setState({ defSPType: got.data[0] })
                     /*this.defInitStateObj = { ...got.data[0] }*/
@@ -127,12 +145,12 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
 
                         value: option.value,
                         label: option.label,
-                        bscode: {label: option.label, value : option.value},
+                        bscode: { label: option.label, value: option.value },
                         bstype: getBSTypeName(option.bsfed),
                         nature: option.bstype == 1 ? "Additive" : "Subtractive",
                         bsval: option.bsvalue,
                         bstypecode: option.bsfed,
-                        naturecode : option.bstype
+                        naturecode: option.bstype
                     }))
 
                     this.setState({ billSundry: billsun });
@@ -149,7 +167,7 @@ export default function SalePurchaseTypeLoadDetails(Component: any) {
         }
 
 
- 
+
 
         componentDidMount() {
 

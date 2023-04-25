@@ -11,6 +11,7 @@ import { clear_form } from '../../Helper Functions/table';
 
 
 export default function GSTCategory_Page() {
+    const history1 = useHistory();
     const api = useFetch();
     var [rawObj, setRawObj]: any = React.useState({});
     var [def, setDef]: any = React.useState({});
@@ -105,7 +106,7 @@ export default function GSTCategory_Page() {
                let ref = document.getElementById("form");
                toast.success(got.msg)
                clear_form(ref);
-               state === null || !state ? null : history.push('/successfully-modify')
+               state === null || !state ? null : window.history.go(-1)
            }else toast.error(got.msg)
         } catch (err) {
             alert(err)
@@ -137,7 +138,8 @@ export default function GSTCategory_Page() {
                 </form>
              
                 <div className="d-flex justify-content-center">
-                <button className="btn btn-success col-md-1 p-1 m-3" onClick={handlePosting}>Save</button>
+                    <button className="btn btn-success col-md-1 p-1 m-3" onClick={handlePosting}>Save</button>
+                    <button type="button" onClick={() => { history1.push('/successfully-quit'); toast.success('Quit Successfully !') }} className="btn btn-warning col-md-1 p-1 m-3">Quit</button>
                </div>
              
             </div>
