@@ -25,7 +25,7 @@ export default function ProductionOverHead_Page({ handleChange, pageTitle, handl
                             name="name"
                             defaultt={defaultData.name}
                             handleChange={handleChange}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"

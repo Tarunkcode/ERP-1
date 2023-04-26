@@ -54,6 +54,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 let data: string = got.data;
                 let routingCode: string = prefix + data;
                 this.setState({ routingCode: routingCode });
+                BOM_STORE.dispatch({ payload: routingCode, key: "vchno", type: "bom_struct", label: 'BOMHeader' });
             }
             else toast.error(res.msg);
 
@@ -64,7 +65,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 
    
-    getList = async () => {
+    getSeries = async () => {
         let SeriesUrl = `/api/GetSeries?TranType=12&SrType=0&Company=${this.compCode}&Customer=${this.customer}`;
         try {
             let { res, got } = await this.props.api(SeriesUrl, "GET", '');
@@ -115,15 +116,15 @@ class BOM_Routing extends React.Component<IProps, IState> {
             if (res.status == 200) {
 
                 let cd$Nm: any = got.data.map((option: any) => ({
-                    id: option.code,
-                    value: option.codestrname,
+                    value: option.code,
+                    label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-                    label: option.codestrname,
-                    name: 'item'
+                  
+                   
 
                 }))
-                console.log('code name and code................', cd$Nm)
+              
                 this.setState({ Item_Code$Name12: cd$Nm })
             }
             else toast.error(res.msg);
@@ -154,12 +155,11 @@ class BOM_Routing extends React.Component<IProps, IState> {
             if (res.status == 200) {
 
                 let cd$Nm: any = got.data.map((option: any) => ({
-                    id: option.code,
-                    value: option.codestrname,
+                    value: option.code,
+                    label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-                    label: option.codestrname,
-                    name: 'item'
+                    
 
                 }))
                 console.log('code name and code................', cd$Nm)
@@ -185,11 +185,22 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 
     //___________________________________________________________Process__________________________________________________________________
-    CollectList = (value: any, name: string, item : any) => {
+    CollectListWithItem = (item: any, name: string) => {
         if (name == 'series') {
-            this.setState({ seriesNumType: item.numbertype } )
-           this.getRoutingCode( item.value, item.prefix);
+            this.setState({ seriesNumType: item.numbertype })
+            if(item.numbertype == '1') this.getRoutingCode( item.value, item.prefix);
         }
+        BOM_STORE.dispatch({ payload: item.value, key: name, type: "bom_struct", label: 'BOMHeader' });
+        this.setState({
+            bomCurrentState: {
+                ...this.state.bomCurrentState,
+                BOMHeader: [{ ...BOM_STORE.getState().BOMHeader }]
+            }
+        })
+
+    }
+    CollectList = (value: any, name: string) => {
+        
         BOM_STORE.dispatch({ payload: value, key: name, type: "bom_struct", label: 'BOMHeader' });
         this.setState({
             bomCurrentState: {
@@ -434,7 +445,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
 
     componentDidMount() {
-        this.getList();
+        this.getSeries();
         this.getProcess();
         this.getItemCode$Name12();
         this.getItemCode$Name23();
@@ -466,9 +477,10 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 processLoad={this.state.process}
                 routingCode={this.state.routingCode}
                 seriesNumType={this.state.seriesNumType}
-                setRoutingCode={this.getRoutingCode.bind(this) }
+               
                 codeNameLoad12={this.state.Item_Code$Name12}
                 codeNameLoad23={this.state.Item_Code$Name23}
+                CollectListWithItem={this.CollectListWithItem.bind(this) }
                 CollectList={this.CollectList.bind(this) }
                 handleBOMAltItem={this.handle_BOMAltItem_Change.bind(this)}
 

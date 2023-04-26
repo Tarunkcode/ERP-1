@@ -23,7 +23,7 @@ export default function QcParam_SampleType({ defaultData, getMasterType, pageTit
                             name="name"
                             handleChange={handleChange}
                             defaultt={defaultData.name}
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label={configType == '7' ? "Quality Parameter" : "Sampling Type"}
                             ipTitle={configType == '7' ? "Enter Quality Parameter" : "Enter Sampling Type"}

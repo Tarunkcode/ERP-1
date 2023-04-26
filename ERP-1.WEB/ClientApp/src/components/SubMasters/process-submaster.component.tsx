@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import { toast } from 'react-toastify';
+import { LoaderContext } from '../../AppContext/loaderContext';
 import Process_Page from '../../Pages/Sub-Master/process.page';
 import { store2 } from '../../Redux/config/config.reducer';
 import LoadProcessMaster from '../HOC/Load_Process_SubMaster';
@@ -10,14 +11,21 @@ interface IState {
     sNo: number;
     rawObj: object;
     defProcessMaster: any;
+    jobApi: any,
+    overApi: any;
+    oprnApi: any;
 }
 interface IProps {
     api: any,
     state: any;
     gettingVirtualCode: number;
-
+    overhead: any[],
+    operation: any[],
+    jobwork: any[],
+    matCenter : any[]
 }
 class RootProcess extends React.Component<IProps, IState> {
+    static contextType = LoaderContext;
     constructor(props: IProps) {
         super(props)
         this.state = {
@@ -25,14 +33,15 @@ class RootProcess extends React.Component<IProps, IState> {
             masterType: 0,
             sNo: 0,
             rawObj: {},
-            defProcessMaster: {}
+            defProcessMaster: {},
+            oprnApi: null,
+            jobApi: null,
+            overApi: null
         }
         this.handlePosting = this.handlePosting.bind(this);
-        this.HandleOverHeadIpSelect = this.HandleOverHeadIpSelect.bind(this);
-        this.HandleOperationIpSelect = this.HandleOperationIpSelect.bind(this);
-        this.HandleJobIpSelect = this.HandleJobIpSelect.bind(this);
+
         this.handleChange = this.handleChange.bind(this);
-   
+
     }
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
@@ -63,129 +72,173 @@ class RootProcess extends React.Component<IProps, IState> {
 
         }
     }
-   
+    //----------------------------------------------------------------------------------------------------------------------
+    getJobApi = (api: any) => {
+        this.setState({ jobApi: api })
+    }
+    getOverHeadApi = (api: any) => {
+        this.setState({ overApi: api })
+    }
+    getOprnApi = (api: any) => {
+        this.setState({ oprnApi: api })
+    }
 
+    getJobGridData = async () => {
+        let items: any[] = [];
+        this.state.jobApi.forEachNode(function (node: any) {
+            if (node.data.jbcode !== null)
+                items.push(node.data);
+        });
+        return items;
+    }
+    getOverHeadGridData = async () => {
+        let items: any[] = [];
+        this.state.overApi.forEachNode(function (node: any) {
+            if (node.data.poh !== null)
+                items.push(node.data);
+        });
+        return items;
+    }
+    getOprnGridData = async () => {
+        let items: any[] = [];
+        this.state.oprnApi.forEachNode(function (node: any) {
+            if (node.data.opr !== null)
+                items.push(node.data);
+        });
+        return items;
+    }
+    //-------------------------------------------------------------------------------------------------------------------------
+    saveJobWork = async () => {
+        let dataSet: any[] = await this.getJobGridData();
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = [{}]
+
+            return;
+        } else {
+            dataSet.map((item: any) => {
+                this.props.jobwork.map((option: any, ind: number) => {
+                    if (option.value === item.jbcode.value) {
+                        item.srno = ind + 1;
+                        item.jbcode = item.jbcode.value;
+                        item.jobworkon = item.jobworkon.value;
+
+
+                    }
+
+                })
+            })
+
+
+        }
+
+
+        await this.setState({
+            rawObj: {
+                ...this.state.rawObj,
+                processjobworker: dataSet
+            }
+        })
+    }
+    saveOperationDetails = async () => {
+        let dataSet: any[] = await this.getOprnGridData();
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = [{}]
+
+            return;
+        } else {
+            dataSet.map((item: any) => {
+                this.props.operation.map((option: any, ind: number) => {
+                    if (option.value === item.opr.value) {
+                        item.srno = ind + 1;
+                        item.opr = item.opr.value;
+
+                    }
+
+                })
+            })
+
+        }
+
+
+
+        await this.setState({
+            rawObj: {
+                ...this.state.rawObj,
+                processopration: dataSet
+            }
+        })
+    }
+    saveProcessOverHead = async () => {
+        let dataSet: any[] = await this.getOverHeadGridData();
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = [{}]
+
+        } else {
+
+            dataSet.map((item: any) => {
+                this.props.overhead.map((option: any, ind: number) => {
+                    if (option.value === item.poh.value) {
+                        item.srno = ind + 1;
+                        item.poh = item.poh.value;
+
+                    }
+
+                })
+            })
+        }
+
+
+
+        await this.setState({
+            rawObj: {
+                ...this.state.rawObj,
+                processpoh: dataSet
+            }
+        })
+    }
     fetchDefProcessMaster = async (code: any) => {
-
+        const loader = this.context;
         let urlStr = `/api/LoadProcessMaster?Code=${code}&Company=${this.compCode}&Customer=${this.customer}`
+        loader.setLoader(true);
         try {
             let { res, got } = await this.props.api(urlStr, "GET", '')
-            if(res.status == 200){
+            if (res.status == 200) {
                 var data = got.data[0];
+                // alter Job Work
+
+                //alter Operation
+
+                // alter Overhead
+
+
                 this.setState({ defProcessMaster: data });
-           
-                this.mainObj = data.esmastertable[0];
-                this.oprnArr = [...data.processopration];
-                this.ovrhdArr = [...data.processpoh];
-                this.jbWorkerArr = [...data.processjobworker];
-                console.log('overhead', this.ovrhdArr)
-                console.log('operation', this.oprnArr)
-                store2.dispatch({ payload: this.mainObj, key: "", type: "changeConfig", label: "modify_P_ESMaster" });
-                store2.dispatch({ payload: this.ovrhdArr, key: '', type: "changeConfig", label: "modify_P_overHead" });
-                store2.dispatch({ payload: this.oprnArr, key: '', type: "changeConfig", label: "modify_P_opr" });
-                store2.dispatch({ payload: this.jbWorkerArr, key: '', type: "changeConfig", label: "modify_P_Job" });
+                loader.setLoader(false);
+            } else {
+                toast.error('ERROR :: Loading Default Process Master Failed !');
+                loader.setLoader(false);
             }
         } catch (err) {
+            loader.setLoader(false);
             alert(err)
         }
     }
     componentDidUpdate(prevProps: any, prevState: any) {
         if (prevState.defProcessMaster !== this.state.defProcessMaster) {
-            console.log('updates', this.state.defProcessMaster);
+            this.setState({
+                rawObj: {
+                    ...this.state.defProcessMaster,
+                    esmastertable: [this.state.defProcessMaster.esmastertable[0]]
+                }
+            })
         }
     }
 
-    HandleOverHeadIpSelect = (code: string, name: string, row: any) => {
-      
-        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code)};
-        if (this.props.gettingVirtualCode === 0) {
-            store2.dispatch({ payload: mainObj, key: row, type: "changeConfig", label: "pMasterOverHead" });
-
-        } else {
-            this.ovrhdArr[parseInt(row)] = mainObj
- 
-                //this.localState.processpoh = this.ovrhdArr;
-
-            store2.dispatch({ payload: this.ovrhdArr, key: '', type: "changeConfig", label: "modify_P_overHead" });
-        }
-        
-          
-
-        this.setState({
-            rawObj: {
-                Code: this.props.gettingVirtualCode,
-                Customer: parseInt(this.customer),
-                Company: parseInt(this.compCode),
-                MasterType: 11,
-                UserName: this.username,
-                ...store2.getState().pMaster
-            }
-
-        })
-
-    }
-    HandleOperationIpSelect = (code: string, name: string, row: any) => {
-        let mainObj: object = { srno : parseInt(row) + 1, [name]: parseInt(code) };
-        if (this.props.gettingVirtualCode === 0) {
-            store2.dispatch({ payload: mainObj, key: row, type: "changeConfig", label: "pMasterOperation" });
-
-        } else {
-            this.oprnArr[parseInt(row)] = mainObj
-          
-            //this.localState.processopration = this.oprnArr;
-            console.log('oprn', this.oprnArr)
-            store2.dispatch({ payload: this.oprnArr, key: '', type: "changeConfig", label: "modify_P_opr" });
-
-        }
-
-      
-         
-
-        this.setState({
-            rawObj: {
-                Code: this.props.gettingVirtualCode,
-                Customer: parseInt(this.customer),
-                Company: parseInt(this.compCode),
-                MasterType: 11,
-                UserName: this.username,
-                ...store2.getState().pMaster
-            }
-
-        })
-
-    }
-    HandleJobIpSelect = (code: string, name: string, row: any) => {
-
-        let mainObj: object = { srno: parseInt(row) + 1, [name]: parseInt(code) };
-        if (this.props.gettingVirtualCode === 0) {
-            store2.dispatch({ payload: mainObj, key: row, type: "changeConfig", label: "pMasterJob" });
-
-
-        } else {
-            this.jbWorkerArr[parseInt(row)] = mainObj
-         
-            this.localState.processjobworker = this.jbWorkerArr;
-
-            store2.dispatch({ payload: this.jbWorkerArr, key: '', type: "changeConfig", label: "modify_P_Job" });
-
-        }
-            
-
-        this.setState({
-            rawObj: {
-                Code: this.props.gettingVirtualCode,
-                Customer: parseInt(this.customer),
-                Company: parseInt(this.compCode),
-                MasterType: 11,
-                UserName: this.username,
-                ...store2.getState().pMaster
-            }
-
-        })
-
-    }
 
     handleChange = (e: any) => {
+
         e.preventDefault();
 
         var value: any = '';
@@ -208,7 +261,7 @@ class RootProcess extends React.Component<IProps, IState> {
             if (e.currentTarget.classList.contains('pMaster')) {
 
                 store2.dispatch({ payload: value, key: label, type: "changeConfig", label: "pMaster" });
-               
+
 
             }
             else {
@@ -228,40 +281,63 @@ class RootProcess extends React.Component<IProps, IState> {
                 Company: parseInt(this.compCode),
                 MasterType: 11,
                 UserName: this.username,
-                ...store2.getState().pMaster
+                esmastertable: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0] ]
             }
 
         })
     }
     handlePosting = async (e: any) => {
-      
+        const loader = this.context;
+        loader.setLoader(true)
+        await this.saveJobWork();
+        await this.saveOperationDetails();
+        await this.saveProcessOverHead();
         e.preventDefault();
-          let i: any = this.state.rawObj;
-   
+        let i: any = this.state.rawObj;
+        console.log('i', JSON.stringify(i))
         const confUrl = '/api/SaveProcessMaster';
 
 
         try {
-            let {res, got } = await this.props.api(confUrl, "POST", i)
-            
+            let { res, got } = await this.props.api(confUrl, "POST", i)
+
             if (res.status == 200) {
+                loader.setLoader(false)
                 toast.success(got.msg)
 
             } else {
+                loader.setLoader(false)
                 toast.error(got.msg)
 
             }
-            store2.getState().pMaster.esmastertable[0] = {}
-            store2.getState().pMaster.processjobworker = []
-            store2.getState().pMaster.processpoh = []
-            store2.getState().pMaster.processopration = []
+
 
         } catch (err) {
+            loader.setLoader(false)
             alert(err)
         }
     }
-   
-   
+    collectList = async (value: any, name: string) => {
+
+        if (this.props.gettingVirtualCode === 0) {
+            store2.dispatch({ payload: parseInt(value), key: name, type: "changeConfig", label: "pMaster" });
+        } else {
+            let mainObj = {label :name , value : parseInt(value) }
+            store2.dispatch({ payload: mainObj, key: "", type: "changeConfig", label: "modify_P_ESMaster" });
+        }
+        this.setState({
+            rawObj: {
+                Code: this.props.gettingVirtualCode,
+                Customer: parseInt(this.customer),
+                Company: parseInt(this.compCode),
+                MasterType: 11,
+                UserName: this.username,
+                esmastertable: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0]]
+            }
+
+        })
+    }
+
     getMasterType = (val: any) => {
         this.setState({ masterType: val })
 
@@ -269,9 +345,9 @@ class RootProcess extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Process_Page HandleOperationIpSelect={this.HandleOperationIpSelect} HandleJobIpSelect={this.HandleJobIpSelect} HandleOverHeadIpSelect={this.HandleOverHeadIpSelect} defaultData={this.state.defProcessMaster} getMasterType={this.getMasterType} pageTitle="Add Process Master" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} compCode={this.compCode} customer={this.customer} virtualCode={this.props.gettingVirtualCode} />
+            <Process_Page defaultData={this.state.defProcessMaster} getMasterType={this.getMasterType} configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} compCode={this.compCode} customer={this.customer} virtualCode={this.props.gettingVirtualCode} overhead={this.props.overhead} operation={this.props.operation} jobwork={this.props.jobwork} collectJobApi={this.getJobApi} collectOperationApi={this.getOprnApi} collectOverHeadApi={this.getOverHeadApi} collectList={this.collectList} materialCenter={this.props.matCenter} />
         )
-         
+
     }
 }
 

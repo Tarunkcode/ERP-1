@@ -23,7 +23,7 @@ export default function SubUnit_Page({ getMasterType, handleChange, handlePostin
                             name="codeStr"
                             handleChange={handleChange}
                             defaultt={defaultData.codeStr}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Code"
                             ipTitle="Enter Code"
@@ -36,7 +36,7 @@ export default function SubUnit_Page({ getMasterType, handleChange, handlePostin
                             name="name"
                             handleChange={handleChange}
                             defaultt={defaultData.name}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"
@@ -49,7 +49,7 @@ export default function SubUnit_Page({ getMasterType, handleChange, handlePostin
                             name="s1"
                             handleChange={handleChange}
                             defaultt={defaultData.s1}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Print Name"
                             ipTitle="Enter Print Name"

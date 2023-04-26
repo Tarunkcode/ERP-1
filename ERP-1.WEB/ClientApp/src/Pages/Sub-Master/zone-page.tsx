@@ -54,7 +54,7 @@ const Zone_Page = ({ UgList, defaultData, getMasterType, pageTitle, collectSelec
                                     <AutoComp name="c1" label="Country" defaultt={defaultData ? defaultData.c1 : ''} ipTitle="Select Role" list={ugList} classCategory="form-control col-4 inp str" collect={collectSelectedItem} />
                                     <span className="col-1 m-0"></span>
 
-                                    <MasterInput2 name="name" label="Zone" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-4 inp subMaster" handleChange={handleChange } />
+                                    <MasterInput2 name="name" label="Zone" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-12 subMaster" handleChange={handleChange } />
                                 </span>
 
                              

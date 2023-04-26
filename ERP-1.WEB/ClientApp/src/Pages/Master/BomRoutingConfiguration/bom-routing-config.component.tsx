@@ -25,7 +25,7 @@ import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
 
-function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, routingCode, setRoutingCode, CollectList, seriesNumType, ...otherProps }: any) {
+function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, ...otherProps }: any) {
 
 
     let [isCopy, setIsCopy]: any = useState(false)
@@ -89,6 +89,17 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         cellEditorParams: {
             required: true,
             selectData: React.useMemo(() => { return processLoad }, [processLoad]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
+
+            },
             placeholder: "Select a Process"
         },
         valueFormatter: (params: any) => {
@@ -198,17 +209,17 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
 
 
 
-                                    <AutoComp name="series" label="Series" ipTitle="Select Series" list={seriesLoad} ipType="text" collect={CollectList} classCategory="form-control col-4 inp str" isMandate={true} />
+                                    <AutoComp name="series" label="Series" ipTitle="Select Series" list={seriesLoad} ipType="text" collectWithItem={CollectListWithItem} classCategory="form-control col-4 inp str" isMandate={true} />
 
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="vchno" label="Routing Code" ipTitle="Enter Routing Code" ipType="text" handleChange={() => { }} classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
+                                    <MasterInput2 name="vchno" defaultt={routingCode } label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
 
 
                                     <span className="col-1 m-0"></span>
 
-                                    <MasterInput2 name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
+                                    <MasterInput2 name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">

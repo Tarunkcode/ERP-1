@@ -23,7 +23,7 @@ export default function QcType({ defaultData, getMasterType, pageTitle, configTy
                             name="codeStr"
                             handleChange={handleChange}
                             defaultt={defaultData.codeStr}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Code"
                             ipTitle="Enter Code"
@@ -35,7 +35,7 @@ export default function QcType({ defaultData, getMasterType, pageTitle, configTy
                             name="name"
                             handleChange={handleChange}
                             defaultt={defaultData.name}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"
@@ -48,7 +48,7 @@ export default function QcType({ defaultData, getMasterType, pageTitle, configTy
                             name="s1"
                             handleChange={handleChange}
                             defaultt={defaultData.s1}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Measuring Method"
                             ipTitle="Select Measuring Method"
@@ -59,7 +59,7 @@ export default function QcType({ defaultData, getMasterType, pageTitle, configTy
                             name="s2"
                             handleChange={handleChange}
                             defaultt={defaultData.s2}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Std. Narration"
                             ipTitle="Standard Narration"
@@ -72,7 +72,7 @@ export default function QcType({ defaultData, getMasterType, pageTitle, configTy
                             name="s3"
                             handleChange={handleChange}
                             defaultt={defaultData.s3}
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="number"
                             label="No. of Types"
                             ipTitle="Enter No. Of Types"

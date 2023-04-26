@@ -21,7 +21,7 @@ export default function Measuring ({ defaultData, getMasterType, pageTitle, conf
                             name="d1"
                             handleChange={handleChange}
                             defaultt={defaultData.d1}
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="number"
                             label="Range"
                             ipTitle="Enter Decsription"

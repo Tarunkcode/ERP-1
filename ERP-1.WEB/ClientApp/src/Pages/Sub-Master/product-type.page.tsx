@@ -30,7 +30,7 @@ export default function ProductType_Page({ handleChange, getMasterType, masterTy
                             name="name"
                             handleChange={handleChange}
                             defaultt={defaultData.name}
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"

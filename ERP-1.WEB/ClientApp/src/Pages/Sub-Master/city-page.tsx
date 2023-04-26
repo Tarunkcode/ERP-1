@@ -59,7 +59,7 @@ const City_Page = ({ UgList, defaultData, getMasterType, pageTitle, collectSelec
                                 <span className="d-flex section2 col-sm-12 mb-2">
                                     
                                    
-                                        <MasterInput2 name="name" label="City" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-4 inp subMaster" handleChange={handleChange} />
+                                        <MasterInput2 name="name" label="City" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-12 subMaster" handleChange={handleChange} />
                                     <span className="col-1 m-0"></span>
                                     <span className="col-4 m-0"></span>
 

@@ -88,7 +88,7 @@ export default function PaymentTrem_Page({ getMasterType, pageTitle, handlePosti
                             handleChange={handleChange}
                             defaultt={defaultData.name}
                             name="name"
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label={`${pageTitle} (Name)`}
                             ipTitle={`Enter ${pageTitle} (Name)`}
@@ -99,7 +99,7 @@ export default function PaymentTrem_Page({ getMasterType, pageTitle, handlePosti
                             handleChange={handleChange}
                             name="s1"
                             defaultt={defaultData.s1}
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Description"
                             ipTitle="Enter Description"
@@ -110,7 +110,7 @@ export default function PaymentTrem_Page({ getMasterType, pageTitle, handlePosti
                             handleChange={handleChange}
                             name="c1"
                             defaultt={defaultData.c1}
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Due Days"
                             ipTitle="Enter Due Days"

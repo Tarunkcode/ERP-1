@@ -32,7 +32,7 @@ export default function ItemGroup_Page({ getMasterType, handleChange, handlePost
                             defaultt={defaultData.codeStr}
                             handleChange={handleChange}
                             name="codeStr"
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Code"
                             ipTitle="Enter Alias"
@@ -43,7 +43,7 @@ export default function ItemGroup_Page({ getMasterType, handleChange, handlePost
                             defaultt={defaultData.name}
                             name="name"
                             handleChange={handleChange}
-                            classCategory="form-control col-4 inp subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Name"
                             ipTitle="Enter Name"
@@ -99,7 +99,7 @@ export default function ItemGroup_Page({ getMasterType, handleChange, handlePost
                             defaultt={defaultData.c5}
                             handleChange={handleChange}
                             name="c5"
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="number"
                             label="Item"
                             ipTitle="Enter Item"

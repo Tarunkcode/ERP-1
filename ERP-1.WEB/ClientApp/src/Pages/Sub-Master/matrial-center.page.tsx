@@ -23,12 +23,12 @@ export default function MatCentre({ HandleIpSelect, defaultData, getMasterType, 
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 defaultt={defaultData.codeStr} label="Code" name="codeStr" ipType="text" ipTitle="Enter Code" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
+                        <MasterInput2 defaultt={defaultData.codeStr} label="Code" name="codeStr" ipType="text" ipTitle="Enter Code" handleChange={handleChange} classCategory="form-control col-12  subMaster" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={defaultData.name} label="Name" name="name" ipType="text" ipTitle="Enter Name" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
+                        <MasterInput2 defaultt={defaultData.name} label="Name" name="name" ipType="text" ipTitle="Enter Name" handleChange={handleChange} classCategory="form-control col-12  subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 defaultt={defaultData.printName} label="Print Name" name="printName" ipType="text" ipTitle="Enter Print Name" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
+                        <MasterInput2 defaultt={defaultData.printName} label="Print Name" name="printName" ipType="text" ipTitle="Enter Print Name" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
 
                         <span className="col-1 m-0"></span>
 
@@ -66,14 +66,14 @@ export default function MatCentre({ HandleIpSelect, defaultData, getMasterType, 
                     {/*/>*/}
 
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 defaultt={defaultData.s1} label="Address" name="s1" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
+                        <MasterInput2 defaultt={defaultData.s1} label="Address" name="s1" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={defaultData.s2} label="" name="s2" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-4 subMaster inp" />
+                        <MasterInput2 defaultt={defaultData.s2} label="" name="s2" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 defaultt={defaultData.s3} label="" name="s3" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-4 subMaster inp" />
+                        <MasterInput2 defaultt={defaultData.s3} label="" name="s3" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={defaultData.s4} label="" name="s4" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-4 subMaster inp" />
+                        <MasterInput2 defaultt={defaultData.s4} label="" name="s4" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
                     </span>
                 </div>
 

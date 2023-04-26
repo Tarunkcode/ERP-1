@@ -28,7 +28,7 @@ export default function Currency_Page({ getMasterType, handleChange, handlePosti
                             handleChange={handleChange}
                             defaultt={defaultData.codeStr}
                             name="codeStr"
-                            classCategory="form-control inp col-4 subMaster"
+                            classCategory="form-control col-12 subMaster"
                             ipType="text"
                             label="Code"
                             ipTitle="Enter Alias"

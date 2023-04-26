@@ -24,13 +24,13 @@ export default function Branch_Page({ defaultData, UgList, handlePosting, handle
 
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 label="Branch" name="name" defaultt={defaultData.name} ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="Branch" name="name" defaultt={defaultData.name} ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 label="Address" name="s2" defaultt={defaultData.s2} ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="Address" name="s2" defaultt={defaultData.s2} ipType="text" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 label="Phone No." name="s3" defaultt={defaultData.s3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control inp col-4 subMaster" />
+                        <MasterInput2 label="Phone No." name="s3" defaultt={defaultData.s3} ipType="number" ipTitle="" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
 
                 </form>

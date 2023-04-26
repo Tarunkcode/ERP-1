@@ -6,9 +6,9 @@ import { useMemo } from 'react';
 
 
 
-export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list, collect, classCategory, isMandate, ...props }: any) {
+export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list, collect, collectWithItem, classCategory, isMandate, ...props }: any) {
 
-    const ifEmptyNotSelected = (e : any) => {
+    const ifEmptyNotSelected = (e: any) => {
         if (!e.target.value || e.target.value === '') {
             collect(null, e.target.name);
         }
@@ -21,7 +21,7 @@ export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list,
                 minLength: 1,
                 fetch: function (text: any, update: any) {
                     text = text.toLowerCase();
-                  
+
                     // you can also use AJAX requests instead of preloaded data
                     var suggestions = list.filter((n: any) =>
                         n.label.toLowerCase().startsWith(text)
@@ -38,7 +38,12 @@ export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list,
                 showOnFocus: true,
                 onSelect: function (item: any) {
                     ip.value = item.label;
-                    collect(item.value , name, item);
+                    if (collectWithItem) {
+                        collectWithItem(item, name)
+                    } else {
+
+                        collect(item.value, name);
+                    }
                 }
             });
 
@@ -46,26 +51,26 @@ export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list,
     }, [ip, list]);
 
     return (
-       
+
         <>
             {
                 props.type === true ?
                     (
                         <>
                             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 col-2  ml-2 mr-2 labl2">{isMandate && isMandate === true ? (<text>{label} <i style={{ color: 'red', fontSize: '20px' }}>*</i></text>) : label}</label>
-                            <input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected } />
+                            <input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} />
                         </>
                     ) :
                     (
                         <>
                             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 ml-2 mr-2 labl2">{isMandate && isMandate === true ? (<text>{label} <i style={{ color: 'red', fontSize: '20px' }}>*</i></text>) : label}</label>
-                            <input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected}/>
-                    </>
+                            <input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} />
+                        </>
                     )
             }
-           
+
         </>
-        )
+    )
 }
 
 

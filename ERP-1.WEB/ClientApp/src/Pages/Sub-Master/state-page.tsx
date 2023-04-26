@@ -62,9 +62,9 @@ const State_Page = ({UgList, defaultData, getMasterType, pageTitle, collectSelec
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="name" label="State" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-4 inp subMaster" handleChange={handleChange} />
+                                    <MasterInput2 name="name" label="State" defaultt={defaultData ? defaultData.name : ''} ipTitle="Enter Zone" ipType="text" classCategory="form-control col-12 subMaster" handleChange={handleChange} />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="s1" label="Name" defaultt={defaultData ? defaultData.s1 : ''} ipTitle="Enter Name" ipType="text" classCategory="form-control col-4 inp subMaster" handleChange={handleChange} />
+                                    <MasterInput2 name="s1" label="Name" defaultt={defaultData ? defaultData.s1 : ''} ipTitle="Enter Name" ipType="text" classCategory="form-control col-12 subMaster" handleChange={handleChange} />
                                 </span>
 
                                 <span className="form col-sm-12 row-content card-body pt-0 pb-0 px-2 mb-2">
