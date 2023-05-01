@@ -29,9 +29,9 @@ export default function Cust_Sup_Page({ getMasterType, pageTitle, configType, ha
 
                     <span className="d-flex section2 col-sm-12">
 
-                        <MasterInput2 name="codestr" label="Code" ipTitle="Enter Item Code" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
+                        <MasterInput2 name="codestr" label="Code" ipTitle="Enter Item Code" ipType="text" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-4 inp subMaster" />
+                        <MasterInput2 name="name" label="Name" ipTitle="Enter Name" ipType="text" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                     </span>
 
 

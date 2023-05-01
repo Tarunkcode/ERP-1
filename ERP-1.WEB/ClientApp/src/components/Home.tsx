@@ -10,6 +10,7 @@ import { Label } from 'reactstrap';
 import useFetch from './Hooks/useFetch';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { LoaderContext } from '../AppContext/loaderContext';
 
 const AxisLabel = ({ axisType, x, y, width, height, stroke, children }: any) => {
     const isVert = axisType === 'yAxis';
@@ -23,7 +24,7 @@ const AxisLabel = ({ axisType, x, y, width, height, stroke, children }: any) => 
     );
 };
 const Home = () => {
-
+    let { setLoader } = React.useContext(LoaderContext);
 let [posData, setposData] = useState({});
     const getState = window.sessionStorage.getItem('state');
     const state = JSON.parse(getState!)
@@ -53,30 +54,6 @@ let [posData, setposData] = useState({});
     var [soSetails, setSODetails]: any = useState([]);
     var compCode = window.localStorage.getItem('compCode') || ""
     var customer = window.localStorage.getItem('customer') || ""
-    var [configState, setConfigState]: any = useState({})
-    const FetchLoadingConfDetails = async () => {
-        let urlStr = `/api/LoadConfiguration`
-        const api = useFetch();
-        const ccBody = {
-            "Customer": parseInt(customer),
-            "Company": parseInt(compCode)
-        }
-      
-        try {
-            let { res, got }: any = await api(urlStr, "POST", ccBody);
-         
-            if (res.status == 200) {
-                let data = got.data[0];
-                setConfigState(data);
-                return data;
-            }
-            else {toast.error('Setting Up Configuration failed ') }
-        
-        } catch (err) {
-            alert(err)
-        }
-    }
-    React.useMemo(() => { let data = FetchLoadingConfDetails() }, [])
 
     //var urlStart = `http://${state.domain}:${state.port}/api/values/GetMisReport?Comp=${getCompCode}&Fy=${state.Fy}&Acccode=0`
     //var urlSaleComparision = `http://${state.domain}:${state.port}/api/values/spsalecompprvyear?acccode=0&comp=${getCompCode}&fy=${state.Fy}`

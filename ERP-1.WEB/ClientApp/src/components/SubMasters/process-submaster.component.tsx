@@ -230,7 +230,7 @@ class RootProcess extends React.Component<IProps, IState> {
             this.setState({
                 rawObj: {
                     ...this.state.defProcessMaster,
-                    esmastertable: [this.state.defProcessMaster.esmastertable[0]]
+                    esprocessmaster: [this.state.defProcessMaster.esmastertable[0]]
                 }
             })
         }
@@ -281,7 +281,7 @@ class RootProcess extends React.Component<IProps, IState> {
                 Company: parseInt(this.compCode),
                 MasterType: 11,
                 UserName: this.username,
-                esmastertable: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0] ]
+                esprocessmaster: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0] ]
             }
 
         })
@@ -332,7 +332,7 @@ class RootProcess extends React.Component<IProps, IState> {
                 Company: parseInt(this.compCode),
                 MasterType: 11,
                 UserName: this.username,
-                esmastertable: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0]]
+                esprocessmaster: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0]]
             }
 
         })

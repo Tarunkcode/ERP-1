@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import ThemeProvider from './AppContext/ThemeContext';
 import LoaderProvider from './AppContext/loaderContext';
+import ConfigProvider from './AppContext/ConfigContext';
 import { createBrowserHistory } from 'history';
 import './Fonts/trebuc.ttf';
 
@@ -31,7 +32,9 @@ ReactDOM.render(
 
             <ThemeProvider>
                 <LoaderProvider>
-                    <App />
+
+                        <App />
+                  
                 </LoaderProvider>
             </ThemeProvider>
 

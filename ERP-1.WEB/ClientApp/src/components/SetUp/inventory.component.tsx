@@ -22,6 +22,7 @@ interface IState {
 }
 interface IProps {
     api: any,
+    context: any,
   /*  history : any,*/
     defFeatureOptionMaster: object,
     AlterLoadedData: any
@@ -41,6 +42,13 @@ class Feature_Option extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
+    defInitConfStateObj = {}
+    AlterLoadedData = (obj: object) => {
+
+        this.defInitConfStateObj = { ...this.defInitConfStateObj, ...obj }
+        var newObj = this.defInitConfStateObj;
+        return newObj;
+    }
     FetchLoadedList = async (mType: any) => {
         const loader = this.context;
         const urlUGList = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
@@ -101,7 +109,8 @@ class Feature_Option extends React.Component<IProps, IState> {
             let { res, got } = await this.props.api(confUrl,'POST' ,i)
         
             if (res.status == 200) {
-                    loader.setLoader(false);
+                loader.setLoader(false);
+                this.props.context.resetConf();
                 toast.success(got.msg)
                 setTimeout(() => {
                 this.setState({ redirect: true });

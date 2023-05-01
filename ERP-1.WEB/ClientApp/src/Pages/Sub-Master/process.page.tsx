@@ -77,7 +77,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
 
 
     const JobColDef = [{ field: 'srno', header: "Sr No.", maxWidth: 100, minWidth: 100 }, {
-        field: 'jbcode', header: "Name", maxWidth: 480, minWidth: 480, cellStyle: { paddingLeft: '0', paddingRight: '0' },
+        field: 'jbcode', header: "Name", maxWidth: 500, minWidth: 500, cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
@@ -103,7 +103,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
         },
         editable: true
     }, {
-        field: 'jobworkon', header: "Job Worker On", maxWidth: 480, minWidth: 480, cellStyle: { paddingLeft: '0', paddingRight: '0' },
+        field: 'jobworkon', header: "Job Worker On", maxWidth: 500, minWidth: 500, cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
             cellEditor: AutocompleteSelectCellEditor,
             cellEditorParams: {

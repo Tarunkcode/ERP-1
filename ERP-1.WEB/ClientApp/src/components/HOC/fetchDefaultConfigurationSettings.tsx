@@ -1,26 +1,27 @@
 ﻿import * as React from 'react';
 import { useHistory } from 'react-router';
+import { ConfigContext } from '../../AppContext/ConfigContext';
 import { LoaderContext } from '../../AppContext/loaderContext';
 import useFetch from '../Hooks/useFetch';
 interface IState {
     defaultConf: object,
 }
 interface IProps {
-    location : any
+    location: any
 
 }
 
 export default function DefaultConfigConf(Component: any) {
 
     const api = useFetch();
-  
+
     class ConfSettings extends React.Component<IProps, IState> {
         static contextType = LoaderContext;
         constructor(props: any) {
             super(props);
             this.state = {
                 defaultConf: {},
-               
+
             }
         }
         compCode = window.localStorage.getItem('compCode') || ""
@@ -31,10 +32,10 @@ export default function DefaultConfigConf(Component: any) {
             "Company": parseInt(this.compCode)
         }
         routeObj = this.props.location.state;
-        
+
         defInitConfStateObj = {}
         AlterLoadedData = (obj: object) => {
-         
+
             this.defInitConfStateObj = { ...this.defInitConfStateObj, ...obj }
             var newObj = this.defInitConfStateObj;
             return newObj;
@@ -50,7 +51,7 @@ export default function DefaultConfigConf(Component: any) {
                 loader.setLoader(true);
                 let { res, got } = await api(urlStr, "POST", body);
                 if (res.status == 200) {
-             
+
 
                     this.setState({ defaultConf: got.data[0] })
                     this.defInitConfStateObj = this.state.defaultConf;
@@ -66,10 +67,16 @@ export default function DefaultConfigConf(Component: any) {
             this.FetchLoadingConfDetails();
 
         }
-     
+
         render() {
-            return <Component api={api} defFeatureOptionMaster={this.state.defaultConf} AlterLoadedData={this.AlterLoadedData.bind(this)} {...this.props} />
+            return (
+                <ConfigContext.Consumer>{
+                    (context: any) =>
+                        <Component api={api} context={context} defFeatureOptionMaster={this.state.defaultConf} AlterLoadedData={this.AlterLoadedData.bind(this)} {...this.props} />
+                    }
+                </ConfigContext.Consumer>
+                )
         }
     }
-        return ConfSettings;
+    return ConfSettings;
 }

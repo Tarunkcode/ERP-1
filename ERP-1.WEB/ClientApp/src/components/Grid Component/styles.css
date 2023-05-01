@@ -192,6 +192,7 @@
     background-color: white;
     padding: 5px 4px;
     cursor: pointer;
+    overflow: auto;
 }
 /*div[id^=autocomplete-lgbvyowzywbbvkloje]{
   color:orange;
@@ -203,10 +204,10 @@
     width: auto;
 }
 .ag-root.ag-layout-normal, .ag-root.ag-layout-auto-height {
-    overflow: auto;
+    overflow: hidden;
     flex: 1 1 auto;
     width: 0;
 }
 .ag-body-horizontal-scroll-viewport {
-    overflow-x: hidden;
+    overflow-x: auto;
 }

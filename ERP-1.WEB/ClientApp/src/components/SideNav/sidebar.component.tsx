@@ -35,10 +35,10 @@ export default function Sidebar({ state }: any) {
     return (
         <nav className="accordion active" id="sidebar">
             <ul className="list-unstyled components">
-                <div className="sidebar-header" style={theme === 'dark' ? { margin: "0", display: "flex", flexDirection: "column", backgroundColor: "white", border: "6px solid #2c3968", padding: "0"}: { margin: "0", display: "flex", flexDirection: "column", backgroundColor: "white", border: "6px solid #798cd4", padding: "0" }}>
+                <div className="sidebar-header" style={theme === 'dark' ? { margin: "0", display: "contents", backgroundColor: "white", border: "6px solid #2c3968", padding: "0" } : { margin: "0", display: "contents",  backgroundColor: "white", border: "6px solid #798cd4", padding: "0" }}>
 
 
-                <img src={'./assets/erpLogo.png'} style={{ width: "56vw", borderRadius: "6%", margin: "0" }} className="img-fluid erp-logo" alt="LOGO" />
+                    <img src={'./assets/erpLogo.png'} style={{ width: "56vw", borderRadius: "0", margin: "0", border:'6px solid #798cd4'}} className="img-fluid erp-logo" alt="LOGO" />
                     <p className="text-center text-white" style={{ margin: '0', padding: '0', backgroundColor: "#6778BF" }}><span style={{ fontWeight: "bolder", color: "black", margin: '0' }}>FY :</span> {state.Fy}</p>
             </div>
 

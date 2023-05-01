@@ -25,7 +25,8 @@ interface IState {
     masterType: number,
     configType: string,
     ipSelectCode: string,
-    UgList : any
+    UgList: any,
+    isPrimary : any
 }
 interface IProps {
     api: any,
@@ -42,7 +43,8 @@ class SubMasterChild extends React.Component<IProps, IState>{
             masterType: 0,
             configType: '',
             ipSelectCode: '',
-            UgList : []
+            UgList: [],
+            isPrimary: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handlePosting = this.handlePosting.bind(this);
@@ -109,7 +111,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
         })
         
     }
-
+   
     FetchUnderGroupDataList = async (mType: any) => {
 
         const urlUGList = `/api/LoadMasterData?MasterType=${mType}&Company=${this.compCode}&Customer=${this.customer}`;
@@ -129,9 +131,8 @@ class SubMasterChild extends React.Component<IProps, IState>{
 
 
     }
-  collectSelectedItem = (value: any, name: string) => {
-
-     
+    collectSelectedItem = (value: any, name: string) => {
+      
       if (this.props.gettingVirtualCode !== 0) {
           let change = { [name]: value }
           console.log('change', change);
@@ -160,7 +161,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
     }
     getMasterType = (val: any) => {
         this.setState({ masterType: val })
-        this.FetchUnderGroupDataList(val);
+        if(val === 79) this.FetchUnderGroupDataList(val);
     }
     handleChange = (e: any) => {
         e.preventDefault();
@@ -237,7 +238,10 @@ class SubMasterChild extends React.Component<IProps, IState>{
       
         }
          else alert("category Label are not set for one or multiple inputs 1")
-       
+        if (this.state.masterType === 79 && e.target.name === 'c1') {
+            this.setState({ isPrimary : value === 0 ? false : true })
+        }
+
         if (this.props.gettingVirtualCode !== 0) {
             let change = { [e.target.name]: value }
             console.log('change', change);
@@ -276,7 +280,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
             if (res.status == 200) {
                 toast.success(got.msg)
                 let ref = document.getElementById("form");
-                this.props.gettingVirtualCode == 0 ? clear_form(ref) : this.props.history.push('/successfully-modify')
+                this.props.gettingVirtualCode == 0 ? clear_form(ref) : window.history.go(-1)
 
 
             } else {
@@ -301,7 +305,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
                     this.state.configType === '18' ? (<Currency_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="" configType={this.state.configType}   handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
                 {
-                    this.state.configType === '3' ? (<ItemGroup_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="" configType={this.state.configType}  handleChange={this.handleChange} handlePosting={this.handlePosting} />):null
+                    this.state.configType === '3' ? (<ItemGroup_Page HandleIpSelect={this.HandleIpSelect} UgList={this.state.UgList}  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Item Group" collectSelectedItem={this.collectSelectedItem.bind(this)} configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} isPrimary={this.state.isPrimary} />) : null
                 }
                 {
                     this.state.configType === '17' ? (<SubUnit_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null

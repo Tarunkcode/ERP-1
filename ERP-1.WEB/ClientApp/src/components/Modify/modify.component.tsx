@@ -1,9 +1,9 @@
 ﻿import * as React from 'react';
 import Modify_Page from '../../Pages/Modify/modify.page';
 import { toast } from 'react-toastify'
-import { withRouter } from "react-router-dom";
-import ProvideHookToClass from '../HOC/loadBOM';
+import { useHistory, withRouter } from "react-router-dom";
 import { LoaderContext } from '../../AppContext/loaderContext';
+import useFetch from '../Hooks/useFetch';
 
 interface IState {
     selectModList: any[],
@@ -18,6 +18,17 @@ interface IProps {
     match: any;
     api: any;
     loader: any;
+}
+function ProvideHookToClass(Component: any) {
+    return function Loaded_Hooks(props: any) {
+        let api = useFetch();
+        let memo = React.useMemo;
+        let history = useHistory();
+        let { setLoader } = React.useContext(LoaderContext);
+
+        return <Component {...props} api={api} memoised={memo} history={history} loader={setLoader} />
+    }
+
 }
 class Modify_Child extends React.Component<IProps, IState> {
     static contextType = LoaderContext;

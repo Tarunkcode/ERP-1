@@ -1,19 +1,23 @@
 ﻿import * as React from 'react';
-import { useContext } from 'react';
-import { useMemo } from 'react';
-import { useHistory } from 'react-router';
-import { LoaderContext } from '../../AppContext/loaderContext';
+
+import { ConfigContext } from '../../AppContext/ConfigContext';
 import useFetch from '../Hooks/useFetch';
 
-export default function ProvideHookToClass(Component: any) {
-    return function Loaded_Hooks(props: any) {
-        let api = useFetch();
-        let memo = useMemo;
-        let history = useHistory();
-        let { setLoader } = useContext(LoaderContext);
-        console.log(api,'api................')
-        return <Component {...props} api={api} memoised={memo} history={history} loader={setLoader } />
+
+export default function BOM_SetUp(Component: any) {
+    const api = useFetch();
+    const SetUp = (props: any) => {
+
+        return (
+
+            <ConfigContext.Consumer>
+                {(context: any) => <Component {...props} api={ api} context={ context} />}
+
+            </ConfigContext.Consumer>
+         )
     }
+    SetUp.Component = SetUp;
+    return SetUp;
 
 }
 

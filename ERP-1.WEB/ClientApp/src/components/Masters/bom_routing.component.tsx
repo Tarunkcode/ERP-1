@@ -1,19 +1,22 @@
 ﻿import * as React from 'react';
 import BomRoutingConfig_Page from '../../Pages/Master/BomRoutingConfiguration/bom-routing-config.component';
 
-import ProvideHookToClass from '../HOC/loadBOM';
+
 import { toast } from 'react-toastify';
 import { BOM_STORE } from '../../Redux/BOM/bom.reducer';
+import BOM_SetUp from '../HOC/loadBOM';
 
 interface IProps {
-    api: any
+    context: any,
+    api: any,
 }
 interface IState {
     series: any[],
-    
+    watchItemObj: any,
     seriesNumType: number,
     routingCode: string,
     process: any[],
+
     Item_Code$Name12: any[],
     Item_Code$Name23: any[],
     bomCurrentState: object
@@ -25,7 +28,9 @@ class BOM_Routing extends React.Component<IProps, IState> {
         this.state = {
             series: [],
             seriesNumType: 0,
+            watchItemObj: { uomname: "", itemname: "", itemcode: "" },
             routingCode: '',
+
             process: [],
             Item_Code$Name12: [],
             Item_Code$Name23: [],
@@ -40,13 +45,12 @@ class BOM_Routing extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-
-
+    
 
 
 
     getRoutingCode = async (seriesCode: number, prefix: string) => {
-       
+
         let vchUrl = `/api/GetVchNo?TranType=12&SrCode=${seriesCode}&BSave=0`;
         try {
             let { got, res } = await this.props.api(vchUrl, "GET", '');
@@ -64,13 +68,13 @@ class BOM_Routing extends React.Component<IProps, IState> {
         }
     }
 
-   
+
     getSeries = async () => {
         let SeriesUrl = `/api/GetSeries?TranType=12&SrType=0&Company=${this.compCode}&Customer=${this.customer}`;
         try {
             let { res, got } = await this.props.api(SeriesUrl, "GET", '');
             if (res.status == 200) {
-               
+
                 this.setState({ series: got.data })
             }
             else toast.error(res.msg);
@@ -85,7 +89,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
             let { res, got } = await this.props.api(processUrl, 'GET', '');
             if (res.status == 200) {
 
-              
+
                 this.setState({ process: got.data })
             }
             else toast.error(res.msg);
@@ -116,15 +120,15 @@ class BOM_Routing extends React.Component<IProps, IState> {
             if (res.status == 200) {
 
                 let cd$Nm: any = got.data.map((option: any) => ({
-                    value: option.code,
+                    value: option.value,
                     label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-                  
-                   
+
+
 
                 }))
-              
+
                 this.setState({ Item_Code$Name12: cd$Nm })
             }
             else toast.error(res.msg);
@@ -155,11 +159,11 @@ class BOM_Routing extends React.Component<IProps, IState> {
             if (res.status == 200) {
 
                 let cd$Nm: any = got.data.map((option: any) => ({
-                    value: option.code,
+                    value: option.value,
                     label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-                    
+
 
                 }))
                 console.log('code name and code................', cd$Nm)
@@ -183,12 +187,25 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         return value;
     }
-
+    
     //___________________________________________________________Process__________________________________________________________________
     CollectListWithItem = (item: any, name: string) => {
         if (name == 'series') {
             this.setState({ seriesNumType: item.numbertype })
-            if(item.numbertype == '1') this.getRoutingCode( item.value, item.prefix);
+            if (item.numbertype == '1') this.getRoutingCode(item.value, item.prefix);
+        }
+        else if (name == 'item') {
+            let arr = item.label.split("|")
+            let iCode = arr[1]
+            let uom = item.uom
+            let iUomName = item.uomname
+            let iName = arr[0]
+            this.setState({ watchItemObj: { uomname: iUomName, itemname: iName, itemcode : iCode } })
+            console.log('arr', arr)
+
+            BOM_STORE.dispatch({ payload: uom, key: "unit", type: "bom_struct", label: 'BOMHeader' });
+            BOM_STORE.dispatch({ payload: iCode, key: "item", type: "bom_struct", label: 'BOMHeader' });
+            return;
         }
         BOM_STORE.dispatch({ payload: item.value, key: name, type: "bom_struct", label: 'BOMHeader' });
         this.setState({
@@ -200,7 +217,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
     }
     CollectList = (value: any, name: string) => {
-        
+
         BOM_STORE.dispatch({ payload: value, key: name, type: "bom_struct", label: 'BOMHeader' });
         this.setState({
             bomCurrentState: {
@@ -477,13 +494,13 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 processLoad={this.state.process}
                 routingCode={this.state.routingCode}
                 seriesNumType={this.state.seriesNumType}
-               
+                watchItemObj={this.state.watchItemObj}
                 codeNameLoad12={this.state.Item_Code$Name12}
                 codeNameLoad23={this.state.Item_Code$Name23}
-                CollectListWithItem={this.CollectListWithItem.bind(this) }
-                CollectList={this.CollectList.bind(this) }
+                CollectListWithItem={this.CollectListWithItem.bind(this)}
+                CollectList={this.CollectList.bind(this)}
                 handleBOMAltItem={this.handle_BOMAltItem_Change.bind(this)}
-
+                provide_conf={this.props.context.conf}
                 handleBomCutComponenet={this.handle_BomCutComponenet_Change.bind(this)}
                 handleBomDetails={this.handle_BomDetails_Change.bind(this)}
                 handleBOMHeader={this.handle_BOMHeader_Change.bind(this)}
@@ -504,5 +521,5 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 }
 
-const BOM = ProvideHookToClass(BOM_Routing);
+const BOM = BOM_SetUp(BOM_Routing);
 export default BOM;

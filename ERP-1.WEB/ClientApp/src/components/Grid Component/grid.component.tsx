@@ -43,14 +43,12 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
         if (e.event.key === 'Enter') {
             if (rowData[e.rowIndex][e.colDef.field] !== null) {
             
-
-                gridApi.tabToNextCell();
-               
-            }
-
-
-            else {
                 OpenSubLayer(e);
+                gridApi.tabToNextCell();
+
+               
+            } else {
+                console.log('do nothing !')
             }
         }
         
@@ -112,7 +110,7 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
     }
     const checkDuplicacy = (e: any) => {
         console.log(e);
-        if (e.value.label) {
+        if (e.value && e.value.label) {
             for (let i = 0; i < rowData.length; i++) {
                 if (i !== e.rowIndex && rowData[i][e.colDef.field] !== null && e.value.label === rowData[i][e.colDef.field].label) {
                     //------------------------------------------------------------------

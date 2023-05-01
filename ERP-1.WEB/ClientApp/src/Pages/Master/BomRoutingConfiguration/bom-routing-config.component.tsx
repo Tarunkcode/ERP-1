@@ -25,36 +25,12 @@ import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
 
-function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, ...otherProps }: any) {
+function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, provide_conf, watchItemObj, ...otherProps }: any) {
 
 
     let [isCopy, setIsCopy]: any = useState(false)
-    let [iCode, setICode]: any = useState("")
-    let [iName, setIName]: any = useState("")
+
     //-------------------------------------------------------------------------Routing Variable--------------------------------------------------------
-    let [iUom, setIUom]: any = useState({})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
     const history = useHistory();
@@ -69,11 +45,17 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
     };
 
     let [isItemBox, setIsItemBox]: any = React.useState(false);
+    let [isOperation, setIsOperation]: any = React.useState(false);
     const OpenBOMItemCons = (e: any) => {
 
         if (e.colDef.field === "process") {
             if (e.data.process && e.event.keyCode === 13) {
-                setIsItemBox(true);
+                if (provide_conf.eProdOpr === 1) {
+                    setIsOperation(true);
+                } else {
+                    setIsItemBox(true);
+
+                }
             }
         } else { }
 
@@ -186,13 +168,11 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
     return (
         <>
 
-            <BOMModals isCopy={isCopy} isBOMAlt={false} isBOMProcess={false} isBOMRouting={false} setIsCopy={setIsCopy} handleAlt={handleBOMAltItem} handleOther={handleBomOtherProdDetails} handleConsume={() => { }} />
-            {
-                isItemBox ? (
+            <BOMModals isCopy={isCopy} isBOMAlt={false} isBOMProcess={false} isBOMRouting={false} setIsCopy={setIsCopy} handleAlt={handleBOMAltItem} handleOther={handleBomOtherProdDetails} handleConsume={() => { }} isOperation={isOperation} handleOperation={setIsOperation} />
 
-                    <RouteDetails isItemBox={isItemBox} setIsItemBox={setIsItemBox} itemCodeLst12={codeNameLoad12} itemCodeLst23={codeNameLoad23} handleConsume={() => { }} handleProduce={() => { }} />
-                ) : null
-            }
+
+            <RouteDetails isItemBox={isItemBox} setIsItemBox={setIsItemBox} itemCodeLst12={codeNameLoad12} itemCodeLst23={codeNameLoad23} handleConsume={() => { }} handleProduce={() => { }} />
+
             <div className="main card firstDiv">
 
                 <div className="text-center card-title col-12" style={{ textAlign: 'start' }}>
@@ -210,11 +190,12 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
 
 
                                     <AutoComp name="series" label="Series" ipTitle="Select Series" list={seriesLoad} ipType="text" collectWithItem={CollectListWithItem} classCategory="form-control col-4 inp str" isMandate={true} />
-
+                                    <span className="col-1 m-0"></span>
+                                    <CustomeSwitch2 lablClass="custom-control-label col-4" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input col-3 BOMHeader" handleChange={handleBOMHeader} />
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="vchno" defaultt={routingCode } label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
+                                    <MasterInput2 name="vchno" defaultt={routingCode} label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
 
 
                                     <span className="col-1 m-0"></span>
@@ -223,58 +204,34 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    {/*<span className="col-4 m-0 p-0 d-flex">*/}
-                                    {/*    <>*/}
-                                    {/*        <label htmlFor="item" style={{ fontSize: '1rem', marginRight: '35px' }} className="form-label pr-0 labl labl2 col-3">Item Code</label>*/}
-                                    {/*    </>*/}
-                                    {/*    <span className="m-0 p-0" style={{ width: '100%' }}>*/}
-                                    {/*        <DatalistInput*/}
 
-                                    {/*            className="d-flex col-12 m-0 p-0"*/}
-                                    {/*            inputProps={{ className: 'form-control inp col-12 BOMHeader', name: 'item' }}*/}
-                                    {/*            listboxProps={{ className: 'text-left mt-5' }}*/}
-                                    {/*            value={iCode}*/}
-                                    {/*            onSelect={(item: any) => {*/}
-                                    {/*                let arr = item.value.split("|")*/}
-                                    {/*                console.log('arr', arr)*/}
-                                    {/*                let iName = arr[0]*/}
-                                    {/*                let iCode = arr[1]*/}
-                                    {/*                let iUomName = item.uomname*/}
-                                    {/*                let uom = item.uom*/}
-                                    {/*                setIUom({ uom: uom, uomName: iUomName })*/}
-                                    {/*                setICode(iCode);*/}
-                                    {/*                setIName(iName);*/}
-                                    {/*                handle_BOM_Header_List(item)*/}
-                                    {/*            }}*/}
-                                    {/*            items={codeNameLoad12}*/}
-                                    {/*        />*/}
-                                    {/*    </span>*/}
-                                    {/*</span>*/}
-
-
-                                    <AutoComp name="item" label="Item Code" ipTitle="Select Item Code" list={codeNameLoad12} ipType="text" collect={CollectList} classCategory="form-control col-4 inp str" isMandate={true} />
+                                    <AutoComp name="item" label="Item Code" ipTitle="Select Item Code" list={codeNameLoad12} ipType="text" collectWithItem={CollectListWithItem} classCategory="form-control col-4 inp str" isMandate={true} defaultt={watchItemObj.itemcode} />
                                     {/*missed*/}
 
                                     <span className="col-1 m-0"></span>
 
-                                    <MasterInput2 name="itemname" defaultt={iName} label="Item Name" ipTitle="Enter Item Name" ipType="text" handleChange={() => { }} classCategory="form-control col-12  BOMHeader text" length={60} read={true} isMandate={true} />
+                                    <MasterInput2 name="itemname" defaultt={watchItemObj.itemname} label="Item Name" ipTitle="Enter Item Name" ipType="text" handleChange={() => { }} classCategory="form-control col-12  BOMHeader text" length={60} read={true} isMandate={true} />
 
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="unit" defaultt={iUom.uomName} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader col-12 text" length={60} read={true} isMandate={true} handleChange={handleBOMHeader} />
+                                    <MasterInput2 name="unit" defaultt={watchItemObj.uomname} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader col-12 text" length={60} read={true} isMandate={true} handleChange={handleBOMHeader} />
                                     <span className="col-1 m-0"></span>
                                     <MasterInput2 name="qty" label="Produce Qty" ipTitle="Enter Produce Qty" ipType="number" classCategory="form-control col-12 number BOMHeader" handleChange={handleBOMHeader} isMandate={true} length={60} />
 
 
                                 </span>
 
-                                    <span className="d-flex section2 col-sm-12">
-                                   
+                                <span className="d-flex section2 col-sm-12">
+
                                     <MasterInput2 name="validfrom" label="Valid From" ipTitle="Enter Valid From Date" ipType="date" classCategory="form-control col-12 BOMHeader" handleChange={handleBOMHeader} isMandate={true} />
                                     <span className="col-1 m-0"></span>
-                                    <CustomeSwitch2 lablClass="custom-control-label col-4" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input col-3 BOMHeader" handleChange={handleBOMHeader} />
-                                    </span>
+                                    {
+                                        provide_conf.eRoutingVer === 1 ? (<MasterInput2 name="version" label="Version" ipTitle="Enter Version" ipType="text" handleChange={() => { }} classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} />) : null
+                                    }
+
+                                </span>
+
                             </div>
                         </fieldset>
                     </form>
@@ -301,7 +258,7 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
                 <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                     <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
                     <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={SaveRoutingMaster} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>
-                    <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0">Quit</button>
+                    <button type="button" style={{ border: '2px solid orange', letterSpacing: 3 }} className="btn btn-warning pl-0 pr-0" onClick={() => { history.push('quit-successfully') }}>Quit</button>
                 </div>
 
             </div>

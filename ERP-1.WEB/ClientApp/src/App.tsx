@@ -145,6 +145,7 @@ import Dr_Note from './Pages/Transaction/Purchase/dr-note.component';
 import Cash_Issue_Receipt from './Pages/Transaction/Purchase/cash-Issue-receipt.component';
 
 import Test from './components/test';
+import ConfigProvider from './AppContext/ConfigContext';
 
 
 
@@ -317,7 +318,7 @@ function App() {
                     "/add-projection-details",
                     "/add-PR",
                     "/add-sample",
-                 
+
                     "/add-Quotation",
                     "/add-Vendor-Quot-Entry",
                     "/add-Po-PR",
@@ -384,6 +385,7 @@ function App() {
 
                 ]}>
                     <Layout>
+                     
                         <Route exact path='/successfully-modify' component={SuccessFullyModify} />
                         <Route exact path='/successfully-quit' component={SuccessFullyModify} />
                         {/*Dashboards*/}
@@ -398,14 +400,7 @@ function App() {
                         <Route exact path='/list/:master' component={List} />
 
 
-                        {/*Configuration*/}
-                        <Route exact path="/feature-option/gst" component={Inventory} />
-                        <Route exact path="/feature-option/inventory/1" component={Inventory} />
-                        <Route exact path="/feature-option/job-work/5" component={Inventory} />
-                        <Route exact path="/feature-option/production-and-planning/2" component={Inventory} />
-                        <Route exact path="/feature-option/purchase/3" component={Inventory} />
-                        <Route exact path="/feature-option/quality-check/4" component={Inventory} />
-                        <Route exact path="/feature-option/sale/6" component={Inventory} />
+                       
 
                         <Route exact path="/add-series-configuration" component={Series_Conf} />
 
@@ -490,8 +485,7 @@ function App() {
                         <Route exact path='/add-supplier-master' component={CusSupMaster} />
                         <Route exact path='/add-item-master' component={IMaster} />
                         <Route exact path='/add-cost-sheet-details' component={CostSheetDetails} />
-                        <Route exact path="/add-bom-routing-configuration-master" component={BOM} />
-
+                     
                         <Route exact path='/add-branch-master' component={BranchMaster} />
                         <Route exact path='/add-Qc-Plan' component={AddQcPlan} />
                         <Route exact path='/Import-Customer' component={YetNotStarted} />
@@ -589,6 +583,20 @@ function App() {
 
 
 
+                        <ConfigProvider>
+                            {/*Configuration*/}
+                            <Route exact path="/feature-option/gst" component={Inventory} />
+                            <Route exact path="/feature-option/inventory/1" component={Inventory} />
+                            <Route exact path="/feature-option/job-work/5" component={Inventory} />
+                            <Route exact path="/feature-option/production-and-planning/2" component={Inventory} />
+                            <Route exact path="/feature-option/purchase/3" component={Inventory} />
+                            <Route exact path="/feature-option/quality-check/4" component={Inventory} />
+                            <Route exact path="/feature-option/sale/6" component={Inventory} />
+
+                            {/*Master*/}
+                            <Route exact path="/add-bom-routing-configuration-master" component={BOM} />
+                        </ConfigProvider>
+
 
 
 
@@ -637,7 +645,7 @@ function App() {
                 </Route>
 
 
-                <Route path={["/register", "/", '/GridA','"/test']}>
+                <Route path={["/register", "/", '/GridA', '"/test']}>
                     <RegisterLayout>
                         <Route exact path="/" component={CustomerVaildate} />
                         <Route exact path='/register' component={RegisterDomain} />

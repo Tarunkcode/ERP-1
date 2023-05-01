@@ -2,7 +2,7 @@
 import CustomeSwitch from "../../../components/CustomSwitch/custom-switch.component"
 
 export default function Production_Page({ handleChange, handlePosting, defConf, ...oherProps }: any) {
-    console.log('dddd', defConf)
+  
     return (
         <div className="main card firstDiv">
 
@@ -38,6 +38,7 @@ export default function Production_Page({ handleChange, handlePosting, defConf, 
                             <CustomeSwitch lablClass="custom-control-label col-8" label="Enable Production Over Head" id="eProdOH" name="eProdOH" classCat="form-control custom-control-input col-3 InventoryDet switch" handleChange={handleChange} default={defConf.eProdOH}/>
                             <CustomeSwitch lablClass="custom-control-label col-8" label="Enable Production Operation" id="eProdOpr" name="eProdOpr" classCat="form-control custom-control-input col-3 InventoryDet switch" handleChange={handleChange} default={defConf.eProdOpr}/>
                             <CustomeSwitch lablClass="custom-control-label col-8" label="SFG Plan" id="sfgplan" name="sfgplan" classCat="form-control custom-control-input col-3 InventoryDet switch" handleChange={handleChange} default={defConf.sfgplan}/>
+                                <CustomeSwitch lablClass="custom-control-label col-8" label="Customer Also Supplier" id="custalsosupp" name="custalsosupp" classCat="form-control custom-control-input col-3 InventoryDet switch" handleChange={handleChange} default={defConf.custalsosupp}/>
                            
                         </span>
 
