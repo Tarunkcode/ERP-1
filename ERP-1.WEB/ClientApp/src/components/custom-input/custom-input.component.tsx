@@ -70,7 +70,7 @@ export function MasterInput({ name, defaultt, label, ipTitle, ipType, handleChan
         <>
             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl labl2 mt-2">{label}</label>
             {
-                props.read === true ? (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} style={{ marginBottom: '20px' }} required readOnly />) : (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required style={{ marginBottom: '20px' }} />)
+                props.read === true ? (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} style={{ marginBottom: '20px' }} required readOnly min={0} />) : (<input type={ipType} defaultValue={defaultt} name={name} className={classCategory} onBlur={handleChange} title={ipTitle} autoComplete="off" list={name} required style={{ marginBottom: '20px' }} min={0} />)
             }
 
         </>

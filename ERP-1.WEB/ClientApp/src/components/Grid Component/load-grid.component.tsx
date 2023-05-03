@@ -173,11 +173,11 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
         let emptyRow = { [srProps]: lastIndex + 2, ...firstRow[0] };
         gridApi.updateRowData({ add: [emptyRow] });
     }
-            //<button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>
 
     return (
         <>
 
+            <button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>
             <div
                 className="text-center m-0 card-title"
                 style={{ textAlign: "start" }}

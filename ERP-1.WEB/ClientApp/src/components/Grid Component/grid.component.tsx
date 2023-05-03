@@ -11,7 +11,7 @@ import './styles.css';
 //import { GridOptions } from 'ag-grid-community';
 import { toast } from 'react-toastify';
 
-export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, dupS, collect,H, srProps, ...rest }: any) {
+export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, collect,H, srProps, ...rest }: any) {
 
     const [gridApi, setGridApi]: any = useState(null);
     const [columnApi, setColumnApi]: any = useState(null);
@@ -93,12 +93,13 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
     }
     function onGridReady(params: any) {
-        if (title === 'Consumed Item Details') {
-            init100Rows()
-        } else {
-            initailsRowCount();
+        //if (title === 'Consumed Item Details') {
+        //    init100Rows()
+        //} else {
+        //    initailsRowCount();
 
-        }
+        //}
+            initailsRowCount();
         setGridApi(params.api);
 
         collect(params.api);
@@ -170,11 +171,11 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
 
     }
 
-          /*  <button className="p-1 m-3 btn btn-primary col-2" onClick={onAddRow}>Add Row </button>*/
 
     return (
         <>
 
+            <button className="p-1 m-3 btn btn-primary" onClick={onAddRow}>Add Row </button>
             <div
                 className="text-center m-0 card-title"
                 style={{ textAlign: "start" }}

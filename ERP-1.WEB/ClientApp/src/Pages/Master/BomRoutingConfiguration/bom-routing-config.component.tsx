@@ -24,17 +24,19 @@ import WriteGrid from '../../../components/Grid Component/grid.component';
 import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
+import { BOM_STORE } from '../../../Redux/BOM/bom.reducer';
+import { NumericEditor } from '../../../components/Grid Component/EnterOnlyNumbers';
 
-function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMAltItem, handleBomCutComponenet, handleBomDetails, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBomOtherProdDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingDetails, handleRoutingJobWork, handleRoutingMachineDetails, handleROUTINGOPRATIONDETAILS, handleRoutingOtherHead, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, provide_conf, watchItemObj, ...otherProps }: any) {
+function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBomCutComponenet, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingJobWork, handleRoutingMachineDetails, handleRoutingOtherHead, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, provide_conf, watchItemObj, getRoutingDetailApi, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, prodItemRow, consItemRow, getAltItemDetailApi,getOtherProdDetailApi, getOperationDetailApi,...otherProps }: any) {
 
-
-    let [isCopy, setIsCopy]: any = useState(false)
+    var [storeData, setStoreData]: any = React.useState({});
+    var [currentRowData, setCurrentRowData]: any = React.useState({});
 
     //-------------------------------------------------------------------------Routing Variable--------------------------------------------------------
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
     const history = useHistory();
-
+    React.useEffect(() => {console.log('uom list', uomList) }, [uomList.length])
     const OpenPrompt = (e: any) => {
         if (e.key === 'Insert') {
             let res = confirm("Do You Wnat to Copy");
@@ -44,24 +46,29 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         }
     };
 
+    let [isCopy, setIsCopy]: any = useState(false)
     let [isItemBox, setIsItemBox]: any = React.useState(false);
     let [isOperation, setIsOperation]: any = React.useState(false);
     const OpenBOMItemCons = (e: any) => {
 
         if (e.colDef.field === "process") {
             if (e.data.process && e.event.keyCode === 13) {
+                setCurrentRowData(e.data);
                 if (provide_conf.eProdOpr === 1) {
                     setIsOperation(true);
                 } else {
+                    
                     setIsItemBox(true);
 
                 }
+                let data = BOM_STORE.getState();
+                setStoreData(data);
             }
         } else { }
 
     }
 
-    let data: any[] = [{ process: null, puom: null, amt: 0.0, settime: 0.0, machinetime: 0.0, manpower: 0.0, finalprocess: { label: 'N', value: '2' }, electricity: 0.0, poh: 0.0, job: { label: 'N', value: '2' }, machinedep: { label: 'N', value: '2' } }]
+    let data: any[] = [{ process: null, puom: null, amt: null, settime: null, machinetime: null, manpower: null, finalprocess: null, electricity: null, poh: null, job: null, machinedep: null }]
 
     var ColDef: any[] = [{ maxWidth: 100, field: 'sr', headerName: "Stage", valueGetter: 'node.rowIndex + 1' },
     {
@@ -84,6 +91,23 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
             },
             placeholder: "Select a Process"
         },
+        onCellValueChanged: (params: any) => {
+            if (params.oldValue !== params.newValue) {
+
+                params.data.amt = 0.00;
+                params.data.settime = 0.00;
+                params.data.machinetime = 0.00;
+                params.data.manpower = 0.00;
+                params.data.finalprocess = { label: 'N', value: 0 };
+                params.data.electricity = 0.00;
+                params.data.poh = 0.00;
+                params.data.job = { label: 'N', value: 0 };
+                params.data.machinedep = {label : 'N', value : 0};
+
+                params.api.refreshCells({ force: true });
+            }
+        },
+
         valueFormatter: (params: any) => {
             if (params.value) {
                 return params.value.label || params.value.value || params.value;
@@ -93,19 +117,19 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         editable: true
 
     },
-    { field: 'puom', headerName: 'Unit', minWidth: 200 },
-    { field: 'amt', headerName: 'Amount', minWidth: 200, editable: true },
-    { field: 'settime', headerName: 'Set Up Time', minWidth: 200, editable: true },
-    { field: 'machinetime', headerName: 'Cycle Time', minWidth: 200, editable: true },
-    { field: 'manpower', headerName: 'Manpower', minWidth: 200, editable: true },
+
+        { field: 'amt', headerName: 'Amount', minWidth: 200, editable: true, cellEditor: NumericEditor},
+        { field: 'settime', headerName: 'Set Up Time', minWidth: 200, editable: true, cellEditor: NumericEditor},
+        { field: 'machinetime', headerName: 'Cycle Time', minWidth: 200, editable: true, cellEditor: NumericEditor},
+        { field: 'manpower', headerName: 'Manpower', minWidth: 200, editable: true, cellEditor: NumericEditor},
 
     {
         field: 'finalprocess', headerName: 'Is Final', minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
 
             selectData: [
-                { label: 'Y', value: '1' },
-                { label: 'N', value: '2' }
+                { label: 'Y', value: 1 },
+                { label: 'N', value: 0 }
             ],
             placeholder: 'Select an option',
         }, valueFormatter: (params: any) => {
@@ -118,16 +142,16 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
     },
 
 
-    { field: 'electricity', headerName: 'Electricity Unit', minWidth: 200, editable: true },
-    { field: 'poh', headerName: 'Total OverHead', minWidth: 200, editable: true },
+        { field: 'electricity', headerName: 'Electricity Unit', minWidth: 200, editable: true, cellEditor: NumericEditor },
+        { field: 'poh', headerName: 'Total OverHead', minWidth: 200, editable: true, cellEditor: NumericEditor },
 
     {
         field: 'job', headerName: 'Job Work', minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
 
             selectData: [
-                { label: 'Y', value: '1' },
-                { label: 'N', value: '2' }
+                { label: 'Y', value: 1 },
+                { label: 'N', value: 0 }
             ],
             placeholder: 'Select an option',
         }, valueFormatter: (params: any) => {
@@ -144,8 +168,8 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         cellEditorParams: {
 
             selectData: [
-                { label: 'Y', value: '1' },
-                { label: 'N', value: '2' }
+                { label: 'Y', value: 1 },
+                { label: 'N', value: 0 }
             ],
             placeholder: 'Select an option',
         },
@@ -168,10 +192,12 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
     return (
         <>
 
-            <BOMModals isCopy={isCopy} isBOMAlt={false} isBOMProcess={false} isBOMRouting={false} setIsCopy={setIsCopy} handleAlt={handleBOMAltItem} handleOther={handleBomOtherProdDetails} handleConsume={() => { }} isOperation={isOperation} handleOperation={setIsOperation} />
+            {
+                isOperation || isCopy ? (<BOMModals isOperation={isOperation} handleOperation={setIsOperation} defaultObj={storeData} uomList={uomList} isCopy={isCopy} setIsCopy={setIsCopy} getOperationDetApi={getOperationDetailApi} />) : null
+            }
+           
 
-
-            <RouteDetails isItemBox={isItemBox} setIsItemBox={setIsItemBox} itemCodeLst12={codeNameLoad12} itemCodeLst23={codeNameLoad23} handleConsume={() => { }} handleProduce={() => { }} />
+            <RouteDetails blindWatch={watchItemObj} isItemBox={isItemBox} setIsItemBox={setIsItemBox} itemCodeLst12={codeNameLoad12} itemCodeLst23={codeNameLoad23} defaultObj={storeData} currentRowData={currentRowData} uomList={uomList} getBomConsumeDetailApi={getBomConsumeDetailApi} getBomProduceDetailApi={getBomProduceDetailApi} collectBOMConsDetails={collectBOMConsDetails} collectBOMProdDetails={collectBOMProdDetails} currentConsDetails={currentConsDetails} currentProdDetails={currentProdDetails} rawData2={prodItemRow} rawData1={consItemRow} handleChange={handleBOMHeader} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} />
 
             <div className="main card firstDiv">
 
@@ -242,7 +268,7 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
 
             <hr style={{ margin: '0', padding: '0' }} />
 
-            <WriteGrid title="Routing Details" titleClr="blue" OpenSubLayer={OpenBOMItemCons} colDef={ColDef} data={data} />
+            <WriteGrid title="Routing Details" titleClr="blue" OpenSubLayer={OpenBOMItemCons} colDef={ColDef} data={data} srProps="sr" collect={getRoutingDetailApi}  />
 
             <hr style={{ margin: '0', padding: '0' }} />
 

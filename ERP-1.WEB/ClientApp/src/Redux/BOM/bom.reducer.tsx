@@ -58,8 +58,8 @@ const bomReducer = (STATE = INITIAL_STATE, action: IAction) => {
         case "bom_struct":
             if (action.label === "BOMHeader") STATE.BOMHeader[action.key] = action.payload;
 
-            else if (action.label === "BomDetails") STATE.BomDetails[action.key] = action.payload;
-            else if (action.label === "RoutingDetails") STATE.RoutingDetails[action.key] = action.payload;
+            else if (action.label === "RoutingDetails") STATE.RoutingDetails = action.payload;
+            else if (action.label === "BomDetails") STATE.BomDetails = action.payload;
             else if (action.label === "RoutingOtherHead") STATE.RoutingOtherHead[action.key] = action.payload;
             else if (action.label === "BOMAltItem") STATE.BOMAltItem[action.key] = action.payload;
             else if (action.label === "BOMItemSupplier") STATE.BOMItemSupplier[action.key] = action.payload;

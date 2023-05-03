@@ -166,7 +166,8 @@ class ChildLog extends React.Component<IProps, IState>{
         if (redirect === true) {
 
             this.setState({ isLoader: false })
-            toast.success(`You Signed In Successfully with status code ${status}`)
+            //toast.success(`You Signed In Successfully with status code ${status}`)
+            toast.success('Successfully Logged in')
             this.setState({ redirect: true })
         }
         else if (redirect === false) {
