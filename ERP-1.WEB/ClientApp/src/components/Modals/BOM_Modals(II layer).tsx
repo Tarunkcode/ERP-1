@@ -170,6 +170,7 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
                             </span>
 
                             <br />
+                            {/*------------------------------------------------------ Cost Details ------------------------------------------------------------------------------------------------------------------------------*/}
                             <br />
                             <span className="d-flex section2 col-sm-12">
                                 <>
@@ -208,6 +209,7 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
                                     <input type="number" name="cost" className="form-control inp" value={conscost ? conscost : 0} readOnly />
                                 </>
                             </span>
+                            {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
                         </div>
 
                         <div className="col-12">

@@ -513,6 +513,9 @@ class BOM_Routing extends React.Component<IProps, IState> {
             item.psrno = this.state.curr_stage;
             item.code = this.state.gettingVirtualCode;
             item.srno = ind + 1;
+            item.prodavgqty = parseFloat(item.prodavgqty || '0');
+            item.rate = parseFloat(item.rate || '0');
+            item.cost = parseFloat(item.cost || '0')
             item.inout = 2;
             for (let property in item) {
                 let temp = typeof item[property] == 'object';

@@ -338,8 +338,8 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
                 params.data.itemname = itemname;
 
                 params.data.prodavgqty = 0.00;
-                params.data.prodavguom = null;
-                params.data.rate = 0.00;
+                params.data.prodavguom = { label: params.newValue.uomname, value: params.newValue.uom };
+                params.data.rate = parseFloat(params.newValue.rate || '0');
                 params.data.cost = 0.00;
                 params.data.isotherprod = { label: 'N', value: 0 };
 
@@ -353,7 +353,21 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
             return params.label;
         },
         editable: true
-    }, { field: 'itemname', headerName: "Item Name", minWidth: 400 }, { field: 'prodavgqty', headerName: "Quantity", minWidth: 200, editable: true, cellEditor: NumericEditor }, {
+        }, { field: 'itemname', headerName: "Item Name", minWidth: 400 }, {
+            field: 'prodavgqty', headerName: "Quantity", minWidth: 200, editable: true, cellEditor: NumericEditor,
+        onCellValueChanged: (params: any) => {
+            if (params.oldValue !== params.newValue) {
+                
+                params.data.prodavgqty = parseFloat(params.newValue || '0');
+               
+                
+                params.data.cost = params.data.rate / parseFloat(params.newValue);
+               
+
+                params.api.refreshCells({ force: true });
+            }
+        }
+        }, {
         field: 'prodavguom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
             required: true,
@@ -376,7 +390,7 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
                 return params.value.label || params.value.value || params.value;
             }
             return params.label;
-        }, editable: true
+        }, editable: false
     }, { field: 'rate', headerName: "Rate", minWidth: 200, cellEditor: NumericEditor }, { field: 'cost', headerName: "Cost", minWidth: 200, cellEditor: NumericEditor }, {
 
         field: 'isotherprod', headerName: "Other Prod", minWidth: 200,

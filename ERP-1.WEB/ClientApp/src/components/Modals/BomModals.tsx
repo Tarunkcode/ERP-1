@@ -100,7 +100,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     React.useEffect(() => {
         // load Process
         if (processDetails.process) {
-            fetchDefProcessMaster(processDetails.process.value)
+            fetchDefProcessMaster(processDetails.process.value || processDetails.process )
         }
 
     }, [])
@@ -129,7 +129,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     const savingConsUom = (item: any, name: string) => {
 
         setConsUom(item);
-        altRowParams.data.conuom = item || null;
+        altRowParams.data.consuom = item || null;
         altRowParams.data.prodavguom = item || null;
     }
 
@@ -176,8 +176,8 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 let itemname = arr[0]
                 params.data.altitem = itemcode;
                 params.data.itemname = itemname;
-                params.data.consuom = { "value": 288, "label": "NOS" };
-                params.data.prodavguom = { "value": 288, "label": "NOS" };
+                params.data.consuom = consUom || null;
+                params.data.prodavguom = consUom || null;
 
                 params.data.rate = params.newValue.rate;
                 params.data.consqty = 0.00;
@@ -201,7 +201,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "rate", headerName: 'Rate', minWidth: 200 }, { field: "consqty", headerName: 'Consume Qty', minWidth: 200 }, {
         field: "consuom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
             required: true,
-            selectData: uomList,
+            selectData: React.useMemo(() => { return uomList }, [uomList]),
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
                     if (maxHeight < 100) {
@@ -220,7 +220,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 return params.value.label || params.value.value || params.value;
             }
             return params.label;
-        }, editable: true
+        }, editable: false
     }, { field: "prodavgqty", headerName: 'Produce Qty', minWidth: 200 }, {
         field: "prodavguom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
             required: true,
@@ -243,7 +243,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 return params.value.label || params.value.value || params.value;
             }
             return params.label;
-        }, editable: true
+        }, editable: false
     }, { field: "cost", headerName: 'Cost', minWidth: 200 }]
     
 
@@ -276,9 +276,9 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 let itemname = arr[0]
                 params.data.item = itemcode;
                 params.data.itemname = itemname;
-                params.data.uom = { "value": 288, "label": "NOS" };
+                params.data.uom = { value: params.newValue.uom , label: params.newValue.uomname} ;
 
-                params.data.rate = params.newValue.rate;
+                params.data.rate = parseFloat(params.newValue.rate);
                 params.data.qty = 0.00;
 
 
@@ -293,7 +293,17 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
             return params.label;
         },
         editable: true
-    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "qty", headerName: 'Quantity', minWidth: 200, editable: true }, {
+    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, {
+        field: "qty", headerName: 'Quantity', minWidth: 200, editable: true, cellEditor: NumericEditor, onCellValueChanged: (params: any) => {
+            if (params.oldValue !== params.newValue) {
+               
+                params.data.qty = parseFloat(params.newValue);
+
+
+
+                params.api.refreshCells({ force: true });
+            }
+        }  }, {
         field: "uom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
             required: true,
             selectData: React.useMemo(() => { return uomList }, [uomList]),
@@ -315,7 +325,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 return params.value.label || params.value.value || params.value;
             }
             return params.label;
-        }, editable: true
+        }, editable: false
     }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
 
     let ColDef3: any[] = [{ field: 'srno', header: 'Serial No.', minWidth: 100, maxWidth: 100, valueGetter: 'node.rowIndex + 1' }, {
@@ -585,11 +595,11 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="pItem" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Item</label>
-                                    <input type="text" name="pItem" className="form-control inp" value={prodItemCurrentRowData ? prodItemCurrentRowData.bomitem : ''} readOnly />
+                                    <input type="text" name="pItem" className="form-control inp" value={prodItemCurrentRowData && prodItemCurrentRowData.bomitem ? prodItemCurrentRowData.bomitem.label : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="qty" style={{ fontSize: '1rem' }} className="form-label labl labl2">Quantity</label>
-                                    <input type="text" name="qty" className="form-control inp" />
+                                    <input type="text" name="qty" className="form-control inp" value={prodItemCurrentRowData ? prodItemCurrentRowData.prodavgqty : ''} />
                                 </>
 
                                 <span className="col-4"></span>
