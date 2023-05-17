@@ -26,6 +26,7 @@ const customStyles: object = {
 export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCostCurrentRowData, prevTableCurrentRowNo, blindWatch, consuom, produom, consqty, prodqty, rate, conscost, savingConsQuantity ,savingProdQuantity , savingConsUom , bomPerQty,params, ...props }: any) {
     let subtitle: any;
     let [uom, setUom]: any = React.useState([]);
+    let [isFreshOpen, setIsFreshOpen]: any = React.useState(null);
     const api = useFetch();
     const { setLoader } = useContext(LoaderContext);
     const loadUom = async () => {
@@ -56,12 +57,22 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
             alert(err);
         }
     }
+    React.useEffect(() => {
+        if (itemCostCurrentRowData.consqty && itemCostCurrentRowData.prodavgqty) {
+            setIsFreshOpen(false);
+
+        } else {
+            setIsFreshOpen(true);
+
+        }
+
+    }, [])
     function afterOpenModal() {
 
         subtitle.style.color = '#f00';
     }
 
-    React.useEffect(() => {console.log('cons uom', consuom) },[consuom])
+    
     function closeItemCostDet() {
         params.api.refreshCells({ force: true });
         setItemCostDet(false);
@@ -164,7 +175,7 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="consitemuom" style={{ fontSize: '1rem' }} className="form-label labl labl2">Cons. Item UOM</label>
-                                    <input type="text" name="consitemuom" className="form-control inp col-4" value={itemCostCurrentRowData.conuom ? itemCostCurrentRowData.conuom.label : ''} readOnly />
+                                    <input type="text" name="consitemuom" className="form-control inp col-4" value={itemCostCurrentRowData.consuom ? itemCostCurrentRowData.consuom.label : ''} readOnly />
                                 </>
 
                             </span>
@@ -177,7 +188,7 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
                                     <label htmlFor="consqty" style={{ fontSize: '1rem' }} className="form-label labl labl2">Cons. Qty</label>
                                     <input type="number" name="consqty" className="form-control inp col-4" defaultValue={itemCostCurrentRowData.consqty ? itemCostCurrentRowData.consqty : ''} min={0} onChange={savingConsQuantity} />
                                 </>
-                                <AutoComp name="consuom" label="UOM" ipTitle="Select Uom" list={uom} ipType="text" collectWithItem={savingConsUom} classCategory="form-control col-4 inp str" isMandate={true} value={itemCostCurrentRowData.conuom ? itemCostCurrentRowData.conuom : '' }/>
+                                <AutoComp name="consuom" label="UOM" ipTitle="Select Uom" list={uom} ipType="text" collectWithItem={savingConsUom} classCategory="form-control col-4 inp str" isMandate={true} value={itemCostCurrentRowData && itemCostCurrentRowData.consuom ? itemCostCurrentRowData.consuom : ''} defaultt={itemCostCurrentRowData.consuom && itemCostCurrentRowData.consuom.label ? itemCostCurrentRowData.consuom.label : '' } />
                             </span>
                             <span className="d-flex section2 col-sm-12">
                                 <>
@@ -194,19 +205,28 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="rate" style={{ fontSize: '1rem' }} className="form-label labl labl2">Rate</label>
-                                    <input type="number" name="rate" className="form-control inp" value={rate ? rate : 0 } readOnly />
+                                    <input type="number" name="rate" className="form-control inp" value={itemCostCurrentRowData && itemCostCurrentRowData.rate ? itemCostCurrentRowData.rate : 0 } readOnly />
                                 </>
                                 <>
                                     <label htmlFor="consqty" style={{ fontSize: '1rem' }} className="form-label labl labl2">Cons.Qty</label>
-                                    <input type="number" name="consqty" className="form-control inp" value={bomPerQty ? bomPerQty : 0} readOnly />
+                                    {
+                                        isFreshOpen === true ? (<input type="number" name="consqty" className="form-control inp" value={ bomPerQty ? bomPerQty : 0} readOnly />) : ( <input type="number" name="consqty" className="form-control inp" value={itemCostCurrentRowData && itemCostCurrentRowData.prodavgqty || itemCostCurrentRowData.consqty && bomPerQty ? bomPerQty : 0} readOnly />)
+                                    }
+                                   
                                 </>
                                 <>
                                     <label htmlFor="consuom" style={{ fontSize: '1rem' }} className="form-label labl labl2">Cons. Uom</label>
-                                    <input type="text" name="consuom" className="form-control inp" value={consuom && consuom.label ? consuom.label : null } readOnly />
+                                    {
+                                        isFreshOpen === true ? (<input type="text" name="consuom" className="form-control inp" value={consuom && consuom.label ? consuom.label : null} readOnly />) : ( <input type="text" name="consuom" className="form-control inp" value={itemCostCurrentRowData && itemCostCurrentRowData.consuom && itemCostCurrentRowData.consuom.label ? itemCostCurrentRowData.consuom.label : null } readOnly />)
+                                    }
+                                   
                                 </>
                                 <>
                                     <label htmlFor="cost" style={{ fontSize: '1rem' }} className="form-label labl labl2">Cost</label>
-                                    <input type="number" name="cost" className="form-control inp" value={conscost ? conscost : 0} readOnly />
+                                    {
+                                        isFreshOpen === true ? (<input type="number" name="cost" className="form-control inp" value={conscost ? conscost : 0} readOnly />) : (<input type="number" name="cost" className="form-control inp" value={itemCostCurrentRowData && itemCostCurrentRowData.cost ? itemCostCurrentRowData.cost : 0} readOnly />)
+                                    }
+                                   
                                 </>
                             </span>
                             {/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/}
