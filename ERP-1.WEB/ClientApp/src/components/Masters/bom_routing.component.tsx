@@ -4,8 +4,11 @@ import BomRoutingConfig_Page from '../../Pages/Master/BomRoutingConfiguration/bo
 
 import { toast } from 'react-toastify';
 import { BOM_STORE } from '../../Redux/BOM/bom.reducer';
-import BOM_SetUp from '../HOC/loadBOM';
+import Current_Configuration_SetUp from '../HOC/Current_Configuration_SetUp';
 import { LoaderContext } from '../../AppContext/loaderContext';
+import { contextType } from 'react-modal';
+
+
 
 interface IProps {
     context: any,
@@ -21,6 +24,10 @@ interface IState {
     gettingVirtualCode: number,
     altItemDetApi: any,
     otherProdApi: any,
+    curr_stage: number,
+    consItemCurrIndex: number,
+    overheadApi: any,
+    prodItemCurrIndex: number,
     operationApi: any,
     process: any[],
     bomConsDetApi: any,
@@ -28,7 +35,11 @@ interface IState {
     routeDetApi: any,
     Item_Code$Name12: any[],
     Item_Code$Name23: any[],
-    bomCurrentState: any
+    bomCurrentState: any,
+    currentConsItem: any,
+    currentProdItem: any,
+    currentProcessItem: any,
+    routingMasterDetails: any
 
 }
 class BOM_Routing extends React.Component<IProps, IState> {
@@ -44,6 +55,13 @@ class BOM_Routing extends React.Component<IProps, IState> {
             bomConsDetApi: null,
             otherProdApi: null,
             operationApi: null,
+            overheadApi: null,
+            curr_stage: 0,
+            consItemCurrIndex: 0,
+            currentConsItem: null,
+            currentProdItem: null,
+            currentProcessItem: null,
+            prodItemCurrIndex: 0,
             bomProdDetApi: null,
             gettingVirtualCode: 0,
             altItemDetApi: null,
@@ -53,21 +71,55 @@ class BOM_Routing extends React.Component<IProps, IState> {
             uom: [],
             bomCurrentState: {
                 code: 0,
-                customer: parseInt("57"),
-                company: parseInt("46"),
-            }
+                customer: parseInt(this.customer),
+                company: parseInt(this.compCode)
+            },
+            routingMasterDetails: {}
+
 
         }
     }
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
-    routeObj: any = this.props.location.state;
+ 
 
     // Private Data
     prodItemDefRow: any[] = [{ bomitem: null, itemname: null, prodavgqty: null, prodavguom: null, rate: null, cost: null, isotherprod: null }]
     consItemDefRow: any[] = [{ bomitem: null, itemname: null, rate: null, consqty: null, conuom: null, prodavgqty: null, prodavguom: null, cost: null, altitem: null }]
+    altItemDefRow: any[] = [{ altitem: null }, { itn: null }, { rate: null }, { consqty: null }, { consuom: null }, { prodavgqty: null }, { prodavguom: null }, { cost: null }];
+    otherProdDefRow: any[] = [{ item: null }, { itemname: null }, { qty: null }, { uom: null }, { rate: null }]
+    operationDefRow: any[] = [{ srno: 1, process: null, opration: null, cycletime: null, fop: null }]
+    overheadDefRow = [{ srno: 1, overhead: null, cost: null }]
 
+    loadRoutingMasterDetails = async (code: number) => {
+        const { setLoader } = this.context;
+        if (code) {
+            let url = `/api/RoutingModify?RCode=${code}`;
+          
+            try {
+                let { res, got } = await this.props.api(url, "GET", '');
+                if (res.status == 200) {
+                    if (got.data[0].bomheader.length > 0) {
+                        this.setState({ routingMasterDetails: got.data[0] });
+                        setLoader(false);
+
+                    } else {
+                        setLoader(false);
+                        toast.info('No Data Found for Modify')
+                    }
+                } else {
+                    setLoader(false);
+                    toast.error('ERROR::Routing Master Details Loading Failed')
+                }
+
+            } catch (err) {
+                setLoader(false);
+                alert(err);
+            }
+
+        }
+    }
     //------------------------------------------------------------ Callback Methods---------------------------------------------------------------------------------------
 
     getRoutingCode = async (seriesCode: number, prefix: string) => {
@@ -158,8 +210,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
         loader.setLoader(true);
         let url = '/api/LoadIMList';
         let body1 = {
-            "Customer": 68,
-            "Company": 60,
+            "Customer": parseInt(this.customer),
+            "Company": parseInt(this.compCode),
             "Series": "",
             "ItemBrand": "",
             "ItemGroup": "",
@@ -182,7 +234,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                     label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-
+                    rate : option.rate
 
 
                 }))
@@ -203,8 +255,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
         loader.setLoader(true);
         let url = '/api/LoadIMList';
         let body = {
-            "Customer": 0,
-            "Company": 0,
+            "Customer": parseInt(this.customer),
+            "Company": parseInt(this.compCode),
             "Series": "",
             "ItemBrand": "",
             "ItemGroup": "",
@@ -227,7 +279,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                     label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-
+                    rate: option.rate
 
                 }))
                 console.log('code name and code................', cd$Nm)
@@ -251,12 +303,25 @@ class BOM_Routing extends React.Component<IProps, IState> {
         else if (e.currentTarget.classList.contains('decimal')) { value = parseFloat(value) }
         else if (e.currentTarget.classList.contains('number')) { value = parseInt(value) }
         else if (e.currentTarget.classList.contains('select')) { value = parseInt(value) }
-        else if (e.currentTarget.classList.contains('switch')) { e.target.checked === true ? value = 1 : value = 0 }
+        else if (e.currentTarget.classList.contains('switch')) { e.target.value === "on" ? value = 1 : value = 0 }
         else value = e.target.value;
 
         return value;
     }
 
+    getCurrentRow = (index: number, data: any) => {
+
+        this.setState({ curr_stage: index, currentProcessItem: data });
+
+
+    }
+    getAltItemCurrentRow = (index: number, data: any) => {
+
+        this.setState({ consItemCurrIndex: index, currentConsItem: data })
+    }
+    getProdItemCurrentRow = (index: number, data: any) => {
+        this.setState({ prodItemCurrIndex: index, currentProdItem: data })
+    }
     //___________________________________________________________Methods for saving Form data in Redux Store __________________________________________________________________
     CollectListWithItem = (item: any, name: string) => {
         if (name == 'series') {
@@ -266,14 +331,17 @@ class BOM_Routing extends React.Component<IProps, IState> {
         else if (name == 'item') {
             let arr = item.label.split("|")
             let iCode = arr[1]
+
             let uom = item.uom
+            let value = item.value
             let iUomName = item.uomname
             let iName = arr[0]
             this.setState({ watchItemObj: { uomname: iUomName, itemname: iName, itemcode: iCode } })
             console.log('arr', arr)
 
             BOM_STORE.dispatch({ payload: uom, key: "unit", type: "bom_struct", label: 'BOMHeader' });
-            BOM_STORE.dispatch({ payload: iCode, key: "item", type: "bom_struct", label: 'BOMHeader' });
+            BOM_STORE.dispatch({ payload: value, key: "item", type: "bom_struct", label: 'BOMHeader' });
+
             return;
         }
         BOM_STORE.dispatch({ payload: item.value, key: name, type: "bom_struct", label: 'BOMHeader' });
@@ -320,25 +388,45 @@ class BOM_Routing extends React.Component<IProps, IState> {
     getRoutingDetailRows = () => {
         let items: any[] = [];
         this.state.routeDetApi.forEachNode(function (node: any) {
-            if (node.data.process !== null)
+            if (node.data.process !== null) {
                 items.push(node.data);
+            }
         });
         return items;
     }
 
     collectRoutingDetails = async () => {
         let dataSet: any[] = await this.getRoutingDetailRows();
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        dataSet.map((item: any, ind: number) => {
+            item.code = this.state.gettingVirtualCode;
+            item.sr = ind + 1;
+            item.amt = parseFloat(item.amt);
+            item.settime = parseFloat(item.settime);
+            item.machinetime = parseFloat(item.machinetime);
+            item.manpower = parseFloat(item.manpower);
+            item.electricity = parseFloat(item.electricity);
+            item.poh = parseFloat(item.poh);
+            for (let property in item) {
+                let temp = typeof item[property] == 'object';
+                if (temp && item[property] && item[property].label) {
+                    item[property] = item[property].value;
+                }
+            }
+        })
         if (dataSet.length === 0 || dataSet === null) {
 
             dataSet = [{}]
 
         }
-
+        else {
+            console.log('dataset', dataSet, 'copy', copy)
+        }
         BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'RoutingDetails' });
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                RoutingDetails: dataSet
+                RoutingDetails: copy
             }
         })
 
@@ -373,262 +461,368 @@ class BOM_Routing extends React.Component<IProps, IState> {
     }
 
     collectBOMConsDetails = async () => {
+
         let dataSet: any[] = await this.getBOMConsDetailsRow();
-        let lastStoreState = BOM_STORE.getState().BomDetails;
-        let len = dataSet.length;
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        dataSet.map((item: any, ind: number) => {
+            item.psrno = this.state.curr_stage;
+            item.code = this.state.gettingVirtualCode;
+            item.srno = ind + 1;
+            item.inout = 1;
+            for (let property in item) {
+                let temp = typeof item[property] == 'object';
+                if (temp && item[property] && item[property].label) {
+                    item[property] = item[property].value;
+                }
+            }
+        })
+        console.log('dataSet consume item', dataSet);
+        let len = copy.length;
 
         if (dataSet.length === 0 || dataSet === null) {
 
             dataSet = []
+            copy = [];
+        }
+        else {
 
-        } else {
+            // creating empty rows
             for (let i = 0; i < 10 - len; i++) {
-                dataSet.push({ ...this.consItemDefRow, srno: i + 1 })
+                copy.push({ ...this.consItemDefRow[0], srno: i + 1, psrno: this.state.curr_stage, code: this.state.gettingVirtualCode, inout: 1 })
             }
 
         }
 
-        BOM_STORE.dispatch({ payload: [...lastStoreState, ...dataSet], key: '', type: "bom_struct", label: 'BomDetails' });
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' });
+
+        //--------------------------------------- creting state -------------------------------------------------------------------------
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                consItemDetails: dataSet
+                consItemDetails: { ...this.state.bomCurrentState.consItemDetails, [this.state.curr_stage]: copy }
             }
         })
+
+        console.log('current state 1', this.state.bomCurrentState)
     }
     collectBOMProdDetails = async () => {
-        let lastStoreState = BOM_STORE.getState().BomDetails;
+
         let dataSet: any[] = await this.getBOMProdDetailsRow();
-        let len = dataSet.length;
-       
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        dataSet.map((item: any, ind: number) => {
+            item.psrno = this.state.curr_stage;
+            item.code = this.state.gettingVirtualCode;
+            item.srno = ind + 1;
+            item.inout = 2;
+            for (let property in item) {
+                let temp = typeof item[property] == 'object';
+                if (temp && item[property] && item[property].label) {
+                    item[property] = item[property].value;
+                }
+            }
+        })
+        let len = copy.length;
+
         if (dataSet.length === 0 || dataSet === null) {
 
             dataSet = []
+            copy = [];
+        }
+        else {
 
-        } else {
-            for (let i = 0; i < 10 - len ; i++) {
-                dataSet.push({ ...this.prodItemDefRow, srno: i + 1 })
+            for (let i = 0; i < 10 - len; i++) {
+                copy.push({ ...this.prodItemDefRow[0], srno: i + 1, psrno: this.state.curr_stage, code: this.state.gettingVirtualCode, inout: 2 })
             }
-           
+
         }
 
-        BOM_STORE.dispatch({ payload: [...lastStoreState, ...dataSet], key: '', type: "bom_struct", label: 'BomDetails' });
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' });
+        console.log('prev State Prod Item', this.state.bomCurrentState.prodItemDetails)
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                prodItemDetails: dataSet
+                prodItemDetails: { ...this.state.bomCurrentState.prodItemDetails, [this.state.curr_stage]: copy }
             }
         })
-
+        console.log('current state 2', this.state.bomCurrentState)
     }
-   
+
     //__________________________________________________________Alt Item___________________________________________________________________________________________________________
 
-   
+
 
 
     getAltItemDetApi = (api: any) => {
-        this.setState({altItemDetApi : api})
+        this.setState({ altItemDetApi: api })
     }
 
+    getAltItemRow = () => {
+        let items: any[] = [];
+        this.state.altItemDetApi.forEachNode(function (node: any) {
+            if (node.data.altitem !== null)
+                items.push(node.data);
+        });
+        return items;
+    }
+    collectAltItemDetails = async () => {
+        let dataSet: any[] = await this.getAltItemRow();
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        dataSet.map((item: any, ind: number) => {
+            item.psrno = this.state.curr_stage;
+            item.code = this.state.gettingVirtualCode;
+            item.srno = ind + 1;
+            item.process = this.state.currentProcessItem.process;
+            item.bomitem = this.state.currentConsItem.bomitem;
+            item.bomsrno = this.state.consItemCurrIndex;
+            for (let property in item) {
+                let temp = typeof item[property] == 'object';
+                if (temp && item[property] && item[property].label) {
+                    item[property] = item[property].value;
+                }
+            }
+        })
+        let len = copy.length;
 
+        if (dataSet.length === 0 || dataSet === null) {
 
+            dataSet = []
+            copy = [];
+
+        } else {
+
+            for (let i = 0; i < 10 - len; i++) {
+                copy.push({ ...this.altItemDefRow[0], srno: i + 1, psrno: this.state.curr_stage, code: this.state.gettingVirtualCode, bomsrno: this.state.consItemCurrIndex })
+            }
+
+        }
+
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMAltItem' });
+        this.setState({
+            bomCurrentState: {
+                ...this.state.bomCurrentState,
+                BOMAltItem: { ...this.state.bomCurrentState.BOMAltItem, [`Alt${this.state.consItemCurrIndex}${this.state.curr_stage}`]: copy }
+            }
+        })
+        console.log('current Alt items', this.state.bomCurrentState.BOMAltItem)
+    }
 
     //__________________________________________________________Other Produce Item___________________________________________________________________
 
-   
+
 
     getOtherProduceApi = (api: any) => {
-        this.setState({otherProdApi : api})
+        this.setState({ otherProdApi: api })
     }
+    getOtherProduceRow = () => {
+        let items: any[] = [];
+        this.state.otherProdApi.forEachNode(function (node: any) {
+            if (node.data.item !== null) {
+                items.push(node.data);
+                console.log('capture', node.data)
+            }
+        });
+        return items;
+    }
+    collectOtherProduceDetails = async () => {
+        let dataSet: any[] = await this.getOtherProduceRow();
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        dataSet.map((item: any, ind: number) => {
+            item.psrno = this.state.curr_stage;
+            item.code = this.state.gettingVirtualCode;
+            item.srno = ind + 1;
+            item.process = this.state.currentProcessItem.process;
+            item.proditem = this.state.currentProdItem.bomitem;
+            item.prodsrno = this.state.prodItemCurrIndex;
+            for (let property in item) {
+                let temp = typeof item[property] == 'object';
+                if (temp && item[property] && item[property].label) {
+                    item[property] = item[property].value;
+                }
+            }
 
+        })
+        console.log('dataSet Other Produce Item', dataSet);
+        let len = copy.length;
+
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = []
+            copy = [];
+
+        } else {
+
+            for (let i = 0; i < 10 - len; i++) {
+                copy.push({ ...this.otherProdDefRow[0], srno: i + 1, psrno: this.state.curr_stage, code: this.state.gettingVirtualCode, prodsrno: this.state.prodItemCurrIndex })
+            }
+
+        }
+
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomOtherProdDetails' });
+        console.log('oither produce item', dataSet)
+        this.setState({
+            bomCurrentState: {
+                ...this.state.bomCurrentState,
+                BomOtherProdDetails: { ...this.state.bomCurrentState.BomOtherProdDetails, [`Prod${this.state.prodItemCurrIndex}${this.state.curr_stage}`]: copy }
+            }
+        })
+        console.log('current other produce items', this.state.bomCurrentState.BomOtherProdDetails)
+    }
     //__________________________________________________________Operation___________________________________________________________________
 
-    
+
     getOperationDetApi = (api: any) => {
         this.setState({ operationApi: api })
     }
+    
 
+    getOperationDetRow = () => {
+        let items: any[] = [];
+        this.state.operationApi.forEachNode(function (node: any) {
+            if (node.data.opration !== null)
+                items.push(node.data);
+        });
+        return items;
+    }
+    collectOperationDetails = async () => {
+        let dataSet: any[] = await this.getOperationDetRow();
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        copy.map((item: any, ind: number) => {
 
-    //__________________________________________________________WASTE CLASSES___________________________________________________________________
-    handle_RoutingJobWork_Change = (val: any, key: any, row: any) => {
+            item.opration = item.opration;
+            item.code = this.state.gettingVirtualCode;
+            item.psrno = this.state.curr_stage;
+            item.srno = item.srno || ind + 1;
+            item.process = item.process;
+            item.fop = item.fop;
+            item.cycletime = item.cycletime ? parseFloat(item.cycletime) : 0
+        })
+        dataSet.map((item: any, ind: number) => {
+            item.code = this.state.gettingVirtualCode;
+            item.psrno = this.state.curr_stage;
+            item.opration = item.opr;
+            item.srno = item.srno || ind + 1;
+            item.process = true ? 1 : 0;
+            item.fop = true ? 1 : 0;
+            item.cycletime = item.cycletime ? parseFloat(item.cycletime) : 0
+        })
+       
 
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'RoutingJobWork' });
+        if (dataSet.length === 0 || dataSet === null) {
 
+            dataSet = [];
+            copy = [];
+
+        } 
+
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' });
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                RoutingJobWork: [...BOM_STORE.getState().RoutingJobWork]
+                ROUTINGOPRATIONDETAILS: { ...this.state.bomCurrentState.ROUTINGOPRATIONDETAILS, [this.state.curr_stage]: copy }
             }
         })
-
     }
-    handle_BomJWDetails_Change = (val: any, key: any, row: any) => {
 
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BomJWDetails' });
+    //------------------------------------------------------Overhead Details------------------------------------------------------------------------------------
+    getOverheadDetApi = (api: any) => {
+        this.setState({ overheadApi: api })
+    }
+    getOverheadDetRow = () => {
+        let items: any[] = [];
+        this.state.overheadApi.forEachNode(function (node: any) {
+            if (node.data.poh !== null)
+                items.push(node.data);
+        });
+        return items;
+    }
+    collectOverheadDetails = async () => {
+        let dataSet: any[] = await this.getOverheadDetRow();
+        let copy = JSON.parse(JSON.stringify(dataSet));
+        console.log('over head collect fn is running', dataSet);
+        copy.map((item: any, ind: number) => {
 
+            item.code = this.state.gettingVirtualCode;
+            item.psrno = this.state.curr_stage;
+            item.srno = item.srno || ind + 1;
+            item.cost = item.cost ? parseFloat(item.cost) : 0;
+            item.poh = item.poh;
+        })
+        dataSet.map((item: any, ind: number) => {
+            item.code = this.state.gettingVirtualCode;
+            item.psrno = this.state.curr_stage;
+            item.srno = item.srno || ind + 1;
+            item.cost = item.cost ? parseFloat(item.cost) : 0;
+            item.poh = item.pohcode;
+        })
+
+        if (dataSet.length === 0 || dataSet === null) {
+
+            dataSet = [];
+            copy = [];
+
+        } 
+
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMProcessPOH' });
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                BomJWDetails: [...BOM_STORE.getState().BomJWDetails]
+                BOMProcessPOH: { ...this.state.bomCurrentState.BOMProcessPOH , [this.state.curr_stage]: copy }
             }
         })
-
     }
-
-
-    handle_RoutingOtherHead_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'RoutingOtherHead' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                RoutingOtherHead: [...BOM_STORE.getState().RoutingOtherHead]
-            }
-        })
-
-    }
-    handle_BOMProcessPOH_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BOMProcessPOH' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                BOMProcessPOH: [...BOM_STORE.getState().BOMProcessPOH]
-            }
-        })
-
-    }
-
-
-    handle_BOMItemSupplier_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BOMItemSupplier' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                BOMItemSupplier: [...BOM_STORE.getState().BOMItemSupplier]
-            }
-        })
-
-    }
-    handle_BomCutComponenet_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BomCutComponenet' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                BomCutComponenet: [...BOM_STORE.getState().BomCutComponenet]
-            }
-        })
-
-    }
-    handle_BOMItemLocation_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BOMItemLocation' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                BOMItemLocation: [...BOM_STORE.getState().BOMItemLocation]
-            }
-        })
-
-    }
-    handle_RoutingMachineDetails_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'RoutingMachineDetails' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                RoutingMachineDetails: [...BOM_STORE.getState().RoutingMachineDetails]
-            }
-        })
-
-    }
-    handle_BOMSAMEITEM_Change = (val: any, key: any, row: any) => {
-
-        let value = this.afterValueConvert(val);
-        let mainObj = { srno: parseInt(row) + 1, [key]: value }
-        BOM_STORE.dispatch({ payload: mainObj, key: parseInt(row), type: "bom_struct", label: 'BOMSAMEITEM' });
-
-        this.setState({
-            bomCurrentState: {
-                ...this.state.bomCurrentState,
-                BOMSAMEITEM: [...BOM_STORE.getState().BOMSAMEITEM]
-            }
-        })
-
-    }
-
-
-
-
-
-
-
-
-
-
-
+    
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     componentDidMount() {
+        BOM_STORE.dispatch({ payload: 0, key: "code", type: "bom_struct", label: 'BOMHeader' });
+        BOM_STORE.dispatch({ payload: parseInt(this.customer), key: "customer", type: "bom_struct", label: 'BOMHeader' });
+        BOM_STORE.dispatch({ payload: parseInt(this.compCode), key: "company", type: "bom_struct", label: 'BOMHeader' });
+        BOM_STORE.dispatch({ payload: this.username, key: "username", type: "bom_struct", label: 'BOMHeader' });
         this.getSeries();
         this.getProcess();
         this.getItemCode$Name12();
         this.loadUom();
         this.getItemCode$Name23();
-        if (!this.routeObj)
-            this.setState({ gettingVirtualCode: 0 })
-        else this.setState({ gettingVirtualCode: parseInt(this.routeObj.code) })
+        if (this.props.location.state && this.props.location.state.code !== 0) {
+            let code = parseInt(this.props.location.state.code)
+            this.loadRoutingMasterDetails(code)
+            this.setState({ gettingVirtualCode: code });
+
+        } else {
+            this.setState({ gettingVirtualCode: 0 });
+        }
     }
 
 
     SaveRoutingMaster = async (e: any) => {
-        const loader = this.context;
-        this.collectRoutingDetails();
-        loader.setLoader(true);
-        let data = BOM_STORE.getState();
         e.preventDefault();
-        let i: any = JSON.stringify(data);
-        console.log('i:', i);
-        const Url2SaveRoutingMaster = '/api/RoutingMasterSave'
+        const loader = this.context;
+        loader.setLoader(true);
+        const URL = '/api/RoutingMasterSave'
         try {
-            let { res, got } = await this.props.api(Url2SaveRoutingMaster, "POST", i);
+            await this.collectRoutingDetails();
+            let data = await BOM_STORE.getState();
+            console.log('i', JSON.stringify(data));
+         
+            let { res, got } = await this.props.api(URL, "POST", data);
             if (res.status == 200) {
                 loader.setLoader(false);
                 toast.success(got.msg);
             }
-            else toast.error(got.msg);
-
+            else {
+                loader.setLoader(false);
+                toast.error(got.msg);
+            }
         } catch (err) {
+            loader.setLoader(false);
             alert(err);
         }
+        //loader.setLoader(false);
     }
 
     render() {
         return (
             <BomRoutingConfig_Page
+                // Greneric loading
                 seriesLoad={this.state.series}
                 processLoad={this.state.process}
                 routingCode={this.state.routingCode}
@@ -641,7 +835,9 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 provide_conf={this.props.context.conf}
                 uomList={this.state.uom}
                 handleBOMHeader={this.handle_BOMHeader_Change.bind(this)}
-
+                details={this.state.routingMasterDetails }
+                // Bom Details saving
+                getCurrentRow={this.getCurrentRow.bind(this)}
                 collectBOMConsDetails={this.collectBOMConsDetails.bind(this)}
                 collectBOMProdDetails={this.collectBOMProdDetails.bind(this)}
                 currentConsDetails={this.state.bomCurrentState.consItemDetails}
@@ -649,23 +845,30 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 prodItemRow={this.prodItemDefRow}
                 consItemRow={this.consItemDefRow}
 
-              
-         
-                handleBOMItemLocation={this.handle_BOMItemLocation_Change.bind(this)}
-                handleBOMItemSupplier={this.handle_BOMItemSupplier_Change.bind(this)}
-                handleBomJWDetails={this.handle_BomJWDetails_Change.bind(this)}
-                handleBOMProcessPOH={this.handle_BOMProcessPOH_Change.bind(this)}
-                handleBOMSAMEITEM={this.handle_BOMSAMEITEM_Change.bind(this)}
-                handleRoutingJobWork={this.handle_RoutingJobWork_Change.bind(this)}
-                handleRoutingMachineDetails={this.handle_RoutingMachineDetails_Change.bind(this)}
-                handleBomCutComponenet={this.handle_BomCutComponenet_Change.bind(this)}
-                handleRoutingOtherHead={this.handle_RoutingOtherHead_Change.bind(this)}
-               
+                //Other Produce Item Saving
+                collectOtherProdDetails={this.collectOtherProduceDetails.bind(this)}
+                currentOtherProdDetails={this.state.bomCurrentState.BomOtherProdDetails}
+                otherProdDefRow={this.otherProdDefRow}
+                getProdItemCurrentRow={this.getProdItemCurrentRow.bind(this)}
+                // Alt Item Saving
+
+                getAltItemCurrentRow={this.getAltItemCurrentRow.bind(this)}
+                collectAltItemDetails={this.collectAltItemDetails.bind(this)}
+                currentAltItemDetails={this.state.bomCurrentState.BOMAltItem}
+                altItemRow={this.altItemDefRow}
+
+                // Operation Details Saving
+                collectOperationDetails={this.collectOperationDetails.bind(this)}
+                currentOperationDetails={this.state.bomCurrentState.ROUTINGOPRATIONDETAILS}
+                oprDefRow={this.operationDefRow}
+
+                // Overhead Details Saving
+                collectOverheadDetails={this.collectOverheadDetails.bind(this)}
+                currentOverheadDetails={this.state.bomCurrentState.BOMProcessPOH}
+                overheadDefRow={this.overheadDefRow}
 
 
-
-
-
+                // Saving and Auxilary assets
                 SaveRoutingMaster={this.SaveRoutingMaster.bind(this)}
                 getRoutingDetailApi={this.getRoutingDetailsApi.bind(this)}
                 getBomConsumeDetailApi={this.getBOMConsDetaisApi.bind(this)}
@@ -673,10 +876,11 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 getAltItemDetailApi={this.getAltItemDetApi.bind(this)}
                 getOtherProdDetailApi={this.getOtherProduceApi.bind(this)}
                 getOperationDetailApi={this.getOperationDetApi.bind(this)}
+                getOverheadDetApi={this.getOverheadDetApi.bind(this)}
             />
         )
     }
 }
 
-const BOM = BOM_SetUp(BOM_Routing);
+const BOM = Current_Configuration_SetUp(BOM_Routing);
 export default BOM;

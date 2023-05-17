@@ -11,7 +11,7 @@ import './styles.css';
 //import { GridOptions } from 'ag-grid-community';
 import { toast } from 'react-toastify';
 
-export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, collect,H, srProps, ...rest }: any) {
+export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, H, srProps, chkDup, ...rest }: any) {
 
     const [gridApi, setGridApi]: any = useState(null);
     const [columnApi, setColumnApi]: any = useState(null);
@@ -42,11 +42,14 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
      
         if (e.event.key === 'Enter') {
             if (rowData[e.rowIndex][e.colDef.field] !== null) {
-            
-                OpenSubLayer(e);
-                gridApi.tabToNextCell();
-
+             
+                    OpenSubLayer(e);
+                 
+                    gridApi.tabToNextCell();
+                    gridApi.stopEditing();
                
+
+
             } else {
                 console.log('do nothing !')
             }
@@ -113,9 +116,10 @@ export default function WriteGrid({ data, colDef, title, titleClr, OpenSubLayer,
         console.log(e);
         if (e.value && e.value.label) {
             for (let i = 0; i < rowData.length; i++) {
-                if (i !== e.rowIndex && rowData[i][e.colDef.field] !== null && e.value.label === rowData[i][e.colDef.field].label) {
+                if (i !== e.rowIndex && rowData[i][chkDup] !== null && rowData[i][chkDup].label && e.value.label === rowData[i][chkDup].label) {
                     //------------------------------------------------------------------
                     // restore current row
+                    console.log('cheking duplicacy w', chkDup)
                     let copy = [...rowData];
                     let restoreItem = { ...firstRow, [srProps]: e.rowIndex + 1 }
 

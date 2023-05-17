@@ -660,8 +660,8 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                             <div className="collapse row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3" id="contAdd">
                                                 {/* Address Details*/}
                                                 {
-                                                    vccode == 0 ? (<WriteGrid title="Plant Details" titleClr="blue" OpenSubLayer={() => { }} colDef={plantColDef} data={plantData} collect={getPlantTableData} srProps="srno" />
-                                                    ) : (<LoadGrid title="Plant Details" titleClr="blue" OpenSubLayer={() => { }} colDef={plantColDef} data={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail : []} collect={getPlantTableData} srProps="srno" firstRow={plantData} />
+                                                    vccode == 0 ? (<WriteGrid title="Plant Details" titleClr="blue" OpenSubLayer={() => { }} colDef={plantColDef} data={plantData} collect={getPlantTableData} srProps="srno" chkDup="pan"/>
+                                                    ) : (<LoadGrid title="Plant Details" titleClr="blue" OpenSubLayer={() => { }} colDef={plantColDef} data={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail : []} collect={getPlantTableData} srProps="srno" firstRow={plantData} chkDup="pan" />
                                                     )
                                                 }
 
@@ -674,8 +674,8 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                                                 {/* Address Details*/}
                                                 {
                                                     vccode == 0 ? (
-                                                        <WriteGrid title="Shipping Details" titleClr="blue" OpenSubLayer={() => { }} colDef={shippingColDef} data={shippingData} collect={getShippingTableData} srProps="srno" />
-                                                    ) : (<LoadGrid title="Shipping Details" titleClr="blue" OpenSubLayer={() => { }} colDef={shippingColDef} collect={getShippingTableData} srProps="srno" data={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail : []} firstRow={shippingData} />
+                                                        <WriteGrid title="Shipping Details" titleClr="blue" OpenSubLayer={() => { }} colDef={shippingColDef} data={shippingData} collect={getShippingTableData} srProps="srno" chkDup="pan" />
+                                                    ) : (<LoadGrid title="Shipping Details" titleClr="blue" OpenSubLayer={() => { }} colDef={shippingColDef} collect={getShippingTableData} srProps="srno" data={defaultData && defaultData.addressdetail && defaultData.addressdetail.length > 0 ? defaultData.addressdetail : []} firstRow={shippingData} chkDup="pan"/>
                                                     )
                                                 }
 
@@ -691,8 +691,8 @@ export function CusSupMaster({ handleChangeField, opn, opnName, title, handleAdd
                             {/* Bank Details*/}
                             {
                                 vccode == 0 ?
-                                    (<WriteGrid title="Bank Details" titleClr="blue" OpenSubLayer={() => { }} colDef={bankColDef} data={bankData} collect={getBankTableData} srProps="srno" />)
-                                    : (<LoadGrid title="Bank Details" titleClr="blue" OpenSubLayer={() => { }} colDef={bankColDef} collect={getBankTableData} srProps="srno" data={defaultData && defaultData.bankdetail && defaultData.bankdetail.length > 0 ? defaultData.bankdetail : []} firstRow={bankData} />)
+                                    (<WriteGrid title="Bank Details" titleClr="blue" OpenSubLayer={() => { }} colDef={bankColDef} data={bankData} collect={getBankTableData} srProps="srno" chkDup="name"/>)
+                                    : (<LoadGrid title="Bank Details" titleClr="blue" OpenSubLayer={() => { }} colDef={bankColDef} collect={getBankTableData} srProps="srno" data={defaultData && defaultData.bankdetail && defaultData.bankdetail.length > 0 ? defaultData.bankdetail : []} firstRow={bankData} chkDup="name" />)
                             }
                         </div>
 

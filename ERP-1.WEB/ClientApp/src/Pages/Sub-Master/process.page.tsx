@@ -358,15 +358,15 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                     </div>
                     <div className="card d-flex flex-column section2 col-sm-6">
                         {
-                            virtualCode === 0 ? (<WriteGrid title="Process OverHead" titleClr="blue" OpenSubLayer={() => { }} colDef={overheadColDef} data={overheadData} collect={collectOverHeadApi} srProps="srno" H={200} />) : (<LoadGrid title="Process OverHead" titleClr="blue" OpenSubLayer={() => { }} colDef={overheadColDef} data={defaultData.processpoh} collect={collectOverHeadApi} srProps="srno" H={200} firstRow={overheadData} />)
+                            virtualCode === 0 ? (<WriteGrid title="Process OverHead" titleClr="blue" OpenSubLayer={() => { }} colDef={overheadColDef} data={overheadData} collect={collectOverHeadApi} srProps="srno" H={200} />) : (<LoadGrid title="Process OverHead" titleClr="blue" OpenSubLayer={() => { }} colDef={overheadColDef} data={defaultData.processpoh} collect={collectOverHeadApi} srProps="srno" H={200} firstRow={overheadData} chkDup="poh" />)
                         }
                        
                         {
-                            virtualCode === 0 ? (<WriteGrid title="Job Worker List" titleClr="blue" OpenSubLayer={() => { }} colDef={JobColDef} data={jobData} collect={collectJobApi} srProps="srno" H={200} />) : (<LoadGrid title="Job Worker List" titleClr="blue" OpenSubLayer={() => { }} colDef={JobColDef} data={defaultData.processjobworker} collect={collectJobApi} srProps="srno" H={200} firstRow={jobData} />)
+                            virtualCode === 0 ? (<WriteGrid title="Job Worker List" titleClr="blue" OpenSubLayer={() => { }} colDef={JobColDef} data={jobData} collect={collectJobApi} srProps="srno" H={200} />) : (<LoadGrid title="Job Worker List" titleClr="blue" OpenSubLayer={() => { }} colDef={JobColDef} data={defaultData.processjobworker} collect={collectJobApi} srProps="srno" H={200} firstRow={jobData} chkDup="jbcode"/>)
                         }
                        
                         {
-                            virtualCode === 0 ? (<WriteGrid title="Process Operation Details" titleClr="blue" OpenSubLayer={() => { }} colDef={operationColDef} data={operationData} collect={collectOperationApi} srProps="srno" H={200} />) : (<LoadGrid title="Process Operation Details" titleClr="blue" OpenSubLayer={() => { }} colDef={operationColDef} data={defaultData.processopration} collect={collectOperationApi} srProps="srno" H={200} firstRow={operationData} />)
+                            virtualCode === 0 ? (<WriteGrid title="Process Operation Details" titleClr="blue" OpenSubLayer={() => { }} colDef={operationColDef} data={operationData} collect={collectOperationApi} srProps="srno" H={200} />) : (<LoadGrid title="Process Operation Details" titleClr="blue" OpenSubLayer={() => { }} colDef={operationColDef} data={defaultData.processopration} collect={collectOperationApi} srProps="srno" H={200} firstRow={operationData} chkDup="opr" />)
                         }
                         
 

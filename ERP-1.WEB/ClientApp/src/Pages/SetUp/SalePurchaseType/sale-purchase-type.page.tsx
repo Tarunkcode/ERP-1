@@ -214,8 +214,8 @@ export default function SalePurchaseType_Page({ showBranchCode, defGstCatName, v
             </div>
             <hr />
             {
-                vccode == '0' ? <WriteGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} collect={getTableData} srProps="bssrno" />
-                    : <LoadGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={defaultLoad.sptypedetail} collect={getTableData} srProps="bssrno" firstRow={data }/>
+                vccode == '0' ? <WriteGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} collect={getTableData} srProps="bssrno" chkDup="bscode"/>
+                    : <LoadGrid title="Bill Sundry Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={defaultLoad.sptypedetail} collect={getTableData} srProps="bssrno" firstRow={data} chkDup="bscode"/>
             }
             <hr />
 

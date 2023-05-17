@@ -26,11 +26,18 @@ import 'react-datalist-input/dist/styles.css';
 import AutoComp from '../../../components/custom-input/droplist/droplist.component';
 import { BOM_STORE } from '../../../Redux/BOM/bom.reducer';
 import { NumericEditor } from '../../../components/Grid Component/EnterOnlyNumbers';
+import { toast } from 'react-toastify';
+import useFetch from '../../../components/Hooks/useFetch';
+import { LoaderContext } from '../../../AppContext/loaderContext';
 
-function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBomCutComponenet, handleBOMHeader, handleBOMItemLocation, handleBOMItemSupplier, handleBomJWDetails, handleBOMProcessPOH, handleBOMSAMEITEM, handleRoutingJobWork, handleRoutingMachineDetails, handleRoutingOtherHead, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, provide_conf, watchItemObj, getRoutingDetailApi, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, prodItemRow, consItemRow, getAltItemDetailApi,getOtherProdDetailApi, getOperationDetailApi,...otherProps }: any) {
+function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNameLoad23, handleBOMHeader, SaveRoutingMaster, routingCode, CollectList, CollectListWithItem, seriesNumType, provide_conf, watchItemObj, getRoutingDetailApi, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, prodItemRow, consItemRow, getAltItemDetailApi, getOtherProdDetailApi, getOperationDetailApi, getCurrentRow, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOperationDetails, currentOperationDetails, oprDefRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, getProdItemCurrentRow, getAltItemCurrentRow, currentOverheadDetails, getOverheadDetApi, overheadDefRow, collectOverheadDetails,details,...otherProps }: any) {
 
-    var [storeData, setStoreData]: any = React.useState({});
+ 
     var [currentRowData, setCurrentRowData]: any = React.useState({});
+    var [currentRowNo, setCurrentRowNo]: any = React.useState(null);
+    React.useEffect(() => {
+        console.log('loaded master details', details);
+    }, [details])
 
     //-------------------------------------------------------------------------Routing Variable--------------------------------------------------------
 
@@ -49,28 +56,43 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
     let [isCopy, setIsCopy]: any = useState(false)
     let [isItemBox, setIsItemBox]: any = React.useState(false);
     let [isOperation, setIsOperation]: any = React.useState(false);
-    const OpenBOMItemCons = (e: any) => {
+    let [isOverhead, setIsOverhead]: any = React.useState(false);
+   
 
+    const OpenBOMItemCons = (e: any) => {
+        console.log('thid id row data ', e)
         if (e.colDef.field === "process") {
             if (e.data.process && e.event.keyCode === 13) {
-                setCurrentRowData(e.data);
-                if (provide_conf.eProdOpr === 1) {
-                    setIsOperation(true);
-                } else {
-                    
+                let currentRowData = { ...e.data, sr: e.rowIndex + 1 }
+                setCurrentRowData(currentRowData);
+                let currentRow = parseInt(e.rowIndex + 1);
+                
+                setCurrentRowNo(currentRow);
+                getCurrentRow(currentRow, currentRowData);
+                //provide_conf.eProdOH
                     setIsItemBox(true);
+                if (provide_conf.eProdOpr === 1 && provide_conf.eProdOH === 1) {
+                    setIsOperation(true)
+                    setIsOverhead(true)
+                } else if (provide_conf.eProdOpr === 1) {
+
+                    setIsOperation(true);
+
+                } else if (provide_conf.eProdOH === 1) {
+                    setIsOverhead(true);
+                } else {
 
                 }
-                let data = BOM_STORE.getState();
-                setStoreData(data);
+           
+             
             }
         } else { }
 
     }
 
-    let data: any[] = [{ process: null, puom: null, amt: null, settime: null, machinetime: null, manpower: null, finalprocess: null, electricity: null, poh: null, job: null, machinedep: null }]
+    let data: any[] = [{ process: null, amt: null, settime: null, machinetime: null, manpower: null, finalprocess: null, electricity: null, poh: null, job: null, machinedep: null }]
 
-    var ColDef: any[] = [{ maxWidth: 100, field: 'sr', headerName: "Stage", valueGetter: 'node.rowIndex + 1' },
+    var ColDef: any[] = [{ field: 'sr', headerName: "Stage", valueGetter: 'node.rowIndex + 1', maxWidth: 200, minWidth: 200 },
     {
         field: 'process', headerName: 'Process', minWidth: 400, cellStyle: { paddingLeft: '0', paddingRight: '0' },
 
@@ -93,7 +115,6 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         },
         onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
-
                 params.data.amt = 0.00;
                 params.data.settime = 0.00;
                 params.data.machinetime = 0.00;
@@ -124,53 +145,22 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         { field: 'manpower', headerName: 'Manpower', minWidth: 200, editable: true, cellEditor: NumericEditor},
 
     {
-        field: 'finalprocess', headerName: 'Is Final', minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+        field: 'finalprocess', headerName: 'Is Final', minWidth: 200,
+        cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
+            required: true,
+            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0 }],
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
 
-            selectData: [
-                { label: 'Y', value: 1 },
-                { label: 'N', value: 0 }
-            ],
-            placeholder: 'Select an option',
-        }, valueFormatter: (params: any) => {
-            if (params.value) {
-                return params.value.label || params.value.value || params.value;
-            }
-            return params.label;
-        },
-        editable: true
-    },
-
-
-        { field: 'electricity', headerName: 'Electricity Unit', minWidth: 200, editable: true, cellEditor: NumericEditor },
-        { field: 'poh', headerName: 'Total OverHead', minWidth: 200, editable: true, cellEditor: NumericEditor },
-
-    {
-        field: 'job', headerName: 'Job Work', minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
-        cellEditorParams: {
-
-            selectData: [
-                { label: 'Y', value: 1 },
-                { label: 'N', value: 0 }
-            ],
-            placeholder: 'Select an option',
-        }, valueFormatter: (params: any) => {
-            if (params.value) {
-                return params.value.label || params.value.value || params.value;
-            }
-            return params.label;
-        },
-        editable: true
-    },
-
-    {
-        field: 'machinedep', headerName: 'Machine Dep.', minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
-        cellEditorParams: {
-
-            selectData: [
-                { label: 'Y', value: 1 },
-                { label: 'N', value: 0 }
-            ],
+            },
             placeholder: 'Select an option',
         },
         valueFormatter: (params: any) => {
@@ -180,6 +170,69 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
             return params.label;
         },
         editable: true
+
+    },
+
+
+        { field: 'electricity', headerName: 'Electricity Unit', minWidth: 200, editable: true, cellEditor: NumericEditor },
+        { field: 'poh', headerName: 'Total OverHead', minWidth: 200, editable: true, cellEditor: NumericEditor },
+
+    {
+        field: 'job', headerName: 'Job Work', minWidth: 200,
+        cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required: true,
+            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0 }],
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
+
+            },
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+
+    },
+
+    {
+        field: 'machinedep', headerName: 'Machine Dep.', minWidth: 200,
+        cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required: true,
+            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0 }],
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
+
+            },
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+
     }
     ]
 
@@ -193,11 +246,11 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
         <>
 
             {
-                isOperation || isCopy ? (<BOMModals isOperation={isOperation} handleOperation={setIsOperation} defaultObj={storeData} uomList={uomList} isCopy={isCopy} setIsCopy={setIsCopy} getOperationDetApi={getOperationDetailApi} />) : null
+                isOperation || isCopy || isOverhead ? (<BOMModals isOperation={isOperation} isOverHead={isOverhead} handleOperation={setIsOperation} handleOverhead={setIsOverhead} uomList={uomList} isCopy={isCopy} setIsCopy={setIsCopy} getOperationDetApi={getOperationDetailApi} collectOperationDetails={collectOperationDetails} currentOperationDetails={currentOperationDetails} oprDefRow={oprDefRow} processDetails={currentRowData} currentOverheadDetails={currentOverheadDetails} getOverheadDetApi={getOverheadDetApi} overheadDefRow={overheadDefRow} collectOverheadDetails={collectOverheadDetails} details={details } />) : null
             }
            
 
-            <RouteDetails blindWatch={watchItemObj} isItemBox={isItemBox} setIsItemBox={setIsItemBox} itemCodeLst12={codeNameLoad12} itemCodeLst23={codeNameLoad23} defaultObj={storeData} currentRowData={currentRowData} uomList={uomList} getBomConsumeDetailApi={getBomConsumeDetailApi} getBomProduceDetailApi={getBomProduceDetailApi} collectBOMConsDetails={collectBOMConsDetails} collectBOMProdDetails={collectBOMProdDetails} currentConsDetails={currentConsDetails} currentProdDetails={currentProdDetails} rawData2={prodItemRow} rawData1={consItemRow} handleChange={handleBOMHeader} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} />
+            <RouteDetails blindWatch={watchItemObj} isItemBox={isItemBox} setIsItemBox={setIsItemBox} itemCodeLst12={codeNameLoad12} itemCodeLst23={codeNameLoad23} currentRowData={currentRowData} uomList={uomList} getBomConsumeDetailApi={getBomConsumeDetailApi} getBomProduceDetailApi={getBomProduceDetailApi} collectBOMConsDetails={collectBOMConsDetails} collectBOMProdDetails={collectBOMProdDetails} currentConsDetails={currentConsDetails} currentProdDetails={currentProdDetails} rawData2={prodItemRow} rawData1={consItemRow} handleChange={handleBOMHeader} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} collectAltItemDetails={collectAltItemDetails} currentAltItemDetails={currentAltItemDetails} altItemRow={altItemRow} collectOtherProdDetails={collectOtherProdDetails} currentOtherProdDetails={currentOtherProdDetails} otherProdDefRow={otherProdDefRow} currentRowNo={currentRowNo} getProdItemCurrentRow={getProdItemCurrentRow} getAltItemCurrentRow={getAltItemCurrentRow} details={ details} />
 
             <div className="main card firstDiv">
 
@@ -217,16 +270,16 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
 
                                     <AutoComp name="series" label="Series" ipTitle="Select Series" list={seriesLoad} ipType="text" collectWithItem={CollectListWithItem} classCategory="form-control col-4 inp str" isMandate={true} />
                                     <span className="col-1 m-0"></span>
-                                    <CustomeSwitch2 lablClass="custom-control-label col-4" label="Freeze" id="c25" name="c25" classCat="form-control custom-control-input col-3 BOMHeader" handleChange={handleBOMHeader} />
+                                    <CustomeSwitch2 lablClass="custom-control-label col-4" label="Freeze" id="c25" name="c25" classCat="form-control switch custom-control-input col-3 BOMHeader" handleChange={handleBOMHeader} default={details.bomheader && details.bomheader.length > 0 ? details.bomheader[0].c25 : 0} />
                                 </span>
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="vchno" defaultt={routingCode} label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} />
+                                    <MasterInput2 name="vchno" label="Routing Code" ipTitle="Enter Routing Code" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} read={seriesNumType === 1 ? true : false} defaultt={details.bomheader && details.bomheader.length > 0 ? details.bomheader[0].vchno : routingCode} />
 
 
                                     <span className="col-1 m-0"></span>
 
-                                    <MasterInput2 name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} />
+                                    <MasterInput2 name="name" label="Routing Name" ipTitle="Enter Routing Name" ipType="text" classCategory="form-control col-12  BOMHeader text" length={60} isMandate={true} handleChange={handleBOMHeader} defaultt={details.bomheader && details.bomheader.length > 0 ? details.bomheader[0].name : ''} />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
@@ -241,7 +294,7 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
-                                    <MasterInput2 name="unit" defaultt={watchItemObj.uomname} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader col-12 text" length={60} read={true} isMandate={true} handleChange={handleBOMHeader} />
+                                    <MasterInput2 name="unit" defaultt={watchItemObj.uomname} label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control BOMHeader col-12 text" length={60} read={true} isMandate={true}/>
                                     <span className="col-1 m-0"></span>
                                     <MasterInput2 name="qty" label="Produce Qty" ipTitle="Enter Produce Qty" ipType="number" classCategory="form-control col-12 number BOMHeader" handleChange={handleBOMHeader} isMandate={true} length={60} />
 
@@ -268,7 +321,7 @@ function BomRoutingConfig_Page({ seriesLoad, processLoad, codeNameLoad12, codeNa
 
             <hr style={{ margin: '0', padding: '0' }} />
 
-            <WriteGrid title="Routing Details" titleClr="blue" OpenSubLayer={OpenBOMItemCons} colDef={ColDef} data={data} srProps="sr" collect={getRoutingDetailApi}  />
+            <WriteGrid title="Routing Details" titleClr="blue" OpenSubLayer={OpenBOMItemCons} colDef={ColDef} data={data} srProps="sr" collect={getRoutingDetailApi} chkDup="process" />
 
             <hr style={{ margin: '0', padding: '0' }} />
 

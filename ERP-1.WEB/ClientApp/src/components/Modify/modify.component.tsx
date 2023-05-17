@@ -185,7 +185,51 @@ class Modify_Child extends React.Component<IProps, IState> {
 
 
     }
-    FetchItemMasterList = async () => {
+    FetchRoutingMasterList = async () => {
+
+        const loader = this.context;
+        const urlLoadModify = `/api/RoutingMasterList?company=${this.compCode}&customer=${this.customer}`;
+        
+        try {
+            loader.setLoader(true)
+            this.props.loader(true)
+            let { res, got } = await this.props.api(urlLoadModify, "GET", '');
+
+            if (res.status == 200) {
+                if (got.data.length === 0) {
+                    this.props.loader(false)
+                    loader.setLoader(false)
+                    toast.info('No data Found')
+                }
+
+
+                else {
+                    let modify_list: any = got.data.map((option: any) => ({
+
+                        id: option.code,
+                        value: option.name,
+
+                    }))
+                    this.setState({ selectModList: modify_list });
+                    loader.setLoader(false)
+                    this.props.loader(false)
+                }
+            } else {
+                loader.setLoader(false)
+                this.props.loader(false)
+                toast.error(got.msg)
+            }
+
+        } catch (err) {
+            loader.setLoader(false)
+            this.props.loader(false)
+            alert(err)
+        }
+
+
+    }
+
+     FetchItemMasterList = async () => {
 
         const loader = this.context;
         const urlLoadModify = `/api/LoadIMList`;
@@ -258,6 +302,7 @@ class Modify_Child extends React.Component<IProps, IState> {
                 case '/add-item-master': this.FetchItemMasterList(); break;
                 case '/add-customer-master': this.FetchAccMasterList(master); break;
                 case '/add-supplier-master': this.FetchAccMasterList(master); break;
+                case '/add-bom-routing-configuration-master': this.FetchRoutingMasterList(); break;
                 default: this.FetchLoadingSubMasterList(master); break;
             }
             this.props.loader(false)
@@ -280,6 +325,7 @@ class Modify_Child extends React.Component<IProps, IState> {
                     case '/add-item-master': this.FetchItemMasterList(); break;
                     case '/add-customer-master': this.FetchAccMasterList(master); break;
                     case '/add-supplier-master': this.FetchAccMasterList(master); break;
+                    case '/add-bom-routing-configuration-master': this.FetchRoutingMasterList(); break;
                     default: this.FetchLoadingSubMasterList(master); break;
                 }
                 this.props.loader(false)

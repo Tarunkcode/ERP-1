@@ -4,6 +4,14 @@ import BOMModals_layer2 from '../Modals/BOM_Modals(II layer)';
 import Modal from 'react-modal';
 import WriteGrid from '../Grid Component/grid.component';
 import AutocompleteSelectCellEditor from 'ag-grid-autocomplete-editor';
+import LoadGrid from '../Grid Component/load-grid.component';
+import { BOM_STORE } from '../../Redux/BOM/bom.reducer';
+import { toast } from 'react-toastify';
+import { useContext } from 'react';
+import { LoaderContext } from '../../AppContext/loaderContext';
+import useFetch from '../Hooks/useFetch';
+import { NumericEditor } from '../Grid Component/EnterOnlyNumbers';
+import CheckBoxEditor from '../Grid Component/checkboxEditor';
 
 const customStyles: object = {
 
@@ -30,16 +38,170 @@ const customStyles2: object = {
 
 
 
-export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem, isOtherItem, itemCostDet, setIsCopy, setItemCostDet, setIsOtherItem, setIsBomAltItem, handleAlt, handleOther, handleConsume, handleOperation, defaultObj, uomList, getOperationDetApi, getAltItemDetailApi, getOtherProdDetailApi,  ...props }: any) {
+export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, isBomAltItem, isOtherItem, itemCostDet, setIsCopy, setItemCostDet, setIsOtherItem, setIsBomAltItem, handleAlt, handleOther, handleConsume, handleOperation, handleOverhead, uomList, getOperationDetApi, getAltItemDetailApi, getOtherProdDetailApi, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOperationDetails, currentOperationDetails, oprDefRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, processDetails, altItemCurrentRowData, prodItemCurrentRowData, blindWatch, consItemCurrentRowNo, prodItemCurrentRowNo, currentOverheadDetails, getOverheadDetApi, overheadDefRow, collectOverheadDetails,...props }: any) {
 
+    let [uomload, setUomload]: any = React.useState([]);
+   
     let subtitle: any;
-    React.useEffect(() => { console.log('Hey! i am item code list in bom modals', itemList)}, [itemList])
+    React.useEffect(() => { console.log('Hey! i am item code list in bom modals', itemList, altItemRow) }, [itemList, altItemRow])
+    React.useEffect(() => { console.log('Hey! i am item code list in bom modals', uomList) }, [uomList])
+    let [overheadLoad, setOverheadLoad]: any = React.useState([])
+    let [operationLoad, setOperationLoad]: any[] = React.useState([])
+    const api = useFetch();
+    const { setLoader } = React.useContext(LoaderContext);
+    const fetchDefProcessMaster = async (code: any) => {
+
+        let urlStr = `/api/LoadProcessMaster?Code=${code}&Company=${60}&Customer=${68}`
+        setLoader(true);
+        try {
+            let { res, got } = await api(urlStr, "GET", '')
+            if (res.status == 200) {
+                let modify_Overhead = [];
+                let modify_Operation = [];
+                var data = got.data[0];
+                //alter operation
+                 modify_Operation = data.processopration.map((item: any) => ({
+                    srno: item.srno,
+                    opration: item.oprname,
+                    process: null,
+                    cycletime: null,
+                    fop: null,
+                    opn: item.opr
+
+                }))
+
+
+                // alter overhead
+
+                 modify_Overhead = data.processpoh.map((item: any) => ({
+                    srno: item.srno,
+                    poh: item.pohname,
+                    cost: null,
+                    pohcode: item.poh
+                }))
+
+
+
+                console.log('operation', modify_Operation)
+                console.log('overhead', modify_Overhead)
+           
+                setOperationLoad(modify_Operation)
+                setOverheadLoad(modify_Overhead)
+                setLoader(false);
+            } else {
+                toast.error('ERROR :: Loading Default Process Master Failed !');
+                setLoader(false);
+            }
+        } catch (err) {
+            setLoader(false);
+            alert(err)
+        }
+    }
+    React.useEffect(() => {
+        // load Process
+        if (processDetails.process) {
+            fetchDefProcessMaster(processDetails.process.value)
+        }
+
+    }, [])
+
+
+    var [consUom, setConsUom]: any = React.useState(null)
+    var [consQuantity, setConsQuantity]: any = React.useState(null)
+    var [prodQuantity, setProdQuantity]: any = React.useState(null)
+    var [bomPerQty, setBomPerQty]: any = React.useState(null)
+    var [consCost, setConsCost]: any = React.useState(null)
+    var [altRowParams, setAltRowParams]: any = React.useState(null)
+
+
+    const savingConsQuantity = (e: any) => {
+        let value = e.target.value;
+        let consqty = parseFloat(value);
+        setConsQuantity(consqty);
+        altRowParams.data.consqty = parseFloat(value || '0');
+    }
+    const savingProdQuantity = (e: any) => {
+        let value = e.target.value;
+        let prodqty = parseFloat(value);
+        setProdQuantity(prodqty);
+        altRowParams.data.prodavgqty = parseFloat(value || '0');
+    }
+    const savingConsUom = (item: any, name: string) => {
+
+        setConsUom(item);
+        altRowParams.data.conuom = item || null;
+        altRowParams.data.prodavguom = item || null;
+    }
+
+    React.useEffect(() => {
+        if (altItemCurrentRowData.rate && consQuantity) {
+            let cons_cost = parseFloat(altItemCurrentRowData.rate) * consQuantity;
+            altRowParams.data.cost = cons_cost || null;
+            setConsCost(cons_cost)
+        }
+        if (consQuantity && prodQuantity) {
+            let bomQty = BOM_STORE.getState().BOMHeader[0].qty;
+            let bpqty = parseFloat(bomQty ? bomQty : '1');
+            let bpq = consQuantity / prodQuantity / bpqty;
+
+            setBomPerQty(bpq);
+        }
+    }, [consQuantity, prodQuantity])
+
+
     let ColDef1: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 200, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } }, {
-        field: "bomitem", headerName: 'Item Code', minWidth: 400,
+        field: "altitem", headerName: 'Item Code', minWidth: 400,
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
             required: true,
             selectData: React.useMemo(() => { return itemList }, [itemList]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
+
+            },
+            placeholder: 'Select an option',
+        },
+        onCellValueChanged: (params: any) => {
+            if (params.oldValue !== params.newValue) {
+                setAltRowParams(params);
+                let arr = params.newValue.label.split('|')
+                let itemcode = { label: arr[1], value: params.newValue.value }
+                let itemname = arr[0]
+                params.data.altitem = itemcode;
+                params.data.itemname = itemname;
+                params.data.consuom = { "value": 288, "label": "NOS" };
+                params.data.prodavguom = { "value": 288, "label": "NOS" };
+
+                params.data.rate = params.newValue.rate;
+                params.data.consqty = 0.00;
+
+                params.data.prodavgqty = 0.00;
+
+                params.data.cost = 0.00;
+
+
+
+                params.api.refreshCells({ force: true });
+            }
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "rate", headerName: 'Rate', minWidth: 200 }, { field: "consqty", headerName: 'Consume Qty', minWidth: 200 }, {
+        field: "consuom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
+            required: true,
+            selectData: uomList,
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
                     if (maxHeight < 100) {
@@ -58,22 +220,83 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
                 return params.value.label || params.value.value || params.value;
             }
             return params.label;
+        }, editable: true
+    }, { field: "prodavgqty", headerName: 'Produce Qty', minWidth: 200 }, {
+        field: "prodavguom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return uomList }, [uomList]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
+
+            },
+            placeholder: 'Select an option',
         },
-        editable: true
-    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "rate", headerName: 'Rate', minWidth: 200 }, { field: "consqty", headerName: 'Consume Qty', minWidth: 200 }, { field: "consuom", headerName: 'UOM', minWidth: 200 }, { field: "prodavgqty", headerName: 'Produce Qty', minWidth: 200 }, { field: "prodavguom", headerName: 'UOM', minWidth: 200 }, { field: "cost", headerName: 'Cost', minWidth: 200 }, { field: "altitem", headerName: 'Alt Item', minWidth: 200 }]
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        }, editable: true
+    }, { field: "cost", headerName: 'Cost', minWidth: 200 }]
+    
 
-
-
-    const rawData1: any[] = [{ bomitem: null }, { itn: null }, { rate: null }, { consqty: null }, { consuom: null }, { prodavgqty: null }, { prodavguom: null }, { cost: null }, { altitem: null }];
 
 
 
     let ColDef2: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 200, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } }, {
-        field: "itemcode", headerName: 'Item Code', minWidth: 400,
+        field: "item", headerName: 'Item Code', minWidth: 400,
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
             required: true,
             selectData: React.useMemo(() => { return itemList }, [itemList]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
+                },
+                showOnFocus: true
+
+            },
+            placeholder: 'Select an option',
+        },
+        onCellValueChanged: (params: any) => {
+            if (params.oldValue !== params.newValue) {
+                let arr = params.newValue.label.split('|')
+                let itemcode = { label: arr[1], value: params.newValue.value }
+                let itemname = arr[0]
+                params.data.item = itemcode;
+                params.data.itemname = itemname;
+                params.data.uom = { "value": 288, "label": "NOS" };
+
+                params.data.rate = params.newValue.rate;
+                params.data.qty = 0.00;
+
+
+
+                params.api.refreshCells({ force: true });
+            }
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        },
+        editable: true
+    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "qty", headerName: 'Quantity', minWidth: 200, editable: true }, {
+        field: "uom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return uomList }, [uomList]),
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
                     if (maxHeight < 100) {
@@ -92,15 +315,21 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
                 return params.value.label || params.value.value || params.value;
             }
             return params.label;
-        },
-        editable: true
-    }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, { field: "qty", headerName: 'Quantity', minWidth: 200, editable: true }, { field: "uom", headerName: 'UOM', minWidth: 200 }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
+        }, editable: true
+    }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
 
-    let ColDef3: any[] = [{ field: 'srno', header: 'Serial No.', minWidth: 100, maxWidth: 100, valueGetter: 'node.rowIndex + 1' }, { field: 'process', header: 'Allowed', minWidth: 100, maxWidth: 100 }, { field: 'opration', header: 'Operation', minWidth: 600, maxWidth: 600 }, { field: 'cycletime', header: 'Cyclic Time', minWidth: 600, maxWidth: 600 }, { field: 'fop', header: 'Final Operation', minWidth: 100, maxWidth: 100 }];
+    let ColDef3: any[] = [{ field: 'srno', header: 'Serial No.', minWidth: 100, maxWidth: 100, valueGetter: 'node.rowIndex + 1' }, {
+        field: 'process', header: 'Allowed', minWidth: 100, maxWidth: 100, editable: true
+        , cellRenderer: "checkboxRenderer"
+    }, { field: 'opration', header: 'Operation', minWidth: 600, maxWidth: 600 }, { field: 'cycletime', header: 'Cyclic Time', minWidth: 300, maxWidth: 300, editable: true, cellEditor: NumericEditor }, {
+        field: 'fop', header: 'Final Operation', minWidth: 100, maxWidth: 100, editable: true, cellRenderer: "checkboxRenderer"
+    }];
 
-    const rawData3: any[] = [{ srno: 1, process: null, opration: null, cycletime: null, fop: null }]
 
-    const rawData2: any[] = [{ itemcode: null }, { itemname: null }, { qty: null }, { uom: null }, { rate: null }]
+    let colDef4: any[] = [{ field: "srno", headerName: 'Sr. No.', minWidth: 200, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } },
+    { field: "poh", headerName: 'Process Overhead Details', minWidth: 800 }
+        , { field: "cost", headerName: 'Cost/Unit', minWidth: 200, editable: true, cellEditor: NumericEditor }
+    ]
 
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
@@ -115,28 +344,55 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
     function closeAltItem() {
         setIsBomAltItem(false);
     }
+    function saveAltItemData() {
+        collectAltItemDetails();
+        setIsBomAltItem(false);
+    }
 
     function closeProduceItem() {
         setIsOtherItem(false);
     }
+    function saveOperation() {
+        collectOperationDetails();
+        handleOperation(false);
+    }
+    function saveOverhead() {
 
-    function closeItemCostDet() {
-        setItemCostDet(false);
+        collectOverheadDetails();
+        handleOverhead(false)
+
+    }
+    function saveProduceItem() {
+        collectOtherProdDetails();
+        console.log('store on closing other produce item', BOM_STORE.getState().BomOtherProdDetails);
+        setIsOtherItem(false);
     }
 
+   
+
     var [isItemCost, setIsItemCost]: any = React.useState(false)
+    var [altItemCurrentRowData, setAltItemCurrentRowData]: any = React.useState({})
+    var [altItemCurrentRowNo, setAltItemCurrentRowNo]: any = React.useState({})
+   
 
     const OpenItemCost = (e: any) => {
-        if (e.colDef.field === "bomitem") {
-            if (e.data.bomitem && e.event.keyCode === 13) {
+       
+        if (e.colDef.field === "altitem") {
+            if (e.data.altitem && e.event.keyCode === 13) {
+
+                let currentRowData = { ...e.data, srno: e.rowIndex + 1 };
+                setAltItemCurrentRowData(currentRowData);
+                let currentRow = parseInt(e.rowIndex + 1);
+                //getAltItemCurrentRow(currentRow, currentRowData);
+                setAltItemCurrentRowNo(currentRow)
 
                 setIsItemCost(true);
 
             }
-            console.log('defObj is sweet', defaultObj);
-        }
 
+        }
     }
+
     return (
         <>
 
@@ -225,7 +481,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
                     <hr />
                     {
                         isItemCost ? (
-                            <BOMModals_layer2 isItemCostDet={isItemCost} setItemCostDet={setIsItemCost} handleChange={handleConsume} />
+                            <BOMModals_layer2 isItemCostDet={isItemCost} setItemCostDet={setIsItemCost} itemCostCurrentRowData={altItemCurrentRowData} prevTableCurrentRowNo={altItemCurrentRowNo} blindWatch={blindWatch} consuom={consUom} produom={consUom} consqty={consQuantity} prodqty={prodQuantity} rate={altItemCurrentRowData.amt} conscost={consCost} savingConsQuantity={savingConsQuantity} savingProdQuantity={savingProdQuantity} savingConsUom={savingConsUom} bomPerQty={bomPerQty} params={altRowParams} />
 
                         ) : null
                     }
@@ -240,30 +496,30 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="itemcode" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Code</label>
-                                    <input type="text" name="itemcode" className="form-control inp" onKeyUp={OpenItemCost} />
+                                    <input type="text" name="itemcode" className="form-control inp" value={altItemCurrentRowData ? altItemCurrentRowData.bomitem : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="itemName" style={{ fontSize: '1rem' }} className="form-label labl labl2">Item Name</label>
-                                    <input type="text" name="itemName" className="form-control inp" />
+                                    <input type="text" name="itemName" className="form-control inp" value={blindWatch ? blindWatch.itemname : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="process" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
-                                    <input type="process" name="payTerm" className="form-control inp" />
+                                    <input type="process" name="payTerm" className="form-control inp" value={processDetails ? processDetails.process.label : ''} readOnly />
                                 </>
                             </span>
 
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="stage" style={{ fontSize: '1rem' }} className="form-label labl labl2">Stage</label>
-                                    <input type="text" name="stage" className="form-control inp" />
+                                    <input type="text" name="stage" className="form-control inp" value={processDetails ? processDetails.sr : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="srno" style={{ fontSize: '1rem' }} className="form-label labl labl2">Sr. No.</label>
-                                    <input type="text" name="srno" className="form-control inp" />
+                                    <input type="text" name="srno" className="form-control inp" value={altItemCurrentRowData ? altItemCurrentRowData.srno : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="bomitem" style={{ fontSize: '1rem' }} className="form-label labl labl2">Bom Item</label>
-                                    <input type="text" name="bomitem" className="form-control inp" />
+                                    <input type="text" name="bomitem" className="form-control inp" value={altItemCurrentRowData ? altItemCurrentRowData.itemname : ''} readOnly />
                                 </>
 
                             </span>
@@ -274,10 +530,13 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
 
 
                         <hr />
-                        <WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={rawData1} collect={getAltItemDetailApi} />
+                        {
+                            currentAltItemDetails && currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={currentAltItemDetails && currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] : altItemRow} collect={getAltItemDetailApi} srProps="srno" firstRow={altItemRow} chkDup="altitem" />) : (<WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={altItemRow} collect={getAltItemDetailApi} chkDup="altitem" srProps="srno" />)
+                        }
+
 
                         <div className="d-flex flex-row justify-content-start">
-                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
+                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={saveAltItemData}>Save</button>
                             <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeAltItem}>Quit</button>
 
                         </div>
@@ -311,22 +570,22 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="psrno" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process Sr. No.</label>
-                                    <input type="text" name="psrno" className="form-control inp" />
+                                    <input type="text" name="psrno" className="form-control inp" value={processDetails ? processDetails.sr : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="process" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
-                                    <input type="text" name="process" className="form-control inp" />
+                                    <input type="text" name="process" className="form-control inp" value={processDetails ? processDetails.process.label : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="prodSrNo" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Sr.No.</label>
-                                    <input type="text" name="prodSrNo" className="form-control inp" />
+                                    <input type="text" name="prodSrNo" className="form-control inp" value={prodItemCurrentRowData ? prodItemCurrentRowData.srno : ''} readOnly />
                                 </>
                             </span>
 
                             <span className="d-flex section2 col-sm-12">
                                 <>
                                     <label htmlFor="pItem" style={{ fontSize: '1rem' }} className="form-label labl labl2">Produce Item</label>
-                                    <input type="text" name="pItem" className="form-control inp" />
+                                    <input type="text" name="pItem" className="form-control inp" value={prodItemCurrentRowData ? prodItemCurrentRowData.bomitem : ''} readOnly />
                                 </>
                                 <>
                                     <label htmlFor="qty" style={{ fontSize: '1rem' }} className="form-label labl labl2">Quantity</label>
@@ -340,9 +599,12 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
 
                         </div>
                         <hr />
-                        <WriteGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={rawData2} collect={getOtherProdDetailApi} />
+                        {
+                            currentOtherProdDetails && currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={currentOtherProdDetails && currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] ? currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] : otherProdDefRow} firstRow={otherProdDefRow} srProps="" collect={getOtherProdDetailApi} chkDup="item" />) : (<WriteGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={otherProdDefRow} collect={getOtherProdDetailApi} chkDup="item" />)
+                        }
+
                         <div className="d-flex flex-row justify-content-start">
-                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
+                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={saveProduceItem}>Save</button>
                             <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeProduceItem}>Quit</button>
 
                         </div>
@@ -366,26 +628,92 @@ export default function BOMModals({ itemList, isCopy, isOperation, isBomAltItem,
                         <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={() => { handleOperation(false) }} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
                     </span>
                     <hr />
+                    <div className="collapse show m-1" id="genDetails">
+                        <span className="d-flex section2 col-sm-12">
+                            <>
+                                <label htmlFor="psrno" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process Sr. No.</label>
+                                <input type="text" name="psrno" className="form-control inp" value={processDetails ? processDetails.sr : ''} readOnly />
+                            </>
+                            <>
+                                <label htmlFor="process" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
+                                <input type="text" name="process" className="form-control inp" value={processDetails ? processDetails.process.label : ''} readOnly />
+                            </>
+                            <span className="col-4"></span>
+                        </span>
 
-                    <div className="col-12 p-3 pt-0" style={{ maxHeight: '80vh' }}>
+
+                    </div>
+                    <hr />
+                    <div className="col-12 p-3 pt-0" style={{ maxHeight: '100vh', width: '94%' }}>
 
                         {/*<div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>*/}
                         {/*    <span className="row-header p-0 m-0" >BOM Process Operation Details</span>*/}
                         {/*</div>*/}
+                        {
+                            currentOperationDetails && currentOperationDetails[`${processDetails.sr}`] ? (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={currentOperationDetails && currentOperationDetails[`${processDetails.sr}`] ? currentOperationDetails[`${processDetails.sr}`] : operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />) : (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />)
+                        }
 
-                        <WriteGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={rawData3} collect={getOperationDetApi } />
+                        <div className="d-flex flex-row justify-content-start">
+                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={() => { saveOperation() }}>Save</button>
+                            <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={() => { handleOperation(false) }}>Quit</button>
 
-                    </div>
-                    <div className="d-flex flex-row justify-content-start">
-                        <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
-                        <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeProduceItem}>Quit</button>
+                        </div>
 
                     </div>
                 </div>
 
             </Modal>
 
+            <Modal
+                isOpen={isOverHead}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={() => { handleOverhead(false) }}
+                style={customStyles}
+                contentLabel="Operation Modal"
+            >
+                <div id="routing-process">
+                    <span className="row row-content d-flex section2 col-sm-12">
+                        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Process Overhead Rate Details </h2>
+                        <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={() => { handleOverhead(false) }} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
+                    </span>
 
+                    <hr />
+
+                    <div className="collapse show m-1" id="genDetails">
+                        <span className="d-flex section2 col-sm-12">
+                            <>
+                                <label htmlFor="psrno" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process Sr. No.</label>
+                                <input type="text" name="psrno" className="form-control inp" value={processDetails ? processDetails.sr : ''} readOnly />
+                            </>
+                            <>
+                                <label htmlFor="process" style={{ fontSize: '1rem' }} className="form-label labl labl2">Process</label>
+                                <input type="text" name="process" className="form-control inp" value={processDetails ? processDetails.process.label : ''} readOnly />
+                            </>
+                            <span className="col-4"></span>
+                        </span>
+
+
+                    </div>
+                    <hr />
+
+                    <div className="col-12 p-3 pt-0" style={{ maxHeight: '100vh', width: '90%' }}>
+                        {
+                            currentOverheadDetails && currentOverheadDetails[`${processDetails.sr}`] ? (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={currentOverheadDetails && currentOverheadDetails[`${processDetails.sr}`] ? currentOverheadDetails[`${processDetails.sr}`]  : overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />)
+                                :
+
+                                (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />)
+                        }
+
+                        <div className="d-flex flex-row justify-content-start">
+                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={() => { saveOverhead() } }>Save</button>
+                            <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={() => { handleOverhead(false) }}>Quit</button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </Modal>
         </>
     )
 

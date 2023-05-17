@@ -4,7 +4,7 @@ import { ConfigContext } from '../../AppContext/ConfigContext';
 import useFetch from '../Hooks/useFetch';
 
 
-export default function BOM_SetUp(Component: any) {
+export default function Current_Configuration_SetUp(Component: any) {
     const api = useFetch();
     const SetUp = (props: any) => {
 
@@ -14,6 +14,20 @@ export default function BOM_SetUp(Component: any) {
                 {(context: any) => <Component {...props} api={ api} context={ context} />}
 
             </ConfigContext.Consumer>
+         )
+    }
+    SetUp.Component = SetUp;
+    return SetUp;
+
+}
+
+export function ProvideHookToClass(Component: any) {
+    const api = useFetch();
+    const SetUp = (props: any) => {
+
+        return (
+
+            <Component api={api} {...props}/>
          )
     }
     SetUp.Component = SetUp;

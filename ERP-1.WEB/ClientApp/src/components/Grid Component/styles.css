@@ -57,6 +57,7 @@
     height: 0;
     min-height: 0;
     margin: 0;
+    border:3px solid whitesmoke;
 }
 
 
@@ -151,6 +152,7 @@
     width: auto;
     scroll-behavior: smooth;
     border-radius: 0.25rem;
+    border:none;
 }
 .ag-center-cols-viewport {
     height: calc(100% + 8px);

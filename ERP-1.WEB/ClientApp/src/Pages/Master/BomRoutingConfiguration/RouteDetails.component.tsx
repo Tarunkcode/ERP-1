@@ -15,31 +15,85 @@ import LoadGrid from '../../../components/Grid Component/load-grid.component';
 
 const customStyles: object = {
 
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        width: '100%',
-        maxHeight: '100vh',
-        minHeight: '100vh',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100%',
+    maxHeight: '100vh',
+    minHeight: '100vh',
 
 };
 
-export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, itemCodeLst12, itemCodeLst23, defaultObj, currentRowData, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, rawData2, rawData1, handleChange, getAltItemDetailApi, getOtherProdDetailApi, ...props }: any) {
+export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, itemCodeLst12, itemCodeLst23, currentRowData, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, rawData2, rawData1, handleChange, getAltItemDetailApi, getOtherProdDetailApi, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, currentRowNo, getAltItemCurrentRow, getProdItemCurrentRow, ...props }: any) {
     let subtitle: any;
- 
+
     let [isBomAltItem, setIsBomAltItem]: any = React.useState(false);
     let [isOtherItem, setIsOtherItem]: any = React.useState(false);
     var [isItemCost, setIsItemCost]: any = React.useState(false);
+    var [altItemCurrentRowData, setAltItemCurrentRowData]: any = React.useState({})
+  
+    var [prodItemCurrentRowData, setProdItemCurrentRowData]: any = React.useState({})
+    var [consItemCurrentRowNo, setConsItemCurrentRowNo]: any = React.useState(null)
+    var [prodItemCurrentRowNo, setProdItemCurrentRowNo]: any = React.useState(null)
+
+    var [consUom, setConsUom]: any = React.useState(null)
+    var [consQuantity, setConsQuantity]: any = React.useState(null)
+    var [prodQuantity, setProdQuantity]: any = React.useState(null)
+    var [bomPerQty, setBomPerQty]: any = React.useState(null)
+    var [consCost, setConsCost]: any = React.useState(null)
+    var [consRowParams, setConsRowParams]: any = React.useState(null)
+   
+
+    const savingConsQuantity = (e: any) => {
+        let value = e.target.value;
+        let consqty = parseFloat(value);
+        setConsQuantity(consqty);
+        consRowParams.data.consqty = parseFloat(value || '0');
+    }
+    const savingProdQuantity = (e: any) => {
+        let value = e.target.value;
+        let prodqty = parseFloat(value);
+        setProdQuantity(prodqty);
+        consRowParams.data.prodavgqty = parseFloat(value || '0');
+    }
+    const savingConsUom = (item : any, name: string) => {
+       
+        setConsUom(item);
+        consRowParams.data.conuom = item || null;
+        consRowParams.data.prodavguom = item || null;
+    }
+
+    React.useEffect(() => {
+        if (altItemCurrentRowData.rate && consQuantity) {
+            let cons_cost = parseFloat(altItemCurrentRowData.rate) * consQuantity;
+            consRowParams.data.cost = cons_cost || null;
+            setConsCost(cons_cost)
+        }
+        if (consQuantity && prodQuantity) {
+            let bomQty = BOM_STORE.getState().BOMHeader[0].qty;
+            let bpqty = parseFloat(bomQty ? bomQty : '1');
+            let bpq = consQuantity / prodQuantity / bpqty;
+         
+            setBomPerQty(bpq);
+        }
+    }, [ consQuantity, prodQuantity])
+        // calculate cost 
+       
     
-
-
+    // end private functions
     const OpenAltItemPopUp = (e: any) => {
-        
+        console.log('alt item field', e.colDef.field)
         if (e.colDef.field === "altitem") {
             if (e.data.altitem.label === 'Y' && e.event.keyCode === 13) {
+                let currentRowData = { ...e.data, srno: e.rowIndex + 1 };
+                setAltItemCurrentRowData(currentRowData);
+                let currentRow = parseInt(e.rowIndex + 1);
+                getAltItemCurrentRow(currentRow, currentRowData );
+                setConsItemCurrentRowNo(currentRow)
+
                 setIsBomAltItem(true);
                 setIsItemCost(false);
             }
@@ -47,10 +101,20 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         }
         else if (e.colDef.field === "bomitem") {
             if (e.data.bomitem && e.event.keyCode === 13) {
+
+                let currentRowData = { ...e.data, srno: e.rowIndex + 1 };
+                setAltItemCurrentRowData(currentRowData);
+                let currentRow = parseInt(e.rowIndex + 1);
+                //getAltItemCurrentRow(currentRow, currentRowData);
+                setConsItemCurrentRowNo(currentRow)
+
                 setIsBomAltItem(false);
                 setIsItemCost(true);
 
             }
+
+        }
+        else {
 
         }
 
@@ -58,14 +122,26 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
 
 
     const OpenOtherProduce = (e: any) => {
+
         if (e.colDef.field === "isotherprod") {
-
+            console.log('field', e.colDef.field)
             if (e.data.isotherprod.label === 'Y' && e.event.keyCode === 13) {
-                setIsOtherItem(true);
+                if (e.data.bomitem && e.event.keyCode === 13) {
+                    let currentRowData = { ...e.data, srno: e.rowIndex + 1 }
+                    setProdItemCurrentRowData(currentRowData);
+                    let currentRow = parseInt(e.rowIndex + 1);
+                    getProdItemCurrentRow(currentRow, currentRowData);
+                    setProdItemCurrentRowNo(currentRow)
 
+                    setIsOtherItem(true);
+
+                }
 
             }
+
+
         }
+
 
     }
 
@@ -76,8 +152,15 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
     }
 
     function closeItemBox() {
+
+
+        console.log('current Store', BOM_STORE.getState())
+        setIsItemBox(false);
+    }
+    function saveRoutingData() {
         collectBOMConsDetails();
         collectBOMProdDetails();
+        console.log('current Store', BOM_STORE.getState())
         setIsItemBox(false);
     }
 
@@ -102,17 +185,18 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         },
         onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
+                setConsRowParams(params)
                 let arr = params.newValue.label.split('|')
-                let itemcode = arr[1] 
-                let itemname = arr[0] 
+                let itemcode = { label: arr[1], value: params.newValue.value }
+                let itemname = arr[0]
                 params.data.bomitem = itemcode;
                 params.data.itemname = itemname;
-                params.data.rate = 0.00;
-                params.data.consqty = 0.00;
-                params.data.conuom = null;
-                params.data.prodavgqty = 0.00;
-                params.data.prodavguom = null;
-                params.data.cost = 0.00;
+                params.data.rate = parseFloat(params.newValue.rate);
+                params.data.consqty = parseFloat(consQuantity || '0');
+                params.data.conuom = consUom || null;
+                params.data.prodavgqty = parseFloat(prodQuantity || '0');
+                params.data.prodavguom = consUom || null;
+                params.data.cost = parseFloat(consCost || '0');
                 params.data.job = { label: 'N', value: 0 };
                 params.data.altitem = { label: 'N', value: 0 };
 
@@ -134,69 +218,71 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
             }
             return params.label;
         }
-        }, { field: 'rate', headerName: "Rate", minWidth: 200, cellEditor: NumericEditor }, { field: 'consqty', headerName: "Consume Qty.", minWidth: 200, cellEditor: NumericEditor },
+    }, { field: 'rate', headerName: "Rate", minWidth: 200, cellEditor: NumericEditor }, { field: 'consqty', headerName: "Consume Qty.", minWidth: 200, cellEditor: NumericEditor },
 
 
-        {
-            field: 'conuom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
-            cellEditorParams: {
-                required: true,
-                selectData: React.useMemo(() => {return uomList }, [uomList]),
-                autocomplete: {
-                    customize: function ({ input, inputRect, container, maxHeight }: any) {
-                        if (maxHeight < 100) {
-                            container.style.top = '';
-                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
-                            container.style.maxHeight = '200px';
-                        }
-                    },
-                    showOnFocus: true
-
+    {
+        field: 'conuom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return uomList }, [uomList]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
                 },
-                placeholder: 'Select an option',
+                showOnFocus: true
+
             },
-            valueFormatter: (params: any) => {
-                if (params.value) {
-                    return params.value.label || params.value.value || params.value;
-                }
-                return params.label;
-            }, editable: true },
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        }, editable: false
+    },
 
 
-        { field: 'prodavgqty', headerName: "Produce Quantity", minWidth: 200, cellEditor: NumericEditor },
-        {
-            field: 'prodavguom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
-            cellEditorParams: {
-                required: true,
-                selectData: React.useMemo(() => { return uomList }, [uomList]),
-                autocomplete: {
-                    customize: function ({ input, inputRect, container, maxHeight }: any) {
-                        if (maxHeight < 100) {
-                            container.style.top = '';
-                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
-                            container.style.maxHeight = '200px';
-                        }
-                    },
-                    showOnFocus: true
-
+    { field: 'prodavgqty', headerName: "Produce Quantity", minWidth: 200, cellEditor: NumericEditor },
+    {
+        field: 'prodavguom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
+        cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return uomList }, [uomList]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
                 },
-                placeholder: 'Select an option',
+                showOnFocus: true
+
             },
-            valueFormatter: (params: any) => {
-                if (params.value) {
-                    return params.value.label || params.value.value || params.value;
-                }
-                return params.label;
-            }, editable: true },
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        }, editable: false
+    },
 
 
 
-        { field: 'cost', headerName: "Cost", minWidth: 200, cellEditor: NumericEditor }, {
+    { field: 'cost', headerName: "Cost", minWidth: 200, cellEditor: NumericEditor }, {
         field: 'altitem', headerName: "Alt Item", minWidth: 200,
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
             required: true,
-            selectData: [{ label: 'Y', value: '1' }, { label: 'N', value: '2' }],
+            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0 }],
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
                     if (maxHeight < 100) {
@@ -220,14 +306,15 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
 
     }]
 
-  
+    React.useEffect(() => { console.log('whole consume item details', currentConsDetails) }, [currentConsDetails])
 
 
-    const colDef2: any = [{ field: 'srno', headerName: "Sr. No.", minWidth: 200, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } }, {
+    const colDef2: any = [{ field: 'srno', headerName: "Sr. No.", minWidth: 200, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } },
+    {
         field: 'bomitem', headerName: "Item Code", minWidth: 400,
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
-            required:true,
+            required: true,
             selectData: React.useMemo(() => { return itemCodeLst12 }, [itemCodeLst12]),
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
@@ -245,11 +332,11 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
                 let arr = params.newValue.label.split('|')
-                let itemcode = arr[1]
+                let itemcode = {label : arr[1], value : params.newValue.value}
                 let itemname = arr[0]
                 params.data.bomitem = itemcode;
                 params.data.itemname = itemname;
-           
+
                 params.data.prodavgqty = 0.00;
                 params.data.prodavguom = null;
                 params.data.rate = 0.00;
@@ -268,37 +355,35 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         editable: true
     }, { field: 'itemname', headerName: "Item Name", minWidth: 400 }, { field: 'prodavgqty', headerName: "Quantity", minWidth: 200, editable: true, cellEditor: NumericEditor }, {
         field: 'prodavguom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
-            cellEditorParams: {
-                required: true,
-                selectData: React.useMemo(() => { return uomList }, [uomList]),
-                autocomplete: {
-                    customize: function ({ input, inputRect, container, maxHeight }: any) {
-                        if (maxHeight < 100) {
-                            container.style.top = '';
-                            container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
-                            container.style.maxHeight = '200px';
-                        }
-                    },
-                    showOnFocus: true
-
+        cellEditorParams: {
+            required: true,
+            selectData: React.useMemo(() => { return uomList }, [uomList]),
+            autocomplete: {
+                customize: function ({ input, inputRect, container, maxHeight }: any) {
+                    if (maxHeight < 100) {
+                        container.style.top = '';
+                        container.style.bottom = (window.innerHeight - inputRect.bottom + input.offsetHeight) + 'px';
+                        container.style.maxHeight = '200px';
+                    }
                 },
-                placeholder: 'Select an option',
+                showOnFocus: true
+
             },
-            valueFormatter: (params: any) => {
-                if (params.value) {
-                    return params.value.label || params.value.value || params.value;
-                }
-                return params.label;
-        }, editable: true }, , { field: 'rate', headerName: "Rate", minWidth: 200, cellEditor: NumericEditor }, { field: 'cost', headerName: "Cost", minWidth: 200, cellEditor: NumericEditor}, {
+            placeholder: 'Select an option',
+        },
+        valueFormatter: (params: any) => {
+            if (params.value) {
+                return params.value.label || params.value.value || params.value;
+            }
+            return params.label;
+        }, editable: true
+    }, { field: 'rate', headerName: "Rate", minWidth: 200, cellEditor: NumericEditor }, { field: 'cost', headerName: "Cost", minWidth: 200, cellEditor: NumericEditor }, {
 
         field: 'isotherprod', headerName: "Other Prod", minWidth: 200,
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
-
-            selectData: [
-                { label: 'Y', value: '1' },
-                { label: 'N', value: '2' }
-            ],
+            required: true,
+            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0}],
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
                     if (maxHeight < 100) {
@@ -319,17 +404,18 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
             return params.label;
         },
         editable: true
+
     }]
 
     return (
         <>
             {
-                isBomAltItem || isOtherItem ? (<BOMModals itemList={itemCodeLst23} isBomAltItem={isBomAltItem} isOtherItem={isOtherItem} setIsOtherItem={setIsOtherItem} setIsBomAltItem={setIsBomAltItem} defaultObj={defaultObj} uomList={uomList} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} />) : null
+                isBomAltItem || isOtherItem ? (<BOMModals itemList={itemCodeLst23} isBomAltItem={isBomAltItem} isOtherItem={isOtherItem} setIsOtherItem={setIsOtherItem} setIsBomAltItem={setIsBomAltItem} uomList={uomList} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} collectAltItemDetails={collectAltItemDetails} currentAltItemDetails={currentAltItemDetails} altItemRow={altItemRow} collectOtherProdDetails={collectOtherProdDetails} currentOtherProdDetails={currentOtherProdDetails} otherProdDefRow={otherProdDefRow} processDetails={currentRowData} prodItemCurrentRowData={prodItemCurrentRowData} altItemCurrentRowData={altItemCurrentRowData} blindWatch={blindWatch} consItemCurrentRowNo={consItemCurrentRowNo} prodItemCurrentRowNo={prodItemCurrentRowNo} />) : null
             }
-            
+
             {
                 isItemCost ? (
-                    <BOMModals_layer2 isItemCostDet={isItemCost} setItemCostDet={setIsItemCost} handleChange={() => { }} defaultObj={defaultObj}/>
+                    <BOMModals_layer2 isItemCostDet={isItemCost} setItemCostDet={setIsItemCost} itemCostCurrentRowData={altItemCurrentRowData} prevTableCurrentRowNo={consItemCurrentRowNo} blindWatch={blindWatch} consuom={consUom} produom={consUom} consqty={consQuantity} prodqty={prodQuantity} rate={currentRowData.amt} conscost={consCost} savingConsQuantity={savingConsQuantity} savingProdQuantity={savingProdQuantity} savingConsUom={savingConsUom} bomPerQty={bomPerQty} params={consRowParams} />
 
                 ) : null
             }
@@ -350,19 +436,19 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
                         <div className="collapse show" id="genDetails">
                             <span className="d-flex section2 col-sm-12">
                                 <MasterInput name="name" label="Item Name" ipTitle="Routing Name" ipType="text" classCategory="form-control BOMHeader inp text" read={true} defaultt={blindWatch.itemname} />
-                                <MasterInput name="unit" label="UOM" ipTitle="Unit" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={blindWatch.uomname} read={true}  />
-                                <MasterInput name="process" label="Process" ipTitle="Process" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={currentRowData.process ? currentRowData.process.label : ''} read={ true} />
+                                <MasterInput name="unit" label="UOM" ipTitle="Unit" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={blindWatch.uomname} read={true} />
+                                <MasterInput name="process" label="Process" ipTitle="Process" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={currentRowData && currentRowData.process ? currentRowData.process.label : ''} read={true} />
                             </span>
 
                             <span className="d-flex section2 col-sm-12">
-                                <MasterInput name="stage" label="Stage No." ipTitle="Satege Number" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={currentRowData.process ? currentRowData.sr : ''} read={true}/>
-                                <MasterInput name="qty" label="Quantity" ipTitle="Quantity" ipType="number" classCategory="form-control BOMHeader double inp text" handleChange={handleChange}/>
-                                <MasterInput name="overheadamt" label="Overhead Amt." ipTitle="Enter OverHead Amount" ipType="number" classCategory="form-control BOMHeader inp double number" handleChange={handleChange} />
+                                <MasterInput name="stage" label="Stage No." ipTitle="Stage Number" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={currentRowData && currentRowData.sr ? currentRowData.sr : ''} read={true} />
+                                <MasterInput name="qty" label="Quantity" ipTitle="Quantity" ipType="number" classCategory="form-control BOMHeader double inp text" defaultt={BOM_STORE.getState().BOMHeader[0].qty ? BOM_STORE.getState().BOMHeader[0].qty : 0} read={true}/>
+                                <MasterInput name="overheadamt" label="Overhead Amt." ipTitle="Enter OverHead Amount" ipType="number" classCategory="form-control BOMHeader inp double number"  />
 
                             </span>
 
                             <span className="d-flex section2 col-sm-12">
-                                <MasterInput name="routingcost" label="Rate" ipTitle="Enter Routing Cost" ipType="number" classCategory="form-control BOMHeader double inp number"  handleChange={handleChange}/>
+                                <MasterInput name="routingcost" label="Rate" ipTitle="Enter Routing Cost" ipType="number" classCategory="form-control BOMHeader double inp number" handleChange={handleChange} defaultt={currentRowData && currentRowData.amt ? currentRowData.amt : 0} />
                                 <span className="col-8"></span>
 
                             </span>
@@ -375,25 +461,31 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
 
                         <hr />
                         {
-                            currentConsDetails && currentConsDetails.length > 0 ? (<LoadGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={currentConsDetails && currentConsDetails.length > 0 ? currentConsDetails : rawData1} firstRow={rawData1} srProps="srno" collect={getBomConsumeDetailApi} />) : (<WriteGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={currentConsDetails && currentConsDetails.length > 0 ? currentConsDetails : rawData1} srProps="srno" collect={getBomConsumeDetailApi} />)
+
+                            currentConsDetails && currentConsDetails[currentRowNo] ? (<LoadGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={currentConsDetails && currentConsDetails[currentRowNo] ? currentConsDetails[currentRowNo] : rawData1} firstRow={rawData1} srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />) : (<WriteGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={rawData1} srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />)
+
+
                         }
-                        
+
 
 
 
                         <hr />
                         {
-                            currentProdDetails && currentProdDetails.length > 0 ? (<LoadGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={currentProdDetails && currentProdDetails.length > 0 ? currentProdDetails : rawData2} firstRow={rawData2} srProps="srno" collect={getBomProduceDetailApi} />) : (<WriteGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={currentProdDetails && currentProdDetails.length > 0 ? currentProdDetails : rawData2} srProps="srno" collect={getBomProduceDetailApi} />)
+
+                            currentProdDetails && currentProdDetails[currentRowNo] ? (<LoadGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={currentProdDetails && currentProdDetails[currentRowNo] ? currentProdDetails[currentRowNo] : rawData2} firstRow={rawData2} srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />) : (<WriteGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={rawData2} srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />)
+
+
                         }
-                        
+
 
 
 
 
                         <hr style={{ margin: '0', padding: '0' }} />
 
-                        <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1">Save</button>
-                        <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeItemBox }>Quit</button>
+                        <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={saveRoutingData}>Save</button>
+                        <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeItemBox}>Quit</button>
 
                     </div>
 

@@ -10,11 +10,12 @@ import 'ag-grid-autocomplete-editor/dist/main.css';
 import './styles.css';
 import { GridOptions } from 'ag-grid-community';
 import { toast } from 'react-toastify';
+import CheckBoxEditor, { OnlyOneCheckBoxEditor } from './checkboxEditor';
 
 
 
-export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, firstRow,H, ...rest }: any) {
-  
+export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, collect, srProps, firstRow, H, chkDup, ...rest }: any) {
+
     const [gridApi, setGridApi]: any = useState(null);
     const [columnApi, setColumnApi]: any = useState(null);
     const [rowData, setRowData]: any = useState(null);
@@ -67,40 +68,36 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
 
         params.api.sizeColumnsToFit();
     }
-    const gridOptions = {
 
-      
-        onCellKeyDown: OpenSubLayer,
-
-    };
     const checkDuplicacy = (e: any) => {
         console.log(e);
-        if (e.value.label) {
-            for (let i = 0; i < rowData.length; i++) {
-                if (i !== e.rowIndex && rowData[i][e.colDef.field] !== null && e.value.label === rowData[i][e.colDef.field].label) {
-                    //------------------------------------------------------------------
-                    // restore current row
-                    let copy = [...rowData];
-                    let restoreItem = { ...firstRow, [srProps]: e.rowIndex + 1 }
+        //if (e.value && e.value.label) {
+        //    for (let i = 0; i < rowData.length; i++) {
+        //        if (i !== e.rowIndex && rowData[i][chkDup] !== null && rowData[i][chkDup].label && e.value.label === rowData[i][chkDup].label) {
+        //            //------------------------------------------------------------------
+        //            // restore current row
+        //            console.log('cheking duplicacy w', chkDup)
+        //            let copy = [...rowData];
+        //            let restoreItem = { ...firstRow, [srProps]: e.rowIndex + 1 }
 
-                    copy.splice(e.rowIndex, 1, restoreItem);
-                    setRowData([...copy]);
-                    gridApi.refreshCells({ force: true });
-                    //----------------------------------------------------------------------
-                    toast.info('Hey! You cannot Select Same Item More than One Time');
-                    gridApi.stopEditing();
-                    break;
-                }
-                else {
-                    gridApi.startEditingCell(e);
+        //            copy.splice(e.rowIndex, 1, restoreItem);
+        //            setRowData([...copy]);
+        //            gridApi.refreshCells({ force: true });
+        //            //----------------------------------------------------------------------
+        //            toast.info('Hey! You cannot Select Same Item More than One Time');
+        //            gridApi.stopEditing();
+        //            break;
+        //        }
+        //        else {
+        //            gridApi.startEditingCell(e);
 
-                }
+        //        }
 
-            }
+        //    }
 
-        } else {
+        //} else {
 
-        }
+        //}
     }
     const onCellClicked = (e: any) => {
         //let keyArr: any[] = Object.keys(rowData[0]);
@@ -126,15 +123,14 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
 
         if (e.event.key === 'Enter') {
             if (rowData[e.rowIndex][e.colDef.field] !== null) {
-
+                OpenSubLayer(e);
 
                 gridApi.tabToNextCell();
+                gridApi.stopEditing();
 
-            }
 
-
-            else {
-                OpenSubLayer(e);
+            } else {
+                console.log('do nothing !')
             }
         }
 
@@ -165,7 +161,10 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
         else { }
         //refresh columns 
     }
-    const onAddRow = (e : any) => {
+    const onSelectionChanged = () => {
+        console.log(gridApi.getSelectedRows())
+    }
+    const onAddRow = (e: any) => {
         e.preventDefault();
         let lastrow = gridApi.getDisplayedRowAtIndex(gridApi.getLastDisplayedRow());
         let lastIndex = lastrow.rowIndex;
@@ -191,20 +190,20 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
                 <AgGridReact
                     rowData={rowData}
                     columnDefs={colDef}
-                  
                     scrollbarWidth={8}
                     getRowNodeId={(data: any) => data.id}
                     onCellEditingStarted={onCellClicked}
                     onCellEditingStopped={checkDuplicacy}
                     onCellKeyDown={CustomFunctionalities}
                     enableCellEditingOnBackspace={true}
-                    gridOptions={gridOptions}
+                    frameworkComponents={{ checkboxRenderer: CheckBoxEditor, onlyOneCheckboxRenderer: OnlyOneCheckBoxEditor }}
                     onGridReady={onGridReady}
                     alwaysShowHorizontalScroll={true}
                     alwaysShowVerticalScroll={true}
-
+                    rowSelection='single'
+                    onSelectionChanged={onSelectionChanged}
                 ></AgGridReact>
-            </div>
+        </div>
 
 
 

@@ -2,7 +2,7 @@
 import BillSundry_Page from '../../Pages/SetUp/Bill-Sundry/bill-sundry.page';
 import { store2 } from '../../Redux/config/config.reducer';
 import { toast } from 'react-toastify';
-import ProvideHookToClass from '../HOC/loadBOM';
+import { ProvideHookToClass } from '../HOC/Current_Configuration_SetUp';
 interface IProps {
     api: any
 }

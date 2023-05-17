@@ -2,7 +2,7 @@
 import { toast } from 'react-toastify';
 import SeriesConfig_Page from "../../Pages/SetUp/Series-Config/series-config.page";
 import { store2 } from '../../Redux/config/config.reducer';
-import ProvideHookToClass from '../HOC/loadBOM';
+import { ProvideHookToClass } from '../HOC/Current_Configuration_SetUp';
 
 interface IProps {
     api : any

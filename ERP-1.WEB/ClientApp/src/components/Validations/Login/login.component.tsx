@@ -208,7 +208,7 @@ class ChildLog extends React.Component<IProps, IState>{
             <div className="outer-container mt-1">
                 {
                     this.state.isLoader === true ? (
-                        <div className="col-12" style={{ minHeight: '100vh', maxHeight: '100vh', minWidth: '100vw', maxWidth: '100vw', zIndex: 10, backgroundColor: 'rgba(0,0,0, 0.1)', position: 'absolute', top: '13%', right: '0', bottom: '0', left: '0' }}>
+                        <div className="col-12" style={{ minHeight: '121vh', maxHeight: '121vh', minWidth: '121vw', maxWidth: '121vw', zIndex: 10, backgroundColor: 'rgba(0,0,0, 0.1)', position: 'absolute', right: '0', bottom: '0', left: '0', top: 0 }}>
                             <span className="card" style={{ border: 'none', background: 'none', height: 'auto', minHeight: '110px', position: 'absolute', top: '40%', right: '50%', zIndex: 1000 }}>
 
                                 <ScaleLoader color="#52bfd9" loading={this.state.isLoader} />
@@ -230,7 +230,7 @@ class ChildLog extends React.Component<IProps, IState>{
                     <img src={'./assets/erpLogo.png'} style={{ width: "52%" }} />
 
                   
-                        <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit} style={{margin:'0 14%'}}>
 
                             <select name="comp" id="compcode" className="form-control text-primary text-center" onChange={this.handleCompCodeChange.bind(this)}>
                                 {
