@@ -10,7 +10,7 @@ import 'ag-grid-autocomplete-editor/dist/main.css';
 import './styles.css';
 import { GridOptions } from 'ag-grid-community';
 import { toast } from 'react-toastify';
-import CheckBoxEditor, { OnlyOneCheckBoxEditor } from './checkboxEditor';
+import CheckBoxEditor from './checkboxEditor';
 
 
 
@@ -71,33 +71,33 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
 
     const checkDuplicacy = (e: any) => {
         console.log(e);
-        //if (e.value && e.value.label) {
-        //    for (let i = 0; i < rowData.length; i++) {
-        //        if (i !== e.rowIndex && rowData[i][chkDup] !== null && rowData[i][chkDup].label && e.value.label === rowData[i][chkDup].label) {
-        //            //------------------------------------------------------------------
-        //            // restore current row
-        //            console.log('cheking duplicacy w', chkDup)
-        //            let copy = [...rowData];
-        //            let restoreItem = { ...firstRow, [srProps]: e.rowIndex + 1 }
+        if (e.value && e.value.label) {
+            for (let i = 0; i < rowData.length; i++) {
+                if (i !== e.rowIndex && rowData[i][chkDup] !== null && rowData[i][chkDup].label && e.value.label === rowData[i][chkDup].label) {
+                    //------------------------------------------------------------------
+                     //restore current row
+                    console.log('cheking duplicacy w', chkDup)
+                    let copy = [...rowData];
+                    let restoreItem = { ...firstRow, [srProps]: e.rowIndex + 1 }
 
-        //            copy.splice(e.rowIndex, 1, restoreItem);
-        //            setRowData([...copy]);
-        //            gridApi.refreshCells({ force: true });
-        //            //----------------------------------------------------------------------
-        //            toast.info('Hey! You cannot Select Same Item More than One Time');
-        //            gridApi.stopEditing();
-        //            break;
-        //        }
-        //        else {
-        //            gridApi.startEditingCell(e);
+                    copy.splice(e.rowIndex, 1, restoreItem);
+                    setRowData([...copy]);
+                    gridApi.refreshCells({ force: true });
+                    //----------------------------------------------------------------------
+                    toast.info('Hey! You cannot Select Same Item More than One Time');
+                    gridApi.stopEditing();
+                    break;
+                }
+                else {
+                    gridApi.startEditingCell(e);
 
-        //        }
+                }
 
-        //    }
+            }
 
-        //} else {
+        } else {
 
-        //}
+        }
     }
     const onCellClicked = (e: any) => {
         //let keyArr: any[] = Object.keys(rowData[0]);
@@ -196,7 +196,7 @@ export default function LoadGrid({ data, colDef, title, titleClr, OpenSubLayer, 
                     onCellEditingStopped={checkDuplicacy}
                     onCellKeyDown={CustomFunctionalities}
                     enableCellEditingOnBackspace={true}
-                    frameworkComponents={{ checkboxRenderer: CheckBoxEditor, onlyOneCheckboxRenderer: OnlyOneCheckBoxEditor }}
+                    frameworkComponents={{ checkboxRenderer: CheckBoxEditor}}
                     onGridReady={onGridReady}
                     alwaysShowHorizontalScroll={true}
                     alwaysShowVerticalScroll={true}

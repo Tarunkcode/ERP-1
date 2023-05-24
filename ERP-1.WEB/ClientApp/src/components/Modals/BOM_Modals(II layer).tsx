@@ -86,13 +86,6 @@ export default function BOMModals_layer2({ isItemCostDet, setItemCostDet, itemCo
     return (
         <div className="col-8 m-0 p-0">
 
-
-
-
-
-
-
-
             <Modal
                 isOpen={isItemCostDet}
                 onAfterOpen={afterOpenModal}

@@ -37,39 +37,74 @@ interface IState {
 }
 const INITIAL_STATE: IState = {
     BOMHeader: [{}],
-    BomDetails: [],
     RoutingDetails: [],
-    RoutingJobWork: [],
-    RoutingOtherHead: [],
+
+    BomDetails: [],
     BOMAltItem: [],
-    BOMItemSupplier: [],
-    BomCutComponenet: [],
     BomOtherProdDetails: [],
     BOMProcessPOH: [],
-    BOMItemLocation: [],
-    BOMSAMEITEM: [],
     ROUTINGOPRATIONDETAILS: [],
+
+
+
+    BOMItemSupplier: [],
+    BomCutComponenet: [],
+    RoutingOtherHead: [],
+    BOMItemLocation: [],
     BomJWDetails: [],
+    BOMSAMEITEM: [],
+    RoutingJobWork: [],
     RoutingMachineDetails: []
 }
-
+var tempStorageVar : any[] = [];
 const bomReducer = (STATE = INITIAL_STATE, action: IAction) => {
     switch (action.type) {
         case "bom_struct":
-            if (action.label === "BOMHeader") STATE.BOMHeader[0][action.key] = action.payload;
+            if (action.label === "BOMHeader") {
+                if (action.key === '') {
+                    STATE.BOMHeader = action.payload;
+                } else {
+                    STATE.BOMHeader[0][action.key] = action.payload;
 
+                }
+            }
             else if (action.label === "RoutingDetails") STATE.RoutingDetails = action.payload;
+
+
+
             else if (action.label === "BomDetails") {
-                let prevState = STATE.BomDetails;
-                let json = [...prevState, ...action.payload];
+                let json: any[] = [];
+
+                if (action.key == 'modify') {
+                    //let state = [...STATE.BomDetails]
+
+                    json = action.payload;
+                    console.log(json);
+
+                } else if (action.key === 'modify1' || action.key === 'modify2') {
+                    if (action.key === 'modify1') tempStorageVar = [...action.payload];
+                    json = [...tempStorageVar, ...action.payload ]
+                }
+                else {
+                    
+                        let state = [...STATE.BomDetails]
+
+                        json = [...state, ...action.payload]
+
+                    
+                }
+
                 let jsonObj = json.map((item: any) => JSON.stringify(item));
                 let s: any = new Set(jsonObj);
                 s = Array.from(s).map((item: any) => JSON.parse(item));
 
                 STATE.BomDetails = s;
+
             }
             else if (action.label === "BOMAltItem") {
-                let prevState = STATE.BOMAltItem;
+                let prevState = [];
+                if (action.key == 'modify') { }
+                else prevState = STATE.BOMAltItem;
                 let json = [...prevState, ...action.payload];
                 let jsonObj = json.map((item: any) => JSON.stringify(item));
                 let s: any = new Set(jsonObj);
@@ -77,14 +112,19 @@ const bomReducer = (STATE = INITIAL_STATE, action: IAction) => {
                 STATE.BOMAltItem = s;
             }
             else if (action.label === "BomOtherProdDetails") {
+                let prevState = [];
+                if (action.key == 'modify') { }
+                else prevState = STATE.BomOtherProdDetails;
 
-                let prevState = STATE.BomOtherProdDetails;
                 let json = [...prevState, ...action.payload];
                 let jsonObj = json.map((item: any) => JSON.stringify(item));
                 let s: any = new Set(jsonObj);
                 s = Array.from(s).map((item: any) => JSON.parse(item));
                 STATE.BomOtherProdDetails = s;
             }
+
+
+
             else if (action.label === "RoutingOtherHead") STATE.RoutingOtherHead[action.key] = action.payload;
             else if (action.label === "BOMItemSupplier") STATE.BOMItemSupplier[action.key] = action.payload;
             else if (action.label === "BomCutComponenet") STATE.BomCutComponenet[action.key] = action.payload;
@@ -92,31 +132,37 @@ const bomReducer = (STATE = INITIAL_STATE, action: IAction) => {
             else if (action.label === "BOMSAMEITEM") STATE.BOMSAMEITEM[action.key] = action.payload
             else if (action.label === "BomJWDetails") STATE.BomJWDetails[action.key] = action.payload
             else if (action.label === "RoutingMachineDetails") STATE.RoutingMachineDetails[action.key] = action.payload
+            else if (action.label === "RoutingJobWork") STATE.RoutingJobWork[action.key] = action.payload
 
             //_____________________________________configuration based______________________________________________________________________________________
 
 
-            else if (action.label === "RoutingJobWork") STATE.RoutingJobWork[action.key] = action.payload
             else if (action.label === "BOMProcessPOH") {
+         
 
-                let prevState = STATE.BOMProcessPOH;
+                let prevState = [];
+                if (action.key == 'modify') { }
+                else prevState = STATE.BOMProcessPOH;
                 let json = [...prevState, ...action.payload];
                 let jsonObj = json.map((item: any) => JSON.stringify(item));
                 let s: any = new Set(jsonObj);
                 s = Array.from(s).map((item: any) => JSON.parse(item));
                 STATE.BOMProcessPOH = s;
-            }
-               
-            else if (action.label === "ROUTINGOPRATIONDETAILS") {
 
-                let prevState = STATE.ROUTINGOPRATIONDETAILS;
+            }
+
+            else if (action.label === "ROUTINGOPRATIONDETAILS") {
+              
+                let prevState = [];
+                if (action.key == 'modify') { }
+                else prevState = STATE.ROUTINGOPRATIONDETAILS;
                 let json = [...prevState, ...action.payload];
                 let jsonObj = json.map((item: any) => JSON.stringify(item));
                 let s: any = new Set(jsonObj);
                 s = Array.from(s).map((item: any) => JSON.parse(item));
                 STATE.ROUTINGOPRATIONDETAILS = s;
             }
-         
+
             else alert("Missing to assign properties to the fields")
     }
 

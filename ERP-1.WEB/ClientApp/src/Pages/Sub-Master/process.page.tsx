@@ -11,7 +11,7 @@ import LoadGrid from '../../components/Grid Component/load-grid.component';
 export default function Process_Page({ getMasterType, pageTitle, configType, handleChange, handlePosting, defaultData, virtualCode, operation, overhead, jobwork, collectOverHeadApi, collectJobApi, collectOperationApi, collectList, materialCenter, ...otherProps }: any) {
     React.useEffect(() => {
  
-        console.log('default data', defaultData.esmastertable )
+        console.log('default data', defaultData.esprocessmaster )
     }, [defaultData])
 
     const operationColDef = [{ field: 'srno', header: "Sr No.", maxWidth: 100, minWidth: 100, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '20px    ' } }, {
@@ -150,7 +150,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                             <MasterInput2
                                 name="name"
                                 handleChange={handleChange}
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].name : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].name : ''}
                                 classCategory="form-control col-12 pMaster"
                                 ipType="text"
                                 label="Process"
@@ -158,14 +158,14 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
 
                             />
                             <span className="col-1 m-0"></span>
-                            <AutoComp name="c21" label="Process Floor" ipTitle="Select Process Floor" list={materialCenter} defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c21 : ''} collect={collectList} classCategory="form-control col-4 inp" isMandate={true} />
+                            <AutoComp name="c21" label="Process Floor" ipTitle="Select Process Floor" list={materialCenter} defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c21 : ''} collect={collectList} classCategory="form-control col-4 inp" isMandate={true} />
                            
                         </span>
                         <span className="d-flex section2 col-sm-12">
 
                             <MasterInput2
                                 name="c22"
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c22 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c22 : ''}
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster select"
                                 ipType="number"
@@ -174,7 +174,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
 
                             />
                             <span className="col-1 m-0"></span>
-                            <AutoComp name="c23" label="Debitor Account" ipTitle="Select Debitor Account" list={jobwork} defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c23 : ''} collect={ collectList} classCategory="form-control col-4 inp" isMandate={true} />
+                            <AutoComp name="c23" label="Debitor Account" ipTitle="Select Debitor Account" list={jobwork} defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c23 : ''} collect={ collectList} classCategory="form-control col-4 inp" isMandate={true} />
                            
                         </span>
 
@@ -182,7 +182,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
 
                             <MasterInput2
                                 name="c24"
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c24 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c24 : ''}
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster select"
                                 ipType="number"
@@ -192,7 +192,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                             />
                             <span className="col-1 m-0"></span>
                             <MasterInput2
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].d1 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].d1 : ''}
                                 name="d1"
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster number"
@@ -204,7 +204,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         </span>
                         <span className="d-flex section2 col-sm-12">
                             <MasterInput2
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].d2 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].d2 : ''}
                                 name="d2"
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster number"
@@ -216,7 +216,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                             <span className="col-1 m-0"></span>
                             <MasterInput2
                                 name="c25"
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c25 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c25 : ''}
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster select"
                                 ipType="number"
@@ -228,7 +228,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         <span className="d-flex section2 col-sm-12">
                             <MasterInput2
                                 name="d3"
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].d3 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].d3 : ''}
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster number"
                                 ipType="number"
@@ -239,7 +239,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                             <span className="col-1 m-0"></span>
                             <MasterInput2
                                 name="d4"
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].d4 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].d4 : ''}
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster number"
                                 ipType="number"
@@ -253,7 +253,7 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
 
                             <MasterInput2
                                 name="d5"
-                                defaultt={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].d5 : ''}
+                                defaultt={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].d5 : ''}
                                 handleChange={handleChange}
                                 classCategory="form-control col-12 pMaster number"
                                 ipType="number"
@@ -275,82 +275,82 @@ export default function Process_Page({ getMasterType, pageTitle, configType, han
                         <span className="d-flex flex-column justify-content-between section2 col-sm-12">
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="For Job Working" id="c1" name="c1" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c1 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="For Job Working" id="c1" name="c1" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c1 : ''} />
                             </>
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="is Accounting Posting" id="c2" name="c2" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c2 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="is Accounting Posting" id="c2" name="c2" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c2 : ''} />
                             </>
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Produce Qty is Greater then Paln Qty" id="c3" name="c3" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c3 : ''} />
-                            </>
-
-
-
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Change Consume Item Quantity" id="c4" name="c4" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c4 : ''} />
-                            </>
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Consume Qty Less than Req. Qty" id="c5" name="c5" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c5 : ''} />
-                            </>
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Consume Qty Zero" id="c6" name="c6" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c6 : ''} />
-                            </>
-
-
-
-
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Mold Req" id="c7" name="c7" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c7 : ''} />
-                            </>
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Minus Stock Qty in Req." id="c8" name="c8" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c8 : ''} />
-                            </>
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Add New Cons. Item at Production" id="c9" name="c9" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c9 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Produce Qty is Greater then Paln Qty" id="c3" name="c3" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c3 : ''} />
                             </>
 
 
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Plan As Per Del. Date" id="c10" name="c10" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c10 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Change Consume Item Quantity" id="c4" name="c4" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c4 : ''} />
                             </>
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Consumption Not on Rejection" id="c11" name="c11" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c11 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Consume Qty Less than Req. Qty" id="c5" name="c5" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c5 : ''} />
                             </>
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Produce Item As Per Process In Sample Prod" id="c12" name="c12" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c12 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Is Consume Qty Zero" id="c6" name="c6" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c6 : ''} />
+                            </>
+
+
+
+
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Mold Req" id="c7" name="c7" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c7 : ''} />
+                            </>
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Minus Stock Qty in Req." id="c8" name="c8" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c8 : ''} />
+                            </>
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Add New Cons. Item at Production" id="c9" name="c9" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c9 : ''} />
+                            </>
+
+
+
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Plan As Per Del. Date" id="c10" name="c10" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c10 : ''} />
+                            </>
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Consumption Not on Rejection" id="c11" name="c11" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c11 : ''} />
+                            </>
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Produce Item As Per Process In Sample Prod" id="c12" name="c12" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c12 : ''} />
                             </>
 
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Electricity Req." id="c13" name="c13" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c13 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Electricity Req." id="c13" name="c13" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c13 : ''} />
                             </>
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Show in Rejection Details Report" id="c14" name="c14" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c14 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Show in Rejection Details Report" id="c14" name="c14" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c14 : ''} />
                             </>
 
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Enable Operator Details" id="c15" name="c15" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c15 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Enable Operator Details" id="c15" name="c15" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c15 : ''} />
                             </>
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Production With Scan Data" id="c16" name="c16" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c16 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Production With Scan Data" id="c16" name="c16" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c16 : ''} />
                             </>
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Time Slab Wise Production" id="c17" name="c17" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c17 : ''} />
-                            </>
-
-                            <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label="Show Rejection % In Production MIS Report" id="c18" name="c18" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c18 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Time Slab Wise Production" id="c17" name="c17" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c17 : ''} />
                             </>
 
                             <>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Tollerance Not Required" id="c19" name="c19" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c19 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label="Show Rejection % In Production MIS Report" id="c18" name="c18" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c18 : ''} />
+                            </>
+
+                            <>
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Tollerance Not Required" id="c19" name="c19" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c19 : ''} />
                             </><>
-                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Enable Produce Item Serial No." id="c20" name="c20" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esmastertable && defaultData.esmastertable.length > 0 ? defaultData.esmastertable[0].c20 : ''} />
+                                <CustomeSwitch lablClass="custom-control-label col-9" label=" Enable Produce Item Serial No." id="c20" name="c20" classCat="form-control custom-control-input col-3 pMaster switch" handleChange={handleChange} default={defaultData.esprocessmaster && defaultData.esprocessmaster.length > 0 ? defaultData.esprocessmaster[0].c20 : ''} />
                             </>
 
                             {/*<div className="col-4"></div>*/}

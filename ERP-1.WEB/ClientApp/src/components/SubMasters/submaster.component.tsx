@@ -19,13 +19,16 @@ import Zone_Page from '../../Pages/Sub-Master/zone-page';
 import City_Page from '../../Pages/Sub-Master/city-page';
 import State_Page from '../../Pages/Sub-Master/state-page';
 import { clear_form } from '../../Pages/Helper Functions/table';
+import { LoaderContext } from '../../AppContext/loaderContext';
 
 interface IState {
     rawObj: object,
     masterType: number,
     configType: string,
     ipSelectCode: string,
+    isBranch : boolean,
     UgList: any,
+    Item_Code$Name123: any[],
     isPrimary : any
 }
 interface IProps {
@@ -36,11 +39,14 @@ interface IProps {
     AlterLoadedData: any
 }
 class SubMasterChild extends React.Component<IProps, IState>{
+    static contextType = LoaderContext;
     constructor(props: any) {
         super(props);
         this.state = {
             rawObj: {},
             masterType: 0,
+            Item_Code$Name123: [],
+            isBranch : false,
             configType: '',
             ipSelectCode: '',
             UgList: [],
@@ -131,6 +137,58 @@ class SubMasterChild extends React.Component<IProps, IState>{
 
 
     }
+    getItemCode$Name123 = async () => {
+        const loader = this.context;
+        loader.setLoader(true);
+        let url = '/api/LoadIMList';
+        let body1 = {
+            "Customer": parseInt(this.customer),
+            "Company": parseInt(this.compCode),
+            "Series": "",
+            "ItemBrand": "",
+            "ItemGroup": "",
+            "ItemType": "",
+            "ItemCat": "",
+            "ItemSubCat": "",
+            "Clearance": "",
+            "UOM": "",
+            "MC": "",
+            "QC": "",
+            "GRPType": "1,2,3"
+
+        }
+        try {
+            let { res, got } = await this.props.api(url, 'POST', body1);
+            if (res.status == 200) {
+
+                let cd$Nm: any = got.data.map((option: any) => ({
+                    value: option.value,
+                    label: option.codestrname,
+                    uomname: option.uomname,
+                    uom: option.uom,
+                    rate: option.rate
+
+
+                }))
+                this.setState({ Item_Code$Name123: cd$Nm })
+                loader.setLoader(false);
+            }
+            else {
+                loader.setLoader(false);
+                toast.error(res.msg);
+            }
+        } catch (err) {
+            loader.setLoader(false);
+            alert(err)
+        }
+    }
+    save$setForMatCenterIsBranchCode = (value : any, name: string) => {
+        if (name === 'c22') {
+            value.value === 2 ? this.setState({ isBranch: true })  : this.setState({ isBranch: false }) 
+        }
+        this.collectSelectedItem(value, name);
+    }
+   
     collectSelectedItem = (value: any, name: string) => {
       
       if (this.props.gettingVirtualCode !== 0) {
@@ -161,7 +219,10 @@ class SubMasterChild extends React.Component<IProps, IState>{
     }
     getMasterType = (val: any) => {
         this.setState({ masterType: val })
-        if(val === 79) this.FetchUnderGroupDataList(val);
+        if (val === 79) {
+            this.FetchUnderGroupDataList(val);
+            this.getItemCode$Name123();
+        }
     }
     handleChange = (e: any) => {
         e.preventDefault();
@@ -267,10 +328,13 @@ class SubMasterChild extends React.Component<IProps, IState>{
 
     }
     handlePosting = async (e: any) => {
+
         e.preventDefault();
+        const loader = this.context
         console.log('calling');
+        loader.setLoader(true)
         let i: any = this.props.gettingVirtualCode !== 0 ? { ...this.props.defSubMaster, ...this.state.rawObj } : this.state.rawObj;
-        console.log('i:', i);
+        console.log('i:', JSON.stringify(i));
         //console.log('calling')
         const confUrl = '/api/SaveMasterData';
 
@@ -278,17 +342,19 @@ class SubMasterChild extends React.Component<IProps, IState>{
             let {res, got } = await this.props.api(confUrl,"POST", i)
          
             if (res.status == 200) {
-                toast.success(got.msg)
                 let ref = document.getElementById("form");
                 this.props.gettingVirtualCode == 0 ? clear_form(ref) : window.history.go(-1)
-
+                loader.setLoader(false)
+                toast.success(got.msg)
 
             } else {
+                loader.setLoader(false)
                 toast.error(got.msg)
 
             }
             store2.getState().subMaster.EsMasterTable[0] = {}
         } catch (err) {
+            loader.setLoader(false)
             alert(err)
         }
     }
@@ -305,7 +371,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
                     this.state.configType === '18' ? (<Currency_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="" configType={this.state.configType}   handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
                 }
                 {
-                    this.state.configType === '3' ? (<ItemGroup_Page HandleIpSelect={this.HandleIpSelect} UgList={this.state.UgList}  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Item Group" collectSelectedItem={this.collectSelectedItem.bind(this)} configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} isPrimary={this.state.isPrimary} />) : null
+                    this.state.configType === '3' ? (<ItemGroup_Page HandleIpSelect={this.HandleIpSelect} UgList={this.state.UgList} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Item Group" collectSelectedItem={this.collectSelectedItem.bind(this)} configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} isPrimary={this.state.isPrimary} Item_Code$Name123={this.state.Item_Code$Name123 } />) : null
                 }
                 {
                     this.state.configType === '17' ? (<SubUnit_Page HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
@@ -350,7 +416,7 @@ class SubMasterChild extends React.Component<IProps, IState>{
                 }
            
              {
-                    this.state.configType === '4' ? (<MatCentre HandleIpSelect={this.HandleIpSelect} defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Material Center" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null
+                    this.state.configType === '4' ? (<MatCentre  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Material Center" configType={this.state.configType} isBranch={this.state.isBranch} collectSelectedItem={this.save$setForMatCenterIsBranchCode.bind(this)} handleChange={this.handleChange.bind(this)} handlePosting={this.handlePosting.bind(this)} />) : null
                 }
             {
                     this.state.configType === '7' ? (<QcParam_SampleType  defaultData={this.props.defSubMaster} getMasterType={this.getMasterType} pageTitle="Add Qc Parameter" configType={this.state.configType} handleChange={this.handleChange} handlePosting={this.handlePosting} />) : null

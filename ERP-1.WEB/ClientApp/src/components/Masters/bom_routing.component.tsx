@@ -1,12 +1,11 @@
 ﻿import * as React from 'react';
-import BomRoutingConfig_Page from '../../Pages/Master/BomRoutingConfiguration/bom-routing-config.component';
-
-
 import { toast } from 'react-toastify';
+import { LoaderContext } from '../../AppContext/loaderContext';
+import BomRoutingConfig_Page from '../../Pages/Master/BomRoutingConfiguration/bom-routing-config.component';
 import { BOM_STORE } from '../../Redux/BOM/bom.reducer';
 import Current_Configuration_SetUp from '../HOC/Current_Configuration_SetUp';
-import { LoaderContext } from '../../AppContext/loaderContext';
-import { contextType } from 'react-modal';
+
+
 
 
 
@@ -30,6 +29,8 @@ interface IState {
     prodItemCurrIndex: number,
     operationApi: any,
     process: any[],
+    loadedConsItemDetails: any[],
+    loadedProdItemDetails: any[],
     bomConsDetApi: any,
     bomProdDetApi: any,
     routeDetApi: any,
@@ -65,6 +66,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
             bomProdDetApi: null,
             gettingVirtualCode: 0,
             altItemDetApi: null,
+            loadedConsItemDetails: [],
+            loadedProdItemDetails: [],
             process: [],
             Item_Code$Name12: [],
             Item_Code$Name23: [],
@@ -82,13 +85,14 @@ class BOM_Routing extends React.Component<IProps, IState> {
     compCode = window.localStorage.getItem('compCode') || ""
     customer = window.localStorage.getItem('customer') || ""
     username = window.sessionStorage.getItem('username') || ""
- 
+
 
     // Private Data
+    routingDefRow: any[] = [{ process: null, amt: null, settime: null, machinetime: null, manpower: null, finalprocess: null, electricity: null, poh: null, job: null, machinedep: null }]
     prodItemDefRow: any[] = [{ bomitem: null, itemname: null, prodavgqty: null, prodavguom: null, rate: null, cost: null, isotherprod: null }]
     consItemDefRow: any[] = [{ bomitem: null, itemname: null, rate: null, consqty: null, conuom: null, prodavgqty: null, prodavguom: null, cost: null, altitem: null }]
     altItemDefRow: any[] = [{ altitem: null }, { itn: null }, { rate: null }, { consqty: null }, { consuom: null }, { prodavgqty: null }, { prodavguom: null }, { cost: null }];
-    otherProdDefRow: any[] = [{ item: null }, { itemname: null }, { qty: null }, { uom: null }, { rate: null }]
+    otherProdDefRow: any[] = [{ item: null }, { itemname: null }, { qty: null }, { uom: null }]
     operationDefRow: any[] = [{ srno: 1, process: null, opration: null, cycletime: null, fop: null }]
     overheadDefRow = [{ srno: 1, overhead: null, cost: null }]
 
@@ -96,24 +100,86 @@ class BOM_Routing extends React.Component<IProps, IState> {
         const { setLoader } = this.context;
         if (code) {
             let url = `/api/RoutingModify?RCode=${code}`;
-          
+
             try {
                 let { res, got } = await this.props.api(url, "GET", '');
                 if (res.status == 200) {
                     if (got.data[0].bomheader.length > 0) {
                         this.setState({ routingMasterDetails: got.data[0] });
-                        setLoader(false);
+                        //const bomdetailsLength: number = got.data[0].bomdetails.length
+                        const routingdetailsLength: number = got.data[0].routingdetails.length
+                        const bomaltitemLength: number = got.data[0].bomaltitem.length
+                        const bomotherproddetailsLength: number = got.data[0].bomotherproddetails.length
+               
 
-                    } else {
+                        let dataSet = got.data[0].bomheader;
+                        let dataSet1 = got.data[0].routingdetails;
+                        let dataSet2 = got.data[0].bomdetails;
+                        let dataSet3 = got.data[0].bomaltitem;
+                        let dataSet4 = got.data[0].bomotherproddetails;
+                        let dataSet5 = got.data[0].bomprocesspoh;
+                        let dataSet6 = got.data[0].routingoprationdetails;
+
+                        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMHeader' });
+                        BOM_STORE.dispatch({ payload: dataSet1, key: '', type: "bom_struct", label: 'RoutingDetails' });
+                        BOM_STORE.dispatch({ payload: dataSet2, key: 'modify', type: "bom_struct", label: 'BomDetails' });
+                        BOM_STORE.dispatch({ payload: dataSet3, key: 'modify', type: "bom_struct", label: 'BOMAltItem' });
+                        BOM_STORE.dispatch({ payload: dataSet4, key: 'modify', type: "bom_struct", label: 'BomOtherProdDetails' });
+                        BOM_STORE.dispatch({ payload: dataSet5, key: 'modify', type: "bom_struct", label: 'BOMProcessPOH' });
+                        BOM_STORE.dispatch({ payload: dataSet6, key: 'modify', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' });
+
+
+
+
+                        for (let i = 1; i <= 10 - routingdetailsLength; i++) got.data[0].routingdetails.push({ ...this.routingDefRow[0], sr: routingdetailsLength + i + 1 })
+                        for (let i = 1; i <= 10 - bomaltitemLength; i++) got.data[0].bomaltitem.push({ ...this.altItemDefRow[0], srno: bomaltitemLength + i + 1 })
+                        for (let i = 1; i <= 10 - bomotherproddetailsLength; i++) got.data[0].bomotherproddetails.push({ ...this.otherProdDefRow[0], srno: bomotherproddetailsLength + 1 + i})
+                      
+                        let consItemData: any[] = [];
+                        let prodItemData: any = [];
+                       
+                        await got.data[0].bomdetails.map((item: any) => {
+                            if (item.inout === 1) {
+                                consItemData = [...consItemData, item]
+                            } else if (item.inout === 2) {
+                                prodItemData = [...prodItemData, item]
+                            } else {
+                                alert("ERROR:: Blank in Out in Bom Details")
+                            }
+                        })
+
+                        console.log('bomotherproddetails', got.data[0].bomotherproddetails)
+                        console.log('bomaltitem', got.data[0].bomaltitem)
+                        
+                     
+                        //console.log('super data', got.data[0])
+                        //console.log('routingdetails', got.data[0].routingdetails)
+                        //console.log('bomprocesspoh', got.data[0].bomprocesspoh)
+                        //console.log('routingoprationdetails', got.data[0].routingoprationdetails)
+                     
+                        this.setState({ loadedConsItemDetails: consItemData })
+                        this.setState({ loadedProdItemDetails: prodItemData })
+
+                        console.log('consume item details', consItemData)
+                        console.log('produce item details', prodItemData)
+
+                        setLoader(false);
+                    }
+                    else {
                         setLoader(false);
                         toast.info('No Data Found for Modify')
                     }
-                } else {
+
+                }
+                else {
                     setLoader(false);
                     toast.error('ERROR::Routing Master Details Loading Failed')
                 }
 
-            } catch (err) {
+
+            }
+
+            catch (err) {
                 setLoader(false);
                 alert(err);
             }
@@ -234,7 +300,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                     label: option.codestrname,
                     uomname: option.uomname,
                     uom: option.uom,
-                    rate : option.rate
+                    rate: option.rate
 
 
                 }))
@@ -303,7 +369,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
         else if (e.currentTarget.classList.contains('decimal')) { value = parseFloat(value) }
         else if (e.currentTarget.classList.contains('number')) { value = parseInt(value) }
         else if (e.currentTarget.classList.contains('select')) { value = parseInt(value) }
-        else if (e.currentTarget.classList.contains('switch')) { e.target.value === "on" ? value = 1 : value = 0 }
+        else if (e.currentTarget.classList.contains('switch')) { e.target.checked === true ? value = 1 : value = 0 }
         else value = e.target.value;
 
         return value;
@@ -367,6 +433,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
     handle_BOMHeader_Change = (e: any) => {
         e.preventDefault();
+   
         let value = this.afterValueConvert(e);
         BOM_STORE.dispatch({ payload: value, key: e.target.name, type: "bom_struct", label: 'BOMHeader' });
 
@@ -402,8 +469,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
             item.code = this.state.gettingVirtualCode;
             item.sr = ind + 1;
             item.amt = parseFloat(item.amt);
-            item.settime = parseFloat(item.settime);
-            item.machinetime = parseFloat(item.machinetime);
+            item.settime = parseInt(item.settime);
+            item.machinetime = parseInt(item.machinetime);
             item.manpower = parseFloat(item.manpower);
             item.electricity = parseFloat(item.electricity);
             item.poh = parseFloat(item.poh);
@@ -493,7 +560,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' });
+        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify1', type: "bom_struct", label: 'BomDetails' });
 
         //--------------------------------------- creting state -------------------------------------------------------------------------
         this.setState({
@@ -539,8 +606,8 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' });
-        console.log('prev State Prod Item', this.state.bomCurrentState.prodItemDetails)
+        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify2', type: "bom_struct", label: 'BomDetails' });
+
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
@@ -599,14 +666,14 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMAltItem' });
+        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMAltItem' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'BOMAltItem' })
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
                 BOMAltItem: { ...this.state.bomCurrentState.BOMAltItem, [`Alt${this.state.consItemCurrIndex}${this.state.curr_stage}`]: copy }
             }
         })
-        console.log('current Alt items', this.state.bomCurrentState.BOMAltItem)
+
     }
 
     //__________________________________________________________Other Produce Item___________________________________________________________________
@@ -644,7 +711,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
             }
 
         })
-        console.log('dataSet Other Produce Item', dataSet);
+
         let len = copy.length;
 
         if (dataSet.length === 0 || dataSet === null) {
@@ -660,7 +727,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomOtherProdDetails' });
+        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomOtherProdDetails' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'BomOtherProdDetails' })
         console.log('oither produce item', dataSet)
         this.setState({
             bomCurrentState: {
@@ -668,7 +735,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 BomOtherProdDetails: { ...this.state.bomCurrentState.BomOtherProdDetails, [`Prod${this.state.prodItemCurrIndex}${this.state.curr_stage}`]: copy }
             }
         })
-        console.log('current other produce items', this.state.bomCurrentState.BomOtherProdDetails)
+   
     }
     //__________________________________________________________Operation___________________________________________________________________
 
@@ -676,7 +743,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
     getOperationDetApi = (api: any) => {
         this.setState({ operationApi: api })
     }
-    
+
 
     getOperationDetRow = () => {
         let items: any[] = [];
@@ -697,27 +764,28 @@ class BOM_Routing extends React.Component<IProps, IState> {
             item.srno = item.srno || ind + 1;
             item.process = item.process;
             item.fop = item.fop;
-            item.cycletime = item.cycletime ? parseFloat(item.cycletime) : 0
+            item.cycletime = item.cycletime ? parseInt(item.cycletime) : 0
         })
         dataSet.map((item: any, ind: number) => {
+            
             item.code = this.state.gettingVirtualCode;
+            item.srno = ind + 1 ;
             item.psrno = this.state.curr_stage;
-            item.opration = item.opr;
-            item.srno = item.srno || ind + 1;
-            item.process = true ? 1 : 0;
-            item.fop = true ? 1 : 0;
-            item.cycletime = item.cycletime ? parseFloat(item.cycletime) : 0
+            item.opration = item.opn;
+            item.process = item.process === true ? 1 : 0;
+            item.fop = item.fop === true ? 1 : 0;
+            item.cycletime = item.cycletime ? parseInt(item.cycletime) : 0
         })
-       
+
 
         if (dataSet.length === 0 || dataSet === null) {
 
             dataSet = [];
             copy = [];
 
-        } 
+        }
 
-        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' });
+        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' })
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
@@ -741,21 +809,23 @@ class BOM_Routing extends React.Component<IProps, IState> {
     collectOverheadDetails = async () => {
         let dataSet: any[] = await this.getOverheadDetRow();
         let copy = JSON.parse(JSON.stringify(dataSet));
-        console.log('over head collect fn is running', dataSet);
+      
         copy.map((item: any, ind: number) => {
 
-            item.code = this.state.gettingVirtualCode;
-            item.psrno = this.state.curr_stage;
             item.srno = item.srno || ind + 1;
+            item.code = this.state.gettingVirtualCode;
+            item.prsrno = this.state.curr_stage;
             item.cost = item.cost ? parseFloat(item.cost) : 0;
             item.poh = item.poh;
         })
         dataSet.map((item: any, ind: number) => {
-            item.code = this.state.gettingVirtualCode;
-            item.psrno = this.state.curr_stage;
+          
             item.srno = item.srno || ind + 1;
+            item.code = this.state.gettingVirtualCode;
+            item.prsrno = this.state.curr_stage;
             item.cost = item.cost ? parseFloat(item.cost) : 0;
-            item.poh = item.pohcode;
+            item.pohname = item.pohname || ''
+            item.poh = item.opn;
         })
 
         if (dataSet.length === 0 || dataSet === null) {
@@ -763,20 +833,19 @@ class BOM_Routing extends React.Component<IProps, IState> {
             dataSet = [];
             copy = [];
 
-        } 
+        }
 
-        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMProcessPOH' });
+        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMProcessPOH' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'BOMProcessPOH' })
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
-                BOMProcessPOH: { ...this.state.bomCurrentState.BOMProcessPOH , [this.state.curr_stage]: copy }
+                BOMProcessPOH: { ...this.state.bomCurrentState.BOMProcessPOH, [this.state.curr_stage]: copy }
             }
         })
     }
-    
+
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     componentDidMount() {
-        BOM_STORE.dispatch({ payload: 0, key: "code", type: "bom_struct", label: 'BOMHeader' });
         BOM_STORE.dispatch({ payload: parseInt(this.customer), key: "customer", type: "bom_struct", label: 'BOMHeader' });
         BOM_STORE.dispatch({ payload: parseInt(this.compCode), key: "company", type: "bom_struct", label: 'BOMHeader' });
         BOM_STORE.dispatch({ payload: this.username, key: "username", type: "bom_struct", label: 'BOMHeader' });
@@ -789,8 +858,10 @@ class BOM_Routing extends React.Component<IProps, IState> {
             let code = parseInt(this.props.location.state.code)
             this.loadRoutingMasterDetails(code)
             this.setState({ gettingVirtualCode: code });
+        BOM_STORE.dispatch({ payload: code, key: "code", type: "bom_struct", label: 'BOMHeader' });
 
         } else {
+            BOM_STORE.dispatch({ payload: 0, key: "code", type: "bom_struct", label: 'BOMHeader' });
             this.setState({ gettingVirtualCode: 0 });
         }
     }
@@ -805,7 +876,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
             await this.collectRoutingDetails();
             let data = await BOM_STORE.getState();
             console.log('i', JSON.stringify(data));
-         
+
             let { res, got } = await this.props.api(URL, "POST", data);
             if (res.status == 200) {
                 loader.setLoader(false);
@@ -838,7 +909,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 provide_conf={this.props.context.conf}
                 uomList={this.state.uom}
                 handleBOMHeader={this.handle_BOMHeader_Change.bind(this)}
-                details={this.state.routingMasterDetails }
+                details={this.state.routingMasterDetails}
                 // Bom Details saving
                 getCurrentRow={this.getCurrentRow.bind(this)}
                 collectBOMConsDetails={this.collectBOMConsDetails.bind(this)}
@@ -880,6 +951,18 @@ class BOM_Routing extends React.Component<IProps, IState> {
                 getOtherProdDetailApi={this.getOtherProduceApi.bind(this)}
                 getOperationDetailApi={this.getOperationDetApi.bind(this)}
                 getOverheadDetApi={this.getOverheadDetApi.bind(this)}
+
+                //modify terms
+                vccode={this.state.gettingVirtualCode}
+                bomheader_details={this.state.routingMasterDetails.bomheader}
+                routingdetails_details={this.state.routingMasterDetails.routingdetails}
+                bomaltitem_details={this.state.routingMasterDetails.bomaltitem}
+                bomotherproddetails_details={this.state.routingMasterDetails.bomotherproddetails}
+                bomprocesspoh_details={this.state.routingMasterDetails.bomprocesspoh}
+                routingoprationdetails_details={this.state.routingMasterDetails.routingoprationdetails}
+
+                consItem_details={this.state.loadedConsItemDetails}
+                prodItem_details={this.state.loadedProdItemDetails}
             />
         )
     }

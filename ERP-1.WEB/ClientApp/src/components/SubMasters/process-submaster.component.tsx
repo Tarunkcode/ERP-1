@@ -22,7 +22,7 @@ interface IProps {
     overhead: any[],
     operation: any[],
     jobwork: any[],
-    matCenter : any[]
+    matCenter: any[]
 }
 class RootProcess extends React.Component<IProps, IState> {
     static contextType = LoaderContext;
@@ -116,8 +116,8 @@ class RootProcess extends React.Component<IProps, IState> {
 
             return;
         } else {
-            dataSet.map((item: any) => {
-                this.props.jobwork.map((option: any, ind: number) => {
+            dataSet.map((item: any, ind: number) => {
+                this.props.jobwork.map((option: any) => {
                     if (option.value === item.jbcode.value) {
                         item.srno = ind + 1;
                         item.jbcode = item.jbcode.value;
@@ -215,6 +215,12 @@ class RootProcess extends React.Component<IProps, IState> {
 
 
                 this.setState({ defProcessMaster: data });
+                this.setState({
+                    rawObj: {
+                        ...data,
+                        esprocessmaster: [data.esprocessmaster[0]]
+                    }
+                })
                 loader.setLoader(false);
             } else {
                 toast.error('ERROR :: Loading Default Process Master Failed !');
@@ -225,16 +231,7 @@ class RootProcess extends React.Component<IProps, IState> {
             alert(err)
         }
     }
-    componentDidUpdate(prevProps: any, prevState: any) {
-        if (prevState.defProcessMaster !== this.state.defProcessMaster) {
-            this.setState({
-                rawObj: {
-                    ...this.state.defProcessMaster,
-                    esprocessmaster: [this.state.defProcessMaster.esmastertable[0]]
-                }
-            })
-        }
-    }
+   
 
 
     handleChange = (e: any) => {
@@ -281,7 +278,7 @@ class RootProcess extends React.Component<IProps, IState> {
                 Company: parseInt(this.compCode),
                 MasterType: 11,
                 UserName: this.username,
-                esprocessmaster: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0] ]
+                esprocessmaster: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esprocessmaster[0], ...store2.getState().pMaster.esmastertable[0]]
             }
 
         })
@@ -322,7 +319,7 @@ class RootProcess extends React.Component<IProps, IState> {
         if (this.props.gettingVirtualCode === 0) {
             store2.dispatch({ payload: parseInt(value), key: name, type: "changeConfig", label: "pMaster" });
         } else {
-            let mainObj = {label :name , value : parseInt(value) }
+            let mainObj = { label: name, value: parseInt(value) }
             store2.dispatch({ payload: mainObj, key: "", type: "changeConfig", label: "modify_P_ESMaster" });
         }
         this.setState({
@@ -332,7 +329,7 @@ class RootProcess extends React.Component<IProps, IState> {
                 Company: parseInt(this.compCode),
                 MasterType: 11,
                 UserName: this.username,
-                esprocessmaster: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esmastertable[0], ...store2.getState().pMaster.esmastertable[0]]
+                esprocessmaster: this.props.gettingVirtualCode === 0 ? store2.getState().pMaster.esmastertable : [...this.state.defProcessMaster.esprocessmaster[0], ...store2.getState().pMaster.esmastertable[0]]
             }
 
         })

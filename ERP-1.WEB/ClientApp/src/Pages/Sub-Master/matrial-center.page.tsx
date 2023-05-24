@@ -3,14 +3,17 @@ import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
 import { useLocation } from 'react-router';
 import { CustomSelect, InputList, MasterInput, MasterInput2 } from '../../components/custom-input/custom-input.component';
+import AutoComp from '../../components/custom-input/droplist/droplist.component';
 import { store2 } from '../../Redux/config/config.reducer';
 
-export default function MatCentre({ HandleIpSelect, defaultData, getMasterType, pageTitle, configType, handleChange, handlePosting }: any) {
-    const Ulist = [{ code: 1, name: "Raw Material Store" }, { code: 2, name: 'Finish Good Store' }, { code: 3, name: 'Semi Finish Good Store' }, { code: 4, name: 'Production Floor' }, { code: 5, name: 'General Store' }, { code: 6, name: 'Scrap Store' }];
+export default function MatCentre({ HandleIpSelect, defaultData, getMasterType, pageTitle, configType, handleChange, handlePosting, collectSelectedItem, isBranch, ...otherProps }: any) {
+ 
     React.useEffect(() => {
         configType == '4' ? getMasterType(22) : null;
         console.log('def', defaultData)
-    }, [defaultData])
+    }, [defaultData]);
+
+ 
     return (
         <div className="main card firstDiv">
             <div className="card-title mb-2 col-12 text-center" style={{ margin: '0 auto' }}>
@@ -28,52 +31,42 @@ export default function MatCentre({ HandleIpSelect, defaultData, getMasterType, 
                         <MasterInput2 defaultt={defaultData.name} label="Name" name="name" ipType="text" ipTitle="Enter Name" handleChange={handleChange} classCategory="form-control col-12  subMaster" />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 defaultt={defaultData.printName} label="Print Name" name="printName" ipType="text" ipTitle="Enter Print Name" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
+                        <MasterInput2 defaultt={defaultData.printname} label="Print Name" name="printname" ipType="text" ipTitle="Enter Print Name" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
 
                         <span className="col-1 m-0"></span>
 
 
 
-                        <>
-                            <label htmlFor="series" style={{ fontSize: '1rem' }} className="form-label labl ml-2 mr-2 labl2">Type</label>
-                        </>
-                        <span className="col-4 m-0 p-0" style={{ width: '100%' }}>
-                            <DatalistInput
-
-                                className="d-flex col-12 m-0 p-0"
-                                inputProps={{ className: 'form-control inp col-12 datalist int', name: 'c1' }}
-                                listboxProps={{ className: 'text-left mt-5' }}
-
-                                onSelect={(item: any) => { console.log('id', item.id); }}
-                                items={[]}
-                            />
-
-                        </span>
+                      
+                          
+                        <AutoComp name="c1" label="Type" ipTitle="Select Material Center Type" list={[{ label: 'Raw Material Store', value: 1 }, { label: 'Finish Good Store', value: 2 }, { label: 'Semi Finish Good Store', value: 3 }, { label: 'Production Floor', value: 4 }, { label: 'General Store', value: 5 }, { label: 'Scrap Store', value: 6 }]} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" isMandate={true} defaultt={defaultData ? defaultData.c1 : ''} />
+                       
                     </span>
-                    {/*<InputList*/}
-                    {/*    label="Type"*/}
-                    {/*    name="c1"*/}
-                    {/*    ipType="text"*/}
-                    {/*    ipTitle=""*/}
-                    {/*    dataArray={Ulist}*/}
-                    {/*    change={HandleIpSelect}*/}
-                    {/*    lablCat="form-label labl labl2"*/}
-                    {/*    classCategory="form-control inp col-12 mb-2 subMaster ipselect"*/}
-                    {/*    default={Ulist.findIndex((x: any) => x.code === defaultData.c1)}*/}
-                    {/*    placeholder="Select Type"*/}
-                    {/*    s=""*/}
-                    {/*    id="c1"*/}
-                    {/*/>*/}
-
+             
+                    
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 defaultt={defaultData.s1} label="Address" name="s1" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
+                        <MasterInput2 defaultt={defaultData.s1} placeholder="Address 1" label="Address" name="s1" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={defaultData.s2} label="" name="s2" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
+                        <MasterInput2 defaultt={defaultData.s2} placeholder="Address 2" label="" name="s2" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
                     </span>
                     <span className="d-flex section2 col-sm-12">
-                        <MasterInput2 defaultt={defaultData.s3} label="" name="s3" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
+                        <MasterInput2 defaultt={defaultData.s3} label="" name="s3" placeholder="Address 3" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
                         <span className="col-1 m-0"></span>
-                        <MasterInput2 defaultt={defaultData.s4} label="" name="s4" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
+                        <MasterInput2 defaultt={defaultData.s4} label="" name="s4" placeholder="Address 4" ipType="text" ipTitle="Enter Address" handleChange={handleChange} classCategory="form-control col-12 subMaster " />
+                    </span>
+                    <span className="d-flex section2 col-sm-12">
+
+                        <AutoComp name="c22" label="Used For" ipTitle="Select Used For" list={[{ label: 'Company', value: 1 }, { label: 'Branch', value: 2 }]} ipType="text" collect={collectSelectedItem} classCategory="form-control col-4 inp str" isMandate={true} defaultt={defaultData ? defaultData.c22 : ''} />
+                        <span className="col-1 m-0"></span>
+                        {
+                            isBranch === true ? (<MasterInput2 defaultt={defaultData.c23} label="Branch Code" name="c23" ipType="text" ipTitle="Enter Branch Code" handleChange={handleChange} classCategory="form-control col-12 subMaster" />
+                            ) : (<span className="col-4 m-0"></span>)
+                        }
+                        
+
+
+
+
                     </span>
                 </div>
 

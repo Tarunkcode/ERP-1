@@ -38,10 +38,82 @@ const customStyles2: object = {
 
 
 
-export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, isBomAltItem, isOtherItem, itemCostDet, setIsCopy, setItemCostDet, setIsOtherItem, setIsBomAltItem, handleAlt, handleOther, handleConsume, handleOperation, handleOverhead, uomList, getOperationDetApi, getAltItemDetailApi, getOtherProdDetailApi, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOperationDetails, currentOperationDetails, oprDefRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, processDetails, altItemCurrentRowData, prodItemCurrentRowData, blindWatch, consItemCurrentRowNo, prodItemCurrentRowNo, currentOverheadDetails, getOverheadDetApi, overheadDefRow, collectOverheadDetails,...props }: any) {
+export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, isBomAltItem, isOtherItem, itemCostDet, setIsCopy, setItemCostDet, setIsOtherItem, setIsBomAltItem, handleAlt, handleOther, handleConsume, handleOperation, handleOverhead, uomList, getOperationDetApi, getAltItemDetailApi, getOtherProdDetailApi, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOperationDetails, currentOperationDetails, oprDefRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, processDetails, altItemCurrentRowData, prodItemCurrentRowData, blindWatch, consItemCurrentRowNo, prodItemCurrentRowNo, currentOverheadDetails, getOverheadDetApi, overheadDefRow, collectOverheadDetails, defaultOverheadDetails, defaultOperationDetails, defaultAltItem, defaultOtherProduce, modifyCode, ...props }: any) {
 
-    let [uomload, setUomload]: any = React.useState([]);
-   
+    //React.useEffect(() => {
+    //    console.log('console.log load alt item details', defaultAltItem)
+    //    console.log('console.log load Other Produce Item details', defaultOtherProduce)
+
+    //}, [defaultAltItem, defaultOtherProduce])
+
+    let newDefAltItemLoad = React.useMemo(() => { return defaultAltItem }, [defaultAltItem])
+    let newDefOtherProdItemLoad = React.useMemo(() => { return defaultOtherProduce }, [defaultOtherProduce])
+    let [afterFormatOverheadDet, setAfterFormatOverheadDet]: any = React.useState({})
+    let [afterFormatOperationDet, setAfterFormatOperationDet]: any = React.useState({})
+
+
+    React.useEffect(() => {
+        if (modifyCode && modifyCode !== 0) {
+            if (defaultOverheadDetails && defaultOverheadDetails.length > 0) {
+                let currentOverheadState: any = {};
+                defaultOverheadDetails.map((item: any, ind: number) => {
+
+                    if (item.poh) {
+                        item.opn = item.poh;
+                        item.poh = item.pohname;
+                        item.cost = parseFloat(item.cost);
+                        let prop = item.prsrno;
+                        !currentOverheadState[prop] ? currentOverheadState[prop] = [item] : currentOverheadState[prop] = [...currentOverheadState[prop], item];
+
+                    }
+
+
+                })
+                console.log('loaded overhead data', currentOverheadState)
+                setAfterFormatOverheadDet(currentOverheadState);
+
+            }
+        }
+
+    }, [defaultOverheadDetails && defaultOverheadDetails.length, modifyCode])
+
+    React.useEffect(() => {
+        if (modifyCode && modifyCode !== 0) {
+            if (defaultOperationDetails && defaultOperationDetails.length > 0) {
+                let currentOperationStatus: any = {}
+                defaultOperationDetails.map((item: any, ind: number) => {
+                    if (item.opration) {
+                        item.process = item.process == 1 ? true : false;
+                        item.fop = item.fop == 1 ? true : false;
+                        item.cycletime = parseFloat(item.cycletime);
+                        item.opn = item.opration;
+                        item.opration = item.oprationname;
+                        let prop = item.psrno;
+
+                        !currentOperationStatus[prop] ? currentOperationStatus[prop] = [item] : currentOperationStatus[prop] = [...currentOperationStatus[prop], item];
+
+                    }
+                })
+                console.log('xxx',currentOperationStatus)
+                setAfterFormatOperationDet(currentOperationStatus);
+
+            }
+        }
+
+    }, [defaultOperationDetails && defaultOperationDetails.length, modifyCode])
+
+    //React.useEffect(() => {
+    //    if (isOverHead) {
+
+    //    } else if (isOperation) {
+
+    //    }
+
+    //}, [processDetails.sr])
+    React.useEffect(() => {
+        console.log('defa alt item details ', defaultAltItem)
+
+    }, [defaultAltItem])
     let subtitle: any;
     React.useEffect(() => { console.log('Hey! i am item code list in bom modals', itemList, altItemRow) }, [itemList, altItemRow])
     React.useEffect(() => { console.log('Hey! i am item code list in bom modals', uomList) }, [uomList])
@@ -49,6 +121,8 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     let [operationLoad, setOperationLoad]: any[] = React.useState([])
     const api = useFetch();
     const { setLoader } = React.useContext(LoaderContext);
+
+
     const fetchDefProcessMaster = async (code: any) => {
 
         let urlStr = `/api/LoadProcessMaster?Code=${code}&Company=${60}&Customer=${68}`
@@ -60,7 +134,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 let modify_Operation = [];
                 var data = got.data[0];
                 //alter operation
-                 modify_Operation = data.processopration.map((item: any) => ({
+                modify_Operation = data.processopration.map((item: any) => ({
                     srno: item.srno,
                     opration: item.oprname,
                     process: null,
@@ -73,18 +147,18 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
 
                 // alter overhead
 
-                 modify_Overhead = data.processpoh.map((item: any) => ({
+                modify_Overhead = data.processpoh.map((item: any) => ({
                     srno: item.srno,
                     poh: item.pohname,
                     cost: null,
-                    pohcode: item.poh
+                    opn: item.poh
                 }))
 
 
 
                 console.log('operation', modify_Operation)
                 console.log('overhead', modify_Overhead)
-           
+
                 setOperationLoad(modify_Operation)
                 setOverheadLoad(modify_Overhead)
                 setLoader(false);
@@ -100,10 +174,10 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     React.useEffect(() => {
         // load Process
         if (processDetails.process) {
-            fetchDefProcessMaster(processDetails.process.value || processDetails.process )
+            fetchDefProcessMaster(processDetails.process.value || processDetails.process)
         }
 
-    }, [])
+    }, [processDetails && processDetails.process])
 
 
     var [consUom, setConsUom]: any = React.useState(null)
@@ -245,7 +319,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
             return params.label;
         }, editable: false
     }, { field: "cost", headerName: 'Cost', minWidth: 200 }]
-    
+
 
 
 
@@ -276,7 +350,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                 let itemname = arr[0]
                 params.data.item = itemcode;
                 params.data.itemname = itemname;
-                params.data.uom = { value: params.newValue.uom , label: params.newValue.uomname} ;
+                params.data.uom = { value: params.newValue.uom, label: params.newValue.uomname };
 
                 params.data.rate = parseFloat(params.newValue.rate);
                 params.data.qty = 0.00;
@@ -296,14 +370,15 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     }, { field: "itemname", headerName: 'Item Name', minWidth: 400 }, {
         field: "qty", headerName: 'Quantity', minWidth: 200, editable: true, cellEditor: NumericEditor, onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
-               
+
                 params.data.qty = parseFloat(params.newValue);
 
 
 
                 params.api.refreshCells({ force: true });
             }
-        }  }, {
+        }
+    }, {
         field: "uom", headerName: 'UOM', minWidth: 200, cellEditorParams: {
             required: true,
             selectData: React.useMemo(() => { return uomList }, [uomList]),
@@ -326,7 +401,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
             }
             return params.label;
         }, editable: false
-    }, { field: "rate", headerName: 'Rate', minWidth: 200 }]
+    }]
 
     let ColDef3: any[] = [{ field: 'srno', header: 'Serial No.', minWidth: 100, maxWidth: 100, valueGetter: 'node.rowIndex + 1' }, {
         field: 'process', header: 'Allowed', minWidth: 100, maxWidth: 100, editable: true
@@ -350,46 +425,60 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
     function closeBOMCopy() {
         setIsCopy(false);
     }
-
+    //----------------------------------------
     function closeAltItem() {
+        collectAltItemDetails();
         setIsBomAltItem(false);
     }
     function saveAltItemData() {
         collectAltItemDetails();
         setIsBomAltItem(false);
     }
-
-    function closeProduceItem() {
-        setIsOtherItem(false);
-    }
+    //------------------------------------------
     function saveOperation() {
         collectOperationDetails();
         handleOperation(false);
     }
+    function closeOperation() {
+        collectOperationDetails();
+        handleOperation(false);
+    }
+    //----------------------------------------------
     function saveOverhead() {
 
         collectOverheadDetails();
         handleOverhead(false)
 
     }
+    function closeOverhead() {
+
+        collectOverheadDetails();
+        handleOverhead(false)
+
+    }
+    //---------------------------------------------
+    function closeProduceItem() {
+        collectOtherProdDetails();
+        setIsOtherItem(false);
+    }
     function saveProduceItem() {
         collectOtherProdDetails();
         console.log('store on closing other produce item', BOM_STORE.getState().BomOtherProdDetails);
         setIsOtherItem(false);
     }
+    //------------------------------------------------------------
 
-   
 
     var [isItemCost, setIsItemCost]: any = React.useState(false)
     var [altItemCurrentRowData, setAltItemCurrentRowData]: any = React.useState({})
     var [altItemCurrentRowNo, setAltItemCurrentRowNo]: any = React.useState({})
-   
+
 
     const OpenItemCost = (e: any) => {
-       
+
         if (e.colDef.field === "altitem") {
             if (e.data.altitem && e.event.keyCode === 13) {
-
+                setAltRowParams(e);
                 let currentRowData = { ...e.data, srno: e.rowIndex + 1 };
                 setAltItemCurrentRowData(currentRowData);
                 let currentRow = parseInt(e.rowIndex + 1);
@@ -541,7 +630,9 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
 
                         <hr />
                         {
-                            currentAltItemDetails && currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={currentAltItemDetails && currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] : altItemRow} collect={getAltItemDetailApi} srProps="srno" firstRow={altItemRow} chkDup="altitem" />) : (<WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={altItemRow} collect={getAltItemDetailApi} chkDup="altitem" srProps="srno" />)
+                            currentAltItemDetails && currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={currentAltItemDetails && currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? currentAltItemDetails[`Alt${consItemCurrentRowNo}${processDetails.sr}`] : altItemRow} collect={getAltItemDetailApi} srProps="srno" firstRow={altItemRow} chkDup="altitem" />) : modifyCode && modifyCode !== 0 && newDefAltItemLoad && newDefAltItemLoad[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ?
+
+                                (<LoadGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={newDefAltItemLoad && newDefAltItemLoad[`Alt${consItemCurrentRowNo}${processDetails.sr}`] ? newDefAltItemLoad[`Alt${consItemCurrentRowNo}${processDetails.sr}`] : altItemRow} collect={getAltItemDetailApi} srProps="srno" firstRow={altItemRow} chkDup="altitem" />) : (<WriteGrid title="BOM Alt Item Details" titleClr="blue" OpenSubLayer={OpenItemCost} colDef={ColDef1} data={altItemRow} collect={getAltItemDetailApi} chkDup="altitem" srProps="srno" />)
                         }
 
 
@@ -610,7 +701,7 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                         </div>
                         <hr />
                         {
-                            currentOtherProdDetails && currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={currentOtherProdDetails && currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] ? currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] : otherProdDefRow} firstRow={otherProdDefRow} srProps="" collect={getOtherProdDetailApi} chkDup="item" />) : (<WriteGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={otherProdDefRow} collect={getOtherProdDetailApi} chkDup="item" />)
+                            currentOtherProdDetails && currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={currentOtherProdDetails && currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] ? currentOtherProdDetails[`Prod${prodItemCurrentRowNo}${processDetails.sr}`] : otherProdDefRow} firstRow={otherProdDefRow} srProps="" collect={getOtherProdDetailApi} chkDup="item" />) : modifyCode && modifyCode !== 0 && newDefOtherProdItemLoad && newDefOtherProdItemLoad[`${prodItemCurrentRowNo}${processDetails.sr}`] ? (<LoadGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={newDefOtherProdItemLoad && newDefOtherProdItemLoad[`${prodItemCurrentRowNo}${processDetails.sr}`] ? newDefOtherProdItemLoad[`${prodItemCurrentRowNo}${processDetails.sr}`] : otherProdDefRow} firstRow={otherProdDefRow} srProps="" collect={getOtherProdDetailApi} chkDup="item" />) : (<WriteGrid title="BOM Routing Other Produce Item Details" titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef2} data={otherProdDefRow} collect={getOtherProdDetailApi} chkDup="item" />)
                         }
 
                         <div className="d-flex flex-row justify-content-start">
@@ -628,14 +719,14 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
             <Modal
                 isOpen={isOperation}
                 onAfterOpen={afterOpenModal}
-                onRequestClose={() => { handleOperation(false) }}
+                onRequestClose={closeOperation}
                 style={customStyles}
                 contentLabel="Operation Modal"
             >
                 <div id="routing-process">
                     <span className="row row-content d-flex section2 col-sm-12">
                         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Process Operation Details </h2>
-                        <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={() => { handleOperation(false) }} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
+                        <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={closeOperation} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
                     </span>
                     <hr />
                     <div className="collapse show m-1" id="genDetails">
@@ -656,16 +747,17 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
                     <hr />
                     <div className="col-12 p-3 pt-0" style={{ maxHeight: '100vh', width: '94%' }}>
 
-                        {/*<div className="text-center col-12" style={{ textAlign: 'start', backgroundColor: "lightsteelblue" }}>*/}
-                        {/*    <span className="row-header p-0 m-0" >BOM Process Operation Details</span>*/}
-                        {/*</div>*/}
+                       
                         {
-                            currentOperationDetails && currentOperationDetails[`${processDetails.sr}`] ? (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={currentOperationDetails && currentOperationDetails[`${processDetails.sr}`] ? currentOperationDetails[`${processDetails.sr}`] : operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />) : (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />)
+                            currentOperationDetails && currentOperationDetails[`${processDetails.sr}`] ? (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={currentOperationDetails && currentOperationDetails[`${processDetails.sr}`] ? currentOperationDetails[`${processDetails.sr}`] : operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />) :
+
+                                modifyCode && modifyCode !== 0 && afterFormatOperationDet[`${processDetails.sr}`] ? (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={afterFormatOperationDet[`${processDetails.sr}`] ? afterFormatOperationDet[`${processDetails.sr}`] : operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />) :
+                                    (<LoadGrid title="Process Operation Details " titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef3} data={operationLoad} collect={getOperationDetApi} firstRow={oprDefRow} srProps="srno" chkDup="opration" />)
                         }
 
                         <div className="d-flex flex-row justify-content-start">
                             <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={() => { saveOperation() }}>Save</button>
-                            <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={() => { handleOperation(false) }}>Quit</button>
+                            <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeOperation}>Quit</button>
 
                         </div>
 
@@ -677,14 +769,14 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
             <Modal
                 isOpen={isOverHead}
                 onAfterOpen={afterOpenModal}
-                onRequestClose={() => { handleOverhead(false) }}
+                onRequestClose={closeOverhead}
                 style={customStyles}
                 contentLabel="Operation Modal"
             >
                 <div id="routing-process">
                     <span className="row row-content d-flex section2 col-sm-12">
                         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Process Overhead Rate Details </h2>
-                        <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={() => { handleOverhead(false) }} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
+                        <svg className="m-0 ml-1 p-0" type="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" onClick={closeOverhead} style={{ width: '20px', cursor: 'pointer' }}><path d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM175 208.1L222.1 255.1L175 303C165.7 312.4 165.7 327.6 175 336.1C184.4 346.3 199.6 346.3 208.1 336.1L255.1 289.9L303 336.1C312.4 346.3 327.6 346.3 336.1 336.1C346.3 327.6 346.3 312.4 336.1 303L289.9 255.1L336.1 208.1C346.3 199.6 346.3 184.4 336.1 175C327.6 165.7 312.4 165.7 303 175L255.1 222.1L208.1 175C199.6 165.7 184.4 165.7 175 175C165.7 184.4 165.7 199.6 175 208.1V208.1z" /></svg>
                     </span>
 
                     <hr />
@@ -708,15 +800,16 @@ export default function BOMModals({ itemList, isCopy, isOperation, isOverHead, i
 
                     <div className="col-12 p-3 pt-0" style={{ maxHeight: '100vh', width: '90%' }}>
                         {
-                            currentOverheadDetails && currentOverheadDetails[`${processDetails.sr}`] ? (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={currentOverheadDetails && currentOverheadDetails[`${processDetails.sr}`] ? currentOverheadDetails[`${processDetails.sr}`]  : overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />)
+                            currentOverheadDetails && currentOverheadDetails[`${processDetails.sr}`] ? (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={currentOverheadDetails && currentOverheadDetails[`${processDetails.sr}`] ? currentOverheadDetails[`${processDetails.sr}`] : overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />)
                                 :
+                                modifyCode && modifyCode !== 0 && afterFormatOverheadDet[`${processDetails.sr}`] ? (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={afterFormatOverheadDet[`${processDetails.sr}`] ? afterFormatOverheadDet[`${processDetails.sr}`] : overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />) :
 
-                                (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />)
+                                    (<LoadGrid title="Process Overhead Details " titleClr="blue" OpenSubLayer={() => { }} colDef={colDef4} data={overheadLoad} collect={getOverheadDetApi} srProps="srno" firstRow={overheadDefRow} chkDup="overhead" />)
                         }
 
                         <div className="d-flex flex-row justify-content-start">
-                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={() => { saveOverhead() } }>Save</button>
-                            <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={() => { handleOverhead(false) }}>Quit</button>
+                            <button type="button" style={{ border: '2px solid #42ba96', letterSpacing: 3 }} className="btn btn-success p-2 m-3 col-1" onClick={() => { saveOverhead() }}>Save</button>
+                            <button type="button" style={{ border: '2px solid red', letterSpacing: 3 }} className="btn btn-danger p-2 m-3 col-1" onClick={closeOverhead}>Quit</button>
 
                         </div>
 

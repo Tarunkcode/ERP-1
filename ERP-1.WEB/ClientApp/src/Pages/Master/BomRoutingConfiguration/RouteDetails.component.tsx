@@ -27,17 +27,24 @@ const customStyles: object = {
 
 };
 
-export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, itemCodeLst12, itemCodeLst23, currentRowData, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, rawData2, rawData1, handleChange, getAltItemDetailApi, getOtherProdDetailApi, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, currentRowNo, getAltItemCurrentRow, getProdItemCurrentRow, ...props }: any) {
+export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, itemCodeLst12, itemCodeLst23, currentRowData, getBomConsumeDetailApi, getBomProduceDetailApi, uomList, collectBOMConsDetails, collectBOMProdDetails, currentConsDetails, currentProdDetails, rawData2, rawData1, handleChange, getAltItemDetailApi, getOtherProdDetailApi, collectAltItemDetails, currentAltItemDetails, altItemRow, collectOtherProdDetails, currentOtherProdDetails, otherProdDefRow, currentRowNo, getAltItemCurrentRow, getProdItemCurrentRow, defaultAltItem, defaultOtherProduce, modifyCode, consItemDetails, prodItemDetails, lengthOfRoutingDetailsTable, afterFormatConsItem, afterFormatProdItem, ...props }: any) {
     let subtitle: any;
 
     let [isBomAltItem, setIsBomAltItem]: any = React.useState(false);
     let [isOtherItem, setIsOtherItem]: any = React.useState(false);
     var [isItemCost, setIsItemCost]: any = React.useState(false);
     var [altItemCurrentRowData, setAltItemCurrentRowData]: any = React.useState({})
-  
+
+    var [afterFormatAltData, setAfterFormatAltItem]: any = React.useState({})
+    var [afterFormatOtherProdItem, setAfterFormatOtherProdItem]: any = React.useState({})
+
     var [prodItemCurrentRowData, setProdItemCurrentRowData]: any = React.useState({})
     var [consItemCurrentRowNo, setConsItemCurrentRowNo]: any = React.useState(null)
     var [prodItemCurrentRowNo, setProdItemCurrentRowNo]: any = React.useState(null)
+    var [currOtherProd, setCurrentOtherProdState]: any = React.useState({});
+    var [currAltItem, setCurrentAltItemState]: any = React.useState({});
+
+
 
     var [consUom, setConsUom]: any = React.useState(null)
     var [consQuantity, setConsQuantity]: any = React.useState(null)
@@ -45,7 +52,108 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
     var [bomPerQty, setBomPerQty]: any = React.useState(null)
     var [consCost, setConsCost]: any = React.useState(null)
     var [consRowParams, setConsRowParams]: any = React.useState(null)
-   
+
+    //--------------------------------- format alt item and other produce item details ------------------------------------------------------------------
+    React.useEffect(() => {
+        if (modifyCode && modifyCode !== 0 && isBomAltItem === true) {
+            if (defaultAltItem && defaultAltItem.length > 0) {
+                let currentAltItemState: any = {};
+
+                defaultAltItem.map((item: any, ind: number) => {
+                    if (item.altitem) {
+
+                        item.altitem = { value: item.altitem, label: item.altitemname };
+                        item.itemname = item.bomitemcodestr;
+                        item.rate = parseFloat(item.rate)
+                        item.consqty = parseFloat(item.consqty)
+                        item.consuom = { value: item.consuom, label: item.consuomname  }
+                        item.prodavgqty = parseFloat(item.prodavgqty)
+                        item.prodavguom = { value: item.prodavguom, label: item.prodavguomname };
+                        item.cost = parseFloat(item.cost)
+                        let prop = item.psrno;
+                        let prop2 = item.bomsrno;
+                        !currentAltItemState[`Alt${prop2}${prop}`] ? currentAltItemState[`Alt${prop2}${prop}`] = [item] : currentAltItemState[`Alt${prop2}${prop}`] = [...currentAltItemState[`Alt${prop2}${prop}`], item];
+
+                        // ek array banana h jiske andar utne obj jitne psrno h in bomDetails;
+                    }
+
+
+                })
+                setCurrentAltItemState(currentAltItemState)
+
+            }
+
+        }
+    }, [defaultAltItem && defaultAltItem.length, modifyCode, isBomAltItem])
+
+    React.useEffect(() => {
+        if (modifyCode && modifyCode !== 0 && isOtherItem === true ) {
+            if (defaultOtherProduce && defaultOtherProduce.length > 0) {
+                let currentOtherProdState: any = {};
+
+                defaultOtherProduce.map((item: any, ind: number) => {
+                    if (item.item) {
+
+                        item.item = { label: item.itemcodestr, value: item.item };
+                        item.itemname = item.itemname;
+
+                        item.qty = parseFloat(item.qty);
+                        item.uom = { label: item.uomname, value: item.uom }
+                        let prop = item.psrno;
+                        let prop2 = item.prodsrno;
+                        !currentOtherProdState[`${prop2}${prop}`] ? currentOtherProdState[`${prop2}${prop}`] = [item] : currentOtherProdState[`${prop2}${prop}`] = [...currentOtherProdState[`${prop2}${prop}`], item];
+                    }
+
+
+                })
+                setCurrentOtherProdState(currentOtherProdState)
+            }
+
+        }
+
+
+
+
+    }, [defaultOtherProduce && defaultOtherProduce.length, modifyCode, isOtherItem])
+    React.useEffect(() => {
+        if (modifyCode && modifyCode !== 0 && isBomAltItem === true) {
+            if (consItemCurrentRowNo && currentRowNo) {
+                if (currAltItem[`Alt${consItemCurrentRowNo}${currentRowNo}`]) {
+                    let newObj = { ...currAltItem }
+                    let onCurrentRowAltItemDetLength = newObj[`Alt${consItemCurrentRowNo}${currentRowNo}`].length;
+                    for (let j = 1; j <= 10 - onCurrentRowAltItemDetLength; j++) newObj[`Alt${consItemCurrentRowNo}${currentRowNo}`].push({ ...altItemRow[0], srno: onCurrentRowAltItemDetLength + j + 1 })
+                    
+                setAfterFormatAltItem(newObj);
+
+
+            }
+        }
+
+        }
+    }, [consItemCurrentRowNo, currentRowNo, currAltItem, modifyCode, isBomAltItem])
+    React.useEffect(() => {
+        if (modifyCode && modifyCode !== 0) {
+        if (prodItemCurrentRowNo && currentRowNo) {
+            if (currOtherProd[`${prodItemCurrentRowNo}${currentRowNo}`]) {
+                let newObj = { ...currOtherProd}
+                let onCurrentRowOtherProdDetLength = newObj[`${prodItemCurrentRowNo}${currentRowNo}`].length;
+                for (let k = 0; k < 10 - onCurrentRowOtherProdDetLength; k++) newObj[`${prodItemCurrentRowNo}${currentRowNo}`].push({ ...otherProdDefRow[0], srno: onCurrentRowOtherProdDetLength + k + 1 })
+                setAfterFormatOtherProdItem(newObj);
+
+            }
+
+        }
+
+        }
+    }, [prodItemCurrentRowNo, currentRowNo, currOtherProd, modifyCode, isOtherItem])
+
+
+
+
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const savingConsQuantity = (e: any) => {
         let value = e.target.value;
@@ -59,8 +167,8 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         setProdQuantity(prodqty);
         consRowParams.data.prodavgqty = parseFloat(value || '0');
     }
-    const savingConsUom = (item : any, name: string) => {
-       
+    const savingConsUom = (item: any, name: string) => {
+
         setConsUom(item);
         consRowParams.data.conuom = item || null;
         consRowParams.data.prodavguom = item || null;
@@ -76,13 +184,13 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
             let bomQty = BOM_STORE.getState().BOMHeader[0].qty;
             let bpqty = parseFloat(bomQty ? bomQty : '1');
             let bpq = consQuantity / prodQuantity / bpqty;
-         
+
             setBomPerQty(bpq);
         }
-    }, [ consQuantity, prodQuantity])
-        // calculate cost 
-       
-    
+    }, [consQuantity, prodQuantity])
+    // calculate cost 
+
+
     // end private functions
     const OpenAltItemPopUp = (e: any) => {
         console.log('alt item field', e.colDef.field)
@@ -91,7 +199,7 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
                 let currentRowData = { ...e.data, srno: e.rowIndex + 1 };
                 setAltItemCurrentRowData(currentRowData);
                 let currentRow = parseInt(e.rowIndex + 1);
-                getAltItemCurrentRow(currentRow, currentRowData );
+                getAltItemCurrentRow(currentRow, currentRowData);
                 setConsItemCurrentRowNo(currentRow)
 
                 setIsBomAltItem(true);
@@ -101,7 +209,8 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         }
         else if (e.colDef.field === "bomitem") {
             if (e.data.bomitem && e.event.keyCode === 13) {
-
+                console.log('event is calling', e)
+                setConsRowParams(e)
                 let currentRowData = { ...e.data, srno: e.rowIndex + 1 };
                 setAltItemCurrentRowData(currentRowData);
                 let currentRow = parseInt(e.rowIndex + 1);
@@ -152,15 +261,15 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
     }
 
     function closeItemBox() {
+        collectBOMConsDetails();
+        collectBOMProdDetails();
 
-
-        console.log('current Store', BOM_STORE.getState())
         setIsItemBox(false);
     }
     function saveRoutingData() {
         collectBOMConsDetails();
         collectBOMProdDetails();
-        console.log('current Store', BOM_STORE.getState())
+   
         setIsItemBox(false);
     }
 
@@ -306,7 +415,7 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
 
     }]
 
-    React.useEffect(() => { console.log('whole consume item details', currentConsDetails) }, [currentConsDetails])
+
 
 
     const colDef2: any = [{ field: 'srno', headerName: "Sr. No.", minWidth: 200, valueGetter: 'node.rowIndex + 1', cellStyle: { paddingLeft: '10px' } },
@@ -332,7 +441,7 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
                 let arr = params.newValue.label.split('|')
-                let itemcode = {label : arr[1], value : params.newValue.value}
+                let itemcode = { label: arr[1], value: params.newValue.value }
                 let itemname = arr[0]
                 params.data.bomitem = itemcode;
                 params.data.itemname = itemname;
@@ -353,21 +462,21 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
             return params.label;
         },
         editable: true
-        }, { field: 'itemname', headerName: "Item Name", minWidth: 400 }, {
-            field: 'prodavgqty', headerName: "Quantity", minWidth: 200, editable: true, cellEditor: NumericEditor,
+    }, { field: 'itemname', headerName: "Item Name", minWidth: 400 }, {
+        field: 'prodavgqty', headerName: "Quantity", minWidth: 200, editable: true, cellEditor: NumericEditor,
         onCellValueChanged: (params: any) => {
             if (params.oldValue !== params.newValue) {
-                
+
                 params.data.prodavgqty = parseFloat(params.newValue || '0');
-               
-                
+
+
                 params.data.cost = params.data.rate / parseFloat(params.newValue);
-               
+
 
                 params.api.refreshCells({ force: true });
             }
         }
-        }, {
+    }, {
         field: 'prodavguom', headerName: "UOM", minWidth: 200, cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
             required: true,
@@ -397,7 +506,7 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
         cellEditor: AutocompleteSelectCellEditor,
         cellEditorParams: {
             required: true,
-            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0}],
+            selectData: [{ label: 'Y', value: 1 }, { label: 'N', value: 0 }],
             autocomplete: {
                 customize: function ({ input, inputRect, container, maxHeight }: any) {
                     if (maxHeight < 100) {
@@ -424,7 +533,7 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
     return (
         <>
             {
-                isBomAltItem || isOtherItem ? (<BOMModals itemList={itemCodeLst23} isBomAltItem={isBomAltItem} isOtherItem={isOtherItem} setIsOtherItem={setIsOtherItem} setIsBomAltItem={setIsBomAltItem} uomList={uomList} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} collectAltItemDetails={collectAltItemDetails} currentAltItemDetails={currentAltItemDetails} altItemRow={altItemRow} collectOtherProdDetails={collectOtherProdDetails} currentOtherProdDetails={currentOtherProdDetails} otherProdDefRow={otherProdDefRow} processDetails={currentRowData} prodItemCurrentRowData={prodItemCurrentRowData} altItemCurrentRowData={altItemCurrentRowData} blindWatch={blindWatch} consItemCurrentRowNo={consItemCurrentRowNo} prodItemCurrentRowNo={prodItemCurrentRowNo} />) : null
+                isBomAltItem || isOtherItem ? (<BOMModals itemList={itemCodeLst23} isBomAltItem={isBomAltItem} isOtherItem={isOtherItem} setIsOtherItem={setIsOtherItem} setIsBomAltItem={setIsBomAltItem} uomList={uomList} getAltItemDetailApi={getAltItemDetailApi} getOtherProdDetailApi={getOtherProdDetailApi} collectAltItemDetails={collectAltItemDetails} currentAltItemDetails={currentAltItemDetails} altItemRow={altItemRow} collectOtherProdDetails={collectOtherProdDetails} currentOtherProdDetails={currentOtherProdDetails} otherProdDefRow={otherProdDefRow} processDetails={currentRowData} prodItemCurrentRowData={prodItemCurrentRowData} altItemCurrentRowData={altItemCurrentRowData} blindWatch={blindWatch} consItemCurrentRowNo={consItemCurrentRowNo} prodItemCurrentRowNo={prodItemCurrentRowNo} defaultAltItem={afterFormatAltData} defaultOtherProduce={afterFormatOtherProdItem} modifyCode={modifyCode} />) : null
             }
 
             {
@@ -456,8 +565,8 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
 
                             <span className="d-flex section2 col-sm-12">
                                 <MasterInput name="stage" label="Stage No." ipTitle="Stage Number" ipType="text" classCategory="form-control BOMHeader inp text" defaultt={currentRowData && currentRowData.sr ? currentRowData.sr : ''} read={true} />
-                                <MasterInput name="qty" label="Quantity" ipTitle="Quantity" ipType="number" classCategory="form-control BOMHeader double inp text" defaultt={BOM_STORE.getState().BOMHeader[0].qty ? BOM_STORE.getState().BOMHeader[0].qty : 0} read={true}/>
-                                <MasterInput name="overheadamt" label="Overhead Amt." ipTitle="Enter OverHead Amount" ipType="number" classCategory="form-control BOMHeader inp double number"  />
+                                <MasterInput name="qty" label="Quantity" ipTitle="Quantity" ipType="number" classCategory="form-control BOMHeader double inp text" defaultt={BOM_STORE.getState().BOMHeader[0].qty ? BOM_STORE.getState().BOMHeader[0].qty : 0} read={true} />
+                                <MasterInput name="overheadamt" label="Overhead Amt." ipTitle="Enter OverHead Amount" ipType="number" classCategory="form-control BOMHeader inp double number" />
 
                             </span>
 
@@ -476,7 +585,13 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
                         <hr />
                         {
 
-                            currentConsDetails && currentConsDetails[currentRowNo] ? (<LoadGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={currentConsDetails && currentConsDetails[currentRowNo] ? currentConsDetails[currentRowNo] : rawData1} firstRow={rawData1} srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />) : (<WriteGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={rawData1} srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />)
+                            currentConsDetails && currentConsDetails[currentRowNo] ? (<LoadGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={currentConsDetails && currentConsDetails[currentRowNo] ? currentConsDetails[currentRowNo] : rawData1} firstRow={rawData1} srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />) : modifyCode && modifyCode !== 0 && afterFormatConsItem && afterFormatConsItem[currentRowNo] ? (<LoadGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1}
+
+                                data={afterFormatConsItem && afterFormatConsItem[currentRowNo] ? afterFormatConsItem[currentRowNo] : rawData1}
+
+                                firstRow={rawData1}
+
+                                srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />) : (<WriteGrid title="Consumed Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenAltItemPopUp} colDef={colDef1} data={rawData1} srProps="srno" collect={getBomConsumeDetailApi} chkDup="bomitem" />)
 
 
                         }
@@ -487,7 +602,13 @@ export default function RouteDetails({ blindWatch, isItemBox, setIsItemBox, item
                         <hr />
                         {
 
-                            currentProdDetails && currentProdDetails[currentRowNo] ? (<LoadGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={currentProdDetails && currentProdDetails[currentRowNo] ? currentProdDetails[currentRowNo] : rawData2} firstRow={rawData2} srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />) : (<WriteGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={rawData2} srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />)
+                            currentProdDetails && currentProdDetails[currentRowNo] ? (<LoadGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={currentProdDetails && currentProdDetails[currentRowNo] ? currentProdDetails[currentRowNo] : rawData2} firstRow={rawData2} srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />) : modifyCode && modifyCode !== 0 && afterFormatProdItem && afterFormatProdItem[currentRowNo] ? (<LoadGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2}
+
+                                data={afterFormatProdItem && afterFormatProdItem[currentRowNo] ? afterFormatProdItem[currentRowNo] : rawData2}
+
+                                firstRow={rawData2}
+
+                                srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />) : (<WriteGrid title="Produce Item Details" titleClr="lightsteelblue" OpenSubLayer={OpenOtherProduce} colDef={colDef2} data={rawData2} srProps="srno" collect={getBomProduceDetailApi} chkDup="bomitem" />)
 
 
                         }

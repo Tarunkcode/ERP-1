@@ -36,6 +36,7 @@ export default function DefaultSubMaster(Component: any) {
                     let { res, got } = await api(urlStr, "GET", '');
                     if (res.status == 200) {
                         this.setState({ defSubMaster: got.data[0] });
+                        console.log(got.data[0])
                         this.defInitStateObj = { ...this.state.defSubMaster }
                     }
                     else {}
