@@ -55,36 +55,36 @@ const CostSheetDetails = () => {
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="Series" label="Series" ipTitle="Enter Series" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="Series" label="Series" ipTitle="Enter Series" ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="code" label="Code" ipTitle="Enter Code" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="code" label="Code" ipTitle="Enter Code" ipType="text" classCategory="form-control col-12" />
                                 </span>
 
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="Itemcode" label="Item Code" ipTitle="Enter Item Code" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="Itemcode" label="Item Code" ipTitle="Enter Item Code" ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="Itemname" label="Item Name" ipTitle="Enter Item Name" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="Itemname" label="Item Name" ipTitle="Enter Item Name" ipType="text" classCategory="form-control col-12" />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="qty" label="Quantity" ipTitle="Enter Quantity" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="qty" label="Quantity" ipTitle="Enter Quantity" ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="UOM" label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="UOM" label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control col-12" />
                                 </span>
 
                                 {/*<span className="d-flex section2 col-sm-12">*/}
 
-                                {/*    <MasterInput2 name="ispac" label="Is Packing" ipTitle="Enter Quantity" ipType="text" classCategory="form-control col-4 inp" />*/}
+                                {/*    <MasterInput2 name="ispac" label="Is Packing" ipTitle="Enter Quantity" ipType="text" classCategory="form-control col-12" />*/}
                                 {/*    <span className="col-1 m-0"></span>*/}
-                                {/*    <MasterInput2 name="UOM" label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control col-4 inp" />*/}
+                                {/*    <MasterInput2 name="UOM" label="UOM" ipTitle="Enter UOM" ipType="text" classCategory="form-control col-12" />*/}
                                 {/*</span>*/}
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="vf" label="Valid From" ipTitle="Enter Valid From" ipType="date" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="vf" label="Valid From" ipTitle="Enter Valid From" ipType="date" classCategory="form-control col-12" />
                                     <span className='col-1'></span>
                                     <span className="section2 col-sm-4">
 
@@ -100,7 +100,6 @@ const CostSheetDetails = () => {
                     <hr style={{ margin: '0', padding: '0' }} />
                     <div className="row card row-content col-sm-12 addSaleForm container container-fluid container-lg mb-3">
 
-                        <WriteGrid title="Consumed Item Details" w='100vw' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} />
 
 
                     </div>
@@ -113,44 +112,44 @@ const CostSheetDetails = () => {
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="routingc" label="Routing Cost" ipTitle="Enter Routing Cost" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="routingc" label="Routing Cost" ipTitle="Enter Routing Cost" ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="exf" label="EX-Factory Amt." ipTitle="Enter EX-Factory Amt." ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="exf" label="EX-Factory Amt." ipTitle="Enter EX-Factory Amt." ipType="text" classCategory="form-control col-12" />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="rmcost" label="RM Cost" ipTitle="Enter RM Cost" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="rmcost" label="RM Cost" ipTitle="Enter RM Cost" ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="Markup" label="Markup(%)" ipTitle="Enter Markup(%)" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="Markup" label="Markup(%)" ipTitle="Enter Markup(%)" ipType="text" classCategory="form-control col-12" />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="MarkupAmt" label="Markup Amt." ipTitle="Enter Markup Amt." ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="MarkupAmt" label="Markup Amt." ipTitle="Enter Markup Amt." ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="oha" label="Over Head Amt." ipTitle="Enter Over Head Amt." ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="oha" label="Over Head Amt." ipTitle="Enter Over Head Amt." ipType="text" classCategory="form-control col-12" />
                                 </span>
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="oh" label="Over Head(%)" ipTitle="Enter Over Head(%)" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="oh" label="Over Head(%)" ipTitle="Enter Over Head(%)" ipType="text" classCategory="form-control col-12" />
                                     <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="mrp" label="MRP" ipTitle="Enter MRP" ipType="text" classCategory="form-control col-4 inp" />
-                                </span>
-
-
-                                <span className="d-flex section2 col-sm-12">
-
-                                    <MasterInput2 name="tc" label="Total Cost" ipTitle="Enter Total Cost" ipType="text" classCategory="form-control col-4 inp" />
-                                    <span className="col-1 m-0"></span>
-                                    <MasterInput2 name="Discount" label="Discount" ipTitle="Enter Discount" ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="mrp" label="MRP" ipTitle="Enter MRP" ipType="text" classCategory="form-control col-12" />
                                 </span>
 
 
                                 <span className="d-flex section2 col-sm-12">
 
-                                    <MasterInput2 name="da" label="Discount Amt." ipTitle="Enter Discount Amt." ipType="text" classCategory="form-control col-4 inp" />
+                                    <MasterInput2 name="tc" label="Total Cost" ipTitle="Enter Total Cost" ipType="text" classCategory="form-control col-12" />
+                                    <span className="col-1 m-0"></span>
+                                    <MasterInput2 name="Discount" label="Discount" ipTitle="Enter Discount" ipType="text" classCategory="form-control col-12" />
+                                </span>
+
+
+                                <span className="d-flex section2 col-sm-12">
+
+                                    <MasterInput2 name="da" label="Discount Amt." ipTitle="Enter Discount Amt." ipType="text" classCategory="form-control col-12" />
 
                                 </span>
 
@@ -160,8 +159,9 @@ const CostSheetDetails = () => {
 
 
                 </div>
-                <hr style={{ margin: '0', padding: '0' }} />
             </div>
+            <hr style={{ margin: '0', padding: '0' }} />
+            <WriteGrid title="Consumed Item Details" w='100vw' titleClr="blue" OpenSubLayer={() => { }} colDef={ColDef} data={data} />
             <div className="btn-group col-6 mt-3" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', float: 'right' }}>
                 <button type="button" style={{ border: '2px solid #33b5e5', letterSpacing: 3 }} className="btn btn-info pl-0 pr-0">Save</button>
                 <button type="button" style={{ border: '2px solid green', letterSpacing: 3 }} onClick={() => { }} className="btn btn-success mr-2 ml-2 pl-0 pr-0 ">Save & Submit</button>

@@ -59,7 +59,7 @@ export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list,
                         <>
                             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 col-2  ml-2 mr-2 labl2">{isMandate && isMandate === true ? (<text>{label} <i style={{ color: 'red', fontSize: '20px' }}>*</i></text>) : label}</label>
                             {
-                                read ? (<input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} readOnly />) : (<input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} />)
+                                read ? (<input id={name}  type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} readOnly />) : (<input  id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} />)
                             }
                            
                         </>
@@ -68,7 +68,7 @@ export default function AutoComp({ name, defaultt, label, ipTitle, ipType, list,
                         <>
                             <label htmlFor={name} style={{ fontSize: '1rem' }} className="form-label labl  mt-2 ml-2 mr-2 labl2">{isMandate && isMandate === true ? (<text>{label} <i style={{ color: 'red', fontSize: '20px' }}>*</i></text>) : label}</label>
                             {
-                                read ? (<input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} readOnly />) : (<input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} />)
+                                read ? (<input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name} className={classCategory} title={ipTitle} autoComplete="off"  list={name} required onChange={ifEmptyNotSelected} readOnly />) : (<input id={name} type={ipType} defaultValue={defaultt} style={{ borderColor: "#86a4c3", padding: '22px 0 22px 10px', marginBottom: '20px' }} name={name}  className={classCategory} title={ipTitle} autoComplete="off" list={name} required onChange={ifEmptyNotSelected} />)
                             }
                           
                         </>

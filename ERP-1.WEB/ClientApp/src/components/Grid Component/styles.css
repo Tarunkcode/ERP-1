@@ -213,3 +213,17 @@
 .ag-body-horizontal-scroll-viewport {
     overflow-x: auto;
 }
+/*-----------Date Mui---------------*/
+.MuiInputBase-root {
+    margin: 0;
+    width: 100%;
+    border-color: rgb(134, 164, 195);
+
+    margin-bottom: 20px;
+}
+.MuiInputBase-input{
+    padding:14px;
+}
+.MuiIconButton-root {
+    padding:10px;
+}

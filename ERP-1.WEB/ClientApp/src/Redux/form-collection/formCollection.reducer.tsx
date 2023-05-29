@@ -6,17 +6,19 @@ interface IAction {
     payload: any,
     type: string,
     key: string,
-    label : string
+    label: string
 }
 interface IState {
     AccountMaster: any[],
     AddressDetail: any[],
     BankDetail: any[],
-    AccProductCurrency:any[],
+    AccProductCurrency: any[],
     CommercialDetail: any[],
-    AccountBillByBillDetail:any[],
+    AccountBillByBillDetail: any[],
     AccMasterSeries: any[],
-    ItemMaster : any
+    ItemMaster: any,
+    BranchMasterClass: any,
+    QCPlanClass: any
 }
 
 
@@ -28,11 +30,16 @@ const INITIAL_STATE: IState = {
     CommercialDetail: [{}],
     AccountBillByBillDetail: [{}],
     AccMasterSeries: [{}],
-    ItemMaster: {}
+    ItemMaster: {},
+    BranchMasterClass: {},
+    QCPlanClass: {
+        "QCPlanHeader": {},
+        "QCPlanDetails": []
+    }
 }
 
 const formDataCollectionReducer = (STATE = INITIAL_STATE, action: IAction) => {
- 
+
     switch (action.type) {
         case "AddOnFormData":
             if (action.label == "AccountMaster") STATE.AccountMaster[0][action.key] = action.payload;//checked
@@ -57,9 +64,16 @@ const formDataCollectionReducer = (STATE = INITIAL_STATE, action: IAction) => {
             else if (action.label == "AccMasterSeries") STATE.AccMasterSeries[0][action.key] = action.payload;
 
             else if (action.label == "ItemMaster") STATE.ItemMaster[action.key] = action.payload;
+            /*else alert("set wrong label error");*/
 
-            else alert("set wrong label error");
-            
+        case "AddQcPlan":
+            if (action.label == "QCPlanHeader") STATE.QCPlanClass.QCPlanHeader[action.key] = action.payload;
+            else if (action.label == "QCPlanDetails") STATE.QCPlanClass.QCPlanDetails = action.payload;
+           /* else alert("set wrong label error");*/
+
+
+        case "AddBranch": STATE.BranchMasterClass[action.key] = action.payload;
+
     }
     return STATE
 }

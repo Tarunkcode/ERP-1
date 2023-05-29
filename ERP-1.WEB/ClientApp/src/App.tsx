@@ -49,11 +49,11 @@ import MatCentre from '../src/Pages/Sub-Master/matrial-center.page';
 import QcParam_SampleType from '../src/Pages/Sub-Master/qc-parameter.component';
 
 //---------------------------------Master Imports---------------------------------------------------------------------------------------------------
-import AddQcPlan from './Pages/Master/AddQcPlan/add-qc-plan.component';
+import AddQcPlanComponent from './components/Masters/qc-plan.component';
 import AssortmentMaster from './Pages/Master/AssortmentMaster/assortment-master.component';
 import BOM from './components/Masters/bom_routing.component';
 //import RouteDetails from './Pages/Master/BomRoutingConfiguration/RouteDetails.component';
-import BranchMaster from './Pages/Master/BranchMaster/branch-master.component';
+import BranchMasterComponent from './components/Masters/branch-master.component';
 import CostSheetDetails from './Pages/Master/CostSheet/cost-sheet-details.component';
 
 import CusSupMaster from './components/Masters/customer.component';
@@ -486,8 +486,8 @@ function App() {
                         <Route exact path='/add-item-master' component={IMaster} />
                         <Route exact path='/add-cost-sheet-details' component={CostSheetDetails} />
                      
-                        <Route exact path='/add-branch-master' component={BranchMaster} />
-                        <Route exact path='/add-Qc-Plan' component={AddQcPlan} />
+                        <Route exact path='/add-branch-master' component={BranchMasterComponent} />
+                        <Route exact path='/add-Qc-Plan' component={AddQcPlanComponent} />
                         <Route exact path='/Import-Customer' component={YetNotStarted} />
                         <Route exact path='/Import-Supplier' component={YetNotStarted} />
                         <Route exact path='/Import-Item' component={YetNotStarted} />

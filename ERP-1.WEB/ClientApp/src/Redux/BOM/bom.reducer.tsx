@@ -19,18 +19,21 @@ interface IAction {
 //}
 interface IState {
     BOMHeader: any,
-    BomDetails: any[],
+
+    BomDetails: any,
+    BOMAltItem: any,
+    BomOtherProdDetails: any,
+    BOMProcessPOH: any,
+    ROUTINGOPRATIONDETAILS: any,
+
+
     RoutingDetails: any[],
     RoutingJobWork: any[],
-    RoutingOtherHead: any[],
-    BOMAltItem: any[],
     BOMItemSupplier: any[],
+    RoutingOtherHead: any,
     BomCutComponenet: any[],
-    BomOtherProdDetails: any[],
-    BOMProcessPOH: any[],
     BOMItemLocation: any[],
     BOMSAMEITEM: any[],
-    ROUTINGOPRATIONDETAILS: any[],
     BomJWDetails: any[],
     RoutingMachineDetails: any[]
 
@@ -39,17 +42,17 @@ const INITIAL_STATE: IState = {
     BOMHeader: [{}],
     RoutingDetails: [],
 
-    BomDetails: [],
-    BOMAltItem: [],
-    BomOtherProdDetails: [],
-    BOMProcessPOH: [],
-    ROUTINGOPRATIONDETAILS: [],
+    BomDetails: {},
+    BOMAltItem: {},
+    BomOtherProdDetails: {},
+    BOMProcessPOH: {},
+    ROUTINGOPRATIONDETAILS: {},
 
 
 
     BOMItemSupplier: [],
     BomCutComponenet: [],
-    RoutingOtherHead: [],
+    RoutingOtherHead: {},
     BOMItemLocation: [],
     BomJWDetails: [],
     BOMSAMEITEM: [],
@@ -72,56 +75,11 @@ const bomReducer = (STATE = INITIAL_STATE, action: IAction) => {
 
 
 
-            else if (action.label === "BomDetails") {
-                let json: any[] = [];
+            else if (action.label === "BomDetails") STATE.BomDetails[action.key] = action.payload;
+             
+            else if (action.label === "BOMAltItem") STATE.BOMAltItem[action.key] = action.payload;
 
-                if (action.key == 'modify') {
-                    //let state = [...STATE.BomDetails]
-
-                    json = action.payload;
-                    console.log(json);
-
-                } else if (action.key === 'modify1' || action.key === 'modify2') {
-                    if (action.key === 'modify1') tempStorageVar = [...action.payload];
-                    json = [...tempStorageVar, ...action.payload ]
-                }
-                else {
-                    
-                        let state = [...STATE.BomDetails]
-
-                        json = [...state, ...action.payload]
-
-                    
-                }
-
-                let jsonObj = json.map((item: any) => JSON.stringify(item));
-                let s: any = new Set(jsonObj);
-                s = Array.from(s).map((item: any) => JSON.parse(item));
-
-                STATE.BomDetails = s;
-
-            }
-            else if (action.label === "BOMAltItem") {
-                let prevState = [];
-                if (action.key == 'modify') { }
-                else prevState = STATE.BOMAltItem;
-                let json = [...prevState, ...action.payload];
-                let jsonObj = json.map((item: any) => JSON.stringify(item));
-                let s: any = new Set(jsonObj);
-                s = Array.from(s).map((item: any) => JSON.parse(item));
-                STATE.BOMAltItem = s;
-            }
-            else if (action.label === "BomOtherProdDetails") {
-                let prevState = [];
-                if (action.key == 'modify') { }
-                else prevState = STATE.BomOtherProdDetails;
-
-                let json = [...prevState, ...action.payload];
-                let jsonObj = json.map((item: any) => JSON.stringify(item));
-                let s: any = new Set(jsonObj);
-                s = Array.from(s).map((item: any) => JSON.parse(item));
-                STATE.BomOtherProdDetails = s;
-            }
+            else if (action.label === "BomOtherProdDetails") STATE.BomOtherProdDetails = action.payload;
 
 
 
@@ -137,31 +95,9 @@ const bomReducer = (STATE = INITIAL_STATE, action: IAction) => {
             //_____________________________________configuration based______________________________________________________________________________________
 
 
-            else if (action.label === "BOMProcessPOH") {
-         
+            else if (action.label === "BOMProcessPOH") STATE.BOMProcessPOH = action.payload;
 
-                let prevState = [];
-                if (action.key == 'modify') { }
-                else prevState = STATE.BOMProcessPOH;
-                let json = [...prevState, ...action.payload];
-                let jsonObj = json.map((item: any) => JSON.stringify(item));
-                let s: any = new Set(jsonObj);
-                s = Array.from(s).map((item: any) => JSON.parse(item));
-                STATE.BOMProcessPOH = s;
-
-            }
-
-            else if (action.label === "ROUTINGOPRATIONDETAILS") {
-              
-                let prevState = [];
-                if (action.key == 'modify') { }
-                else prevState = STATE.ROUTINGOPRATIONDETAILS;
-                let json = [...prevState, ...action.payload];
-                let jsonObj = json.map((item: any) => JSON.stringify(item));
-                let s: any = new Set(jsonObj);
-                s = Array.from(s).map((item: any) => JSON.parse(item));
-                STATE.ROUTINGOPRATIONDETAILS = s;
-            }
+            else if (action.label === "ROUTINGOPRATIONDETAILS") STATE.ROUTINGOPRATIONDETAILS = action.payload;
 
             else alert("Missing to assign properties to the fields")
     }

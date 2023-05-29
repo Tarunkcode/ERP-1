@@ -43,6 +43,7 @@ interface IState {
     routingMasterDetails: any
 
 }
+
 class BOM_Routing extends React.Component<IProps, IState> {
     static contextType = LoaderContext;
     constructor(props: IProps) {
@@ -122,11 +123,12 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
                         BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMHeader' });
                         BOM_STORE.dispatch({ payload: dataSet1, key: '', type: "bom_struct", label: 'RoutingDetails' });
-                        BOM_STORE.dispatch({ payload: dataSet2, key: 'modify', type: "bom_struct", label: 'BomDetails' });
-                        BOM_STORE.dispatch({ payload: dataSet3, key: 'modify', type: "bom_struct", label: 'BOMAltItem' });
-                        BOM_STORE.dispatch({ payload: dataSet4, key: 'modify', type: "bom_struct", label: 'BomOtherProdDetails' });
-                        BOM_STORE.dispatch({ payload: dataSet5, key: 'modify', type: "bom_struct", label: 'BOMProcessPOH' });
-                        BOM_STORE.dispatch({ payload: dataSet6, key: 'modify', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' });
+
+                        //BOM_STORE.dispatch({ payload: dataSet2, key: 'modify', type: "bom_struct", label: 'BomDetails' });
+                        //BOM_STORE.dispatch({ payload: dataSet3, key: 'modify', type: "bom_struct", label: 'BOMAltItem' });
+                        //BOM_STORE.dispatch({ payload: dataSet4, key: 'modify', type: "bom_struct", label: 'BomOtherProdDetails' });
+                        //BOM_STORE.dispatch({ payload: dataSet5, key: 'modify', type: "bom_struct", label: 'BOMProcessPOH' });
+                        //BOM_STORE.dispatch({ payload: dataSet6, key: 'modify', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' });
 
 
 
@@ -560,7 +562,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify1', type: "bom_struct", label: 'BomDetails' });
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' });
 
         //--------------------------------------- creting state -------------------------------------------------------------------------
         this.setState({
@@ -606,7 +608,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify2', type: "bom_struct", label: 'BomDetails' });
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomDetails' });
 
         this.setState({
             bomCurrentState: {
@@ -666,7 +668,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMAltItem' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'BOMAltItem' })
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMAltItem' });
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
@@ -727,7 +729,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomOtherProdDetails' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'BomOtherProdDetails' })
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BomOtherProdDetails' });
         console.log('oither produce item', dataSet)
         this.setState({
             bomCurrentState: {
@@ -785,7 +787,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' })
+         BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'ROUTINGOPRATIONDETAILS' }) ;
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
@@ -835,7 +837,7 @@ class BOM_Routing extends React.Component<IProps, IState> {
 
         }
 
-        this.state.gettingVirtualCode == 0 ? BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMProcessPOH' }) : BOM_STORE.dispatch({ payload: dataSet, key: 'modify', type: "bom_struct", label: 'BOMProcessPOH' })
+        BOM_STORE.dispatch({ payload: dataSet, key: '', type: "bom_struct", label: 'BOMProcessPOH' })
         this.setState({
             bomCurrentState: {
                 ...this.state.bomCurrentState,
